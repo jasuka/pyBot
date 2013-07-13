@@ -22,7 +22,7 @@ pyBot.send(b"USER pyHbot b0xi BULLCRAP :pyHbot")	#yhdistää palvelimellllle...
 
 
 while True:
-print ("IM ALIVE")		#mitä tästä eteenpäin?
+print ("IM ALIVE")		#mitä tästä eteenpäin?.. eikä tämäkää toimi :D
 
 
 
