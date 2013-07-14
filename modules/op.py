@@ -1,5 +1,6 @@
 def op ( self ):
-	if self.msg[4] == False:
-		self.send_data( "MODE " + self.msg[2] + " +o " + self.get_nick() )
-	else:
+	try:
 		self.send_data( "MODE " + self.msg[2] + " +o " + self.msg[4] )
+	except IndexError:
+		self.send_data( "MODE " + self.msg[2] + " +o " + self.get_nick() )
+	
