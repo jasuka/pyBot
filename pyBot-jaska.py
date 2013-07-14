@@ -1,22 +1,22 @@
 #!/usr/local/bin/python3
 
-## Importataan tarvittavat modulet (socket, ?)
+## Import needed modules
 import socket
 import re
 import random
 import sys
 import time
 
-#config
+## Config
 import configjaska
-#modules
+## Bot functions
 from modules import klo
 
 ## Class pyBot
 class pyBot:
 	def __init__( self ):
 		
-		#config
+		## Config
 		self.config = configjaska.config
 			
 	## Send data function
@@ -25,7 +25,7 @@ class pyBot:
 		self.s.sendall( data.encode("utf-8") ) 
 		print( data )
 			
-	# Join channel
+	## Join channel
 	def join_chan( self, chan ):
 		self.send_data("JOIN " + chan)
 		
@@ -58,9 +58,20 @@ class pyBot:
 	
 		nick = "NICK " + self.config["nick"]
 		user = "USER " + self.config["ident"] + " " + self.config["host"] + " " + "pyTsunku :" + self.config["realname"]
-		#chan = "JOIN " + self.config["chans"]
-		self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		self.s.connect(( self.config["host"], self.config["port"]))
+		
+		## ipv4/ipv6 support
+		for res in socket.getaddrinfo( self.config["host"], self.config["port"], socket.AF_UNSPEC, socket.SOCK_STREAM ):
+			af, socktype, proto, canonname, sa = res
+		
+		self.s = socket.socket( af, socktype, proto )
+		
+		try:
+			self.s.connect(sa)
+		except socket.error as msg:
+			s.close()
+			print("Could not open socket")
+		
+		## Send identification to the server
 		self.send_data( nick )
 		self.send_data( user )
 		connected = 1
@@ -73,13 +84,13 @@ class pyBot:
 				time.sleep(2)
 				self.loop()
 
-			self.msg = data.split(" ") # Slice data into list
+			self.msg = data.split(" ") ## Slice data into list
 			
-			# PING PONG
+			## PING PONG
 			if self.msg[0] == "PING":
 				self.send_data( "PONG " + self.msg[1] )
 			
-			# Check if nick is in use, try alternative, if still in use, generate random number to the end of the nick
+			## Check if nick is in use, try alternative, if still in use, generate random number to the end of the nick
 			try:
 				if self.msg[7] == "433":
 					self.send_data( "NICK " + self.config["altnick"] )
@@ -88,7 +99,7 @@ class pyBot:
 			except IndexError:
 				pass
 			
-			# If MOTD ended, join the chans		
+			## If MOTD ended, everything is OK, so join the chans		
 			if "376" in self.msg:
 				chans = self.config["chans"].split(",")
 				for chan in chans:
@@ -98,19 +109,20 @@ class pyBot:
 				cmd = self.msg[3].rstrip("\r\n")
 				cmd = cmd.lstrip(":")
 				if cmd[0] == "!":
-					cmd = cmd.lstrip("!") #remove ! from the command before parsing it
+					cmd = cmd.lstrip("!") ## remove ! from the command before parsing it
 					self.parse_command( cmd )
 			except IndexError:
-				pass # No need to do anything
+				pass ## No need to do anything
 				
-			# if debug is true, print some stuff	
+			## if debug is true, print some stuff	
 			if self.config["debug"] == "true":
 				#print(self.msg)
 				print(data)
 				
-## Create new instance, execute connect function, enter the main loop
+## Run the bot
 try:
 	bot = pyBot()
 	bot.loop()
 except KeyboardInterrupt:
-	print("Ctrl+C Pressed, quitting")
+	print("Ctrl+C Pressed, Quitting")
+	
