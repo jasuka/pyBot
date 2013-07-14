@@ -1,6 +1,13 @@
 def op ( self ):
 	try:
-		self.send_data( "MODE " + self.msg[2] + " +o " + self.msg[4] )
+		if self.get_nick() in self.config("opers"):
+			self.send_data( "MODE " + self.msg[2] + " +o " + self.msg[4] )
+		else: 
+			self.send_chan("Unauthorized command")
 	except IndexError:
-		self.send_data( "MODE " + self.msg[2] + " +o " + self.get_nick() )
-	
+
+		if self.get_nick() in self.config("opers"):		
+			self.send_data( "MODE " + self.msg[2] + " +o " + self.get_nick() )
+		else:
+			self.send_chan("Unauhtorized command")
+		

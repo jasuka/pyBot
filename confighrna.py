@@ -8,5 +8,6 @@ config = {
 			"ident":		"pyTsunku", 
 			"version":		"pyBot version 0.1", 
 			"debug":		"true",
-			"chans":		"#tsunku"
+			"chans":		"#tsunku",
+			"opers":		"hrna"
 		  }
