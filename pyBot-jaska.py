@@ -44,7 +44,7 @@ class pyBot:
 	## Parse commands function
 	def parse_command( self, cmd ):
 		try:
-			getattr(globals()[cmd], cmd)( self, self.msg )
+			getattr(globals()[cmd], cmd)( self )
 		except:
 			self.send_chan( "Unknown command: !" + cmd )
 	
