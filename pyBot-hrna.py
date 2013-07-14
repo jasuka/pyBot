@@ -69,7 +69,7 @@ class pyTsu:
 				if cmd[0] == "!":
 					cmd = cmd.lstrip("!") ## remove ! from the command before parsing it
 					self.parse_command( cmd )
-					self.op.op()
+					self.version.version()
 
 			#except IndexError:
 			#	pass ## No need to do anything
