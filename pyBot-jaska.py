@@ -5,6 +5,7 @@ import socket
 import re
 import random
 import sys
+import time
 
 #config
 import configjaska
@@ -14,20 +15,9 @@ from modules import klo
 ## Class pyBot
 class pyBot:
 	def __init__( self ):
-	
-		self.config = configjaska.config
-		#Socket
-		self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-	## Connect and send required data to the server
-	def connect( self ):
 		
-		nick = "NICK " + self.config["nick"]
-		user = "USER " + self.config["ident"] + " " + self.config["host"] + " " + "pyTsunku :" + self.config["realname"]
-		#chan = "JOIN " + self.config["chans"]
-		self.s.connect(( self.config["host"], self.config["port"]))
-		self.send_data( nick )
-		self.send_data( user )
+		#config
+		self.config = configjaska.config
 			
 	## Send data function
 	def send_data( self, data ):
@@ -62,17 +52,28 @@ class pyBot:
 	def get_nick( self ):
 		nick = re.search(":(.*)!", self.msg[0]).group(1)
 		return(nick)
-		
+	
+	## Main loop, connect etc.	
 	def loop( self ):
-
-		while True:
+	
+		nick = "NICK " + self.config["nick"]
+		user = "USER " + self.config["ident"] + " " + self.config["host"] + " " + "pyTsunku :" + self.config["realname"]
+		#chan = "JOIN " + self.config["chans"]
+		self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		self.s.connect(( self.config["host"], self.config["port"]))
+		self.send_data( nick )
+		self.send_data( user )
+		connected = 1
+		
+		while connected == 1:
 			data = self.s.recv(4096).decode("utf-8")
 			if len(data) == 0:
-				self.s.close()
-				sys.exit()
-				break
-				
-			self.msg = data.split(" ")
+				connected == 0
+				print("Connection died, reconnecting");
+				time.sleep(2)
+				self.loop()
+
+			self.msg = data.split(" ") # Slice data into list
 			
 			# PING PONG
 			if self.msg[0] == "PING":
@@ -81,7 +82,6 @@ class pyBot:
 			# Check if nick is in use, try alternative, if still in use, generate random number to the end of the nick
 			try:
 				if self.msg[7] == "433":
-					print("Täällä ollaan")
 					self.send_data( "NICK " + self.config["altnick"] )
 					if self.msg[7] == "433":
 						self.send_data( "NICK " + self.config["nick"] + str(random.randrange(1,10+1)) )
@@ -111,11 +111,6 @@ class pyBot:
 ## Create new instance, execute connect function, enter the main loop
 try:
 	bot = pyBot()
-	bot.connect()
 	bot.loop()
 except KeyboardInterrupt:
 	print("Ctrl+C Pressed, quitting")
-except SystemExit:
-	bot = pyBot()
-	bot.connect()
-	bot.loop()
