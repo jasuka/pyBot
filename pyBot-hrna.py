@@ -6,6 +6,7 @@ import socket
 
 import confighrna
 import time
+import re
 from modules import klo
 
 ##END of cfg##
@@ -18,6 +19,10 @@ class pyTsu:
 		data += "\r\n"
 		self.s.sendall ( data.encode("UTF-8") )
 		print (data)
+
+	def get_nick( self ):
+		nick = re.search(":(.*)!", self.msg[0]).group(1)
+		return(nick)
 
 	def join_chan ( self, chan ):
 		self.send_data("JOIN "+ chan)
@@ -63,6 +68,7 @@ class pyTsu:
 				if cmd[0] == "!":
 					cmd = cmd.lstrip("!") ## remove ! from the command before parsing it
 					self.parse_command( cmd )
+
 			except IndexError:
 				pass ## No need to do anything
 
