@@ -58,9 +58,20 @@ class pyBot:
 	
 		nick = "NICK " + self.config["nick"]
 		user = "USER " + self.config["ident"] + " " + self.config["host"] + " " + "pyTsunku :" + self.config["realname"]
-		#chan = "JOIN " + self.config["chans"]
-		self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		self.s.connect(( self.config["host"], self.config["port"]))
+		
+		## ipv4/ipv6 support
+		for res in socket.getaddrinfo( self.config["host"], self.config["port"], socket.AF_UNSPEC, socket.SOCK_STREAM ):
+			af, socktype, proto, canonname, sa = res
+		
+		self.s = socket.socket( af, socktype, proto )
+		
+		try:
+			self.s.connect(sa)
+		except socket.error as msg:
+			s.close()
+			print("Could not open socket")
+		
+		## Send identification to the server
 		self.send_data( nick )
 		self.send_data( user )
 		connected = 1
