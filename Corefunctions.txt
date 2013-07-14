@@ -1,0 +1,8 @@
+List here all the basic corefunctions needed to run the bot:
+
+send_chan() <= sending messages to channel
+send_data() <= sending commands to server
+join_channel() <= in a way, that you can order your bot to join a channel
+parse_command() <= to run modules 
+
+
