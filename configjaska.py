@@ -4,7 +4,7 @@ config = {
 			"port":			6667, 
 			"nick":			"pyTsunku", 
 			"altnick": 		"pyTsunku2", 
-			"realname": 	"pyTsunku", 
+			"realname":		"pyTsunku", 
 			"ident":		"pyTsunku", 
 			"version":		"pyBot version 0.1", 
 			"debug":		"true",
