@@ -119,7 +119,7 @@ class pyBot:
 			
 			try:
 				url = re.search( "(http)(s)?:\/\/[a-zA-Z0-9\-\=.?&_/]+", data ).group(0)
-				print ( url )
+
 				if url != None:
 					title.title( self, url )
 			except:
