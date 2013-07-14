@@ -4,6 +4,7 @@
 import socket
 import re
 import random
+import sys
 
 #config
 import configjaska
@@ -67,7 +68,8 @@ class pyBot:
 		while True:
 			data = self.s.recv(4096).decode("utf-8")
 			if len(data) == 0:
-				print("Connection has died! :/")
+				self.s.close()
+				sys.exit()
 				break
 				
 			self.msg = data.split(" ")
@@ -107,9 +109,13 @@ class pyBot:
 				print(data)
 				
 ## Create new instance, execute connect function, enter the main loop
-bot = pyBot()
-bot.connect()
 try:
+	bot = pyBot()
+	bot.connect()
 	bot.loop()
 except KeyboardInterrupt:
-	print("You pressed Ctrl+C!")
+	print("Ctrl+C Pressed, quitting")
+except SystemExit:
+	bot = pyBot()
+	bot.connect()
+	bot.loop()
