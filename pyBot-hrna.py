@@ -4,29 +4,35 @@ import socket
 
 ##config##
 
-nick = "pyHbot"
-host = "b0xi.eu"
-port = 6667
-ident = "pyHbot"
-chan = "#tsunku"
-realname = "pyHbot"
+import confighrna
 
 ##END of cfg##
+class pyTsu:
+	def __init__ ( self ):
+		self.config = confighrna.config
+		self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
 
-pyBot = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
+	def connect ( self ):
+		nick = "NICK " + self.config["nick"]
+		user = "USER " + self.config["nick"] + " " + self.config["host"] + " " + "BULLSHIT :" + self.config["realname"]
+		self.s.connect(( self.config["host"], self.config["port"]
+		self.send_data( nick )
+		self.send_data( user )
+		
+	
+	def send_data ( self, data ):
+		data += "\r\n"
+		self.s.sendall ( data.ecnode("UTF-8") )
+		print data
 
-pyBot.connect ((host, port))
-print ("connecting to", host, "in port", port)
-pyBot.send(b"NICK pyHbot")
-pyBot.send(b"USER pyHbot b0xi BULLCRAP :pyHbot")	#yhdistää palvelimellllle...
-
-
-while True:
-print ("IM ALIVE")		#mitä tästä eteenpäin?.. eikä tämäkää toimi :D
+	def loop ( self ):
+		while True:
+			print ("IM ALIVE")
 
 
 
 
 
-
-
+bot = pyTsu()
+bot.connect()
+bot.loop()
