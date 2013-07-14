@@ -14,6 +14,7 @@ from modules import klo
 from modules import title
 from modules import op
 from modules import version
+from modules import fmi
 
 ## Class pyBot
 class pyBot:
