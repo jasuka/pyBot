@@ -16,8 +16,8 @@ from modules import klo
 class pyBot:
 	def __init__( self ):
 		
-	## Config
-	self.config = configjaska.config
+		## Config
+		self.config = configjaska.config
 			
 	## Send data function
 	def send_data( self, data ):
