@@ -3,7 +3,7 @@ config = {
 			"host":			"b0xi.eu", 
 			"port":			6667, 
 			"nick":			"pyTsunku", 
-			"altnick": 		"pyTsunku2", 
+			"altnick": 		"pyTunkio", 
 			"realname":		"pyTsunku", 
 			"ident":		"pyTsunku", 
 			"version":		"pyBot version 0.1", 

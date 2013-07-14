@@ -3,6 +3,7 @@
 ## Importataan tarvittavat modulet (socket, ?)
 import socket
 import re
+import random
 
 #config
 import configjaska
@@ -22,33 +23,33 @@ class pyBot:
 		
 		nick = "NICK " + self.config["nick"]
 		user = "USER " + self.config["ident"] + " " + self.config["host"] + " " + "pyTsunku :" + self.config["realname"]
-		chan = "JOIN " + self.config["chans"]
+		#chan = "JOIN " + self.config["chans"]
 		self.s.connect(( self.config["host"], self.config["port"]))
-		self.send_data(nick)
-		self.send_data(user)
-		self.send_data(chan)
-
-	
+		self.send_data( nick )
+		self.send_data( user )
+			
 	## Send data function
 	def send_data( self, data ):
 		data += "\r\n"
 		self.s.sendall( data.encode("utf-8") ) 
 		print( data )
 			
-	# Join function
+	# Join channel
 	def join_chan( self, chan ):
-		return(true)
+		self.send_data("JOIN " + chan)
 		
-	## Send text to channel function
+	## Send text to channel
 	def send_chan( self, data ):
 		msg = "PRIVMSG " + self.msg[2] + " :" + str(data)
 		self.send_data( msg )
 		print("Sending: " + msg)
 		
-	## Send text as PRIVMSG
+	## Send a PM to the user doing a command
 	def send_pm( self, data ):
-		return(true)
-		
+		msg = "PRIVMSG " + self.get_nick() + " :" +str(data)
+		self.send_data( msg )
+		print("Sending PM: " + msg)
+
 	## Parse commands function
 	def parse_command( self, cmd ):
 		try:
@@ -67,13 +68,30 @@ class pyBot:
 			data = self.s.recv(4096).decode("utf-8")
 			if len(data) == 0:
 				print("Connection has died! :/")
-				break;
+				break
+				
 			self.msg = data.split(" ")
 			
 			# PING PONG
 			if self.msg[0] == "PING":
 				self.send_data( "PONG " + self.msg[1] )
 			
+			# Check if nick is in use, try alternative, if still in use, generate random number to the end of the nick
+			try:
+				if self.msg[7] == "433":
+					print("Täällä ollaan")
+					self.send_data( "NICK " + self.config["altnick"] )
+					if self.msg[7] == "433":
+						self.send_data( "NICK " + self.config["nick"] + str(random.randrange(1,10+1)) )
+			except IndexError:
+				pass
+			
+			# If MOTD ended, join the chans		
+			if "376" in self.msg:
+				chans = self.config["chans"].split(",")
+				for chan in chans:
+					self.join_chan( chan )
+						
 			try:
 				cmd = self.msg[3].rstrip("\r\n")
 				cmd = cmd.lstrip(":")
@@ -85,6 +103,7 @@ class pyBot:
 				
 			# if debug is true, print some stuff	
 			if self.config["debug"] == "true":
+				#print(self.msg)
 				print(data)
 				
 ## Create new instance, execute connect function, enter the main loop
