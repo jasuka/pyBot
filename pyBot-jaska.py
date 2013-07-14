@@ -7,7 +7,7 @@ import re
 #config
 import configjaska
 #modules
-from modules import klo_module
+from modules import klo
 
 ## Class pyBot
 class pyBot:
@@ -52,8 +52,7 @@ class pyBot:
 	## Parse commands function
 	def parse_command( self, cmd ):
 		try:
-			a = cmd + "_module"
-			getattr(globals()[a], cmd)( self, self.msg )
+			getattr(globals()[cmd], cmd)( self, self.msg )
 		except:
 			self.send_chan( "Unknown command: !" + cmd )
 	
