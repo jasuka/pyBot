@@ -1,6 +1,6 @@
 ## Config
 config = {
-			"host":			"b0xi.eu", 
+			"host":			"2a00:7b80:3019:12::84e6:a83", 
 			"port":			6667, 
 			"nick":			"pyTsunku", 
 			"altnick": 		"pyTunkio", 

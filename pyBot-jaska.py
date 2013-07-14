@@ -12,13 +12,16 @@ import configjaska
 ## Bot functions
 from modules import klo
 from modules import title
+from modules import op
+from modules import version
 
 ## Class pyBot
 class pyBot:
 	def __init__( self ):
 		
-		## Config
+		## Config and start the bot
 		self.config = configjaska.config
+		self.loop()
 			
 	## Send data function
 	def send_data( self, data ):
@@ -44,10 +47,10 @@ class pyBot:
 
 	## Parse commands function
 	def parse_command( self, cmd ):
-		try:
+		#try:
 			getattr(globals()[cmd], cmd)( self )
-		except:
-			self.send_chan( "Unknown command: !" + cmd )
+		#except:
+		#	self.send_chan( "Unknown command: !" + cmd )
 	
 	## Get nick
 	def get_nick( self ):
@@ -133,7 +136,6 @@ class pyBot:
 ## Run the bot
 try:
 	bot = pyBot()
-	bot.loop()
 except KeyboardInterrupt:
 	print("Ctrl+C Pressed, Quitting")
 	
