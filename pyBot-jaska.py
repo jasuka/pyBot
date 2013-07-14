@@ -8,19 +8,26 @@ from modules import klo_module
 ## Class pyBot
 class pyBot:
 	def __init__( self ):
-## Config
 	
-		self.config = {"host": "b0xi.eu", "port": 6667, "nick": "pyTsunku", "altnick": "pyTsunku2", "realname": "pyTsunku", 
-					   "ident": "pyTsunku", "version": "pyBot version 0.1", "debug": "true"}
-		self.config["chans"] = "#tsunku"
-
+		## Config
+		self.config = {
+						"host":			"b0xi.eu", 
+						"port":			6667, 
+						"nick":			"pyTsunku", 
+						"altnick": 		"pyTsunku2", 
+						"realname": 	"pyTsunku", 
+						"ident":		"pyTsunku", 
+						"version":		"pyBot version 0.1", 
+						"debug":		"true",
+						"chans":		"#tsunku"
+					   }
+		#Socket
 		self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 	## Connect and send required data to the server
 	def connect( self ):
 		
 		nick = "NICK " + self.config["nick"]
-		#user = "USER %s %s pyTsunku :%s" % (self.config["ident"], self.config["host"], self.config["realname"])
 		user = "USER " + self.config["ident"] + " " + self.config["host"] + " " + "pyTsunku :" + self.config["realname"]
 		chan = "JOIN " + self.config["chans"]
 		self.s.connect(( self.config["host"], self.config["port"]))
@@ -82,11 +89,10 @@ class pyBot:
 					cmd = cmd.lstrip("!") #remove ! from the command before parsing it
 					self.parse_command( cmd )
 			except IndexError:
-				print("")
+				pass # No need to do anything
 				
 			# if debug is true, print some stuff	
 			if self.config["debug"] == "true":
-				print( self.msg )	
 				print(data)
 				
 ## Create new instance, execute connect function, enter the main loop
