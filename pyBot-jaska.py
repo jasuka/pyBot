@@ -3,24 +3,17 @@
 ## Importataan tarvittavat modulet (socket, ?)
 import socket
 import re
+
+#config
+import configjaska
+#modules
 from modules import klo_module
 
 ## Class pyBot
 class pyBot:
 	def __init__( self ):
 	
-		## Config
-		self.config = {
-						"host":			"b0xi.eu", 
-						"port":			6667, 
-						"nick":			"pyTsunku", 
-						"altnick": 		"pyTsunku2", 
-						"realname": 	"pyTsunku", 
-						"ident":		"pyTsunku", 
-						"version":		"pyBot version 0.1", 
-						"debug":		"true",
-						"chans":		"#tsunku"
-					   }
+		self.config = configjaska.config
 		#Socket
 		self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
