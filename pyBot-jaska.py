@@ -11,6 +11,7 @@ import time
 import configjaska
 ## Bot functions
 from modules import klo
+from modules import title
 
 ## Class pyBot
 class pyBot:
@@ -120,9 +121,9 @@ class pyBot:
 				url = re.search( "(http)(s)?:\/\/[a-zA-Z0-9\-\=.?&_/]+", data ).group(0)
 				print ( url )
 				if url != None:
-					self.send_chan( url )
+					title.title( self, url )
 			except:
-				print("Kyykähti")
+				pass
 					
 			## if debug is true, print some stuff	
 			if self.config["debug"] == "true":
