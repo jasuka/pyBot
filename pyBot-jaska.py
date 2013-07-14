@@ -113,7 +113,17 @@ class pyBot:
 					self.parse_command( cmd )
 			except IndexError:
 				pass ## No need to do anything
-				
+			
+			## Get title for the URLs
+			
+			try:
+				url = re.search( "(http)(s)?:\/\/[a-zA-Z0-9\-\=.?&_/]+", data ).group(0)
+				print ( url )
+				if url != None:
+					self.send_chan( url )
+			except:
+				print("Kyykähti")
+					
 			## if debug is true, print some stuff	
 			if self.config["debug"] == "true":
 				#print(self.msg)
