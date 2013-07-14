@@ -5,19 +5,33 @@ import socket
 ##config##
 
 import confighrna
+import time
+from modules import klo
 
 ##END of cfg##
 class pyTsu:
 	def __init__ ( self ):
 		self.config = confighrna.config
 		self.loop()
+
 	def send_data ( self, data ):
 		data += "\r\n"
 		self.s.sendall ( data.encode("UTF-8") )
 		print (data)
 
-	def join_channel ( self, chan ):
+	def join_chan ( self, chan ):
 		self.send_data("JOIN "+ chan)
+	
+	def send_chan ( self, data ):
+		msg = "PRIVMSG " + self.msg[2] + " :" + str(data)
+		self.send_data(msg)
+		
+
+	def parse_command( self, cmd ):
+		try:
+			getattr(globals()[cmd], cmd)( self )
+		except:
+			self.send_chan( "Unknown command: !" + cmd )
 		
 
 	def loop ( self ):
@@ -37,11 +51,20 @@ class pyTsu:
 
 			
 			if "376" in self.msg:
-				self.join_channel(self.config["chans"])
+				self.join_chan(self.config["chans"])
 
 				
-			
-			print(data)
+			if self.config["debug"] == "true":
+				print (data)
+
+			try:
+				cmd = self.msg[3].rstrip("\r\n")
+				cmd = cmd.lstrip(":")
+				if cmd[0] == "!":
+					cmd = cmd.lstrip("!") ## remove ! from the command before parsing it
+					self.parse_command( cmd )
+			except IndexError:
+				pass ## No need to do anything
 
 
 bot = pyTsu()
