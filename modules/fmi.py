@@ -41,7 +41,7 @@ def fmi( self ):
 			
 		trimmed = re.sub('<[^<]+?>', '', text)
 
-		output = city.strip().title() + " klo " + time + ": " + trimmed	
+		output = city.strip() + " klo " + time + ": " + trimmed	
 		self.send_chan( output )
 	except:
 		pass
