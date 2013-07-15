@@ -73,13 +73,17 @@ def sys_getcity ( self ):
 			if nick in line:
 				city = line.split(":")
 				return(city[1])
-					
+
+## Save user city					
 def sys_setcity ( self, city ):
 
 	nick = self.get_nick()
 	city = city.title().strip() 
 	file = "modules/data/fmi_nicks.txt"
 	n = ""
+	
+	## IF nick is in the file, loop through it and replace the line containing the nick
+	## with new city. We write the whole new file to temp.txt and then move it back to fmi_nicks.txt
 	if nick in open(file).read():
 		with open("modules/data/temp.txt", "w", encoding="UTF-8") as temp:
 			for line in open(file):				
@@ -88,6 +92,7 @@ def sys_setcity ( self, city ):
 			os.remove("modules/data/fmi_nicks.txt")
 			os.rename("modules/data/temp.txt", file)
 		return(True)
+	## If the nick doesn't exist in the file, append it in there
 	else:
 		with open(file, "a", encoding="UTF-8") as file:
 			str = "\r\n{0}:{1}".format(nick,city)
