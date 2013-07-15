@@ -9,6 +9,8 @@ import time
 import re
 from modules import klo
 from modules import op
+from modules import version
+from modules import logger_daemon
 
 ##END of cfg##
 class pyTsu:
@@ -47,10 +49,14 @@ class pyTsu:
 		self.s.connect(( self.config["host"], self.config["port"] ))
 		self.send_data( nick )
 		self.send_data( user )
+		logger_daemon = 0
 
 		while True:
 			data = self.s.recv(4096).decode("UTF-8")
 			self.msg = data.split(" ")
+
+			if logger_daemon == 1:
+				logger_daemon( data )
 
 			if self.msg[0] == "PING":
 				self.send_data(self.msg[1])
@@ -58,21 +64,22 @@ class pyTsu:
 			
 			if "376" in self.msg:
 				self.join_chan(self.config["chans"])
+				logger_daemon = 1
 
 				
 			if self.config["debug"] == "true":
 				print (data)
 
-			#try:
+			try:
 				cmd = self.msg[3].rstrip("\r\n")
 				cmd = cmd.lstrip(":")
 				if cmd[0] == "!":
 					cmd = cmd.lstrip("!") ## remove ! from the command before parsing it
 					self.parse_command( cmd )
-					self.version.version()
+					
 
-			#except IndexError:
-			#	pass ## No need to do anything
+			except IndexError:
+				pass ## No need to do anything
 
 
 bot = pyTsu()
