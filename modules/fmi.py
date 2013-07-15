@@ -35,10 +35,12 @@ def fmi( self ):
 		time = time[10:-12]
 
 		str = soup.findAll("span", {"class" : "parameter-name-value"})
-
+		
+		## Loop the reusts into a string
 		for a in str:
-			text += "%s - " % a
-			
+			text += "{0} - ".format(a)
+		
+		## Remove Html tags	
 		trimmed = re.sub('<[^<]+?>', '', text)
 
 		output = city.strip() + " klo " + time + ": " + trimmed	
