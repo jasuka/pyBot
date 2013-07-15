@@ -48,10 +48,10 @@ class pyBot:
 
 	## Parse commands function
 	def parse_command( self, cmd ):
-		#try:
-			getattr(globals()[cmd], cmd)( self )
-		#except:
-		#	self.send_chan( "Unknown command: !" + cmd )
+		try:
+			print(getattr(globals()[cmd], cmd)( self ))
+		except KeyError:
+			self.send_chan( "Unknown command: !" + cmd )
 	
 	## Get nick
 	def get_nick( self ):
@@ -87,9 +87,9 @@ class pyBot:
 				if len(data) == 0:
 					connected == 0
 					print("Connection died, reconnecting");
-					time.sleep(3)
+					time.sleep(5)
 					self.loop()
-			except ConnectionResetError as msg:
+			except ConnectionResetError as msg: ## FIXME: Set appropriate sleep time for "Connecting too fast"
 					connected == 0
 					print(msg)
 					time.sleep(15)
