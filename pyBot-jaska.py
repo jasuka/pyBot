@@ -82,13 +82,19 @@ class pyBot:
 		connected = 1
 		
 		while connected == 1:
-			data = self.s.recv(4096).decode("utf-8")
-			if len(data) == 0:
-				connected == 0
-				print("Connection died, reconnecting");
-				time.sleep(2)
-				self.loop()
-
+			try:
+				data = self.s.recv(4096).decode("utf-8")
+				if len(data) == 0:
+					connected == 0
+					print("Connection died, reconnecting");
+					time.sleep(3)
+					self.loop()
+			except ConnectionResetError as msg:
+					connected == 0
+					print(msg)
+					time.sleep(15)
+					self.loop()
+					
 			self.msg = data.split(" ") ## Slice data into list
 			
 			## PING PONG

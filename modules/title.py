@@ -20,4 +20,3 @@ def title ( self, url ):
 			self.send_chan( "~ " + title )
 		except:
 			pass
-		
