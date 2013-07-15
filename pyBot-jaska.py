@@ -103,9 +103,9 @@ class pyBot:
 			
 			## Check if nick is in use, try alternative, if still in use, generate random number to the end of the nick
 			try:
-				if self.msg[7] == "433":
+				if "433" in self.msg:
 					self.send_data( "NICK " + self.config["altnick"] )
-					if self.msg[7] == "433":
+					if "433" in self.msg:
 						self.send_data( "NICK " + self.config["nick"] + str(random.randrange(1,10+1)) )
 			except IndexError:
 				pass
@@ -128,10 +128,10 @@ class pyBot:
 			## Get title for the URLs
 			
 			try:
-				url = re.search( "(http)(s)?:\/\/[a-zA-Z0-9\-\=.?&_/]+", data ).group(0)
-
-				if url != None:
-					title.title( self, url )
+				if "372" not in self.msg:
+					url = re.search( "(http)(s)?:\/\/[a-zA-Z0-9\-\=.?&_/]+", data ).group(0)
+					if url != None:
+						title.title( self, url )
 			except:
 				pass
 					
