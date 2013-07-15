@@ -10,7 +10,7 @@ import time
 ## Config
 import configjaska
 ## Bot functions
-from modules import klo
+from modules import clock
 from modules import title
 from modules import op
 from modules import version
