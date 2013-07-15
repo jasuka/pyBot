@@ -9,6 +9,7 @@ import time
 import re
 from modules import klo
 from modules import op
+from modules import version
 
 ##END of cfg##
 class pyTsu:
@@ -63,16 +64,16 @@ class pyTsu:
 			if self.config["debug"] == "true":
 				print (data)
 
-			#try:
+			try:
 				cmd = self.msg[3].rstrip("\r\n")
 				cmd = cmd.lstrip(":")
 				if cmd[0] == "!":
 					cmd = cmd.lstrip("!") ## remove ! from the command before parsing it
 					self.parse_command( cmd )
-					self.version.version()
+					
 
-			#except IndexError:
-			#	pass ## No need to do anything
+			except IndexError:
+				pass ## No need to do anything
 
 
 bot = pyTsu()
