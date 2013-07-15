@@ -54,6 +54,7 @@ class pyTsu:
 		while True:
 			data = self.s.recv(4096).decode("UTF-8")
 			self.msg = data.split(" ")
+
 			if logger_daemon == 1:
 				logger_daemon( data )
 
