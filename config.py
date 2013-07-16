@@ -26,7 +26,7 @@ config = {		#[SERVER]
 			#Loggin
 			"logging":			"true",
 			"timeformat":			"%H:%M:%S", #Will be shown in the log as [13:31:27]
-			"TimestampBrackets":		"~,~",
+			"TimestampBrackets":		"[,]",
 
 			#[DEV DEBUGGING]
 			#Bot debugging true/false
