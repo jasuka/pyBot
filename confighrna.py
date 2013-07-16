@@ -10,5 +10,6 @@ config = {
 			"debug":		"true",
 			"logging":		"true",
 			"chans":		"#tsunku",
-			"opers":		"hrna"
+			"opers":		"hrna",
+			"timestamp":		"%H:%M:%S"
 		  }
