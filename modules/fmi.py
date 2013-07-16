@@ -23,7 +23,7 @@ def fmi( self ):
 		except IndexError:
 			self.send_chan( "Usage: !fmi <city> | !fmi set <city>" )
 			raise
-		if "set" not in city: ## We don't want to look for "set"
+		if "set" not in city and sys_checkcity( self, city) == True: ## We don't want to look for "set"
 			try:
 				city = city.title().strip()
 				user_agent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)"
@@ -61,6 +61,16 @@ def fmi( self ):
 				self.send_chan( output )
 			except:
 				pass
+		else:
+			self.send_chan( "City {0} doesn't exist!".format(city.title().strip()) )
+			
+## Check if the city is valid
+def sys_checkcity ( self, city ):
+
+	file = "modules/data/cities.txt"
+	
+	if city.strip() in open(file).read():
+		return(True)
 
 ## Return saved city for the nick
 def sys_getcity ( self ):
