@@ -1,10 +1,17 @@
 ##Logger daemon version 0.1 
 
 from time import gmtime, strftime
+import re
 
 def logger_daemon ( self ):
-
-	if self.get_nick() in self.msg:
+	
+	nick = ""
+	try:
+		nick = re.search(":({0})!".format(self.get_nick()), self.msg[0]).group(1)
+	except:
+		raise
+		
+	if  nick.strip() != self.config["nick"] and len(nick) > 0:
 		log = "logs/logger.log"
 		usertxt = ""
 
@@ -18,6 +25,5 @@ def logger_daemon ( self ):
 			log.write(logline)
 			log.flush()
 	else:
-		self.send_chan("ei tää nyt oikee skulaa "+ self.get_nick())
-	
+		return	
 
