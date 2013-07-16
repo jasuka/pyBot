@@ -15,12 +15,15 @@ sys.path.insert(0, './modules') ## Path for the modules
 import configjaska
 
 ## Load modules from the config
-for mod in configjaska.config["modules"].split(","):
-	try:
+try:
+	for mod in configjaska.config["sysmodules"].split(","):
+		print("Loading system module {0}".format(mod))
+		globals()[mod] = __import__(mod)
+	for mod in configjaska.config["modules"].split(","):
 		print("Loading module {0}".format(mod))
 		globals()[mod] = __import__(mod)
-	except:
-		raise
+except:
+	raise
 
 ## Class pyBot
 class pyBot:
@@ -55,7 +58,10 @@ class pyBot:
 	## Parse commands function
 	def parse_command( self, cmd ):
 		try:
-			print(getattr(globals()[cmd], cmd)( self ))
+			if cmd not in self.config["sysmodules"].split(","):
+				print(getattr(globals()[cmd], cmd)( self ))
+			else:
+				return
 		except KeyError:
 			self.send_chan( "Unknown command: !" + cmd )
 	

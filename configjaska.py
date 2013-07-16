@@ -10,6 +10,9 @@ config = {
 			"debug":		"true",
 			"chans":		"#tsunku",
 			"logging":		"true",
-			"opers":		"hrna",
-			"modules":		"clock,title,op,version,fmi,logger_daemon"
+			"timestamp":	"%H:%M:%S",
+			"opers":		"hrna,jaska",
+			"sysmodules":	"logger_daemon,title",
+			"modules":		"clock,op,version,fmi"
+				
 		  }
