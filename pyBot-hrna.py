@@ -7,7 +7,7 @@ import socket
 import confighrna
 import time
 import re
-from modules import klo
+from modules import clock
 from modules import op
 from modules import version
 from modules import logger_daemon
