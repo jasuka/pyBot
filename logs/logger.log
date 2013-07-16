@@ -21,4 +21,37 @@
  ~18:34:23~ hrna @ #tsunku :pieni pugi
  ~18:34:25~ jaska @ #tsunku :ju
  ~18:34:26~ jaska @ #tsunku :pitää kattoo
+ [23:19:14] pyTunkio @ :pyTsunku10
+ [23:19:34] jaska @ #tsunku ::irc.b0xi.net 412 pyTunkio :No text to send
+ [23:19:35] hrna @ #tsunku :missä kohtaa ton pitäs kaatua ?
+ [23:19:36] jaska @ #tsunku :toi
+ [23:19:40] jaska @ #tsunku :ei se kaadu enää
+ [23:19:44] hrna @ #tsunku :en pullannu
+ [23:19:45] jaska @ #tsunku :jos et pullaa niin
+ [23:19:46] hrna @ #tsunku ::P
+ [23:19:48] jaska @ #tsunku :ok
+ [23:19:52] jaska @ #tsunku :!currency k k k
+ [23:20:03] jaska @ #tsunku :!currency 1 1 1
+ [23:20:05] hrna @ #tsunku :käänsit tonki ajanvietteeksi
+ [23:20:07] hrna @ #tsunku ::P
+ [23:20:12] jaska @ #tsunku :!fmi s
+ [23:20:15] jaska @ #tsunku :hmm
+ [23:20:18] jaska @ #tsunku :ootas
+ [23:20:21] hrna @ #tsunku :mitähä toi sekoo :D
+ [23:20:46] jaska @ #tsunku :onkoha jotai komentoo siin mikä palauttas no text to send
+ [23:20:49] jaska @ #tsunku :!cmd
+ [23:20:59] hrna @ #tsunku :!fmi
+ [23:20:59] jaska @ #tsunku :!fmi fkjfk kgjfkjgfk jk jgkfjgk fjkgf
+ [23:21:22] jaska @ #tsunku :currency ainaki teki sen
+ [23:21:28] hrna @ #tsunku :niin jaska mil tavalla ajettavuus nyt php VS python eroaa näissä boteissa ?
+ [23:21:36] hrna @ #tsunku :pythoni vissii ainaki vie enempi muistia P:
+ [23:21:43] jaska @ #tsunku :ei kai?
+ [23:21:51] jaska @ #tsunku :jaska     2100  0.0  6.1  23904 15708 pts/5    S+   21:10   0:00 python3 ./pyBot.py
+ [23:21:54] jaska @ #tsunku :15MB
+ [23:21:58] hrna @ #tsunku :no juu
+ [23:22:09] hrna @ #tsunku :mitä se php oli, joitai satoja megoja
+ [23:22:38] jaska @ #tsunku :riippuu paljo muistia koneessa millä ajetaan
+ [23:22:44] jaska @ #tsunku :omalla koneella vei tää sen 12MB ->
+ [23:22:47] jaska @ #tsunku :8GB muistia
+ [23:23:01] jaska @ #tsunku :hrna: pythonissa on kevyempi core ku php:ssa
  
