@@ -7,6 +7,8 @@ import random
 import sys
 import time
 import importlib
+import imp
+
 sys.path.insert(0, './modules') ## Path for the modules
 
 ## Config
@@ -61,6 +63,17 @@ class pyBot:
 	def get_nick( self ):
 		nick = re.search(":(.*)!", self.msg[0]).group(1)
 		return(nick)
+		
+	## Reload modules
+	def reload( self ):
+		if self.get_nick() not in self.config["opers"]:
+			return	
+		for mod in configjaska.config["modules"].split(","):
+			try:
+				print("Reloading module {0}".format(mod))
+				imp.reload(globals()[mod])
+			except:
+				raise
 	
 	## Main loop, connect etc.	
 	def loop( self ):
@@ -136,8 +149,11 @@ class pyBot:
 				cmd = self.msg[3].rstrip("\r\n")
 				cmd = cmd.lstrip(":")
 				if cmd[0] == "!":
-					cmd = cmd.lstrip("!") ## remove ! from the command before parsing it
-					self.parse_command( cmd )
+					if cmd == "!reload":
+						self.reload( )
+					else:
+						cmd = cmd.lstrip("!") ## remove ! from the command before parsing it
+						self.parse_command( cmd )
 			except IndexError:
 				pass ## No need to do anything
 			
