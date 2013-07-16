@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
 
 ## Import needed modules
 import socket
@@ -89,10 +89,12 @@ class pyBot:
 					print("Connection died, reconnecting");
 					time.sleep(5)
 					self.loop()
-			except ConnectionResetError as msg: ## FIXME: Set appropriate sleep time for "Connecting too fast"
+			except ConnectionResetError as msg:
 					connected == 0
-					print(msg)
-					time.sleep(15)
+					if "ERROR :Trying to reconnect too fast." in data: ## Sleep 15 secs if reconnecting too fast
+						time.sleep(15)
+					else:
+						time.sleep(5)
 					self.loop()
 					
 			self.msg = data.split(" ") ## Slice data into list
@@ -126,7 +128,6 @@ class pyBot:
 				pass ## No need to do anything
 			
 			## Get title for the URLs
-			
 			try:
 				if "372" not in self.msg:
 					url = re.search( "(http)(s)?:\/\/[a-zA-Z0-9\-\=.?&_/]+", data ).group(0)
@@ -137,7 +138,7 @@ class pyBot:
 					
 			## if debug is true, print some stuff	
 			if self.config["debug"] == "true":
-				#print(self.msg)
+				print(self.msg)
 				print(data)
 				
 ## Run the bot
