@@ -6,7 +6,7 @@ config = {
 			"altnick": 		"pyTunkio", 
 			"realname":		"pyTsunku", 
 			"ident":		"pyTsunku", 
-			"version":		"pyBot version 0.1", 
+			"version":		"pyBot version 0.2", 
 			"debug":		"true",
 			"chans":		"#tsunku",
 			"logging":		"true",

@@ -76,13 +76,16 @@ class pyBot:
 	## Reload modules
 	def reload( self ):
 		if self.get_nick() not in self.config["opers"]:
-			return	
-		for mod in configjaska.config["modules"].split(","):
-			try:
+			return
+		try:	
+			imp.reload(configjaska)
+			self.config = configjaska.config
+			for mod in self.config["modules"].split(","):
 				print("Reloading module {0}".format(mod))
 				imp.reload(globals()[mod])
-			except:
-				raise
+			self.send_chan("Modules reloaded!")
+		except:
+			raise
 	
 	## Main loop, connect etc.	
 	def loop( self ):
