@@ -6,15 +6,20 @@ import re
 import random
 import sys
 import time
+import importlib
+sys.path.insert(0, './modules') ## Path for the modules
 
 ## Config
 import configjaska
-## Bot functions
-from modules import clock
-from modules import title
-from modules import op
-from modules import version
-from modules import fmi
+
+## Load modules from the config
+module = configjaska.config["modules"].split(",")
+for mod in module:
+	try:
+		print("Loading module {0}".format(mod))
+		globals()[mod] = __import__(mod)
+	except:
+		raise
 
 ## Class pyBot
 class pyBot:

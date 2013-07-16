@@ -9,5 +9,6 @@ config = {
 			"version":		"pyBot version 0.1", 
 			"debug":		"true",
 			"chans":		"#tsunku",
-			"opers":		"hrna"
+			"opers":		"hrna",
+			"modules":		"clock,title,op,version,fmi"
 		  }
