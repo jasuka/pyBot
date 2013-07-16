@@ -64,7 +64,11 @@ class pyTsu:
 			
 			if "376" in self.msg:
 				self.join_chan(self.config["chans"])
-				logger = 1
+				if self.config["logging"] == "true":
+					logger = 1
+					print("Logging enabled\r\n")
+				else:
+					print("Logging disabled\r\n")
 
 				
 			if self.config["debug"] == "true":
