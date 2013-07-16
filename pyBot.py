@@ -139,14 +139,12 @@ class pyBot:
 		
 		while connected == 1:
 			try:
-				data = self.s.recv(4096).decode("utf-8", errors='replace')
+				data = self.s.recv(4096).decode("utf-8", "ignore")
 				if len(data) == 0:
 					connected == 0
 					print("Connection died, reconnecting");
 					time.sleep(5)
 					self.loop()
-			except TypeError as msg:
-				raise
 			except ConnectionResetError as msg:
 				connected == 0
 				if "ERROR :Trying to reconnect too fast." in data: ## Sleep 15 secs if reconnecting too fast
