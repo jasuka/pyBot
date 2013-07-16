@@ -10,7 +10,7 @@ config = {
 			"debug":			"true",
 			"chans":			"#tsunku",
 			"logging":			"true",
-			"timeformat":		"%H:%M:%S",
+			"timeformat":		"%H:%M:%S", #Will be shown in the log as [13:31:27]
 			"TimestampBrackets":"~,~",
 			"opers":			"hrna,jaska",
 			"sysmodules":		"logger_daemon,title",
