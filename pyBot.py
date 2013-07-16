@@ -113,7 +113,7 @@ class pyBot:
 		
 		while connected == 1:
 			try:
-				data = self.s.recv(4096).decode("utf-8")
+				data = self.s.recv(4096).decode("utf-8", errors='replace')
 				if len(data) == 0:
 					connected == 0
 					print("Connection died, reconnecting");
