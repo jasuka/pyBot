@@ -13,8 +13,7 @@ sys.path.insert(0, './modules') ## Path for the modules
 import configjaska
 
 ## Load modules from the config
-module = configjaska.config["modules"].split(",")
-for mod in module:
+for mod in configjaska.config["modules"].split(","):
 	try:
 		print("Loading module {0}".format(mod))
 		globals()[mod] = __import__(mod)
