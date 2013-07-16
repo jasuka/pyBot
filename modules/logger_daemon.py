@@ -1,10 +1,8 @@
 ##Logger daemon version 0.1 
 
 from time import gmtime, strftime
-import re
 
 def logger_daemon ( self ):
-	
 
 	if self.get_nick() != False:
 		log = "logs/logger.log"
