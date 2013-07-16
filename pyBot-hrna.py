@@ -49,14 +49,14 @@ class pyTsu:
 		self.s.connect(( self.config["host"], self.config["port"] ))
 		self.send_data( nick )
 		self.send_data( user )
-		logger_daemon = 0
+		logger = 0
 
 		while True:
 			data = self.s.recv(4096).decode("UTF-8")
 			self.msg = data.split(" ")
 
-			if logger_daemon == 1:
-				logger_daemon( data )
+			if logger == 1:
+				logger_daemon.logger_daemon( self )
 
 			if self.msg[0] == "PING":
 				self.send_data(self.msg[1])
@@ -64,7 +64,7 @@ class pyTsu:
 			
 			if "376" in self.msg:
 				self.join_chan(self.config["chans"])
-				logger_daemon = 1
+				logger = 1
 
 				
 			if self.config["debug"] == "true":
