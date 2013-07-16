@@ -72,10 +72,18 @@ class pyBot:
 			return(nick)
 		except AttributeError:
 			print("Not a nick")
+	
+	## Get user host
+	def get_host( self ):
+		try:
+			host = self.msg[0].split("!")
+			return(host[1])
+		except:
+			print("Error getting host")
 		
 	## Reload modules
 	def reload( self ):
-		if self.get_nick() not in self.config["opers"]:
+		if self.get_host() not in self.config["opers"]:
 			return
 		try:
 			if len(self.msg) == 4: ## no parameters

@@ -15,7 +15,7 @@ config = {		#[SERVER]
 
 			#[OPERS]
 			#Bot operators
-			"opers":			"hrna,jaska",
+			"opers":			"hrna@oper.aquanet.fi,jaska@127.0.0.1",
 
 			#[MODULES]
 			#Modules & System modules, you better not touch system modules
