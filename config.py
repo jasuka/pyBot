@@ -20,7 +20,7 @@ config = {		#[SERVER]
 			#[MODULES]
 			#Modules & System modules, you better not touch system modules
 			"sysmodules":			"logger_daemon,title", #Do not touch this line!!
-			"modules":			"cmd,clock,op,version,fmi",
+			"modules":			"cmd,clock,op,version,fmi,currency",
 
 			#[LOGGING DAEMON]
 			#Loggin
