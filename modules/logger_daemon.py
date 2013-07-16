@@ -14,11 +14,13 @@ def logger_daemon ( self ):
 		for i in range(3, len(self.msg)):
 			usertxt += self.msg[i] +" "
 	try:
-		logline = brackets[0]+strftime(self.config["timeformat"])+brackets[1] + " " + self.get_nick() + " @ " + self.msg[2] + " " + usertxt
+		chan = self.msg[2]
+		if chan[0] == "#":
+			logline = brackets[0]+strftime(self.config["timeformat"])+brackets[1] + " " + self.get_nick() + " @ " + chan + " " + usertxt
 
-		with open(log, "a") as log:
-			log.write(logline)
-			log.flush()
+			with open(log, "a") as log:
+				log.write(logline)
+				log.flush()
 	except TypeError as msg:
 		if self.config["debug"] == "true":
 			print(msg)
