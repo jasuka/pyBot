@@ -59,7 +59,7 @@ class pyBot:
 	def parse_command( self, cmd ):
 		try:
 			if cmd not in self.config["sysmodules"].split(","):
-				print(getattr(globals()[cmd], cmd)( self ))
+				getattr(globals()[cmd], cmd)( self )
 			else:
 				return
 		except KeyError:
@@ -77,13 +77,23 @@ class pyBot:
 	def reload( self ):
 		if self.get_nick() not in self.config["opers"]:
 			return
-		try:	
-			imp.reload(config)
-			self.config = config.config
-			for mod in self.config["modules"].split(","):
-				print("Reloading module {0}".format(mod))
-				imp.reload(globals()[mod])
-			self.send_chan("Modules reloaded!")
+		try:
+			if len(self.msg) == 4:
+				self.send_chan("Usage: !reload module or !reload all")
+			if len(self.msg) == 5 and self.msg[4].rstrip("\r\n").strip() == "all":		
+				imp.reload(config)
+				self.config = config.config
+				for mod in self.config["modules"].split(","):
+					print("Reloading module {0}".format(mod))
+					imp.reload(globals()[mod])
+				self.send_chan("All modules reloaded!")
+			if len(self.msg) == 5 and self.msg[4].rstrip("\r\n").strip() != "all":
+				if self.msg[4].rstrip("\r\n").strip() in self.config["modules"]:
+					imp.reload(config)
+					imp.reload(globals()[self.msg[4].rstrip("\r\n").strip()])
+					self.send_chan("{0} module reloaded!".format(self.msg[4].rstrip("\r\n").strip()))
+				else:
+					self.send_chan("Unknown module: {0}".format(self.msg[4].rstrip("\r\n").strip()))
 		except:
 			raise
 	
@@ -141,8 +151,8 @@ class pyBot:
 			try:
 				if "433" in self.msg:
 					self.send_data( "NICK " + self.config["altnick"] )
-					if "433" in self.msg:
-						self.send_data( "NICK " + self.config["nick"] + str(random.randrange(1,10+1)) )
+					#if "433" in self.msg:
+					#	self.send_data( "NICK " + self.config["nick"] + str(random.randrange(1,10+1)) )
 			except IndexError:
 				pass
 			

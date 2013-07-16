@@ -1,4 +1,3 @@
-## Klo
 import time
 
 def clock( self ):
