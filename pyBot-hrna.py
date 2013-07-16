@@ -56,7 +56,7 @@ class pyTsu:
 			self.msg = data.split(" ")
 
 			if logger == 1:
-				logger_daemon.logger_daemon( self, data )
+				logger_daemon.logger_daemon( self )
 
 			if self.msg[0] == "PING":
 				self.send_data(self.msg[1])
