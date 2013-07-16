@@ -63,10 +63,7 @@ class pyBot:
 	def get_nick( self ):
 		try:
 			nick = re.search(":(.*)!", self.msg[0]).group(1)
-			if nick != self.config["nick"] and nick != self.config["altnick"]: ## We don't want the bot's nick
-				return(nick)
-			else:
-				return(False)
+			return(nick)
 		except AttributeError:
 			print("Not a nick")
 		
