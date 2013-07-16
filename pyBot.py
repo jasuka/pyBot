@@ -12,14 +12,14 @@ import imp
 sys.path.insert(0, './modules') ## Path for the modules
 
 ## Config
-import configjaska
+import config
 
 ## Load modules from the config
 try:
-	for mod in configjaska.config["sysmodules"].split(","):
+	for mod in config.config["sysmodules"].split(","):
 		print("Loading system module {0}".format(mod))
 		globals()[mod] = __import__(mod)
-	for mod in configjaska.config["modules"].split(","):
+	for mod in config.config["modules"].split(","):
 		print("Loading module {0}".format(mod))
 		globals()[mod] = __import__(mod)
 except:
@@ -30,7 +30,7 @@ class pyBot:
 	def __init__( self ):
 		
 		## Config and start the bot
-		self.config = configjaska.config
+		self.config = config.config
 		self.loop()
 			
 	## Send data function
@@ -78,8 +78,8 @@ class pyBot:
 		if self.get_nick() not in self.config["opers"]:
 			return
 		try:	
-			imp.reload(configjaska)
-			self.config = configjaska.config
+			imp.reload(config)
+			self.config = config.config
 			for mod in self.config["modules"].split(","):
 				print("Reloading module {0}".format(mod))
 				imp.reload(globals()[mod])
