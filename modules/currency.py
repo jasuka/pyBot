@@ -11,7 +11,6 @@ def currency( self ):
 		if len(self.msg) < 7:
 			self.send_chan("Usage: !currency <amount> <from> <to>")
 		else:
-			
 			try:
 				amount = float(self.msg[4])
 			except ValueError:
@@ -27,7 +26,7 @@ def currency( self ):
 										
 			html = urllib.request.urlopen(req).read()
 		else:
-			self.send_chan("Usage: !currency <amount> <from> <to>")
+			return
 			
 	except urllib.error.HTTPError as msg:
 		print(msg)
