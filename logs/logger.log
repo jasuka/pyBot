@@ -54,4 +54,19 @@
  [23:22:44] jaska @ #tsunku :omalla koneella vei tää sen 12MB ->
  [23:22:47] jaska @ #tsunku :8GB muistia
  [23:23:01] jaska @ #tsunku :hrna: pythonissa on kevyempi core ku php:ssa
+ [00:07:28] hrna @ #tsunku :sieltä se saapu
+ [00:07:29] jaska @ #tsunku :dodi toimii siel
+ [00:07:34] jaska @ #tsunku :kestiko pitkään connectaa?
+ [00:07:38] hrna @ #tsunku :vähä hitaasti tuli joo
+ [00:07:43] jaska @ #tsunku :johtuu ku ei tuu ident-replyä
+ [00:07:56] jaska @ #tsunku :ei oo identd asennettuna koneellas/ident portti auki
+ [00:08:12] jaska @ #tsunku :sen takia yhistelen ipv6:lla 
+ [00:08:28] jaska @ #tsunku :nyt vielä tuo miksi ei toimi kapsilla
+ [00:08:46] hrna @ #tsunku :joo samaa se antaa kapsilla
+ [00:08:51] hrna @ #tsunku :nameError
+ [00:09:23] jaska @ #tsunku :siis se virhe on siinä decode ylempänä
+ [00:09:29] jaska @ #tsunku :ei tykkää siitä errors='replace'
+ [00:09:53] hrna @ #tsunku :joo
+ [00:09:59] hrna @ #tsunku :korjaakkonä sen
+ [00:10:03] jaska @ #tsunku :korjaan
  
