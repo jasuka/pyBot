@@ -11,5 +11,5 @@ config = {
 			"logging":		"true",
 			"chans":		"#tsunku",
 			"opers":		"hrna",
-			"timestamp":		"%H:%M:%S"
+			"timestamp":		"%H:%M:%S" #Will be shown in the log as [13:31:27]
 		  }
