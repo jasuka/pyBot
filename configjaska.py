@@ -9,6 +9,7 @@ config = {
 			"version":		"pyBot version 0.1", 
 			"debug":		"true",
 			"chans":		"#tsunku",
+			"logging":		"true",
 			"opers":		"hrna",
-			"modules":		"clock,title,op,version,fmi"
+			"modules":		"clock,title,op,version,fmi,logger_daemon"
 		  }

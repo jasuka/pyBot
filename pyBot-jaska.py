@@ -85,6 +85,7 @@ class pyBot:
 		self.send_data( nick )
 		self.send_data( user )
 		connected = 1
+		logger = 0
 		
 		while connected == 1:
 			try:
@@ -104,6 +105,10 @@ class pyBot:
 					
 			self.msg = data.split(" ") ## Slice data into list
 			
+			## Logger
+			if logger == 1:
+				logger_daemon.logger_daemon( self )
+			
 			## PING PONG
 			if self.msg[0] == "PING":
 				self.send_data( "PONG " + self.msg[1] )
@@ -122,6 +127,11 @@ class pyBot:
 				chans = self.config["chans"].split(",")
 				for chan in chans:
 					self.join_chan( chan )
+				if self.config["logging"] == "true":
+					logger = 1
+					print("Logging enabled\r\n")
+				else:
+					print("Logging disabled\r\n")
 						
 			try:
 				cmd = self.msg[3].rstrip("\r\n")
