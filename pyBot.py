@@ -87,7 +87,7 @@ class pyBot:
 			return
 		try:
 			if len(self.msg) == 4: ## no parameters
-				self.send_chan("Usage: !reload module or !reload all")
+				self.send_chan("Usage: !reload <module> or !reload all")
 			if len(self.msg) == 5 and self.msg[4].rstrip("\r\n").strip() == "all": ## Reload all modules
 				imp.reload(config)
 				self.config = config.config
