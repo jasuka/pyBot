@@ -78,16 +78,16 @@ class pyBot:
 		if self.get_nick() not in self.config["opers"]:
 			return
 		try:
-			if len(self.msg) == 4:
+			if len(self.msg) == 4: ## no parameters
 				self.send_chan("Usage: !reload module or !reload all")
-			if len(self.msg) == 5 and self.msg[4].rstrip("\r\n").strip() == "all":		
+			if len(self.msg) == 5 and self.msg[4].rstrip("\r\n").strip() == "all": ## Reload all modules
 				imp.reload(config)
 				self.config = config.config
 				for mod in self.config["modules"].split(","):
 					print("Reloading module {0}".format(mod))
 					imp.reload(globals()[mod])
 				self.send_chan("All modules reloaded!")
-			if len(self.msg) == 5 and self.msg[4].rstrip("\r\n").strip() != "all":
+			if len(self.msg) == 5 and self.msg[4].rstrip("\r\n").strip() != "all": ## Reload specified module, if it exists
 				if self.msg[4].rstrip("\r\n").strip() in self.config["modules"]:
 					imp.reload(config)
 					imp.reload(globals()[self.msg[4].rstrip("\r\n").strip()])
