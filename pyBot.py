@@ -90,6 +90,7 @@ class pyBot:
 			if len(self.msg) == 5 and self.msg[4].rstrip("\r\n").strip() != "all": ## Reload specified module, if it exists
 				if self.msg[4].rstrip("\r\n").strip() in self.config["modules"]:
 					imp.reload(config)
+					self.config = config.config
 					imp.reload(globals()[self.msg[4].rstrip("\r\n").strip()])
 					self.send_chan("{0} module reloaded!".format(self.msg[4].rstrip("\r\n").strip()))
 				else:
