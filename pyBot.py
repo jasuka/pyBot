@@ -146,7 +146,7 @@ class pyBot:
 					time.sleep(5)
 					self.loop()
 			except TypeError as msg:
-				pass
+				data = self.s.recv(4096).decode("utf-8")
 			except ConnectionResetError as msg:
 				connected == 0
 				if "ERROR :Trying to reconnect too fast." in data: ## Sleep 15 secs if reconnecting too fast
