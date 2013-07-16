@@ -5,11 +5,12 @@ import re
 def title ( self, url ):
 	
 	valid = re.search( ".*\.(jpg$|jpeg$|png$|gif$|pdf$|exe$|zip$)", url )
-
+	
 	if valid == None:
-		user_agent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)"
-		headers = { 'User-Agent' : user_agent }
-		req = urllib.request.Request(url, None, headers)
+		## Breaks some pages
+		## user_agent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)"
+		## headers = { 'User-Agent' : user_agent }
+		req = urllib.request.Request(url, None)
 		try:
 			html = urllib.request.urlopen(req).read()
 		except urllib.error.HTTPError as msg:
