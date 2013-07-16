@@ -115,7 +115,7 @@ class pyBot:
 		
 		if self.config["ipv6"] == "true":
 			## ipv4/ipv6 support
-			for res in socket.getaddrinfo( self.config["host"], self.config["port"], socket.AF_UNSPEC, socket.SOCK_STREAM ):
+			for res in socket.getaddrinfo( self.config["hostv6"], self.config["port"], socket.AF_UNSPEC, socket.SOCK_STREAM ):
 				af, socktype, proto, canonname, sa = res
 			self.s = socket.socket( af, socktype, proto )
 			try:
@@ -145,12 +145,14 @@ class pyBot:
 					print("Connection died, reconnecting");
 					time.sleep(5)
 					self.loop()
+			except TypeError as msg:
+				pass
 			except ConnectionResetError as msg:
-					connected == 0
-					if "ERROR :Trying to reconnect too fast." in data: ## Sleep 15 secs if reconnecting too fast
-						time.sleep(15)
-					else:
-						time.sleep(5)
+				connected == 0
+				if "ERROR :Trying to reconnect too fast." in data: ## Sleep 15 secs if reconnecting too fast
+					time.sleep(15)
+				else:
+					time.sleep(5)
 					self.loop()
 					
 			self.msg = data.split(" ") ## Slice data into list
