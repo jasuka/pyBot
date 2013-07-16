@@ -61,8 +61,14 @@ class pyBot:
 	
 	## Get nick
 	def get_nick( self ):
-		nick = re.search(":(.*)!", self.msg[0]).group(1)
-		return(nick)
+		try:
+			nick = re.search(":(.*)!", self.msg[0]).group(1)
+			if nick != self.config["nick"] and nick != self.config["altnick"]: ## We don't want the bot's nick
+				return(nick)
+			else:
+				return(False)
+		except AttributeError:
+			print("Not a nick")
 		
 	## Reload modules
 	def reload( self ):
@@ -168,7 +174,7 @@ class pyBot:
 					
 			## if debug is true, print some stuff	
 			if self.config["debug"] == "true":
-				print(self.msg)
+				#print(self.msg)
 				print(data)
 				
 ## Run the bot

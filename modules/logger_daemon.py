@@ -5,13 +5,8 @@ import re
 
 def logger_daemon ( self ):
 	
-	nick = ""
-	try:
-		nick = re.search(":({0})!".format(self.get_nick()), self.msg[0]).group(1)
-	except:
-		raise
-		
-	if  nick.strip() != self.config["nick"] and len(nick) > 0:
+
+	if self.get_nick() != False:
 		log = "logs/logger.log"
 		usertxt = ""
 
