@@ -88,21 +88,22 @@ class pyBot:
 		try:
 			if len(self.msg) == 4: ## no parameters
 				self.send_chan("Usage: !reload <module> or !reload all")
-			if len(self.msg) == 5 and self.msg[4].rstrip("\r\n").strip() == "all": ## Reload all modules
+			command = self.msg[4].rstrip("\r\n").strip()
+			if len(self.msg) == 5 and command == "all": ## Reload all modules
 				imp.reload(config)
 				self.config = config.config
 				for mod in self.config["modules"].split(","):
 					print("Reloading module {0}".format(mod))
 					imp.reload(globals()[mod])
 				self.send_chan("All modules reloaded!")
-			if len(self.msg) == 5 and self.msg[4].rstrip("\r\n").strip() != "all": ## Reload specified module, if it exists
-				if self.msg[4].rstrip("\r\n").strip() in self.config["modules"]:
+			if len(self.msg) == 5 and command != "all": ## Reload specified module, if it exists
+				if command in self.config["modules"]:
 					imp.reload(config)
 					self.config = config.config
-					imp.reload(globals()[self.msg[4].rstrip("\r\n").strip()])
-					self.send_chan("{0} module reloaded!".format(self.msg[4].rstrip("\r\n").strip()))
+					imp.reload(globals()[command])
+					self.send_chan("{0} module reloaded!".format(command))
 				else:
-					self.send_chan("Unknown module: {0}".format(self.msg[4].rstrip("\r\n").strip()))
+					self.send_chan("Unknown module: {0}".format(command))
 		except:
 			raise
 	
