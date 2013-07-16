@@ -1,14 +1,23 @@
 ##Logger daemon version 0.1 
+
+from time import gmtime, strftime
+
 def logger_daemon ( self ):
-	log = "logs/logger.log"
-	usertxt = ""
 
-	for i in range(3, len(self.msg)):
-		usertxt += self.msg[i] +" "
+	if self.get_nick() in self.msg:
+		log = "logs/logger.log"
+		usertxt = ""
 
-	logline = self.get_nick()+ " @ " + self.msg[2] + " " + usertxt
+		for i in range(3, len(self.msg)):
+			usertxt += self.msg[i] +" "
 
-	with open(log, "a") as log:
-		log.write(logline)
-		log.flush()	
+		timestamp = "["+strftime("%H:%M:%S")+"]"
+		logline = timestamp + " " + self.get_nick() + " @ " + self.msg[2] + " " + usertxt
+
+		with open(log, "a") as log:
+			log.write(logline)
+			log.flush()
+	else:
+		self.send_chan("ei tää nyt oikee skulaa "+ self.get_nick())
 	
+

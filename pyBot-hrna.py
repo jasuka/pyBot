@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
 import socket
+import time
+import re
 
 ##config##
 
 import confighrna
-import time
-import re
 from modules import clock
 from modules import op
 from modules import version
