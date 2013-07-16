@@ -1,7 +1,8 @@
 
 def logger_daemon ( self, data ):
-	log = open("logs/logger.log", "a")
+	log = "logs/logger.log"
 	logline = self.get_nick()
-	log.write(logline)
-	log.flush()	
+	with open(log, "a") as log:
+		log.write(logline)
+		log.flush()	
 	
