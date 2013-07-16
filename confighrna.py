@@ -11,5 +11,6 @@ config = {
 			"logging":		"true",
 			"chans":		"#tsunku",
 			"opers":		"hrna",
-			"timestamp":		"%H:%M:%S" #Will be shown in the log as [13:31:27]
+			"timeformat":		"%H:%M:%S", #Will be shown in the log as [13:31:27]
+			"TimestampBrackets":	"~,~"
 		  }
