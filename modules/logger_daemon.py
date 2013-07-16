@@ -1,4 +1,4 @@
-##Logger daemon version 0.1 
+##Logger daemon version 0.2 
 
 from time import gmtime, strftime
 
