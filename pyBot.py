@@ -136,7 +136,7 @@ class pyBot:
 		self.send_data( user )
 		connected = 1
 		logger = 0
-		altnick = 0
+		altnick = 1
 		
 		while connected == 1:
 			try:
@@ -167,11 +167,12 @@ class pyBot:
 			## Check if nick is in use, try alternative, if still in use, generate random number to the end of the nick
 			try:
 				if "433" in self.msg:
-					if altnick is not "1":
+					if altnick is 0:
 						self.send_data( "NICK " + self.config["nick"] + str(random.randrange(1,10+1)) )
 					else:
 						self.send_data( "NICK " + self.config["altnick"] )
-						altnick = "1"
+						altnick = 0 #if unable to set altnick, set altnick false and try random nick
+						print("Alternative nick in use, switching into random nick")
 
 			except IndexError:
 				pass
