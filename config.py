@@ -1,5 +1,5 @@
 ## Config
-config = {		#[SERVER]
+config = {		#[SERVER]			[Modify the right side only]
 			#server settings
 			"host":				"b0xi.eu", 
 			"hostv6":			"2a00:7b80:3019:12::84e6:a83",
