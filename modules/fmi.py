@@ -26,19 +26,23 @@ def fmi( self ):
 		if "set" not in city and sys_checkcity( self, city) == True: ## We don't want to look for "set"
 			try:
 				city = city.title().strip()
+				parameter = urllib.parse.quote(city)
 				user_agent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)"
 				headers = { 'User-Agent' : user_agent }
-				req = urllib.request.Request("http://ilmatieteenlaitos.fi/saa/" + city, None, headers)
+				req = urllib.request.Request("http://ilmatieteenlaitos.fi/saa/" + parameter, None, headers)
 	   
 				if city == "Oulu":
-					req = urllib.request.Request("http://ilmatieteenlaitos.fi/saa/" + city + "?&station=101799", None, headers)
+					req = urllib.request.Request("http://ilmatieteenlaitos.fi/saa/" + parameter + "?&station=101799", None, headers)
 				if city == "Helsinki":
-					req = urllib.request.Request("http://ilmatieteenlaitos.fi/saa/" + city + "?&station=100971", None, headers)
+					req = urllib.request.Request("http://ilmatieteenlaitos.fi/saa/" + parameter + "?&station=100971", None, headers)
 					
 				html = urllib.request.urlopen(req).read()
 			
 			except urllib.error.HTTPError as msg:
 				print(msg)
+			except:
+				if self.config["debug"] == "true":
+					print("Fetching data faile for some reason")
 	   
 			try:
 				soup = BeautifulSoup(html)
