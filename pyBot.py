@@ -241,7 +241,9 @@ def clear_flood():
 		time.sleep(20)				
 
 ## Run the bot and flood counter in own threads
-Thread(target=pyBot).start()
-Thread(target=clear_flood).start()
-
+try:
+	Thread(target=pyBot).start()
+	Thread(target=clear_flood).start()
+except KeyboardInterrupt:
+	print("Ctrl+C")
 
