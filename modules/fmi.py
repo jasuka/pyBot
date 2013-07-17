@@ -11,12 +11,12 @@ def fmi( self ):
 	if len(self.msg) == 6:
 		if "set" in self.msg:
 			city = self.msg[5]
-			sys_setcity( self, city )
+			setCity( self, city )
 			self.send_pm( "Kaupunkisi {0} tallennettu!".format(city.title().strip()))
 	else:
 		try:
 			if len(self.msg) == 4:	## when called only with !fmi, see if the city is saved
-				city = sys_getcity( self )
+				city = getCity( self )
 				if city == None:
 					city = self.msg[4] 
 			else:
@@ -24,11 +24,17 @@ def fmi( self ):
 		except IndexError:
 			self.send_chan( "Usage: !fmi <city> | !fmi set <city>" )
 			raise
-		if "set" not in city and sys_checkcity( self, city) == True: ## We don't want to look for "set"
+		if "set" not in city and syscmd.checkCity( self, city) == True: ## We don't want to look for "set"
 			
 			city = city.title().strip()
 			parameter = urllib.parse.quote(city)
 			url = "http://ilmatieteenlaitos.fi/saa/" + parameter
+			
+			if city == "Oulu":
+				url = "http://ilmatieteenlaitos.fi/saa/" + parameter + "?&station=101799"
+			if city == "Helsinki":
+				url = "http://ilmatieteenlaitos.fi/saa/" + parameter + "?&station=100971"
+	
 			html = syscmd.getHtml(self, url, True )
  
 			try:
@@ -55,16 +61,9 @@ def fmi( self ):
 		else:
 			self.send_chan( "City {0} doesn't exist!".format(city.title().strip()) )
 			
-## Check if the city is valid
-def sys_checkcity ( self, city ):
-
-	file = "modules/data/cities.txt"
-	
-	if city.strip() in open(file).read():
-		return(True)
 
 ## Return saved city for the nick
-def sys_getcity ( self ):
+def getCity ( self ):
 
 	nick = self.get_nick()
 	file = "modules/data/fmi_nicks.txt"
@@ -76,7 +75,7 @@ def sys_getcity ( self ):
 				return(city[1])
 
 ## Save user city					
-def sys_setcity ( self, city ):
+def setCity ( self, city ):
 
 	nick = self.get_nick()
 	city = city.title().strip() 

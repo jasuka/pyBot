@@ -1,4 +1,5 @@
 import urllib.request
+import os
 
 ## Get HTML for given url
 def getHtml( self, url, useragent):
@@ -19,4 +20,11 @@ def getHtml( self, url, useragent):
 			print("Fetching data faile for some reason")
 ## End
 
- 
+## Check if the city exists in Finland
+def checkCity ( self, city ):
+
+	file = "modules/data/cities.txt"
+	
+	if city.strip() in open(file).read():
+		return(True)
+## End
