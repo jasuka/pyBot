@@ -71,7 +71,7 @@ class pyBot:
 			nick = re.search(":(.*)!", self.msg[0]).group(1)
 			return(nick)
 		except AttributeError:
-			print("Not a nick")
+			print("Not a nick\r\n")
 	
 	## Get user host
 	def get_host( self ):
@@ -79,7 +79,7 @@ class pyBot:
 			host = self.msg[0].split("!")
 			return(host[1])
 		except:
-			print("Error getting host")
+			print("Error getting host\r\n")
 		
 	## Reload modules
 	def reload( self ):
@@ -143,7 +143,7 @@ class pyBot:
 				data = self.s.recv(4096).decode("utf-8", "ignore")
 				if len(data) == 0:
 					connected == 0
-					print("Connection died, reconnecting");
+					print("Connection died, reconnecting\r\n");
 					time.sleep(5)
 					self.loop()
 			except ConnectionResetError as msg:
@@ -172,7 +172,7 @@ class pyBot:
 					else:
 						self.send_data( "NICK " + self.config["altnick"] )
 						altnick = 0 #if unable to set altnick, set altnick false and try random nick
-						print("Alternative nick in use, switching into random nick")
+						print("Alternative nick in use, switching into random nick\r\n")
 
 			except IndexError:
 				pass
