@@ -159,13 +159,7 @@ class pyBot():
 					self.loop()
 					
 			self.msg = data.split(" ") ## Slice data into list
-			
-			## Flood protection, add nick to the dictionary and raise the value by one every time he/she speaks
-			if self.get_nick() in flood:
-				flood[self.get_nick()] += 1
-			else:
-				flood[self.get_nick()] = 1
-							
+								
 			## Logger
 			if logger == 1:
 				logger_daemon.logger_daemon( self )
@@ -211,6 +205,11 @@ class pyBot():
 					if cmd == "!reload":
 						self.reload( )
 					else:
+						## Flood protection, add nick to the dictionary and raise the value by one every time he/she speaks
+						if self.get_nick() in flood:
+							flood[self.get_nick()] += 1
+						else:
+							flood[self.get_nick()] = 1
 						if flood[self.get_nick()] <= 3: ## If the nick has issued three commands before the timer is cleaned
 							cmd = cmd.lstrip("!") ## remove ! from the command before parsing it
 							self.parse_command( cmd )
