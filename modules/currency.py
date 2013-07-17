@@ -11,18 +11,23 @@ def currency( self ):
 	
 	if len(self.msg) < 7:
 		self.send_chan("Usage: !currency <amount> <from> <to>")
-	else:
+	if len(self.msg) == 7:
 		try:
 			amount = float(self.msg[4])
 		except ValueError:
 			pass
-		frm = self.msg[5]
-		to = self.msg[6]
-	if isinstance( amount, float ):
-		frm = urllib.parse.quote(frm)
-		to = urllib.parse.quote(to)
-		url = "https://www.google.com/finance/converter?a={0}&from={1}&to={2}".format(amount, frm, to)
-		html = syscmd.getHtml(self, url, True)								
+		frm = self.msg[5].upper()
+		to = self.msg[6].upper()
+		combined = frm, to
+	## If first value is float and currencies are valid
+		if isinstance( amount, float ) and frm in open("modules/data/currencies.txt").read():
+			print("Moi")
+			frm = urllib.parse.quote(frm)
+			to = urllib.parse.quote(to)
+			url = "https://www.google.com/finance/converter?a={0}&from={1}&to={2}".format(amount, frm, to)
+			html = syscmd.getHtml(self, url, True)
+		else:
+			self.send_chan("Usage: !currency <amount> <from> <to>")							
 		
 	try:
 		soup = BeautifulSoup(html)
