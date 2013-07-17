@@ -12,7 +12,6 @@ def youtube(self):
 			parameters = ""
 			length = len(self.msg)
 			for x in range (4, length):
-				#print(self.msg[x])
 				parameters += "{0} ".format(self.msg[x])
 			parameters_url = urllib.parse.quote(parameters)
 			url = "http://www.youtube.com/results?search_query=" + parameters_url
@@ -24,8 +23,6 @@ def youtube(self):
 			urls = ""
 			soup = BeautifulSoup(html)
 			for x in soup.findAll("a", {"class" : "yt-uix-tile-link"})[0:3]:
-				print(x.get('href'))
-				print(x.get('title'))
 				urls += "{0}: http://www.youtube.com{1} | ".format(x.get('title'), x.get('href'))
 			if len(urls) > 0:
 				self.send_chan(urls.strip()[:-1])
