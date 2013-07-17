@@ -13,7 +13,7 @@ def youtube(self):
 			for x in range (4, length):
 				parameters += "{0} ".format(self.msg[x])
 			parameters_url = urllib.parse.quote(parameters)
-			url = "http://youtube.com/results?search_query=" + parameters_url + "&gl=FI"
+			url = "http://youtube.com/results?search_query=" + parameters_url
 			print(url)
 			html = syscmd.getHtml(self, url, True )
 		except:
@@ -21,7 +21,7 @@ def youtube(self):
 		try:
 			urls = ""
 			soup = BeautifulSoup(html)
-			for x in soup.findAll("a", {"class" : "yt-uix-tile-link"})[0:2]:
+			for x in soup.findAll("a", {"class" : "yt-uix-tile-link"},{"data-translation-src" : "en"})[0:2]:
 				urls += "{0}: http://youtube.com{1} | ".format(x.get('title'), x.get('href'))
 			if len(urls) > 0:
 				self.send_chan(urls.strip()[:-1])
