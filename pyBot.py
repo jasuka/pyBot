@@ -8,7 +8,6 @@ import sys
 import time
 import importlib
 import imp
-
 sys.path.insert(0, './modules') ## Path for the modules
 
 ## Config
@@ -58,10 +57,7 @@ class pyBot:
 	## Parse commands function
 	def parse_command( self, cmd ):
 		try:
-			if cmd == "class": ## Use modules as classes?
-				a = "hello"
-				getattr(globals()[a], a.title())( self )
-			if cmd != "class" and cmd not in self.config["sysmodules"].split(","):
+			if cmd not in self.config["sysmodules"].split(","):
 				getattr(globals()[cmd], cmd)( self )
 			else:
 				return

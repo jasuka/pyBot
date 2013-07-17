@@ -21,13 +21,13 @@ config = {		#[SERVER]
 
 			#[MODULES]
 			#Modules & System modules, you better not touch system modules
-			"sysmodules":			"logger_daemon,title", #Do not touch this line!!
+			"sysmodules":			"syscmd,logger_daemon,title", #Do not touch this line!!
 			"modules":			"cmd,clock,op,version,fmi,currency,hello",
 
 			#[LOGGING DAEMON]
 			#Loggin
 			"logging":			"true",
-			"timeformat":			"%d.%m.Y - %H:%M:%S", #Will be shown in the log as [17.07.2013 - 13:31:27]
+			"timeformat":			"%d.%m.%Y - %H:%M:%S", #Will be shown in the log as [17.07.2013 - 13:31:27]
 			"TimestampBrackets":		"[,]",
 
 			#[DEV DEBUGGING]
