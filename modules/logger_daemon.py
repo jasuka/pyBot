@@ -1,27 +1,33 @@
-##Logger daemon version 0.2 
+##Logger daemon version 0.2.1
 
 from time import gmtime, strftime
 
 def logger_daemon ( self ):
-
-	if "353" in self.msg or "366" in self.msg or "412" in self.msg:
-		return
-	else:
-		brackets = self.config["TimestampBrackets"].split(",")
-		usertxt = ""
-
-		for i in range(3, len(self.msg)):
-			usertxt += self.msg[i] +" "
+	
 	try:
 		chan = self.msg[2]
-		if chan[0] == "#":
-			log = "logs/"+chan+".log"
-			logline = brackets[0]+strftime(self.config["timeformat"])+brackets[1] + " " + self.get_nick() + " @ " + chan + " " + usertxt
+	except IndexError:
+		print("Error, cannot log\r\n")
+	else:
 
-			with open(log, "a") as log:
-				log.write(logline)
-				log.flush()
-	except TypeError as msg:
-		if self.config["debug"] == "true":
-			print(msg)
+		if "353" in self.msg or "366" in self.msg or "412" in self.msg:
+			return
+		else:
+			brackets = self.config["TimestampBrackets"].split(",")
+			usertxt = ""
+
+			for i in range(3, len(self.msg)):
+				usertxt += self.msg[i] +" "
+		try:
+			chan = self.msg[2]
+			if chan[0] == "#":
+				log = "logs/"+chan+".log"
+				logline = brackets[0]+strftime(self.config["timeformat"])+brackets[1] + " " + self.get_nick() + " @ " + chan + " " + usertxt
+
+				with open(log, "a") as log:
+					log.write(logline)
+					log.flush()
+		except TypeError as msg:
+			if self.config["debug"] == "true":
+				print(msg)
 
