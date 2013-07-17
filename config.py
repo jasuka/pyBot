@@ -27,7 +27,7 @@ config = {		#[SERVER]			[Modify the right side only]
 			#[LOGGING DAEMON]
 			#Loggin
 			"logging":			"true",
-			"timeformat":			"%d.%m.%Y - %H:%M:%S", #Will be shown in the log as [17.07.2013 - 13:31:27]
+			"timeformat":			"%d.%m.%Y/%H:%M:%S", #[17.07.2013/13:31:27] recommended not to leave any space between date/time (at least for now)
 			"TimestampBrackets":		"[,]",
 
 			#[DEV DEBUGGING]
