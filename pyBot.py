@@ -174,7 +174,7 @@ class pyBot():
 			if self.msg[0] == "PING":
 				self.send_data( "PONG " + self.msg[1] )
 			## Temp fix for Quakenet
-            if "se.quakenet.org" in self.config["host"]:
+			if "se.quakenet.org" in self.config["host"]:
 				ping = data.split("\r\n")
 				pong = ping[1].split(" ")
 				if pong[0] == "PING":
