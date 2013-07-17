@@ -25,6 +25,6 @@ def checkCity ( self, city ):
 
 	file = "modules/data/cities.txt"
 	
-	if city.strip() in open(file).read():
+	if city.title().strip() in open(file).read():
 		return(True)
 ## End

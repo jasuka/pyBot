@@ -68,11 +68,14 @@ def getCity ( self ):
 	nick = self.get_nick()
 	file = "modules/data/fmi_nicks.txt"
 	
-	with open(file, "r", encoding="UTF-8") as f:
-		for line in f:
-			if nick in line:
-				city = line.split(":")
-				return(city[1])
+	try:
+		with open(file, "r", encoding="UTF-8") as f:
+			for line in f:
+				if nick in line:
+					city = line.split(":")
+					return(city[1])
+	except FileNotFoundError:
+		open(file, 'a').close()
 
 ## Save user city					
 def setCity ( self, city ):
