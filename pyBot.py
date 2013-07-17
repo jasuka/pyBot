@@ -206,7 +206,7 @@ class pyBot:
 			## Get title for the URLs
 			try:
 				if "372" not in self.msg:
-					url = re.search( "(http)(s)?:\/\/[a-zA-Z0-9\-\=.?&_/]+", data ).group(0)
+					url = re.search( "(Http|http)(s)?:\/\/[a-zA-Z0-9\-\=.?&_/]+", data ).group(0)
 					if url != None:
 						title.title( self, url )
 			except:
