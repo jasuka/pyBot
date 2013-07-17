@@ -8,11 +8,12 @@ import sys
 import time
 import importlib
 import imp
+from threading import Thread
+
 sys.path.insert(0, './modules') ## Path for the modules
 
 ## Config
 import config
-
 ## Load modules from the config
 try:
 	for mod in config.config["sysmodules"].split(","):
@@ -24,11 +25,14 @@ try:
 except:
 	raise
 
+## Global variable for the flood protection
+flood = {}
+
 ## Class pyBot
-class pyBot:
+class pyBot():
 	def __init__( self ):
-		
-		## Config and start the bot
+
+	## Config and start the bot
 		self.config = config.config
 		self.loop()
 			
@@ -136,6 +140,7 @@ class pyBot:
 		connected = 1
 		logger = 0
 		altnick = 1
+		global flood
 		
 		while connected == 1:
 			try:
@@ -155,6 +160,12 @@ class pyBot:
 					
 			self.msg = data.split(" ") ## Slice data into list
 			
+			## Flood protection, add nick to the dictionary and raise the value by one every time he/she speaks
+			if self.get_nick() in flood:
+				flood[self.get_nick()] += 1
+			else:
+				flood[self.get_nick()] = 1
+							
 			## Logger
 			if logger == 1:
 				logger_daemon.logger_daemon( self )
@@ -194,8 +205,11 @@ class pyBot:
 					if cmd == "!reload":
 						self.reload( )
 					else:
-						cmd = cmd.lstrip("!") ## remove ! from the command before parsing it
-						self.parse_command( cmd )
+						if flood[self.get_nick()] <= 3: ## If the nick has issued three commands before the timer is cleaned
+							cmd = cmd.lstrip("!") ## remove ! from the command before parsing it
+							self.parse_command( cmd )
+						else:
+							print("Flooding!")
 			except IndexError:
 				pass ## No need to do anything
 			
@@ -212,10 +226,17 @@ class pyBot:
 			if self.config["debug"] == "true":
 				#print(self.msg)
 				print(data)
-				
-## Run the bot
-try:
-	bot = pyBot()
-except KeyboardInterrupt:
-	print("Ctrl+C Pressed, Quitting")
-	
+
+## Clear flood counter; Clears the flood dictionary every x seconds
+def clear_flood():
+	global flood
+	while True:
+		print(flood)
+		flood = {}
+		time.sleep(30)				
+
+## Run the bot and flood counter in own threads
+Thread(target=pyBot).start()
+Thread(target=clear_flood).start()
+
+
