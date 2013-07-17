@@ -173,7 +173,13 @@ class pyBot():
 			## PING PONG
 			if self.msg[0] == "PING":
 				self.send_data( "PONG " + self.msg[1] )
-			
+			## Temp fix for Quakenet
+            if "se.quakenet.org" in self.config["host"]:
+				ping = data.split("\r\n")
+				pong = ping[1].split(" ")
+				if pong[0] == "PING":
+					self.send_data( "PONG " + pong[1].lstrip(":"))		
+						
 			## Check if nick is in use, try alternative, if still in use, generate random number to the end of the nick
 			try:
 				if "433" in self.msg:
@@ -231,7 +237,7 @@ class pyBot():
 def clear_flood():
 	global flood
 	while True:
-		print(flood)
+		#print(flood)
 		flood = {}
 		time.sleep(20)				
 
