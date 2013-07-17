@@ -1,7 +1,8 @@
-import urllib.request
+import urllib.parse
 from bs4 import BeautifulSoup
 import re
 import os
+import syscmd
 
 def fmi( self ):
 	city = ""
@@ -24,26 +25,12 @@ def fmi( self ):
 			self.send_chan( "Usage: !fmi <city> | !fmi set <city>" )
 			raise
 		if "set" not in city and sys_checkcity( self, city) == True: ## We don't want to look for "set"
-			try:
-				city = city.title().strip()
-				parameter = urllib.parse.quote(city)
-				user_agent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)"
-				headers = { 'User-Agent' : user_agent }
-				req = urllib.request.Request("http://ilmatieteenlaitos.fi/saa/" + parameter, None, headers)
-	   
-				if city == "Oulu":
-					req = urllib.request.Request("http://ilmatieteenlaitos.fi/saa/" + parameter + "?&station=101799", None, headers)
-				if city == "Helsinki":
-					req = urllib.request.Request("http://ilmatieteenlaitos.fi/saa/" + parameter + "?&station=100971", None, headers)
-					
-				html = urllib.request.urlopen(req).read()
 			
-			except urllib.error.HTTPError as msg:
-				print(msg)
-			except:
-				if self.config["debug"] == "true":
-					print("Fetching data faile for some reason")
-	   
+			city = city.title().strip()
+			parameter = urllib.parse.quote(city)
+			url = "http://ilmatieteenlaitos.fi/saa/" + parameter
+			html = syscmd.getHtml(self, url, True )
+ 
 			try:
 				soup = BeautifulSoup(html)
 				text = ""
