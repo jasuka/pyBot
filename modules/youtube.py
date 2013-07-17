@@ -21,7 +21,7 @@ def youtube(self):
 		try:
 			urls = ""
 			soup = BeautifulSoup(html)
-			for x in soup.findAll("a", {"class" : "yt-uix-tile-link"})[0:3]:
+			for x in soup.findAll("a", {"class" : "yt-uix-tile-link"})[0:2]:
 				urls += "{0}: http://www.youtube.com{1} | ".format(x.get('title'), x.get('href'))
 			if len(urls) > 0:
 				self.send_chan(urls.strip()[:-1])
