@@ -13,6 +13,7 @@ def title ( self, url ):
 		try:
 			soup = BeautifulSoup(html)
 			title = soup.title.string
+			title = re.sub("\n", "", title).strip()
 			self.send_chan( "~ " + title )
 		except:
 			pass
