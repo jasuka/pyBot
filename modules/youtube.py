@@ -1,4 +1,3 @@
-#a class="yt-uix-sessionlink yt-uix-tile-link yt-uix-contextlink "
 import urllib.parse
 import syscmd
 from bs4 import BeautifulSoup
