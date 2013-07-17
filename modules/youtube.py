@@ -17,7 +17,7 @@ def youtube(self):
 			print(url)
 			html = syscmd.getHtml(self, url, True )
 		except:
-			print("Kusahti")
+			print("Someting went wrong getting the html")
 		try:
 			urls = ""
 			soup = BeautifulSoup(html)
