@@ -57,6 +57,10 @@ class pyBot:
 	## Parse commands function
 	def parse_command( self, cmd ):
 		try:
+			if cmd == "class": ## Use modules as classes?
+				a = "hello"
+				#instance = getattr(globals()[a], a.title())( self.msg )
+				a = hello.Hello(self, self.msg)
 			if cmd not in self.config["sysmodules"].split(","):
 				getattr(globals()[cmd], cmd)( self )
 			else:

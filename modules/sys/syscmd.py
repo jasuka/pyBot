@@ -3,14 +3,14 @@
 #
 ##
 ## Send data function
-def send_data( data ):
+def send_data( self, data ):
 	data += "\r\n"
-	s.sendall( data.encode("utf-8") ) 
+	self.s.sendall( data.encode("utf-8") ) 
 	print( data )
 		
 ## Join channel
 def join_chan( self, chan ):
-	send_data("JOIN " + chan)
+	self.send_data("JOIN " + chan)
 	
 ## Send text to channel
 def send_chan( self, data ):
