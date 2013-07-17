@@ -233,7 +233,7 @@ def clear_flood():
 	while True:
 		print(flood)
 		flood = {}
-		time.sleep(15)				
+		time.sleep(20)				
 
 ## Run the bot and flood counter in own threads
 Thread(target=pyBot).start()
