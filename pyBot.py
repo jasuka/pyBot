@@ -249,7 +249,7 @@ try:
 	bot.start()
 	flood.daemon = True
 	flood.start()
-	while True:
+	while True: ## Keep the main thread alive
 		time.sleep(1)		
 except KeyboardInterrupt:
 	print("Ctrl+C")
