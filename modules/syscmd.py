@@ -23,8 +23,14 @@ def getHtml( self, url, useragent):
 ## Check if the city exists in Finland
 def checkCity ( self, city ):
 
-	file = "modules/data/cities.txt"
-	
-	if city.title().strip() in open(file).read():
-		return(True)
+	try:
+		line = ""
+		city = city.title()
+		with open("modules/data/cities.txt", "r", encoding="UTF-8") as file:
+			for l in file:
+				line = l.strip()
+				if city == line:
+					return(True)
+	except IOError as msg:
+		print(msg)
 ## End
