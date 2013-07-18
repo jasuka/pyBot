@@ -20,11 +20,12 @@ def fmi( self ):
 				if city == None:
 					city = self.msg[4] 
 			else:
-				city = self.msg[4] #With !fmi City
+				city = self.msg[4].strip() #With !fmi City
 		except IndexError:
 			self.send_chan( "Usage: !fmi <city> | !fmi set <city>" )
 			raise
-		if "set" not in city and syscmd.checkCity( self, city) == True: ## We don't want to look for "set"
+		print(syscmd.checkCity( self, city))
+		if "set" not in city and syscmd.checkCity( self, city) == True: # We don't want to look for "set"
 			
 			city = city.title().strip()
 			parameter = urllib.parse.quote(city)
