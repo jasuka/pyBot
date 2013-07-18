@@ -14,7 +14,6 @@ def youtube(self):
 				parameters += "{0} ".format(self.msg[x])
 			parameters_url = urllib.parse.quote(parameters)
 			url = "http://youtube.com/results?search_query=" + parameters_url
-			print(url)
 			html = syscmd.getHtml(self, url, True )
 		except:
 			print("Someting went wrong getting the html")
