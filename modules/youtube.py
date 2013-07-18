@@ -17,13 +17,13 @@ def youtube(self):
 			url = "http://youtube.com/results?search_query=" + parameters_url
 			print("URL: {0}".format(url))
 			html = syscmd.getHtml(self, url, True )
-			print("HÖTÖMÖLÖ funkkarilta: {0}\r\n".format(html))
+			#print("HÖTÖMÖLÖ funkkarilta: {0}\r\n".format(html))
 		#except:
 			#print("Someting went wrong getting the html")
 		#try:
 			urls = ""
 			soup = BeautifulSoup(html)
-			#print("HÖTÖMÖLÖ: {0}".format(soup))
+			print("HÖTÖMÖLÖ: {0}".format(soup))
 			for x in soup.findAll("a", {"class" : "yt-uix-tile-link"})[0:2]:
 				print(x.get('title'))
 				print(x.get('href'))
