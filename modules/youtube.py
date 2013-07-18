@@ -28,11 +28,11 @@ def youtube(self):
 			for x in soup.findAll("a", {"accesskey" : "1"}):
 				href = x.get('href')
 				href = href[-11:]
-				urls += "{1}: http://youtube.com/{0} | ".format(href, x.string.strip())
+				urls += "{1}: http://youtube.com/watch?v={0} | ".format(href, x.string.strip())
 			for x in soup.findAll("a", {"accesskey" : "2"}):
 				href = x.get('href')
 				href = href[-11:]
-				urls += "{1}: http://youtube.com/{0} | ".format(href, x.string.strip())
+				urls += "{1}: http://youtube.com/watch?v={0} | ".format(href, x.string.strip())
 			if len(urls) > 0:
 				self.send_chan(urls.strip()[:-1])
 			else:
