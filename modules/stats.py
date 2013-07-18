@@ -13,7 +13,7 @@ def stats( self ):
 		try:
 			chan = self.msg[2]	#trying if the 2nd parameter is given in stream data, if yes set it as a channel
 
-		except IndexError:
+		except IndexError as msg:
 			print("Error, something is wrong :(\r\n")
 
 		logfile = "logs/"+chan+".log"
