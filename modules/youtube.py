@@ -15,6 +15,7 @@ def youtube(self):
 			parameters_url = urllib.parse.quote(parameters)
 			print("Parameters: {0}".format(parameters_url))
 			url = "http://youtube.com/results?search_query=" + parameters_url
+			print("URL: {0}".format(url))
 			html = syscmd.getHtml(self, url, True )
 			print("HÖTÖMÖLÖ funkkarilta: {0}\r\n".format(html))
 		#except:
