@@ -192,7 +192,7 @@ class pyBot():
 				chans = self.config["chans"].split(",")
 				for chan in chans:
 					self.join_chan( chan )
-				if self.config["logging"] == "true":
+				if self.config["logging"] == True:
 					logger = 1
 					print("Logging enabled\r\n")
 				else:

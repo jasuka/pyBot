@@ -3,7 +3,7 @@
 import readline
 
 def stats( self ):
-	if self.config["logging"] == "true":
+	if self.config["logging"] == True:
 		if len(self.msg) == 4:
 			self.send_chan("Usage: !stats <nick>")
 		else:

@@ -26,7 +26,7 @@ config = {		#[SERVER]			[Modify the right side only]
 
 			#[LOGGING DAEMON]
 			#Loggin
-			"logging":			"true",	#true/false
+			"logging":			True,	#True/False
 			"timeformat":			"%d.%m.%Y/%H:%M:%S", #[17.07.2013/13:31:27] do not to leave any space between date/time (at least for now)
 			"TimestampBrackets":		"[,]",
 			"log-path":			"logs/", #The root folder for logs
