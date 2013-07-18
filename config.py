@@ -22,11 +22,11 @@ config = {		#[SERVER]			[Modify the right side only]
 			#[MODULES]
 			#Modules & System modules, you better not touch system modules
 			"sysmodules":			"syscmd,logger_daemon,title", #Do not touch this line!!
-			"modules":			"cmd,clock,op,version,fmi,currency,hello,youtube,stats",
+			"modules":			"cmd,clock,op,version,fmi,currency,youtube,stats",
 
 			#[LOGGING DAEMON]
 			#Loggin
-			"logging":			"true",
+			"logging":			"true",	#true/false
 			"timeformat":			"%d.%m.%Y/%H:%M:%S", #[17.07.2013/13:31:27] do not to leave any space between date/time (at least for now)
 			"TimestampBrackets":		"[,]",
 			"log-path":			"logs/", #The root folder for logs
