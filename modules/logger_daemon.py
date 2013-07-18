@@ -20,7 +20,7 @@ def logger_daemon ( self ):
 				usertxt += self.msg[i] +" "
 		try:
 			if chan[0] == "#":
-				log = "logs/"+chan+".log"
+				log = self.config["log-path"]+chan+".log"
 				logline = brackets[0]+strftime(self.config["timeformat"])+brackets[1] + " " + self.get_nick() + " @ " + chan + " " + usertxt
 
 				with open(log, "a") as log:
