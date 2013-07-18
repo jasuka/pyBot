@@ -12,7 +12,7 @@ config = {		#[SERVER]			[Modify the right side only]
 			"altnick": 			"pyTunkio", 
 			"realname":			"pyTsunku", 
 			"ident":			"pyTsunku", 
-			"version":			"pyBot version 0.2.2", 
+			"version":			"pyBot version 0.2.3", 
 			"chans":			"#tsunku",
 
 			#[OPERS]
@@ -27,7 +27,7 @@ config = {		#[SERVER]			[Modify the right side only]
 			#[LOGGING DAEMON]
 			#Loggin
 			"logging":			"true",
-			"timeformat":			"%d.%m.%Y/%H:%M:%S", #[17.07.2013/13:31:27] recommended not to leave any space between date/time (at least for now)
+			"timeformat":			"%d.%m.%Y/%H:%M:%S", #[17.07.2013/13:31:27] do not to leave any space between date/time (at least for now)
 			"TimestampBrackets":		"[,]",
 
 			#[DEV DEBUGGING]
