@@ -13,7 +13,7 @@ def stats( self ):
 		except IndexError as msg:
 			print("Error, something is wrong :(\r\n")
 
-		log = self.config["log-path"]+chan+".log"
+		logfile = self.config["log-path"]+chan+".log"
 
 		try:
 			with open(logfile): pass	#trying if such logfile exists or not
