@@ -98,7 +98,7 @@ class pyBot():
 				for mod in self.config["modules"].split(","):
 					print("Reloading module {0}".format(mod))
 					imp.reload(globals()[mod])
-			if len(self.msg) == 5 and command == "sys": ## Reload all user modules
+			if len(self.msg) == 5 and command == "sys": ## Reload all sys modules
 				imp.reload(config)
 				self.config = config.config
 				for mod in self.config["sysmodules"].split(","):
