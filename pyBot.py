@@ -233,17 +233,18 @@ class pyBot():
 				print(data)
 
 ## Clear flood counter; Clears the flood dictionary every x seconds
-def clear_flood():
-	global flood
-	while True:
-		#print(flood)
-		flood = {}
-		time.sleep(20)				
+class Flood:
+	def __init__( self ):
+		global flood
+		while True:
+			#print(flood)
+			flood = {}
+			time.sleep(20)	
 
 ## Run the bot and flood counter in own threads
 try:
 	bot = Thread(target=pyBot)
-	flood = Thread(target=clear_flood)
+	flood = Thread(target=Flood)
 
 	bot.daemon = True
 	bot.start()
@@ -252,5 +253,6 @@ try:
 	while True: ## Keep the main thread alive
 		time.sleep(1)		
 except KeyboardInterrupt:
-	print("Ctrl+C")
+	sys.exit(1)
+	print("Ctrl+C, Quittin!")
 
