@@ -242,8 +242,15 @@ def clear_flood():
 
 ## Run the bot and flood counter in own threads
 try:
-	Thread(target=pyBot).start()
-	Thread(target=clear_flood).start()
+	bot = Thread(target=pyBot)
+	flood = Thread(target=clear_flood)
+
+	bot.daemon = True
+	bot.start()
+	flood.daemon = True
+	flood.start()
+	while True:
+		time.sleep(1)		
 except KeyboardInterrupt:
 	print("Ctrl+C")
 
