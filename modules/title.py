@@ -9,9 +9,9 @@ def title ( self, url ):
 	
 	if valid == None:
 		req = urllib.request.Request(url, None)
-		html = syscmd.getHtml( self, url, False )
+		html = syscmd.getHtml( self, url, True )
 		try:
-			soup = BeautifulSoup(html)
+			soup = BeautifulSoup(html, "lxml")
 			title = soup.title.string
 			title = re.sub("\n", "", title).strip()
 			self.send_chan( "~ " + title )
