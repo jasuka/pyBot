@@ -16,7 +16,7 @@ def youtube(self):
 			print("Parameters: {0}".format(parameters_url))
 			url = "http://youtube.com/results?search_query=" + parameters_url
 			print("URL: {0}".format(url))
-			html = syscmd.getHtml(self, url, False )
+			html = syscmd.getHtml(self, url, True )
 			#print("HÖTÖMÖLÖ funkkarilta: {0}\r\n".format(html))
 		#except:
 			#print("Someting went wrong getting the html")
