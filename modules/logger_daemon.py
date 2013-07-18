@@ -19,7 +19,6 @@ def logger_daemon ( self ):
 			for i in range(3, len(self.msg)):
 				usertxt += self.msg[i] +" "
 		try:
-			chan = self.msg[2]
 			if chan[0] == "#":
 				log = "logs/"+chan+".log"
 				logline = brackets[0]+strftime(self.config["timeformat"])+brackets[1] + " " + self.get_nick() + " @ " + chan + " " + usertxt
