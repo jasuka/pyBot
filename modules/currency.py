@@ -19,6 +19,7 @@ def currency( self ):
 		frm = self.msg[5].upper()
 		to = self.msg[6].upper()
 		combined = frm, to
+	try:
 	## If first value is float and currencies are valid
 		if isinstance( amount, float ) and frm in open("modules/data/currencies.txt").read():
 			print("Moi")
@@ -28,7 +29,9 @@ def currency( self ):
 			html = syscmd.getHtml(self, url, True)
 		else:
 			self.send_chan("Usage: !currency <amount> <from> <to>")							
-		
+	except IOError as msg:
+		print(msg)
+			
 	try:
 		soup = BeautifulSoup(html)
 		result = soup.findAll("div", {"id" : "currency_converter_result"})
