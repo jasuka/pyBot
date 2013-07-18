@@ -4,21 +4,15 @@ import readline
 
 def stats( self ):
 	if self.config["logging"] == True:
-		if len(self.msg) == 4:
-			self.send_chan("Usage: !stats <nick>")
-		else:
-			try:
-				chan = self.msg[2]	#trying if the 2nd parameter is given in stream data, if yes set it as a channel
+		if len(self.msg) >= 4:
 
-			except IndexError as msg:
-				print("Error, something is wrong :(\r\n")
-
+			chan = self.msg[2]
 			logfile = self.config["log-path"]+chan+".log"
 
 			try:
 				with open(logfile): pass	#trying if such logfile exists or not
-			except IOError:
-				self.send_chan("I think i have not been on that channel yet")
+			except IOError:				#But yet i dont know, if this is useless checkup
+				self.send_chan("I think i have not been loggin on that channel yet")
 
 			else:	
 			
@@ -39,6 +33,8 @@ def stats( self ):
 					self.send_chan("I don't remember seeing "+ LookingNick +" on this channel before ("+ chan +")")
 		
 				return
+		else:
+			self.send_chan("Usage: !stats <nick>")
 	else:
 		self.send_chan("First enable logging from config to use this module")
 		
