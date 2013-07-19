@@ -17,7 +17,7 @@ def logger_daemon ( self ):
 
 				for i in range(3, len(self.msg)):
 					usertxt += self.msg[i] +" "
-			#try: 	will cleanup these commented lines later, for now it seems these are not needed
+
 				if chan[0] == "#":
 					log = self.config["log-path"]+chan+".log"
 					logline = brackets[0]+strftime(self.config["timeformat"])+brackets[1] + " " + self.get_nick() + " @ " + chan + " " + usertxt
@@ -25,11 +25,14 @@ def logger_daemon ( self ):
 					with open(log, "a") as log:
 						log.write(logline)
 						log.flush()
-			#except TypeError as msg:
-				#if self.config["debug"] == "true":
-					#print(msg)
+
 
 	else:
 		print("Cannot find existing folder for logs, creating: "+self.config["log-path"])
 		os.mkdir(self.config["log-path"])
+	
+	#if os.path.exists(self.config["log-path"]) == True:
+	#	seendb = self.config["log-path"]+"seendb.txt"
+	#	with open(seendb, "w"
+	# Jäi kesken, tuli muuta.
 

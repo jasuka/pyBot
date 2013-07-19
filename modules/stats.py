@@ -11,7 +11,7 @@ def stats( self ):
 
 			try:
 				with open(logfile): pass	#trying if such logfile exists or not
-			except IOError:				#But yet i dont know, if this is useless checkup
+			except IOError:				#But yet i dont know, if this is a useless checkup
 				self.send_chan("I think i have not been loggin on that channel yet")
 
 			else:	
