@@ -1,7 +1,9 @@
 ##Logger daemon version 1
 
 from time import gmtime, strftime
+import time
 import os
+import re
 
 def logger_daemon ( self ):
 	if os.path.exists(self.config["log-path"]) == True:
@@ -40,14 +42,16 @@ def logger_daemon ( self ):
 	
 	if os.path.exists(self.config["log-path"]) == True:
 		seendb = self.config["log-path"]+"seendb.txt"
-		timeformat = strftime(self.config["timeformat"])
+		temp = self.config["log-path"]+"temp.txt"
+		timestamp = int(time.time())
+		nick = self.get_nick()
 
 		try:
 			if self.get_nick() in open(seendb).read():
-				with open(seendb, "w", encoding="UTF-8") as temp:
+				with open(temp, "w", encoding="UTF-8") as temp:
 					for line in open(seendb):				
-						str = "{0}:{1}".format(timeformat,self.get_nick())
-						temp.write(re.sub("^{0}:.*$".format(self.get_nick()), str, line))
+						str = "{0}:{1}".format(nick,timestamp)
+						temp.write(re.sub("^{0}:.*$".format(nick), str, line))
 					os.remove(seendb)
 					os.rename(self.config["log-path"]+"temp.txt", seendb)
 					temp.close()
@@ -55,7 +59,7 @@ def logger_daemon ( self ):
 			## If the nick doesn't exist in the file, append it in there
 			else:
 				with open(seendb, "a", encoding="UTF-8") as file:
-					str = "\r\n{0}:{1}".format(timeformat,self.get_nick())
+					str = "\r\n{0}:{1}".format(nick,timestamp)
 					file.write(str)
 					file.close()
 				return(True)
