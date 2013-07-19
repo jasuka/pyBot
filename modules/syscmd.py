@@ -35,6 +35,13 @@ def checkCity ( city ):
 			print(e)
 ## End
 
+## Clears html tags from a string
 def delHtml( html ):
-	html = re.sub('<[^<]+?>', '', html)
-	return(html)
+	try:
+		html = re.sub('<[^<]+?>', '', html)
+		return(html)
+	except Exception as e:
+		if self.config["debug"] == "true":
+			print(e)
+			
+## End
