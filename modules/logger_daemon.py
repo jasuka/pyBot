@@ -28,7 +28,11 @@ def logger_daemon ( self ):
 
 
 	else:
-		os.mkdir(self.config["log-path"])
+		try:
+			os.mkdir(self.config["log-path"])
+		except Exception as e:
+			if self.config["debug"] == "true":
+				print(e)
 		if self.config["debug"] == "true":
 			print("Cannot find existing folder for logs, creating: "+self.config["log-path"])
 		
