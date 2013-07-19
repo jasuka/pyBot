@@ -19,7 +19,6 @@ def currency( self ):
 			to_ok = False
 			with open("modules/data/currencies.txt", "r", encoding="UTF-8") as f:
 				for line in f:
-					#currencies.append(line.strip())
 					if frm.strip() in line:
 						frm_ok = True
 					if to.strip() in line:
