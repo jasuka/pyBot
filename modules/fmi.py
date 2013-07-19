@@ -87,18 +87,21 @@ def setCity ( self, city ):
 	
 	## If the nick is in the file, loop through it and replace the line containing the nick
 	## with the new city. We write the whole new file to temp.txt and then move it back to fmi_nicks.txt
-	if nick in open(file).read():
-		with open("modules/data/temp.txt", "w", encoding="UTF-8") as temp:
-			for line in open(file):				
-				str = "{0}:{1}".format(nick,city)
-				temp.write(re.sub("^{0}:.*$".format(nick), str, line))
-			os.remove("modules/data/fmi_nicks.txt")
-			os.rename("modules/data/temp.txt", file)
-		return(True)
-	## If the nick doesn't exist in the file, append it in there
-	else:
-		with open(file, "a", encoding="UTF-8") as file:
-			str = "\r\n{0}:{1}".format(nick,city)
-			file.write(str)
-		return(True)
-
+	try:
+		if nick in open(file).read():
+			with open("modules/data/temp.txt", "w", encoding="UTF-8") as temp:
+				for line in open(file):				
+					str = "{0}:{1}".format(nick,city)
+					temp.write(re.sub("^{0}:.*$".format(nick), str, line))
+				os.remove("modules/data/fmi_nicks.txt")
+				os.rename("modules/data/temp.txt", file)
+			return(True)
+		## If the nick doesn't exist in the file, append it in there
+		else:
+			with open(file, "a", encoding="UTF-8") as file:
+				str = "\r\n{0}:{1}".format(nick,city)
+				file.write(str)
+			return(True)
+	except Exception as e:
+		if self.config["debug"] == "true":
+			print(e)
