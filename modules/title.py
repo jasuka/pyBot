@@ -18,4 +18,5 @@ def title ( self, url ):
 			title = re.sub("\n", "", title).strip()
 			self.send_chan( "~ " + title )
 		except:
-			pass
+			if self.config["debug"] == "true":
+				print("Parsing the html failed for some reason")
