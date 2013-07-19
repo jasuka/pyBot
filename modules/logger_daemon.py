@@ -28,8 +28,10 @@ def logger_daemon ( self ):
 
 
 	else:
-		print("Cannot find existing folder for logs, creating: "+self.config["log-path"])
 		os.mkdir(self.config["log-path"])
+		if self.config["debug"] == "true":
+			print("Cannot find existing folder for logs, creating: "+self.config["log-path"])
+		
 	
 	#if os.path.exists(self.config["log-path"]) == True:
 	#	seendb = self.config["log-path"]+"seendb.txt"
