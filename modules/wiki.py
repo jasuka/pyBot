@@ -25,11 +25,14 @@ def wiki(self):
 				print("Someting went wrong getting the html")
 		try:
 			soup = BeautifulSoup(html)
-			data = soup.findAll("div", {"class" : "mw-search-result-heading"})
-			output = "{0} : http://en.wikipedia.org{1}".format(data[0].a.get('title'), data[0].a.get('href'))
-			output += " | {0} : http://en.wikipedia.org{1}".format(data[1].a.get('title'), data[1].a.get('href'))
-			#print(data[0].
-			self.send_chan(output)
+			if len(soup.findAll("p", {"class" : "mw-search-nonefound"})) == 0:
+				data = soup.findAll("div", {"class" : "mw-search-result-heading"})
+				output = "{0} : http://en.wikipedia.org{1}".format(data[0].a.get('title'), data[0].a.get('href'))
+				output += " | {0} : http://en.wikipedia.org{1}".format(data[1].a.get('title'), data[1].a.get('href'))
+				#print(data[0].
+				self.send_chan(output)
+			else:
+				self.send_chan("There were no results matching the query.")
 		except:
 			if self.config["debug"] == "true":
 				print("Parsing the html failed for some reason")
