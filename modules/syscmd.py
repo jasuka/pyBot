@@ -1,5 +1,6 @@
 import urllib.request
 import os
+import re
 
 ## Get HTML for given url
 def getHtml( self, url, useragent):
@@ -11,17 +12,15 @@ def getHtml( self, url, useragent):
 		else:
 			req = urllib.request.Request(url, None)
 			
-		html = urllib.request.urlopen(req).read()
+		html = urllib.request.urlopen(req, timeout = 10).read()
 		return(html)
-	except urllib.error.HTTPError as msg:
-		return(msg)
-	except:
+	except Exception as e:
 		if self.config["debug"] == "true":
-			print("Fetching data faile for some reason")
+			print(e)
 ## End
 
 ## Check if the city exists in Finland
-def checkCity ( self, city ):
+def checkCity ( city ):
 
 	try:
 		line = ""
@@ -31,6 +30,10 @@ def checkCity ( self, city ):
 				line = l.strip()
 				if city == line:
 					return(True)
-	except IOError as msg:
-		print(msg)
+	except IOError as e:
+		print(e)
 ## End
+
+def delHtml( html ):
+	html = re.sub('<[^<]+?>', '', html)
+	return(html)
