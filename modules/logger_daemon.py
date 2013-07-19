@@ -40,39 +40,39 @@ def logger_daemon ( self ):
 
 		
 	
-	if os.path.exists(self.config["log-path"]) == True:
-		seendb = self.config["log-path"]+"seendb.txt"
-		temp = self.config["log-path"]+"temp.txt"
-		timestamp = int(time.time())
-		nick = self.get_nick()
-		usertxt = ""
-
-		try:
-			for i in range(3, len(self.msg)):
-				usertxt += self.msg[i] +" "
-
-			if self.get_nick() in open(seendb).read():
-				with open(temp, "w", encoding="UTF-8") as temp:
-					for line in open(seendb):				
-						str = "{0}|{1}|{2}".format(nick,timestamp,usertxt)
-						temp.write(re.sub("^{0}|.*$".format(nick), str, line))
-					os.remove(seendb)
-					os.rename(self.config["log-path"]+"temp.txt", seendb)
-					temp.close()
-				return(True)
-			## If the nick doesn't exist in the file, append it in there
-			else:
-				with open(seendb, "a", encoding="UTF-8") as file:
-					str = "\r\n{0}|{1}|{2}".format(nick,timestamp,usertxt)
-					file.write(str)
-					file.close()
-				return(True)
-		except Exception as e:
-			if self.config["debug"] == "true":
-				print(e)
-				print("Creating file")
-				with open(seendb, "a") as db:
-					db.close()
+#	if os.path.exists(self.config["log-path"]) == True:
+#		seendb = self.config["log-path"]+"seendb.txt"
+#		temp = self.config["log-path"]+"temp.txt"
+#		timestamp = int(time.time())
+#		nick = self.get_nick()
+#		usertxt = ""
+#
+#		try:
+#			for i in range(3, len(self.msg)):
+#				usertxt += self.msg[i] +" "
+#
+#			if self.get_nick() in open(seendb).read():
+#				with open(temp, "w", encoding="UTF-8") as temp:
+#					for line in open(seendb):				
+#						str = "{0}|{1}|{2}".format(nick,timestamp,usertxt)
+#						temp.write(re.sub("^{0}|.*$".format(nick), str, line))
+#					os.remove(seendb)
+#					os.rename(self.config["log-path"]+"temp.txt", seendb)
+#					temp.close()
+#				return(True)
+#			## If the nick doesn't exist in the file, append it in there
+#			else:
+#				with open(seendb, "a", encoding="UTF-8") as file:
+#					str = "\r\n{0}|{1}|{2}".format(nick,timestamp,usertxt)
+#					file.write(str)
+#					file.close()
+#				return(True)
+#		except Exception as e:
+#			if self.config["debug"] == "true":
+#				print(e)
+#				print("Creating file")
+##				with open(seendb, "a") as db:
+#					db.close()
 				
 	 
 
