@@ -40,7 +40,7 @@ class pyBot():
 	def send_data( self, data ):
 		data += "\r\n"
 		self.s.sendall( data.encode("utf-8") ) 
-		print( data )
+		print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ))
 			
 	## Join channel
 	def join_chan( self, chan ):
@@ -173,6 +173,7 @@ class pyBot():
 			## PING PONG
 			if self.msg[0] == "PING":
 				self.send_data( "PONG " + self.msg[1] )
+				
 			## Quakanet wants a pong reply on connect
 			if "quakenet" in self.config["host"]:
 				ping = data.split("\r\n")
