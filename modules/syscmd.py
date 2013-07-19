@@ -31,7 +31,8 @@ def checkCity ( city ):
 				if city == line:
 					return(True)
 	except IOError as e:
-		print(e)
+		if self.config["debug"] == "true":
+			print(e)
 ## End
 
 def delHtml( html ):
