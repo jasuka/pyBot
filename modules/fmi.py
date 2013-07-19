@@ -5,7 +5,6 @@ import os
 import syscmd
 
 def fmi( self ):
-	city = ""
 
 	## For saving the city
 	if len(self.msg) == 6:
@@ -24,8 +23,8 @@ def fmi( self ):
 		except IndexError:
 			self.send_chan( "Usage: !fmi <city> | !fmi set <city>" )
 			raise
-		print(syscmd.checkCity( self, city))
-		if "set" not in city and syscmd.checkCity( self, city) == True: # We don't want to look for "set"
+			
+		if "set" not in city and syscmd.checkCity( city ) == True: # We don't want to look for a city named "set"
 			
 			city = city.title().strip()
 			parameter = urllib.parse.quote(city)
@@ -52,13 +51,14 @@ def fmi( self ):
 				for a in str:
 					text += "{0} - ".format(a)
 	   
-				## Remove Html tags	
-				trimmed = re.sub('<[^<]+?>', '', text)
+				## Remove the Html tags	
+				trimmed = syscmd.delHtml(text)
 
 				output = city.strip() + " klo " + time + ": " + trimmed	
 				self.send_chan( output )
 			except:
-				pass
+				if self.config["debug"] == "true":
+					print("Parsing the html failed for some reason")
 		else:
 			self.send_chan( "City {0} doesn't exist!".format(city.title().strip()) )
 			
@@ -75,7 +75,7 @@ def getCity ( self ):
 				if nick in line:
 					city = line.split(":")
 					return(city[1])
-	except FileNotFoundError:
+	except FileNotFoundError: ## Create an empty fmi_nicks.txt if it doesn't exist
 		open(file, 'a').close()
 
 ## Save user city					
@@ -84,10 +84,9 @@ def setCity ( self, city ):
 	nick = self.get_nick()
 	city = city.title().strip() 
 	file = "modules/data/fmi_nicks.txt"
-	n = ""
 	
-	## IF nick is in the file, loop through it and replace the line containing the nick
-	## with new city. We write the whole new file to temp.txt and then move it back to fmi_nicks.txt
+	## If the nick is in the file, loop through it and replace the line containing the nick
+	## with the new city. We write the whole new file to temp.txt and then move it back to fmi_nicks.txt
 	if nick in open(file).read():
 		with open("modules/data/temp.txt", "w", encoding="UTF-8") as temp:
 			for line in open(file):				
