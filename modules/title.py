@@ -3,8 +3,10 @@ from bs4 import BeautifulSoup
 import re
 import syscmd
 
+## Gets title for the urls
 def title ( self, url ):
 	
+	## Banned extensions in the urls
 	valid = re.search( ".*\.(jpg$|jpeg$|png$|gif$|pdf$|exe$|zip$)", url )
 	
 	if valid == None:
