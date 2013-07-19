@@ -165,7 +165,12 @@ class pyBot():
 					self.loop()
 					
 			self.msg = data.split(" ") ## Slice data into list
-								
+			
+			## if debug is true, print some stuff	
+			if self.config["debug"] == "true":
+				#print(self.msg)
+				print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ))								
+
 			## Logger
 			if logger == 1:
 				logger_daemon.logger_daemon( self )
@@ -233,11 +238,6 @@ class pyBot():
 						title.title( self, url )
 			except:
 				pass
-					
-			## if debug is true, print some stuff	
-			if self.config["debug"] == "true":
-				#print(self.msg)
-				print(data)
 
 ## Clear flood counter; Clears the flood dictionary every x seconds
 class Flood:
@@ -261,5 +261,5 @@ try:
 		time.sleep(1)		
 except KeyboardInterrupt:
 	sys.exit(1)
-	print("Ctrl+C, Quittin!")
+	print("Ctrl+C, Quitting!")
 
