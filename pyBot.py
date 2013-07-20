@@ -50,11 +50,11 @@ class pyBot():
 			
 	## Join channel
 	def join_chan( self, chan ):
-		self.send_data("JOIN " + chan)
+		self.send_data("JOIN {0}".format(chan.strip()))
 
 	## Leave channel
 	def part_chan( self, chan ):
-		self.send_data("PART " + chan + " :See ya!")
+		self.send_data("PART {0} :See ya!".format(chan.strip()))
 		
 	## Quit
 	def quit( self ):
