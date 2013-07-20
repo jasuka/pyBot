@@ -21,12 +21,12 @@ config = {		#[SERVER]			[Modify the right side only]
 
 			#[MODULES]
 			#Modules & System modules, you better not touch system modules
-			"sysmodules":			"syscmd,logger_daemon,title", #Do not touch this line!!
+			"sysmodules":			"syscmd,logger_daemon,title,seendb", #Do not touch this line!!
 			"modules":			"cmd,clock,op,version,fmi,currency,youtube,stats,wiki",
 
 			#[LOGGING DAEMON]
-			#Loggin
-			"logging":			True,	#True/False
+			#Loggin			
+			"logging":			True,	#True/False, SeenDB works only if logging is set True
 			"timeformat":			"%d.%m.%Y/%H:%M:%S", #[17.07.2013/13:31:27] do not to leave any space between date/time (at least for now)
 			"TimestampBrackets":		"[,]",
 			"log-path":			"logs/", #The root folder for logs

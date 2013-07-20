@@ -179,6 +179,7 @@ class pyBot():
 			## Logger
 			if logger == 1:
 				logger_daemon.logger_daemon( self )
+				seendb.seendb( self ) #Seendb runs if logging is enabled
 			
 			## PING PONG
 			if self.msg[0] == "PING":
