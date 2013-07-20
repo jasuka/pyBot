@@ -28,10 +28,10 @@ def seendb ( self ):
 					str = "\r\n{0};{1}".format(nick,timestamp)
 					file.write(str)
 				return(True)
+		except FileNotFoundError:
+			if self.config["debug"] == "true":
+				print("Creating file")
+				open(seendb, "a").close()
 		except Exception as e:
 			if self.config["debug"] == "true":
 				print(e)
-				if e is "FileNotFoundError": ## This part needs to be changed, wont work as it is...
-					print("Creating file")
-					open(seendb, "a").close()
-						
