@@ -64,13 +64,13 @@ class pyBot():
 		
 	## Send text to channel
 	def send_chan( self, data ):
-		msg = "PRIVMSG " + self.msg[2] + " :" + str(data)
+		msg = "PRIVMSG {0} :{1}".format(self.msg[2], data.strip())
 		self.send_data( msg )
 		print("Sending: " + msg)
 		
 	## Send a PM to the user doing a command
 	def send_pm( self, data ):
-		msg = "PRIVMSG " + self.get_nick() + " :" +str(data)
+		msg = "PRIVMSG {0} :{1}".format(self.get_nick(), data.strip())
 		self.send_data( msg )
 		print("Sending PM: " + msg)
 
