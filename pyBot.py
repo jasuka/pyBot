@@ -82,7 +82,7 @@ class pyBot():
 			else:
 				return
 		except KeyError:
-			self.send_chan( "Unknown command: !" + cmd )
+			self.send_chan( "Unknown command: {0}!".format( cmd ))
 	
 	## Get nick
 	def get_nick( self ):
