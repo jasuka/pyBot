@@ -66,13 +66,13 @@ class pyBot():
 	def send_chan( self, data ):
 		msg = "PRIVMSG {0} :{1}".format(self.msg[2], data.strip())
 		self.send_data( msg )
-		print( "Sending: " + msg )
+		print( "Sending: {0}".format(msg) )
 		
 	## Send a PM to the user doing a command
 	def send_pm( self, data ):
 		msg = "PRIVMSG {0} :{1}".format(self.get_nick(), data.strip())
 		self.send_data( msg )
-		print( "Sending PM: " + msg )
+		print( "Sending PM: {0}".format(msg) )
 
 	## Parse commands function
 	def parse_command( self, cmd ):
