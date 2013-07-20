@@ -6,11 +6,15 @@ import os
 import re
 
 def logger_daemon ( self ):
+
+	irc_codes = ["001", "002", "003", "004", "005", "042", "251", "250", "252", "254", 
+				"255", "265", "266", "375", "372", "376"]
+
 	if os.path.exists(self.config["log-path"]) == True:
 	
 		if len(self.msg) >= 4:
 
-			if "353" in self.msg or "366" in self.msg or "412" in self.msg:
+			if self.msg[1] in irc_codes:
 				return
 			else:
 				brackets = self.config["TimestampBrackets"].split(",")
