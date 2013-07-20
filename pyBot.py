@@ -8,6 +8,7 @@ import sys
 import time
 import importlib
 import imp
+import os
 from threading import Thread
 
 sys.path.insert(0, './modules') ## Path for the modules
@@ -50,6 +51,16 @@ class pyBot():
 	## Join channel
 	def join_chan( self, chan ):
 		self.send_data("JOIN " + chan)
+
+	## Leave channel
+	def part_chan( self, chan ):
+		self.send_data("PART " + chan + " :See ya!")
+		
+	## Quit
+	def quit( self ):
+		self.send_data("QUIT :Bye Bye!")
+		self.s.close()
+		os._exit(1)
 		
 	## Send text to channel
 	def send_chan( self, data ):
@@ -220,8 +231,17 @@ class pyBot():
 				cmd = self.msg[3].rstrip("\r\n")
 				cmd = cmd.lstrip(":")
 				if cmd[0] == "!":
-					if cmd == "!reload":
-						self.reload( )
+					if "!reload" in cmd:
+						self.reload()
+					if "!join" in cmd:
+						if self.get_host() in self.config["opers"]:
+							self.join_chan(self.msg[4])
+					if "!part" in cmd:
+						if self.get_host() in self.config["opers"]:
+							self.part_chan(self.msg[4])
+					if "!quit" in cmd:
+						if self.get_host() in self.config["opers"]:
+							self.quit()	
 					else:
 						## Flood protection, add nick to the dictionary and raise the value by one every time he/she speaks
 						if self.get_nick() in flood:
@@ -257,15 +277,15 @@ class Flood:
 ## Run the bot and flood counter in own threads
 try:
 	bot = Thread(target=pyBot)
-	flood = Thread(target=Flood)
+	fld = Thread(target=Flood)
 
 	bot.daemon = True
 	bot.start()
-	flood.daemon = True
-	flood.start()
+	fld.daemon = True
+	fld.start()
 	while True: ## Keep the main thread alive
 		time.sleep(1)		
 except KeyboardInterrupt:
-	sys.exit(1)
+	os._exit(1)
 	print("Ctrl+C, Quitting!")
 
