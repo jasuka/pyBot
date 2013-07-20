@@ -38,7 +38,8 @@ class pyBot():
 			
 	## Send data function
 	def send_data( self, data ):
-		data += "\r\n"
+		## IRC Spec allows 512 chars in a msg including the \r\n
+		data = data[:510] + "\r\n"
 		self.s.sendall( data.encode("utf-8") ) 
 		print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ))
 			
