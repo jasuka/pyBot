@@ -228,8 +228,7 @@ class pyBot():
 					print("Logging disabled\r\n")
 						
 			try:
-				cmd = self.msg[3].rstrip("\r\n")
-				cmd = cmd.lstrip(":")
+				cmd = self.msg[3].rstrip("\r\n").lstrip(":")
 				if cmd[0] == "!":
 					if "!reload" in cmd:
 						self.reload()
