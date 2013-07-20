@@ -43,22 +43,22 @@ class pyBot():
 			## IRC Spec allows 512 chars in a msg including the \r\n
 			data = data[:510] + "\r\n"
 			self.s.sendall( data.encode("utf-8") ) 
-			print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ))
+			print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ) )
 		except Excetopn as e:
 			if self.config["debug"] == "true":
 				print(e)
 			
 	## Join channel
 	def join_chan( self, chan ):
-		self.send_data("JOIN {0}".format(chan.strip()))
+		self.send_data( "JOIN {0}".format(chan.strip()) )
 
 	## Leave channel
 	def part_chan( self, chan ):
-		self.send_data("PART {0} :See ya!".format(chan.strip()))
+		self.send_data( "PART {0} :See ya!".format(chan.strip()) )
 		
 	## Quit
 	def quit( self ):
-		self.send_data("QUIT :Bye Bye!")
+		self.send_data( "QUIT :Bye Bye!" )
 		self.s.close()
 		os._exit(1)
 		
@@ -66,13 +66,13 @@ class pyBot():
 	def send_chan( self, data ):
 		msg = "PRIVMSG {0} :{1}".format(self.msg[2], data.strip())
 		self.send_data( msg )
-		print("Sending: " + msg)
+		print( "Sending: " + msg )
 		
 	## Send a PM to the user doing a command
 	def send_pm( self, data ):
 		msg = "PRIVMSG {0} :{1}".format(self.get_nick(), data.strip())
 		self.send_data( msg )
-		print("Sending PM: " + msg)
+		print( "Sending PM: " + msg )
 
 	## Parse commands function
 	def parse_command( self, cmd ):
@@ -90,7 +90,7 @@ class pyBot():
 			nick = re.search(":(.*)!", self.msg[0]).group(1)
 			return(nick)
 		except AttributeError:
-			print("Not a nick\r\n")
+			print( "Not a nick\r\n" )
 	
 	## Get user host
 	def get_host( self ):
@@ -98,7 +98,7 @@ class pyBot():
 			host = self.msg[0].split("!")
 			return(host[1])
 		except:
-			print("Error getting host\r\n")
+			print( "Error getting host\r\n" )
 		
 	## Reload modules
 	def reload( self ):
@@ -106,27 +106,27 @@ class pyBot():
 			return
 		try:
 			if len(self.msg) == 4: ## no parameters
-				self.send_chan("Usage: !reload <module> or !reload all")
+				self.send_chan( "Usage: !reload <module> or !reload all" )
 			command = self.msg[4].rstrip("\r\n").strip()
 			if len(self.msg) == 5 and command == "all": ## Reload all user modules
 				imp.reload(config)
 				self.config = config.config
 				for mod in self.config["modules"].split(","):
-					print("Reloading module {0}".format(mod))
+					print( "Reloading module {0}".format(mod) )
 					imp.reload(globals()[mod])
 			if len(self.msg) == 5 and command == "sys": ## Reload all sys modules
 				imp.reload(config)
 				self.config = config.config
 				for mod in self.config["sysmodules"].split(","):
-					print("Reloading system module {0}".format(mod))
+					print( "Reloading system module {0}".format(mod) )
 					imp.reload(globals()[mod])
-				self.send_chan("All system modules reloaded!")
+				self.send_chan( "All system modules reloaded!" )
 			if len(self.msg) == 5 and command != "all" and command != "sys": ## Reload specified module, if it exists
 				if command in self.config["modules"]:
 					imp.reload(config)
 					self.config = config.config
 					imp.reload(globals()[command])
-					self.send_chan("{0} module reloaded!".format(command))
+					self.send_chan( "{0} module reloaded!".format(command) )
 				else:
 					self.send_chan("Unknown module: {0}".format(command))
 		except:
@@ -135,8 +135,8 @@ class pyBot():
 	## Main loop, connect etc.
 	def loop( self ):
 	
-		nick = "NICK " + self.config["nick"]
-		user = "USER " + self.config["ident"] + " " + self.config["host"] + " " + "pyTsunku :" + self.config["realname"]
+		nick = "NICK {0}".format(self.config["nick"])
+		user = "USER {0} {1} pyTsunku :{2}".format(self.config["ident"], self.config["host"], self.config["realname"])
 		
 		if self.config["ipv6"] == "true":
 			## ipv4/ipv6 support
@@ -147,14 +147,14 @@ class pyBot():
 				self.s.connect(sa)
 			except socket.error as msg:
 				s.close()
-				print("Could not open socket")
+				print( "Could not open socket" )
 		else:
 			try:
 				self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
 				self.s.connect(( self.config["host"], self.config["port"] )) 
 			except socket.error as msg:
 				s.close()
-				print("Could not open socket")
+				print( "Could not open socket" )
 		
 		## Send identification to the server
 		self.send_data( nick )
@@ -166,10 +166,10 @@ class pyBot():
 		
 		while connected == 1:
 			try:
-				data = self.s.recv(512).decode("utf-8", "ignore")
+				data = self.s.recv(512).decode( "utf-8", "ignore" )
 				if len(data) == 0:
 					connected == 0
-					print("Connection died, reconnecting\r\n");
+					print( "Connection died, reconnecting\r\n" );
 					time.sleep(5)
 					self.loop()
 			except ConnectionResetError as msg:
@@ -194,22 +194,22 @@ class pyBot():
 			
 			## PING PONG
 			if self.msg[0] == "PING":
-				self.send_data( "PONG " + self.msg[1] )
+				self.send_data( "PONG {0}".format(self.msg[1].strip()) )
 				
 			## Quakanet wants a pong reply on connect
 			if "quakenet" in self.config["host"]:
 				ping = data.split("\r\n")
 				pong = ping[1].split(" ")
 				if pong[0] == "PING":
-					self.send_data( "PONG " + pong[1].lstrip(":"))		
+					self.send_data( "PONG {0}".format(pong[1].lstrip(":")) )		
 						
 			## Check if nick is in use, try alternative, if still in use, generate random number to the end of the nick
 			try:
 				if "433" in self.msg:
 					if altnick is 0:
-						self.send_data( "NICK " + self.config["nick"] + str(random.randrange(1,10+1)) )
+						self.send_data( "NICK {0}{1}".format(self.config["nick"], str(random.randrange(1,10+1))) )
 					else:
-						self.send_data( "NICK " + self.config["altnick"] )
+						self.send_data( "NICK {0}".format(self.config["altnick"]) )
 						altnick = 0 #if unable to set altnick, set altnick false and try random nick
 						print("Alternative nick in use, switching into random nick\r\n")
 
@@ -223,9 +223,9 @@ class pyBot():
 					self.join_chan( chan )
 				if self.config["logging"] == True:
 					logger = 1
-					print("Logging enabled\r\n")
+					print( "Logging enabled\r\n" )
 				else:
-					print("Logging disabled\r\n")
+					print( "Logging disabled\r\n" )
 						
 			try:
 				cmd = self.msg[3].lstrip(":").rstrip("\r\n")
@@ -251,7 +251,7 @@ class pyBot():
 							cmd = cmd.lstrip("!") ## remove ! from the command before parsing it
 							self.parse_command( cmd )
 						else:
-							print("Flooding!")
+							print( "Flooding!" )
 			except IndexError:
 				pass ## No need to do anything
 			
@@ -286,5 +286,5 @@ try:
 		time.sleep(1)		
 except KeyboardInterrupt:
 	os._exit(1)
-	print("Ctrl+C, Quitting!")
+	print( "Ctrl+C, Quitting!" )
 
