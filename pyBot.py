@@ -66,13 +66,13 @@ class pyBot():
 	def send_chan( self, data ):
 		msg = "PRIVMSG {0} :{1}".format(self.msg[2], data.strip())
 		self.send_data( msg )
-		print( "Sending: {0}".format(msg) )
+		print( "Sending: {0}\r\n".format(msg) )
 		
 	## Send a PM to the user doing a command
 	def send_pm( self, data ):
 		msg = "PRIVMSG {0} :{1}".format(self.get_nick(), data.strip())
 		self.send_data( msg )
-		print( "Sending PM: {0}".format(msg) )
+		print( "Sending PM: {0}\r\n".format(msg) )
 
 	## Parse commands function
 	def parse_command( self, cmd ):
@@ -147,14 +147,14 @@ class pyBot():
 				self.s.connect(sa)
 			except socket.error as msg:
 				s.close()
-				print( "Could not open socket" )
+				print( "Could not open socket\r\n" )
 		else:
 			try:
 				self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
 				self.s.connect(( self.config["host"], self.config["port"] )) 
 			except socket.error as msg:
 				s.close()
-				print( "Could not open socket" )
+				print( "Could not open socket\r\n" )
 		
 		## Send identification to the server
 		self.send_data( nick )
@@ -251,7 +251,7 @@ class pyBot():
 							cmd = cmd.lstrip("!") ## remove ! from the command before parsing it
 							self.parse_command( cmd )
 						else:
-							print( "Flooding!" )
+							print( "Flooding!\r\n" )
 			except IndexError:
 				pass ## No need to do anything
 			
@@ -286,5 +286,5 @@ try:
 		time.sleep(1)		
 except KeyboardInterrupt:
 	os._exit(1)
-	print( "Ctrl+C, Quitting!" )
+	print( "Ctrl+C, Quitting!\r\n" )
 
