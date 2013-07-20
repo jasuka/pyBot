@@ -29,9 +29,9 @@ def seendb ( self ):
 					file.write(str)
 				return(True)
 		except FileNotFoundError:
+			open(seendb, "a").close()
 			if self.config["debug"] == "true":
 				print("Creating file")
-				open(seendb, "a").close()
 		except Exception as e:
 			if self.config["debug"] == "true":
 				print(e)
