@@ -117,7 +117,7 @@ class pyBot():
 		except:
 			raise
 	
-	## Main loop, connect etc.	
+	## Main loop, connect etc.
 	def loop( self ):
 	
 		nick = "NICK " + self.config["nick"]

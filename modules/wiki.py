@@ -24,8 +24,8 @@ def wiki(self):
 				soup = BeautifulSoup(html)
 				if len(soup.findAll("p", {"class" : "mw-search-nonefound"})) == 0:
 					data = soup.findAll("div", {"class" : "mw-search-result-heading"})
-					output = "{0} : http://{1}.wikipedia.org{2}".format(data[0].a.get('title'), lang, data[0].a.get('href'))
-					output += " | {0} : http://{1}.wikipedia.org{2}".format(data[1].a.get('title'), lang, data[1].a.get('href'))
+					output = "{0}: http://{1}.wikipedia.org{2}".format(data[0].a.get('title'), lang, data[0].a.get('href'))
+					output += " | {0}: http://{1}.wikipedia.org{2}".format(data[1].a.get('title'), lang, data[1].a.get('href'))
 					self.send_chan(output)
 				else:
 					self.send_chan("There were no results matching the query.")
