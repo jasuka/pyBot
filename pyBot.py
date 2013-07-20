@@ -232,13 +232,13 @@ class pyBot():
 				if cmd[0] == "!":
 					if "!reload" in cmd:
 						self.reload()
-					if "!join" in cmd:
+					elif "!join" in cmd:
 						if self.get_host() in self.config["opers"]:
 							self.join_chan(self.msg[4])
-					if "!part" in cmd:
+					elif "!part" in cmd:
 						if self.get_host() in self.config["opers"]:
 							self.part_chan(self.msg[4])
-					if "!quit" in cmd:
+					elif "!quit" in cmd:
 						if self.get_host() in self.config["opers"]:
 							self.quit()	
 					else:
