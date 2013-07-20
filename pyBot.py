@@ -38,10 +38,14 @@ class pyBot():
 			
 	## Send data function
 	def send_data( self, data ):
-		## IRC Spec allows 512 chars in a msg including the \r\n
-		data = data[:510] + "\r\n"
-		self.s.sendall( data.encode("utf-8") ) 
-		print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ))
+		try:
+			## IRC Spec allows 512 chars in a msg including the \r\n
+			data = data[:510] + "\r\n"
+			self.s.sendall( data.encode("utf-8") ) 
+			print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ))
+		except Excetopn as e:
+			if self.config["debug"] == "true":
+				print(e)
 			
 	## Join channel
 	def join_chan( self, chan ):
