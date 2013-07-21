@@ -4,9 +4,9 @@ import readline
 
 def stats( self ):
 	if self.config["logging"] == True:
-		if len(self.msg) >= 4:
+		if len(self.msg) >= 5:
 
-			chan = self.msg[2]
+			chan 	= self.msg[2]
 			logfile = self.config["log-path"]+chan+".log"
 
 			try:
@@ -16,10 +16,10 @@ def stats( self ):
 
 			else:	
 			
-				LookingNick = self.msg[4].rstrip("\r\n")
-				counter = 0
-				log = open(logfile, "r")
-				line = log.readlines()
+				LookingNick	= self.msg[4].rstrip("\r\n")
+				counter 	= 0
+				log 		= open(logfile, "r")
+				line 		= log.readlines()
 				log.close()
 
 				for x in line:
