@@ -23,13 +23,12 @@ def getHtml( self, url, useragent):
 def checkCity ( city ):
 
 	try:
-		line = ""
 		city = city.title().strip()
 		with open("modules/data/cities.txt", "r", encoding="UTF-8") as file:
-			for l in file:
-				line = l.strip()
-				if city == line:
-					return(True)
+			data = [x.strip() for x in file.readlines()]
+
+		if city in data:
+			return(True)
 	except IOError as e:
 		if self.config["debug"] == "true":
 			print(e)

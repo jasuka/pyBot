@@ -285,6 +285,6 @@ try:
 	while True: ## Keep the main thread alive
 		time.sleep(1)		
 except KeyboardInterrupt:
-	os._exit(1)
+	#os._exit(1)
 	print( "Ctrl+C, Quitting!\r\n" )
 
