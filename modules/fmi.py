@@ -17,14 +17,14 @@ def fmi( self ):
 			if len(self.msg) == 4:	## when called only with !fmi, see if the city is saved
 				city = getCity( self )
 				if city == None:
-					city = self.msg[4] 
+					city = self.msg[4]
 			else:
 				city = self.msg[4].strip() #With !fmi City
 		except IndexError:
 			self.send_chan( "Usage: !fmi <city> | !fmi set <city>" )
 			raise
 			
-		if "set" not in city and syscmd.checkCity( city ) == True: # We don't want to look for a city named "set"
+		if "set" not in city and syscmd.checkCity( city ): # We don't want to look for a city named "set"
 			
 			city = city.title().strip()
 			parameter = urllib.parse.quote(city)

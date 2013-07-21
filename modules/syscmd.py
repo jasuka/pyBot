@@ -24,7 +24,7 @@ def checkCity ( city ):
 
 	try:
 		line = ""
-		city = city.title()
+		city = city.title().strip()
 		with open("modules/data/cities.txt", "r", encoding="UTF-8") as file:
 			for l in file:
 				line = l.strip()
