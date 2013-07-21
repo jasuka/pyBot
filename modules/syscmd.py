@@ -15,6 +15,7 @@ def getHtml( self, url, useragent):
 		html = urllib.request.urlopen(req, timeout = 10).read()
 		return(html)
 	except Exception as e:
+		self.send_chan( "{0}".format(e) )
 		if self.config["debug"] == "true":
 			print(e)
 ## End
