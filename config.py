@@ -12,7 +12,7 @@ config = {		#[SERVER]			[Modify the right side only]
 			"altnick": 			"pyTunkio", 
 			"realname":			"pyTsunku", 
 			"ident":			"pyTsunku", 
-			"version":			"pyBot version 0.2.6", 
+			"version":			"pyBot version 0.3.0", 
 			"chans":			"#tsunku",
 
 			#[OPERS]
@@ -22,7 +22,7 @@ config = {		#[SERVER]			[Modify the right side only]
 			#[MODULES]
 			#Modules & System modules, you better not touch system modules
 			"sysmodules":			"syscmd,logger_daemon,title,seendb", #Do not touch this line!!
-			"modules":			"cmd,clock,op,version,fmi,currency,youtube,stats,wiki",
+			"modules":			"cmd,clock,op,version,fmi,currency,youtube,stats,wiki,seen",
 
 			#[LOGGING DAEMON]
 			#Loggin			
