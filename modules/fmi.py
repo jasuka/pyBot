@@ -75,7 +75,7 @@ def getCity ( self ):
 				if nick in line:
 					city = line.split(":")
 					return(city[1])
-	except FileNotFoundError: ## Create an empty fmi_nicks.txt if it doesn't exist
+	except (OSError, IOError): ## Create an empty fmi_nicks.txt if it doesn't exist
 		open(file, 'a').close()
 
 ## Save user city					
