@@ -72,7 +72,7 @@ def getCity ( self ):
 	try:
 		with open(file, "r", encoding="UTF-8") as f:
 			for line in f:
-				if re.search("\\b"+nick+"\\b", line, flags=re.IGNORECASE):
+				if re.search("\\b"+nick+":\\b", line, flags=re.IGNORECASE):
 					city = line.split(":")
 					return(city[1])
 	except (OSError, IOError): ## Create an empty fmi_nicks.txt if it doesn't exist
@@ -89,7 +89,7 @@ def setCity ( self, city ):
 	## with the new city. We write the whole new file to temp.txt and then move it back to fmi_nicks.txt
 	try:
 		#f = open(file)
-		if re.search("\\b"+nick+"\\b", open(file).read(), flags=re.IGNORECASE):
+		if re.search("\\b"+nick+":\\b", open(file).read(), flags=re.IGNORECASE):
 			with open("modules/data/temp.txt", "w", encoding="UTF-8") as temp:
 				for line in open(file):				
 					str = "{0}:{1}".format(nick,city)
