@@ -29,23 +29,30 @@ def seen ( self ):
 							past = datetime.datetime.fromtimestamp(int(dbtime))
 							current = datetime.datetime.fromtimestamp(int(time.time()))
 							diff = dateutil.relativedelta.relativedelta(current, past)
+							output = ""
 							if diff.hours == False:
-								hours = ""
+								#empty... ideas?
 							else:
 								hours = str(diff.hours)+" hours "
+								output += hours
+
 							if diff.minutes == False:
-								minutes = ""
+								#empty... ideas?
 							else:
 								minutes = str(diff.minutes)+" minutes "
+								output += minutes
+
 							if diff.seconds == False:
 								seconds = "0 seconds "
+								output += seconds
 							else:
 								seconds = str(diff.seconds)+" seconds "
+								output += seconds
 							nick_in_line = 1
 							
 				if nick_in_line == 1:
 					self.send_chan(name+" spoke last time: "+dbconvert+
-						" which is exactly "+hours+minutes+seconds+"ago.")
+						" which is exactly "+output+"ago.")
 				else:
 					self.send_chan("I have never logged "+nick+" while being on any channel")
 
