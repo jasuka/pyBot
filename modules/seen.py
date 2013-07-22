@@ -31,13 +31,13 @@ def seen ( self ):
 							diff = dateutil.relativedelta.relativedelta(current, past)
 							output = ""
 							if diff.hours == False:
-								#empty... ideas?
+								hours = "" #empty... ideas?
 							else:
 								hours = str(diff.hours)+" hours "
 								output += hours
 
 							if diff.minutes == False:
-								#empty... ideas?
+								minutes == ""
 							else:
 								minutes = str(diff.minutes)+" minutes "
 								output += minutes
