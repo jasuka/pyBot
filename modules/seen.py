@@ -17,31 +17,33 @@ def seen ( self ):
 			else:
 				nick 		= self.msg[4].rstrip("\r\n")
 				nick_in_line 	= 0
-				
-				with open(seendb, "r", encoding="UTF-8") as db:
-					for line in db:
-						if re.search("\\b"+nick+":\\b", line, flags=re.IGNORECASE):
-							nick_in_line = 1
-							spl = line.split(":")
-							name = spl[0]
-							dbtime = spl[1].rstrip("\r\n")
-							dbconvert = datetime.datetime.fromtimestamp(int(dbtime)).strftime('[%d.%m.%Y // %H:%M:%S]')
-							past = datetime.datetime.fromtimestamp(int(dbtime))
-							current = datetime.datetime.fromtimestamp(int(time.time()))
-							diff = dateutil.relativedelta.relativedelta(current, past)
-							output = ""
+				if self.get_nick() != nick:
+					with open(seendb, "r", encoding="UTF-8") as db:
+						for line in db:
+							if re.search("\\b"+nick+":\\b", line, flags=re.IGNORECASE):
+								nick_in_line = 1
+								spl = line.split(":")
+								name = spl[0]
+								dbtime = spl[1].rstrip("\r\n")
+								dbconvert = datetime.datetime.fromtimestamp(int(dbtime)).strftime('[%d.%m.%Y // %H:%M:%S]')
+								past = datetime.datetime.fromtimestamp(int(dbtime))
+								current = datetime.datetime.fromtimestamp(int(time.time()))
+								diff = dateutil.relativedelta.relativedelta(current, past)
+								output = ""
 							
-							if diff.hours:
-								output += " {0} hours".format(diff.hours)
-							if diff.minutes:
-								output += " {0} minutes".format(diff.minutes)
-							if diff.seconds:
-								output += " {0} seconds".format(diff.seconds)
-							self.send_chan(name+" spoke last time: "+dbconvert+
-											" which is exactly"+output+" ago.")
+								if diff.hours:
+									output += " {0} hours".format(diff.hours)
+								if diff.minutes:
+									output += " {0} minutes".format(diff.minutes)
+								if diff.seconds:
+									output += " {0} seconds".format(diff.seconds)
+								self.send_chan(name+" spoke last time: "+dbconvert+
+												" which is exactly"+output+" ago.")
 							
-				if nick_in_line == 0:
-					self.send_chan("I have never logged "+nick+" while being on any channel")
+					if nick_in_line == 0:
+						self.send_chan("I have never logged "+nick+" while being on any channel")
+				else:
+					self.send_chan("Hah, nice try!")
 
 		else:
 			self.send_chan("Usage: !seen <nick>")
