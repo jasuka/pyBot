@@ -11,9 +11,12 @@ def title ( self, url ):
 	
 	if valid == None:
 		req = urllib.request.Request(url, None)
-		html = syscmd.getHtml( self, url, True )
+		html = syscmd.getHtml( self, url, False )
 		try:
-			soup = BeautifulSoup(html, "html5lib")
+			try:
+				soup = BeautifulSoup(html, "lxml")
+			except:
+				soup = BeautifulSoup(html, "html5lib")
 			title = soup.title.string
 			title = re.sub("\n", "", title).strip()
 			self.send_chan( "~ " + title )
