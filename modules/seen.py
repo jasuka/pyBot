@@ -18,10 +18,10 @@ def seen ( self ):
 				nick 		= self.msg[4].rstrip("\r\n")
 				nick_in_line 	= 0
 				
-				
 				with open(seendb, "r", encoding="UTF-8") as db:
 					for line in db:
 						if re.search("\\b"+nick+":\\b", line, flags=re.IGNORECASE):
+							nick_in_line = 1
 							spl = line.split(":")
 							name = spl[0]
 							dbtime = spl[1].rstrip("\r\n")
@@ -30,33 +30,17 @@ def seen ( self ):
 							current = datetime.datetime.fromtimestamp(int(time.time()))
 							diff = dateutil.relativedelta.relativedelta(current, past)
 							output = ""
-							hours = ""
-							minutes = ""
-							seconds = ""
-							if diff.hours == False:
-								hours = "" #empty... ideas?
-							else:
-								hours = str(diff.hours)+" hours "
-								output += hours
-
-							if diff.minutes == False:
-								minutes == ""
-							else:
-								minutes = str(diff.minutes)+" minutes "
-								output += minutes
-
-							if diff.seconds == False:
-								seconds = "0 seconds "
-								output += seconds
-							else:
-								seconds = str(diff.seconds)+" seconds "
-								output += seconds
-							nick_in_line = 1
 							
-				if nick_in_line == 1:
-					self.send_chan(name+" spoke last time: "+dbconvert+
-						" which is exactly "+output+"ago.")
-				else:
+							if diff.hours:
+								output += " {0} hours".format(diff.hours)
+							if diff.minutes:
+								output += " {0} minutes".format(diff.minutes)
+							if diff.seconds:
+								output += " {0} seconds".format(diff.seconds)
+							self.send_chan(name+" spoke last time: "+dbconvert+
+											" which is exactly"+output+" ago.")
+							
+				if nick_in_line == 0:
 					self.send_chan("I have never logged "+nick+" while being on any channel")
 
 		else:
