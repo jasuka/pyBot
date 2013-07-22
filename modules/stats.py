@@ -3,7 +3,7 @@
 import readline
 
 def stats( self ):
-	if self.config["logging"] == True:
+	if self.config["logging"] == True:	#Logging must be enabled from config to run this module
 		if len(self.msg) >= 5:
 
 			chan 	= self.msg[2]
@@ -16,10 +16,10 @@ def stats( self ):
 
 			else:	
 			
-				LookingNick	= self.msg[4].rstrip("\r\n")
-				counter 	= 0
-				log 		= open(logfile, "r")
-				line 		= log.readlines()
+				LookingNick = self.msg[4].rstrip("\r\n")
+				counter = 0
+				log = open(logfile, "r")
+				line = log.readlines()
 				log.close()
 
 				for x in line:
@@ -28,13 +28,13 @@ def stats( self ):
 						counter += 1
 			
 				if counter is not 0:
-					self.send_chan(LookingNick + " has written " + str(counter) + " lines on this channel ("+ chan +")")
+					self.send_chan(LookingNick + " has written "+str(counter)+" lines on this channel ("+chan+")")
 				else:
-					self.send_chan("I don't remember seeing "+ LookingNick +" on this channel before ("+ chan +")")
+					self.send_chan("I don't remember seeing "+LookingNick+" on this channel before ("+chan+")")
 		
 				return
 		else:
-			self.send_chan("Usage: !stats <nick>")
+			self.send_chan("Usage: !stats <nick>")	#if not enough parameters, give away the usage
 	else:
 		self.send_chan("First enable logging from config to use this module")
 		

@@ -10,7 +10,7 @@ def logger_daemon ( self ):
 	irc_codes = ["001", "002", "003", "004", "005", "042", "251", "250", "252", "254", 
 				"255", "265", "266", "375", "372", "376", "433"]
 
-	if os.path.exists(self.config["log-path"]) == True:
+	if os.path.exists(self.config["log-path"]) == True:	#Checking if log-path in config is valid and exists
 	
 		if len(self.msg) >= 4:
 
@@ -26,7 +26,7 @@ def logger_daemon ( self ):
 
 				if chan[0] == "#":
 					log = self.config["log-path"]+chan+".log"
-					logline = brackets[0]+strftime(self.config["timeformat"])+brackets[1] + " " + self.get_nick() + " @ " + chan + " " + usertxt
+					logline = brackets[0]+strftime(self.config["timeformat"])+brackets[1]+" "+self.get_nick()+" @ "+chan+" "+usertxt
 
 					with open(log, "a") as log:
 						log.write(logline)
@@ -35,7 +35,7 @@ def logger_daemon ( self ):
 
 	else:
 		try:
-			if self.config["debug"] == "true":
+			if self.config["debug"] == "true": #If the path set in config doesn't exist, create one
 				print("Cannot find existing folder for logs, creating: "+self.config["log-path"])
 			os.mkdir(self.config["log-path"])
 		except Exception as e:
