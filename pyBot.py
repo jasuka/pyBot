@@ -73,6 +73,12 @@ class pyBot():
 		msg = "PRIVMSG {0} :{1}".format(self.get_nick(), data.strip())
 		self.send_data( msg )
 		print( "Sending PM: {0}\r\n".format(msg) )
+		
+	## Send a NOTICE to the user doing a command
+	def send_notice( self, data ):
+		msg = "NOTICE {0} :{1}".format(self.get_nick(), data.strip())
+		self.send_data( msg )
+		print( "Sending NOTICE: {0}\r\n".format(msg) )
 
 	## Parse commands function
 	def parse_command( self, cmd ):
@@ -230,15 +236,15 @@ class pyBot():
 			try:
 				cmd = self.msg[3].lstrip(":").rstrip("\r\n")
 				if cmd[0] == "!":
-					if "!reload" in cmd:
+					if cmd == "!reload":
 						self.reload()
-					elif "!join" in cmd:
+					elif cmd == "!join":
 						if self.get_host() in self.config["opers"]:
 							self.join_chan(self.msg[4])
-					elif "!part" in cmd:
+					elif cmd == "!part":
 						if self.get_host() in self.config["opers"]:
 							self.part_chan(self.msg[4])
-					elif "!quit" in cmd:
+					elif cmd == "!quit":
 						if self.get_host() in self.config["opers"]:
 							self.quit()	
 					else:

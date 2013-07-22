@@ -11,7 +11,7 @@ def fmi( self ):
 		if "set" in self.msg:
 			city = self.msg[5]
 			setCity( self, city )
-			self.send_pm( "Your city {0} has been saved!".format(city.title().strip()))
+			self.send_notice( "Your city {0} has been saved!".format(city.title().strip()))
 	else:
 		try:
 			if len(self.msg) == 4:	## when called only with !fmi, see if the city is saved
