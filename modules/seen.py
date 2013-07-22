@@ -14,22 +14,27 @@ def seen ( self ):
 					print(e)
 			else:
 				nick 		= self.msg[4].rstrip("\r\n")
-				nickInline 	= 0
-				with open(seendb, "r", encoding="UTF-8") as db:
-					for line in db:
-						if nick in line:
-							spl 		= line.split(";")
-							name 		= spl[0]
-							dbtime 		= spl[1].rstrip("\r\n")
-							dbconvert 	= datetime.datetime.fromtimestamp(int(dbtime)).strftime('[%d.%m.%Y] %H:%M:%S')
-							timediff 	= int(time.time()) - int(dbtime)
-							hours 		= datetime.datetime.fromtimestamp(int(timediff)).strftime('%H')
-							minutes 	= datetime.datetime.fromtimestamp(int(timediff)).strftime('%M')
-							seconds 	= datetime.datetime.fromtimestamp(int(timediff)).strftime('%S')
-							nickInline	= 1
-				if nickInline == 1:
-					self.send_chan(name+" spoke last time: "+dbconvert+
-								" which is exactly "+hours+" hours "+minutes+" minutes "+seconds+" seconds ago.")
+				nick_in_line 	= 0
+				
+				if nick in open(seendb, "r").read():
+					with open(seendb, "r", encoding="UTF-8") as db:
+						for line in db:
+							if re.search("\\b"+nick+":\\b", line, flags=re.IGNORECASE):
+								spl 		= line.split(":")
+								name 		= spl[0]
+								dbtime 		= spl[1].rstrip("\r\n")
+								dbconvert 	= datetime.datetime.fromtimestamp(int(dbtime)).strftime('[%d.%m.%Y] %H:%M:%S')
+								timediff 	= int(time.time()) - int(dbtime)
+								hours 		= datetime.datetime.fromtimestamp(int(timediff)).strftime('%H')
+								minutes 	= datetime.datetime.fromtimestamp(int(timediff)).strftime('%M')
+								seconds 	= datetime.datetime.fromtimestamp(int(timediff)).strftime('%S')
+								nick_in_line	= 1
+							
+					if nick_in_line == 1:
+						self.send_chan(name+" spoke last time: "+dbconvert+
+							" which is exactly "+hours+" hours "+minutes+" minutes "+seconds+" seconds ago.")
+					else:
+						self.send_chan("I have never logged "+nick+" while being on any channel")
 				else:
 					self.send_chan("I have never logged "+nick+" while being on any channel")
 		else:
