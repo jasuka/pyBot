@@ -14,8 +14,8 @@ def getHtml( self, url, useragent):
 			
 		html = urllib.request.urlopen(req, timeout = 10).read()
 		return(html)
-	except HTTPError:
-		self.send_chan( "{0}".format(e) )
+	except urllib.error.URLError as e:
+		self.send_chan( "~ {0}".format(e.reason) )
 	except Exception as e:
 		if self.config["debug"] == "true":
 			print(e)

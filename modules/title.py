@@ -11,7 +11,7 @@ def title ( self, url ):
 	
 	if valid == None:
 		req = urllib.request.Request(url, None)
-		html = syscmd.getHtml( self, url, False )
+		html = syscmd.getHtml( self, url, True )
 		try:
 			soup = BeautifulSoup(html, "html5lib")
 			title = soup.title.string
