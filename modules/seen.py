@@ -30,6 +30,9 @@ def seen ( self ):
 							current = datetime.datetime.fromtimestamp(int(time.time()))
 							diff = dateutil.relativedelta.relativedelta(current, past)
 							output = ""
+							hours = ""
+							minutes = ""
+							seconds = ""
 							if diff.hours == False:
 								hours = "" #empty... ideas?
 							else:
