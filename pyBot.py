@@ -178,7 +178,7 @@ class pyBot():
 					print( "Connection died, reconnecting\r\n" );
 					time.sleep(5)
 					self.loop()
-			except ConnectionResetError as msg:
+			except Exception as e:
 				connected == 0
 				if "ERROR :Trying to reconnect too fast." in data: ## Sleep 15 secs if reconnecting too fast
 					time.sleep(15)
