@@ -1,5 +1,6 @@
 import urllib.parse
 import syscmd
+import random
 from bs4 import BeautifulSoup
 
 def ylilauta(self):
@@ -17,7 +18,8 @@ def ylilauta(self):
 			except:
 				soup = BeautifulSoup(html, "html5lib")
 			data = soup.findAll("span", {"class" : "postsubject"})
-			string = "{0}: {1}".format(data[0].a.string, data[0].a.get('href'))
+			x = random.randrange(0,len(data))
+			string = "{0}: {1}".format(data[x].a.string, data[x].a.get('href'))
 			self.send_chan(string)
 		except Exception as e:
 			if self.config["debug"] == "true":
