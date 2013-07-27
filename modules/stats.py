@@ -9,7 +9,7 @@ def stats( self ):
 
 				chan 	= self.msg[2]
 				logfile = self.config["log-path"]+chan+".log"
-				looking = self.msg[4].strip().rstrip("\r\n")
+				looking = self.msg[4].rstrip("\r\n")
 			
 	
 				try:
@@ -27,15 +27,16 @@ def stats( self ):
 
 					for x in line:
 						line2 = x.split(" ")
-						logNick = line2[2].rstrip("\r\n").strip()
+						logNick = line2[1].strip()
+
+						if looking == logNick:
+							nick_counter += 1
+							print(logNick)
 						
 						if looking in line2:
-							if looking != logNick:
-								word_counter += 1
-								print(line2)
-						elif looking == logNick:
-							nick_counter += 1
-
+							#if looking != logNick:
+							word_counter += 1
+					
 					if nick_counter is not 0:
 						self.send_chan(looking+" has written '"+str(nick_counter)+"' lines on this channel ("+chan+")")
 					elif word_counter is not 0:
