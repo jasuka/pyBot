@@ -17,8 +17,8 @@ def title ( self, url ):
 				soup = BeautifulSoup(html, "lxml")
 			except:
 				soup = BeautifulSoup(html, "html5lib")
-			else:
-				soup = BeautifulSoup(html, "html.parser")
+			#else:
+			#	soup = BeautifulSoup(html, "html.parser")
 			title = soup.title.string
 			title = re.sub("\n", "", title).strip()
 			self.send_chan( "~ " + title )

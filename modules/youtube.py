@@ -26,8 +26,8 @@ def youtube(self):
 				soup = BeautifulSoup(html, "lxml")
 			except:
 				soup = BeautifulSoup(html, "html5lib")
-			else:
-				soup = BeautifulSoup(html, "html.parser")
+			#else:
+			#	soup = BeautifulSoup(html, "html.parser")
 			## Get the first two urls, note to self: optimize the code if you can think how ;)
 			for x in soup.findAll("a", {"class" : "yt-uix-tile-link"})[0:2]:
 				href = x.get('href')
