@@ -56,9 +56,9 @@ def fmi( self ):
 
 				output = city.strip() + " klo " + time + ": " + trimmed	
 				self.send_chan( output )
-			except:
+			except Except as e:
 				if self.config["debug"] == "true":
-					print("Parsing the html failed for some reason")
+					print(e)
 		else:
 			self.send_chan( "City {0} doesn't exist!".format(city.title().strip()) )
 			
