@@ -12,7 +12,7 @@ def getHtml( self, url, useragent):
 		else:
 			req = urllib.request.Request(url, None)
 			
-		html = urllib.request.urlopen(req, timeout = 10).read()
+		html = urllib.request.urlopen(req, timeout = 20).read()
 		return(html)
 	except urllib.error.URLError as e:
 		self.send_chan( "~ {0}".format(e.reason) )
