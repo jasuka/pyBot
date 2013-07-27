@@ -22,11 +22,11 @@ def logger_daemon ( self ):
 				chan = self.msg[2]
 
 				for i in range(3, len(self.msg)):
-					usertxt += self.msg[i] +" "
+					usertxt += self.msg[i]+" "
 
 				if chan[0] == "#":
 					log = self.config["log-path"]+chan+".log"
-					logline = brackets[0]+strftime(self.config["timeformat"])+brackets[1]+" "+self.get_nick()+" @ "+chan+" "+usertxt
+					logline = brackets[0]+strftime(self.config["timeformat"])+brackets[1]+" "+self.get_nick()+" @ "+chan+" "+usertxt.rstrip(" ")
 
 					with open(log, "a") as log:
 						log.write(logline)
