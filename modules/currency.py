@@ -40,7 +40,7 @@ def currency( self ):
 			result = "{0}".format(result[0])
 			trimmed = re.sub('<[^<]+?>', '', result)
 			self.send_chan(trimmed)		
-		except:
+		except Exception as e:
 			if self.config["debug"] == "true":
-				print("Parsing the html failed for some reason")
+				print(e)
 		

@@ -11,7 +11,7 @@ def title ( self, url ):
 	
 	if valid == None:
 		req = urllib.request.Request(url, None)
-		html = syscmd.getHtml( self, url, False )
+		html = syscmd.getHtml( self, url, True )
 		try:
 			try:
 				soup = BeautifulSoup(html, "lxml")
@@ -22,6 +22,6 @@ def title ( self, url ):
 			title = soup.title.string
 			title = re.sub("\n", "", title).strip()
 			self.send_chan( "~ " + title )
-		except:
+		except Exception as e:
 			if self.config["debug"] == "true":
-				print("Parsing the html failed for some reason")
+				print(e)

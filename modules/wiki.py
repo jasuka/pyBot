@@ -29,9 +29,9 @@ def wiki(self):
 					self.send_chan(output)
 				else:
 					self.send_chan("There were no results matching the query.")
-			except:
+			except Exception as e:
 				if self.config["debug"] == "true":
-						print("Parsing the html failed for some reason")
+						print(e)
 		else:
 			self.send_chan("Usage: !wiki <lang> <search term> - e.g. !wiki en finland")
 	else:
