@@ -29,7 +29,7 @@ def youtube(self):
 			#else:
 			#	soup = BeautifulSoup(html, "html.parser")
 			## Get the first two urls, note to self: optimize the code if you can think how ;)
-			for x in soup.findAll("a", {"class" : "yt-uix-tile-link"})[0:2]:
+			for x in soup.findAll("a", {"class" : "yt-uix-tile-link"})[0:1]:
 				href = x.get('href')
 				href = href[-11:]
 				urls += "{1}: http://youtube.com/watch?v={0} | ".format(href, x.get('title'))
