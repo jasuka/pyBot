@@ -33,8 +33,8 @@ def seen ( self ):
 
 								if diff.years:
 									output += " {0} year(s)".format(diff.years)
-								if diff.weeks:
-									output += " {0} week(s)".format(diff.weeks)
+								if diff.months:
+									output += " {0} week(s)".format(diff.months)
 								if diff.days:
 									output += " {0} day(s)".format(diff.days)
 								if diff.hours:
