@@ -26,7 +26,7 @@ def logger_daemon ( self ):
 
 				if chan[0] == "#":
 					log = self.config["log-path"]+chan+".log"
-					logline = brackets[0]+strftime(self.config["timeformat"])+brackets[1]+" "+self.get_nick()+" @ "+chan+" >> "+usertxt.rstrip(" ").lstrip(":")
+					logline = "{0}{1}{2} {3} @ {4} >> {5}".format(brackets[0], strftime(self.config["timeformat"]), brackets[1], self.get_nick(), chan, usertxt.rstrip(" ")[1:])
 
 					with open(log, "a") as log:
 						log.write(logline)
@@ -36,7 +36,7 @@ def logger_daemon ( self ):
 	else:
 		try:
 			if self.config["debug"] == "true": #If the path set in config doesn't exist, create one
-				print("Cannot find existing folder for logs, creating: "+self.config["log-path"])
+				print("Cannot find existing folder for logs, creating: {0}".format(self.config["log-path"]))
 			os.mkdir(self.config["log-path"])
 		except Exception as e:
 			if self.config["debug"] == "true":

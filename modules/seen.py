@@ -15,8 +15,8 @@ def seen ( self ):
 				if self.config["debug"] == "true":
 					print(e)
 			else:
-				nick 		= self.msg[4].rstrip("\r\n")
-				nick_in_line 	= 0
+				nick = self.msg[4].rstrip("\r\n")
+				nick_in_line = 0
 				if self.get_nick() != nick:
 					with open(seendb, "r", encoding="UTF-8") as db:
 						for line in db:
@@ -43,7 +43,7 @@ def seen ( self ):
 												" which is exactly"+output+" ago.")
 							
 					if nick_in_line == 0:
-						self.send_chan("I have never logged "+nick+" while being on any channel")
+						self.send_chan("I have never logged {0} while being on any channel".format(nick))
 				else:
 					self.send_chan("Hah, nice try!")
 

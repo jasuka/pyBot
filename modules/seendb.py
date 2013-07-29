@@ -1,3 +1,4 @@
+#seendb version 1
 import re, time, os
 def seendb ( self ):
 	

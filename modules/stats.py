@@ -10,15 +10,13 @@ def stats( self ):
 				chan 	= self.msg[2]
 				logfile = self.config["log-path"]+chan+".log"
 				looking = self.msg[4].rstrip("\r\n")
-			
-	
+
 				try:
 					with open(logfile): pass	#trying if such logfile exists or not
 				except IOError:				#But yet i dont know, if this is a useless checkup
 					self.send_chan("I think i have not been loggin on that channel yet")
 
 				else:
-				
 					log = open(logfile, "r")
 					line = log.readlines()
 					log.close()
@@ -26,7 +24,6 @@ def stats( self ):
 					word_counter = 0
 
 					for x in range(0, len(line)):
-
 						line2 = line[x].strip().split(" ")
 						logNick = line2[1].strip()
 						
