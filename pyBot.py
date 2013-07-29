@@ -141,6 +141,19 @@ class pyBot():
 		except:
 			raise
 	
+	## Restart the bot 
+	def restart ( self ):
+		if self.get_host() not in self.config["opers"]:
+			return
+		try:
+			python = sys.executable
+			self.send_data( "QUIT :Restarting!" )
+			self.s.close()
+			os.execl(python, python, * sys.argv)
+		except Exception as e:
+			if self.config["debug"] == "true":
+				print(e)
+
 	## Main loop, connect etc.
 	def loop( self ):
 	
@@ -184,7 +197,7 @@ class pyBot():
 			except Exception as e:
 				connected == 0
 				if "ERROR :Trying to reconnect too fast." in data: ## Sleep 15 secs if reconnecting too fast
-					time.sleep(15)
+					time.sleep(20)
 				else:
 					time.sleep(5)
 					self.loop()
@@ -249,7 +262,9 @@ class pyBot():
 							self.part_chan(self.msg[4])
 					elif cmd == "!quit":
 						if self.get_host() in self.config["opers"]:
-							self.quit()	
+							self.quit()
+					elif cmd == "!restart":
+						self.restart()
 					else:
 						## Flood protection, add nick to the dictionary and raise the value by one every time he/she speaks
 						if self.get_nick() in flood:
