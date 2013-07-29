@@ -238,7 +238,7 @@ class pyBot():
 						
 			try:
 				cmd = self.msg[3].lstrip(":").rstrip("\r\n")
-				if cmd[0] == "!":
+				if cmd[0] == "!" and len(cmd) > 1:
 					if cmd == "!reload":
 						self.reload()
 					elif cmd == "!join":
