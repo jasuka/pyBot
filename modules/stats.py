@@ -38,12 +38,12 @@ def stats( self ):
 								word_counter += 1
 					
 					if nick_counter is not 0:
-						self.send_chan(looking+" has written '"+str(nick_counter)+"' lines on this channel ("+chan+")")
+						self.send_chan("{0} has written '{1}' lines on this channel ({2})".format(looking, nick_counter, chan))
 					elif word_counter is not 0:
 						word_counter -= 1
-						self.send_chan(looking+" is mentioned on '"+str(word_counter)+"' lines on this channel ("+chan+")")
+						self.send_chan("{0} is mentioned on '{1}' lines on this channel ({2})".format(looking, word_counter, chan))
 					else:
-						self.send_chan("I don't remember seeing '"+looking+"' on this channel before ("+chan+")")
+						self.send_chan("I don't remember seeing '{0}' on this channel before ({1})".format(looking, chan))
 			else:
 				self.send_chan("Received a whitespace as a search string, aborting") #if searching whitespaces, give an error
 		else:
