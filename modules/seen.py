@@ -31,14 +31,19 @@ def seen ( self ):
 								diff = dateutil.relativedelta.relativedelta(current, past)
 								output = ""
 
+								if diff.years:
+									output += " {0} year(s)".format(diff.years)
+								if diff.weeks:
+									output += " {0} week(s)".format(diff.weeks)
 								if diff.days:
-									output += " {0} days".format(diff.days)
+									output += " {0} day(s)".format(diff.days)
 								if diff.hours:
-									output += " {0} hours".format(diff.hours)
+									output += " {0} hour(s)".format(diff.hours)
 								if diff.minutes:
-									output += " {0} minutes".format(diff.minutes)
+									output += " {0} minute(s)".format(diff.minutes)
 								if diff.seconds:
 									output += " {0} seconds".format(diff.seconds)
+
 								self.send_chan("{0} spoke last time: {1} which is exactly {2} ago.".format(name, dbconvert, output))
 							
 					if nick_in_line == 0:
