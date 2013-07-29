@@ -27,8 +27,7 @@ def stats( self ):
 
 					for x in range(0, len(line)):
 
-						linex = line[x].strip()
-						line2 = linex.split(" ")
+						line2 = line[x].strip().split(" ")
 						logNick = line2[1].strip()
 						
 						if looking == logNick:
@@ -41,6 +40,7 @@ def stats( self ):
 					if nick_counter is not 0:
 						self.send_chan(looking+" has written '"+str(nick_counter)+"' lines on this channel ("+chan+")")
 					elif word_counter is not 0:
+						word_counter -= 1
 						self.send_chan(looking+" is mentioned on '"+str(word_counter)+"' lines on this channel ("+chan+")")
 					else:
 						self.send_chan("I don't remember seeing '"+looking+"' on this channel before ("+chan+")")
