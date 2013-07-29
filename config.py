@@ -12,7 +12,7 @@ config = {		#[SERVER]			[Modify the right side only]
 			"altnick": 			"pyTunkio", 
 			"realname":			"pyTsunku", 
 			"ident":			"pyTsunku", 
-			"version":			"pyBot version 0.3.3", 
+			"version":			"pyBot version 0.3.5", 
 			"chans":			"#tsunku",
 
 			#[OPERS]
