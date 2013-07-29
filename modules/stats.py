@@ -1,11 +1,11 @@
 
-##Simple stats version 1
+##Simple stats version 2
 import readline
 
 def stats( self ):
 	if self.config["logging"] == True:	#Logging must be enabled from config to run this module
-		if self.msg[4].strip():
-			if len(self.msg) >= 5:
+		if len(self.msg) >= 5:		#if no atributes, give the usage.
+			if self.msg[4].strip():	#prevent searching whitespaces
 
 				chan 	= self.msg[2]
 				logfile = self.config["log-path"]+chan+".log"
@@ -45,9 +45,9 @@ def stats( self ):
 					else:
 						self.send_chan("I don't remember seeing '"+looking+"' on this channel before ("+chan+")")
 			else:
-				self.send_chan("Usage: !stats <nick> or !stats <word>")	#if not enough parameters, give away the usage
+				self.send_chan("Received a whitespace as a search string, aborting") #if searching whitespaces, give an error
 		else:
-			self.send_chan("Received a whitespace as a search string, aborting")
+			self.send_chan("Usage: !stats <nick> or !stats <word>")	#if not enough parameters, give away the usage
 	else:
 		self.send_chan("First enable logging from config to use this module")
 		
