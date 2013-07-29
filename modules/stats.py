@@ -25,17 +25,18 @@ def stats( self ):
 					nick_counter = 0
 					word_counter = 0
 
-					for x in line:
-						line2 = x.split(" ")
-						logNick = line2[1].strip()
+					for x in range(0, len(line)):
 
+						linex = line[x].strip()
+						line2 = linex.split(" ")
+						logNick = line2[1].strip()
+						
 						if looking == logNick:
 							nick_counter += 1
-							print(logNick)
 						
-						if looking in line2:
-							#if looking != logNick:
-							word_counter += 1
+						else:
+							if looking in line2:
+								word_counter += 1
 					
 					if nick_counter is not 0:
 						self.send_chan(looking+" has written '"+str(nick_counter)+"' lines on this channel ("+chan+")")
