@@ -54,7 +54,7 @@ def fmi( self ):
 				## Remove the Html tags	
 				trimmed = syscmd.delHtml(text)
 
-				output = city.strip() + " klo " + time + ": " + trimmed	
+				output = "{0} klo {1}: {2}".format(city.strip(), time, trimmed)
 				self.send_chan( output )
 			except Except as e:
 				if self.config["debug"] == "true":
