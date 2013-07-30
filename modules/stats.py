@@ -16,7 +16,7 @@ def stats( self ):
 				except IOError:				#But yet i dont know, if this is a useless checkup
 					self.send_chan("I think i have not been loggin on that channel yet")
 
-				else:
+				try:
 					#If no errors were occured, open the log file and read lines.
 					log = open(logfile, "r")
 					line = log.readlines()
@@ -43,6 +43,10 @@ def stats( self ):
 						self.send_chan("{0} is mentioned on '{1}' lines on this channel ({2})".format(looking, word_counter, chan))
 					else:
 						self.send_chan("I don't remember seeing '{0}' on this channel before ({1})".format(looking, chan))
+				except Exception as e:
+					if self.config["debug"] == "true":
+						print(e)
+					
 			else:
 				self.send_chan("Received a whitespace as a search string, aborting") #if searching whitespaces, give an error
 		else:
