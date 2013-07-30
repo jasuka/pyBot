@@ -20,8 +20,8 @@ def title ( self, url ):
 			#else:
 			#	soup = BeautifulSoup(html, "html.parser")
 			title = soup.title.string
-			title = re.sub("\n", "", title).strip()
-			self.send_chan( "~ " + title )
+			title = re.sub("\n", "", title)
+			self.send_chan( "~ " + ' '.join(title.split()) ) ##Split words and join them with space
 		except Exception as e:
 			if self.config["debug"] == "true":
 				print(e)
