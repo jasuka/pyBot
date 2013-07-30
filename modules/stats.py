@@ -1,6 +1,7 @@
 
 ##Simple stats version 2
 import readline
+import re
 
 def stats( self ):
 	if self.config["logging"] == True:	#Logging must be enabled from config to run this module
@@ -9,7 +10,7 @@ def stats( self ):
 
 				chan 	= self.msg[2]
 				logfile = self.config["log-path"]+chan+".log"
-				looking = self.msg[4].rstrip("\r\n")
+				looking = self.msg[4].lower().rstrip("\r\n")
 
 				try:
 					with open(logfile): pass	#trying if such logfile exists or not
@@ -24,15 +25,16 @@ def stats( self ):
 					word_counter = 0
 
 					for x in range(0, len(line)):
-						line2 = line[x].strip().split(" ")
-						logNick = line2[1].strip()
+						line2 = line[x].lower().strip().split(" ")
+						logNick = line2[1].lower().strip()
 						
 						if looking == logNick:
 							nick_counter += 1
 						
 						else:
-							if looking in line2:
-								word_counter += 1
+							for y in range(0, len(line2)):
+								if looking == line2[y]:
+									word_counter += 1
 					
 					if nick_counter is not 0:
 						self.send_chan("{0} has written '{1}' lines on this channel ({2})".format(looking, nick_counter, chan))
