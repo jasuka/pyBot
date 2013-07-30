@@ -16,7 +16,6 @@ def gt(self):
 			for x in range (6, length):
 				parameters += "{0} ".format(self.msg[x])
 			parameters_url = urllib.parse.quote(parameters.strip())
-			print(frm, to, parameters_url)
 			url = "http://translate.google.com/m?hl={0}&sl={1}&q={2}".format(to, frm, parameters_url)
 			html = syscmd.getHtml(self, url, True )
 		except:
@@ -29,7 +28,6 @@ def gt(self):
 				soup = BeautifulSoup(html, "html5lib")
 			## Get the translation
 			data = soup.findAll("div", {"class" : "t0"})
-			print(data)
 			self.send_chan(data[0].string.strip())
 		except Exception as e:
 			if self.config["debug"] == "true":
