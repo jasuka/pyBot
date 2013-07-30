@@ -6,18 +6,18 @@ import re
 
 def seen ( self ):
 	
-	if self.config["logging"] == True:
-		if len(self.msg) >= 5:
+	if self.config["logging"] == True: 	#If logging is False, we cannot get results, so make sure it's on in order to have this on.
+		if len(self.msg) >= 5:		#If given string is only !seen, it will print out the usage of the script
 			try:
-				seendb = self.config["log-path"]+"seen.db"
+				seendb = self.config["log-path"]+"seen.db"	#making sure seen.db file exists
 				with open(seendb): pass
 			except Exception as e:
 				if self.config["debug"] == "true":
 					print(e)
 			else:
-				nick = self.msg[4].rstrip("\r\n")
+				nick = self.msg[4].rstrip("\r\n") #getting the nick we are looking for (the second param. given; !seen nick)
 				nick_in_line = 0
-				if self.get_nick() != nick:
+				if self.get_nick() != nick:	#if you're not looking yourself, run the search, other wise not.
 					with open(seendb, "r", encoding="UTF-8") as db:
 						for line in db:
 							if re.search("\\b"+nick+":\\b", line, flags=re.IGNORECASE):
@@ -30,6 +30,8 @@ def seen ( self ):
 								current = datetime.datetime.fromtimestamp(int(time.time()))
 								diff = dateutil.relativedelta.relativedelta(current, past)
 								output = ""
+								
+								#Looking from filed database time if any of these conditions will meet and appending them in output
 
 								if diff.years:
 									output += " {0} year(s)".format(diff.years)

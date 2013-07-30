@@ -17,22 +17,23 @@ def stats( self ):
 					self.send_chan("I think i have not been loggin on that channel yet")
 
 				else:
+					#If no errors were occured, open the log file and read lines.
 					log = open(logfile, "r")
 					line = log.readlines()
 					log.close()
 					nick_counter = 0
 					word_counter = 0
 
-					for x in range(0, len(line)):
-						line2 = line[x].lower().strip().split(" ")
-						logNick = line2[1].lower().strip()
+					for x in range(0, len(line)):				#reading every line individually
+						line2 = line[x].lower().strip().split(" ")	#stripping the line and splitting it into list
+						logNick = line2[1].lower().strip()		#the nick in log will be always the second in the list [1]
 						
-						if looking == logNick:
+						if looking == logNick:				#if we are looking the nick, count it in here
 							nick_counter += 1
 						
-						else:
-							for y in range(0, len(line2)):
-								if looking == line2[y]:
+						else:						#otherwise we will loop the list trough to search for the word
+							for y in range(0, len(line2)):		#this kind of double looping might slow down the performance..?
+								if looking == line2[y]:		#if we have a match, count it in.
 									word_counter += 1
 					
 					if nick_counter is not 0:
