@@ -1,7 +1,6 @@
 
 ##Simple stats version 2
 import readline
-import re
 
 def stats( self ):
 	if self.config["logging"] == True:	#Logging must be enabled from config to run this module
