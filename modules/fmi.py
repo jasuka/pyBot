@@ -42,7 +42,8 @@ def fmi( self ):
 				text = ""
 				## When the weather was updated
 				time = soup.find_all("span", class_="time-stamp")
-				time = time[0].string[10:-12]
+				time = time[0].string.split(" ")
+				time = time[1][:-7]
 
 				str = soup.findAll("span", {"class" : "parameter-name-value"})
 	   
