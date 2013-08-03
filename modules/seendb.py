@@ -1,14 +1,11 @@
 #seendb version 1
 import re, time, os
 def seendb ( self ):
-	
-	irc_codes = ["001", "002", "003", "004", "005", "042", "251", "250", "252", "254", 
-				"255", "265", "266", "375", "372", "376", "433"]
 
 	if os.path.exists(self.config["log-path"]) == True: #Checking if log-path in config is valid and exists (path is generated in logger_daemon.py)
 		
 		if len(self.msg) >= 4:	#Recording only if server sends more than 5 parameters (0,1,2,3,4,5) etc...
-			if self.msg[1] in irc_codes:	#do nothing if server sends any of these parameters
+			if self.msg[1] in self.irc_codes:	#do nothing if server sends any of these parameters
 				return
 			else:
 				try:

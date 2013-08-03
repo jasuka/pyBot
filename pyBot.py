@@ -36,6 +36,9 @@ class pyBot():
 	## Config and start the bot
 		self.config = config.config
 		self.loop()
+	#IRC Codes (for logging/seendb)
+	irc_codes = ["001", "002", "003", "004", "005", "042", "251", "250", "252", "254", 
+				"255", "265", "266", "366", "375", "372", "376", "433"]
 			
 	## Send data function
 	def send_data( self, data ):
@@ -47,7 +50,7 @@ class pyBot():
 		except Excetopn as e:
 			if self.config["debug"] == "true":
 				print(e)
-			
+	
 	## Join channel
 	def join_chan( self, chan ):
 		self.send_data( "JOIN {0}".format(chan.strip()) )
