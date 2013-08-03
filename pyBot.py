@@ -163,23 +163,23 @@ class pyBot():
 		nick = "NICK {0}".format(self.config["nick"])
 		user = "USER {0} {1} pyTsunku :{2}".format(self.config["ident"], self.config["host"], self.config["realname"])
 		
-		if self.config["ipv6"] == "true":
+		#if self.config["ipv6"] == "true":
 			## ipv4/ipv6 support
-			for res in socket.getaddrinfo( self.config["hostv6"], self.config["port"], socket.AF_UNSPEC, socket.SOCK_STREAM ):
-				af, socktype, proto, canonname, sa = res
-			self.s = socket.socket( af, socktype, proto )
-			try:
-				self.s.connect(sa)
-			except socket.error as msg:
-				s.close()
-				print( "Could not open socket\r\n" )
-		else:
-			try:
-				self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
-				self.s.connect(( self.config["host"], self.config["port"] )) 
-			except socket.error as msg:
-				s.close()
-				print( "Could not open socket\r\n" )
+		for res in socket.getaddrinfo( self.config["host"], self.config["port"], socket.AF_UNSPEC, socket.SOCK_STREAM ):
+			af, socktype, proto, canonname, sa = res
+		self.s = socket.socket( af, socktype, proto )
+		try:
+			self.s.connect(sa)
+		except socket.error as msg:
+			s.close()
+			print( "Could not open socket\r\n" )
+		#else:
+		#	try:
+		#		self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
+		#		self.s.connect(( self.config["host"], self.config["port"] )) 
+		#	except socket.error as msg:
+		#		s.close()
+		#		print( "Could not open socket\r\n" )
 		
 		## Send identification to the server
 		self.send_data( nick )
