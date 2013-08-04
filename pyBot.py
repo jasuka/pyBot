@@ -171,9 +171,12 @@ class pyBot():
 		self.s = socket.socket( af, socktype, proto )
 		try:
 			self.s.connect(sa)
-		except socket.error as msg:
-			s.close()
-			print( "Could not open socket\r\n" )
+		except Exception as e:
+			print(e)
+			if e.errno == 101:
+				self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
+				self.s.connect(( self.config["host"], self.config["port"] )) 
+			#print( "Could not open socket\r\n" )
 		#else:
 		#	try:
 		#		self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
