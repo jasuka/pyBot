@@ -286,7 +286,8 @@ class pyBot():
 							## Run title as own thread so it won't block the bot
 							Thread(target=title.title, args=(self, url)).start()
 			except Exception as e:
-				print(e)
+				if self.config["debug"] == "true":
+					print(e)
 
 ## Clear flood counter; Clears the flood dictionary every x seconds
 class Flood:
