@@ -167,6 +167,7 @@ class pyBot():
 			## ipv4/ipv6 support
 		for res in socket.getaddrinfo( self.config["host"], self.config["port"], socket.AF_UNSPEC, socket.SOCK_STREAM ):
 			af, socktype, proto, canonname, sa = res
+			print("COPY PASTE: {0}".format(res))
 		self.s = socket.socket( af, socktype, proto )
 		try:
 			self.s.connect(sa)
