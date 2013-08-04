@@ -2,9 +2,7 @@
 config = {		#[SERVER]			[Modify the right side only]
 			#server settings
 			"host":				"b0xi.eu", 
-			#"hostv6":			"2a00:7b80:3019:12::84e6:a83",
 			"port":				6667,
-			#"ipv6":				"true", 
 		
 			#[BOT DETAILS]
 			#Set bot details, chans etc..

@@ -163,28 +163,19 @@ class pyBot():
 		nick = "NICK {0}".format(self.config["nick"])
 		user = "USER {0} {1} pyTsunku :{2}".format(self.config["ident"], self.config["host"], self.config["realname"])
 		
-		#if self.config["ipv6"] == "true":
-			## ipv4/ipv6 support
+		## ipv4/ipv6 support
 		for res in socket.getaddrinfo( self.config["host"], self.config["port"], socket.AF_UNSPEC, socket.SOCK_STREAM ):
 			af, socktype, proto, canonname, sa = res
-			print("COPY PASTE: {0}".format(res))
 		self.s = socket.socket( af, socktype, proto )
 		try:
 			self.s.connect(sa)
 		except Exception as e:
-			print(e)
 			if e.errno == 101:
 				self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
-				self.s.connect(( self.config["host"], self.config["port"] )) 
-			#print( "Could not open socket\r\n" )
-		#else:
-		#	try:
-		#		self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
-		#		self.s.connect(( self.config["host"], self.config["port"] )) 
-		#	except socket.error as msg:
-		#		s.close()
-		#		print( "Could not open socket\r\n" )
-		
+				self.s.connect(( self.config["host"], self.config["port"] ))
+			if self.config["debug"] == "true":
+				print(e)
+
 		## Send identification to the server
 		self.send_data( nick )
 		self.send_data( user )
