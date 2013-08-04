@@ -11,7 +11,7 @@ def title ( self, url ):
 	
 	if valid == None:
 		req = urllib.request.Request(url, None)
-		html = syscmd.getHtml( self, url, True )
+		html = syscmd.getHtml( self, url, False )
 		try:
 			try:
 				soup = BeautifulSoup(html, "lxml")
