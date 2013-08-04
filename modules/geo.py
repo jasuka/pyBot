@@ -13,8 +13,8 @@ def geo (self):
 								urllib.parse.quote("https://www.google.com/maps?q={0},{1}&output=classic".format(
 								data["lat"],data["lon"])))).read().decode("utf-8")
 								
-			self.send_chan(("IP: {0}  ISP: {1}  AS: {2}  COUNTRY: {3}  MAP: {4}".format(
-							data["query"], data["isp"], data["as"], data["country"], shortened)))
+			self.send_chan(("IP: {0}  ISP: {1}  COUNTRY: {2}  MAP: {3}".format(
+							data["query"], data["isp"], data["country"], shortened)))
 		except Exception as e:
 			if self.config["debug"] == "true":
 				print(e)
