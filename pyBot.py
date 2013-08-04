@@ -283,9 +283,10 @@ class pyBot():
 					urls = re.findall( 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', data )
 					if urls != None:
 						for url in urls:
-							title.title( self, url )
-			except:
-				pass
+							## Run title as own thread so it won't block the bot
+							Thread(target=title.title, args=(self, url)).start()
+			except Exception as e:
+				print(e)
 
 ## Clear flood counter; Clears the flood dictionary every x seconds
 class Flood:
