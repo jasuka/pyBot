@@ -9,10 +9,9 @@ def geo (self):
 		try:
 			data = json.loads(urllib.request.urlopen("http://ip-api.com/json/{0}".format(
 								self.msg[4])).read().decode("utf-8"))
-			url = urllib.parse.quote("https://www.google.com/maps?q={0},{1}&output=classic".format(
-								data["lat"],data["lon"]))
 			shortened = urllib.request.urlopen("http://is.gd/create.php?format=simple&url={0}".format(
-								url)).read().decode("utf-8")
+								urllib.parse.quote("https://www.google.com/maps?q={0},{1}&output=classic".format(
+								data["lat"],data["lon"])))).read().decode("utf-8")
 								
 			self.send_chan(("IP: {0}  ISP: {1}  COUNTRY: {2}  MAP: {3}".format(
 							data["query"], data["isp"], data["country"], shortened)))
