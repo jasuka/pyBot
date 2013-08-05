@@ -213,7 +213,7 @@ class pyBot():
 				seendb.seendb( self ) #Seendb runs if logging is enabled
 
 			if self.msg[3] == self.nick: #JASKA PLEASE FIX THIS, I have no time now.
-				send_pm("Im just a bot, dont waste your time")
+				self.send_pm("Im just a bot, dont waste your time")
 				print("lol")
 			
 			## PING PONG
