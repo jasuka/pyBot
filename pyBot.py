@@ -215,7 +215,7 @@ class pyBot():
 			## If someone calls the bot's nick, respond!	
 			try:
 				if self.msg[3].strip().lstrip(":") == self.nick:
-					self.send_pm("Im just a bot, dont waste your time")
+					self.send_pm("I'm just a bot, don't waste your time")
 			except IndexError:
 				pass
 				
