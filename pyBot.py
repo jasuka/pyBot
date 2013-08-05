@@ -216,7 +216,6 @@ class pyBot():
 			try:
 				if self.msg[3].strip().lstrip(":") == self.nick:
 					self.send_pm("Im just a bot, dont waste your time")
-					print("lol")
 			except IndexError:
 				pass
 				
