@@ -214,8 +214,9 @@ class pyBot():
 			
 			## If someone calls the bot's nick, respond!	
 			try:
-				if self.msg[1] not in self.irc_codes and self.msg[2].strip() == self.nick:
-					self.send_pm("I'm just a bot, don't waste your time")
+				if self.msg[1] not in self.irc_codes:
+					if self.nick not in self.msg[0] and self.msg[2].strip() == self.nick:
+						self.send_pm("I'm just a bot, don't waste your time")
 			except IndexError:
 				pass
 				
