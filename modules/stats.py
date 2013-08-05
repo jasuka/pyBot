@@ -40,7 +40,7 @@ def stats( self ):
 					
 					if nick_counter is not 0:
 						pct = nick_counter/line_counter*100
-						self.send_chan("{0} has written '{1}' lines on this channel ({2}) which is {3}% of the total amount.".format(looking, nick_counter, chan, pct))
+						self.send_chan("{0} has written '{1}' lines on this channel ({2}) which is {3:.1f}% of the total amount.".format(looking, nick_counter, chan, round(pct,1)))
 					elif word_counter is not 0:
 						word_counter -= 1
 						self.send_chan("{0} is mentioned on '{1}' lines on this channel ({2})".format(looking, word_counter, chan))
