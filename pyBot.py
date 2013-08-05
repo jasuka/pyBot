@@ -182,6 +182,7 @@ class pyBot():
 		connected = 1
 		logger = 0
 		altnick = 1
+		active = 0
 		global flood
 		
 		while connected == 1:
@@ -212,11 +213,14 @@ class pyBot():
 				logger_daemon.logger_daemon( self )
 				seendb.seendb( self ) #Seendb runs if logging is enabled
 			
-			## If someone sends PM to the bot, respond!	
+			## If someone sends PM to the bot, respond!
+			if "366" in self.msg:
+				active = 1
 			try:
-				if self.msg[1] not in self.irc_codes:
-					if self.nick not in self.msg[0] and self.msg[2].strip() == self.nick:
-						self.send_pm("I'm just a bot, don't waste your time")
+				if active == 1:
+					if self.msg[1] not in self.irc_codes:
+						if self.nick not in self.msg[0] and self.msg[2].strip() == self.nick:
+							self.send_pm("I'm just a bot, don't waste your time")
 			except IndexError:
 				pass
 				
