@@ -8,8 +8,8 @@ def automodes (self):
 
 
 def addautomode (self):
-	nick = self.msg[5]
-	modes = self.msg[6] 
+	nick = self.msg[5].strip()
+	modes = self.msg[6].strip() 
 	file = "modules/data/automodes.txt"
 	
 	## If the nick is in the file, loop through it and replace the line containing the nick
