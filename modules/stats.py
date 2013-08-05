@@ -23,11 +23,13 @@ def stats( self ):
 					log.close()
 					nick_counter = 0
 					word_counter = 0
+					line_counter = 0
+					pct = 0
 
 					for x in range(0, len(line)):				#reading every line individually
 						line2 = line[x].lower().strip().split(" ")	#stripping the line and splitting it into list
 						logNick = line2[1].lower().strip()		#the nick in log will be always the second in the list [1]
-						
+						line_counter += 1				#counts every line in the logfile
 						if looking == logNick:				#if we are looking the nick, count it in here
 							nick_counter += 1
 						
@@ -37,7 +39,8 @@ def stats( self ):
 									word_counter += 1
 					
 					if nick_counter is not 0:
-						self.send_chan("{0} has written '{1}' lines on this channel ({2})".format(looking, nick_counter, chan))
+						pct = nick_counter/line_counter*100
+						self.send_chan("{0} has written '{1}' lines on this channel ({2}) which is {3}% of the total amount.".format(looking, nick_counter, chan, pct))
 					elif word_counter is not 0:
 						word_counter -= 1
 						self.send_chan("{0} is mentioned on '{1}' lines on this channel ({2})".format(looking, word_counter, chan))
