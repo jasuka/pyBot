@@ -212,7 +212,7 @@ class pyBot():
 				logger_daemon.logger_daemon( self )
 				seendb.seendb( self ) #Seendb runs if logging is enabled
 			
-			## If someone calls the bot's nick, respond!	
+			## If someone sends PM to the bot, respond!	
 			try:
 				if self.msg[1] not in self.irc_codes:
 					if self.nick not in self.msg[0] and self.msg[2].strip() == self.nick:
