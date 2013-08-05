@@ -159,9 +159,9 @@ class pyBot():
 
 	## Main loop, connect etc.
 	def loop( self ):
-	
-		nick = "NICK {0}".format(self.config["nick"])
-		user = "USER {0} {1} pyTsunku :{2}".format(self.config["ident"], self.config["host"], self.config["realname"])
+		self.nick = self.config["nick"]
+		my_nick = "NICK {0}".format(self.nick)
+		my_user = "USER {0} {1} pyTsunku :{2}".format(self.config["ident"], self.config["host"], self.config["realname"])
 		
 		## ipv4/ipv6 support
 		for res in socket.getaddrinfo( self.config["host"], self.config["port"], socket.AF_UNSPEC, socket.SOCK_STREAM ):
@@ -177,8 +177,8 @@ class pyBot():
 				print(e)
 
 		## Send identification to the server
-		self.send_data( nick )
-		self.send_data( user )
+		self.send_data(my_nick)
+		self.send_data(my_user)
 		connected = 1
 		logger = 0
 		altnick = 1
@@ -227,11 +227,17 @@ class pyBot():
 			try:
 				if "433" in self.msg:
 					if altnick is 0:
-						self.send_data( "NICK {0}{1}".format(self.config["nick"], str(random.randrange(1,10+1))) )
-					else:
-						self.send_data( "NICK {0}".format(self.config["altnick"]) )
-						altnick = 0 #if unable to set altnick, set altnick false and try random nick
 						print("Alternative nick in use, switching into random nick\r\n")
+						self.nick = "{0}{1}".format(self.config["nick"], str(random.randrange(1,10+1)))
+						my_nick = "NICK {0}".format(self.nick)
+						self.send_data(my_nick)						
+					else:
+						print("Switching to the alternative nick\r\n")
+						self.nick = self.config["altnick"]
+						my_nick = "NICK {0}".format(self.nick)
+						self.send_data(my_nick)
+						altnick = 0 #if unable to set altnick, set altnick false and try random nick
+						
 
 			except IndexError:
 				pass
