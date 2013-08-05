@@ -211,11 +211,15 @@ class pyBot():
 			if logger == 1:
 				logger_daemon.logger_daemon( self )
 				seendb.seendb( self ) #Seendb runs if logging is enabled
-
-			if self.msg[3] == self.nick: #JASKA PLEASE FIX THIS, I have no time now.
-				self.send_pm("Im just a bot, dont waste your time")
-				print("lol")
 			
+			## If someone calls the bot's nick, respond!	
+			try:
+				if self.msg[3].strip().lstrip(":") == self.nick:
+					self.send_pm("Im just a bot, dont waste your time")
+					print("lol")
+			except IndexError:
+				pass
+				
 			## PING PONG
 			if self.msg[0] == "PING":
 				self.send_data( "PONG {0}".format(self.msg[1].strip()) )
