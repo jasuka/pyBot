@@ -23,7 +23,9 @@ try:
 	for mod in config.config["modules"].split(","):
 		print("Loading module {0}".format(mod))
 		globals()[mod] = __import__(mod)
-except:
+except Exception as e:
+	if config.config["debug"] == "true":
+		print(e)
 	raise
 
 ## Global variable for the flood protection
