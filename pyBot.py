@@ -123,7 +123,7 @@ class pyBot():
 			return
 		try:
 			if len(self.msg) == 4: ## no parameters
-				self.send_chan( "Usage: !reload <module> or !reload all" )
+				self.send_chan( "Usage: !reload <module> or !reload sys or !reload all" )
 			command = self.msg[4].rstrip("\r\n").strip()
 			if len(self.msg) == 5 and command == "all": ## Reload all user modules
 				imp.reload(modulecfg)
@@ -131,6 +131,10 @@ class pyBot():
 				for mod in self.modulecfg["modules"].split(","):
 					print( "Reloading module {0}".format(mod) )
 					imp.reload(globals()[mod])
+				for mod in self.modulecfg["sysmodules"].split(","):
+					print( "Reloading system module {0}".format(mod) )
+					imp.reload(globals()[mod])
+				self.send_chan("All modules and system modules reloaded!")
 			if len(self.msg) == 5 and command == "sys": ## Reload all sys modules
 				imp.reload(modulecfg)
 				self.modulecfg = modulecfg.modulecfg
