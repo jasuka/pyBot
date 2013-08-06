@@ -13,7 +13,7 @@ from threading import Thread
 
 sys.path.insert(0, './modules') ## Path for the modules
 
-## Config
+## Import Config
 import config
 ## Load modules from the config
 try:
