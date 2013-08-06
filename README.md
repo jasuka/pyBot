@@ -1,4 +1,4 @@
-Requirements:
+pyBot Requirements:
 
 Python 3.x
 
