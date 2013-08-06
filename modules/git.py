@@ -11,13 +11,16 @@ def git(self):
 	
 		if self.config["debug"] == "true":
 			print(stdoutput.decode("utf-8"))
+			
 		if "fatal" in stdoutput.decode("utf-8"):
-			self.send_notice("Git pull failed")
+			self.send_chan("Git pull failed!")
+		if "Already up-to-date." in stdoutput.decode("utf-8"):
+			self.send_chan("Already up-to-date!")
 		if "pyBot.py" in stdoutput.decode("utf-8"):
-			self.send_notice("Pull succeeded, core updated, restarting!")
+			self.send_chan("Pull succeeded, core updated, restarting!")
 			self.restart()
-		else:
-			self.send_notice("Pull succeeded, remember to reload the modules")
+		if "Already up-to-date." not in stdoutput.decode("utf-8"):
+			self.send_chan("Pull succeeded, remember to reload the modules")
 	
 	except Exception as e:
 		if self.config["debug"] == "true":
