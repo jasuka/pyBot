@@ -11,7 +11,11 @@ def title ( self, url ):
 	
 	if valid == None:
 		req = urllib.request.Request(url, None)
-		html = syscmd.getHtml( self, url, False )
+		## Until I figure out something better...
+		if "t.co" in url.strip():
+			html = syscmd.getHtml( self, url, False )
+		else:
+			html = syscmd.getHtml( self, url, True )
 		try:
 			try:
 				soup = BeautifulSoup(html, "lxml")
