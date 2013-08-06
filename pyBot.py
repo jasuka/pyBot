@@ -15,12 +15,14 @@ sys.path.insert(0, './modules') ## Path for the modules
 
 ## Import Config
 import config
-## Load modules from the config
+## Import modules config
+import modulecfg
+## Load modules from the modules config
 try:
-	for mod in config.config["sysmodules"].split(","):
+	for mod in modulecfg.modulecfg["sysmodules"].split(","):
 		print("Loading system module {0}".format(mod))
 		globals()[mod] = __import__(mod)
-	for mod in config.config["modules"].split(","):
+	for mod in modulecfg.modulecfg["modules"].split(","):
 		print("Loading module {0}".format(mod))
 		globals()[mod] = __import__(mod)
 except Exception as e:
@@ -37,6 +39,7 @@ class pyBot():
 
 	## Config and start the bot
 		self.config = config.config
+		self.modulecfg = modulecfg.modulecfg
 		self.loop()
 	#IRC Codes (for logging/seendb)
 	irc_codes = ["001", "002", "003", "004", "005", "042", "251", "250", "252", "254", 
@@ -88,7 +91,7 @@ class pyBot():
 	## Parse commands function
 	def parse_command( self, cmd ):
 		try:
-			if cmd not in self.config["sysmodules"].split(","):
+			if cmd not in self.modulecfg["sysmodules"].split(","):
 				getattr(globals()[cmd], cmd)( self )
 			else:
 				return
@@ -123,22 +126,22 @@ class pyBot():
 				self.send_chan( "Usage: !reload <module> or !reload all" )
 			command = self.msg[4].rstrip("\r\n").strip()
 			if len(self.msg) == 5 and command == "all": ## Reload all user modules
-				imp.reload(config)
-				self.config = config.config
-				for mod in self.config["modules"].split(","):
+				imp.reload(modulecfg)
+				self.modulecfg = modulecfg.modulecfg
+				for mod in self.modulecfg["modules"].split(","):
 					print( "Reloading module {0}".format(mod) )
 					imp.reload(globals()[mod])
 			if len(self.msg) == 5 and command == "sys": ## Reload all sys modules
-				imp.reload(config)
-				self.config = config.config
-				for mod in self.config["sysmodules"].split(","):
+				imp.reload(modulecfg)
+				self.modulecfg = modulecfg.modulecfg
+				for mod in self.modulecfg["sysmodules"].split(","):
 					print( "Reloading system module {0}".format(mod) )
 					imp.reload(globals()[mod])
 				self.send_chan( "All system modules reloaded!" )
 			if len(self.msg) == 5 and command != "all" and command != "sys": ## Reload specified module, if it exists
-				if command in self.config["modules"]:
-					imp.reload(config)
-					self.config = config.config
+				if command in self.modulecfg["modules"]:
+					imp.reload(modulecfg)
+					self.modulecfg = modulecfg.modulecfg
 					imp.reload(globals()[command])
 					self.send_chan( "{0} module reloaded!".format(command) )
 				else:

@@ -17,11 +17,6 @@ config = {		#[SERVER]			[Modify the right side only]
 			#Bot operators
 			"opers":			"hrna@oper.aquanet.fi,jaska@127.0.0.1",
 
-			#[MODULES]
-			#Modules & System modules, you better not touch system modules
-			"sysmodules":			"syscmd,logger_daemon,title,seendb,automodes,modecheck", #Do not touch this line!!
-			"modules":			"cmd,clock,op,version,fmi,currency,youtube,stats,wiki,seen,ylilauta,google,gt,geo,git",
-
 			#[LOGGING DAEMON]
 			#Loggin			
 			"logging":			True,	#True/False, SeenDB works only if logging is set True
