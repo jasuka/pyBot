@@ -19,7 +19,7 @@ def git(self):
 		if "pyBot.py" in stdoutput.decode("utf-8"):
 			self.send_chan("Pull succeeded, core updated, restarting!")
 			self.restart()
-		if "Already up-to-date." not in stdoutput.decode("utf-8"):
+		elif "Already up-to-date." not in stdoutput.decode("utf-8"):
 			self.send_chan("Pull succeeded, remember to reload the modules")
 	
 	except Exception as e:
