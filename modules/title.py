@@ -10,6 +10,7 @@ def title ( self, url ):
 	valid = re.search( ".*\.(jpg$|jpeg$|png$|gif$|pdf$|exe$|zip$)", url )
 	
 	if valid == None:
+		url = url.strip().rstrip(".")
 		req = urllib.request.Request(url, None)
 		## Until I figure out something better...
 		if "t.co" in url.strip():
