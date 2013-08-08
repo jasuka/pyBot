@@ -25,10 +25,13 @@ try:
 	for mod in modulecfg.modulecfg["modules"].split(","):
 		print("Loading module {0}".format(mod))
 		globals()[mod] = __import__(mod)
+except (ImportError, SyntaxError) as e:
+	print("Couldn't load module: {0}".format(mod))
+	if config.config["debug"] == "true":
+		print(e)
 except Exception as e:
 	if config.config["debug"] == "true":
 		print(e)
-	raise
 
 ## Global variable for the flood protection
 flood = {}
@@ -52,7 +55,7 @@ class pyBot():
 			data = data[:510] + "\r\n"
 			self.s.sendall( data.encode("utf-8") ) 
 			print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ) )
-		except Excetopn as e:
+		except Exception as e:
 			if self.config["debug"] == "true":
 				print(e)
 	
