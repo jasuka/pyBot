@@ -133,8 +133,6 @@ class pyBot():
 			return
 		try:
 			mod = ""
-			if len(self.msg) == 4 and module == None:
-				self.send_chan( "Usage: !load <module>" )
 			if len(self.msg) == 5 and module == None:
 					mod = self.msg[4].strip()
 			if module != None:
