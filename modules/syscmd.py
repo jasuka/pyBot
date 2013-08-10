@@ -1,7 +1,7 @@
 import urllib.request
 import os
 import re
-
+import time
 ## Get HTML for given url
 def getHtml( self, url, useragent):
 	try:
@@ -63,11 +63,47 @@ def modecheck (self):
 
 ## End
 
+## ADD AUTOMODE
+def addautomode (self,modes,chan):
+
+	identhost = self.hostident.strip()
+	file = "modules/data/automodes.txt"
+
+	if modes == "ao":
+		try:
+			if re.search("\\b"+identhost+":\\b", open(file).read(), flags=re.IGNORECASE):
+				with open("modules/data/temp1.txt", "w", encoding="UTF-8") as temp:
+					for line in open(file):				
+						str = "{0}:{1}:{2}".format(identhost,modes,chan)
+						temp.write(re.sub("^{0}:.*$".format(identhost), str, line))
+					os.remove("modules/data/automodes.txt")
+					os.rename("modules/data/temp1.txt", file)
+				self.send_data("PRIVMSG {2} :Automode ({0}) added for {1} on channel {2}".format(modes,identhost,chan))
+				return(True)
+			## If the nick doesn't exist in the file, append it in there
+			else:
+				with open(file, "a", encoding="UTF-8") as file:
+					str = "\r\n{0}:{1}:{2}".format(identhost,modes,chan)
+					file.write(str)
+				self.send_data("PRIVMSG {2} :Automode ({0}) added for {1} on channel {2}".format(modes,identhost,chan))
+				return(True)
+
+		except (OSError, IOError):	#if it happens, the database file doesn't exist, create one
+			open(file, "a").close()
+			if self.config["debug"] == "true":
+				print("Creating file for automodes '{0}'".format(file))
+		except Exception as e:
+			if self.config["debug"] == "true":
+				print(e)
+	else:
+		self.send_data("PRIVMSG {0} :Currently the only user flag is 'ao'".format(chan))
+## END
+
 ## Return remote host based on given nick
 
 def getRemoteHost (self):
 	#print("{0}@{1}".format(self.msg[4],self.msg[5]))
+	time.sleep(0)
 	hostident = "{0}@{1}".format(self.msg[4],self.msg[5])
 	return(hostident)
 ## End
-
