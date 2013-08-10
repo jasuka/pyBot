@@ -41,7 +41,7 @@ class pyBot():
 	def __init__( self ):
 	
 	## Bot Version
-		self.version = "pyBot version 0.5.2"
+		self.version = "pyBot version 0.5.0"
 	## Config and start the bot
 		self.config = config.config
 		self.modulecfg = modulecfg.modulecfg
@@ -102,8 +102,7 @@ class pyBot():
 	def parse_command( self, cmd ):
 		try:
 			if cmd not in self.modulecfg["sysmodules"].split(","):
-				command = getattr(globals()[cmd], cmd)( self )
-				Thread(target=command).start()
+				getattr(globals()[cmd], cmd)( self )
 			else:
 				return
 		except KeyError:
@@ -259,7 +258,7 @@ class pyBot():
 			
 			## AUTOMODES BELOW!!
 			if self.msg[1] == "JOIN":
-				if self.get_nick() != self.nick: #this is like.. what?
+				if self.get_nick != self.nick: #this is like.. what?
 					syscmd.modecheck(self)
 			## built-in whois handler to get user ident@hostname from requested user [ IF using self.whois in any purpose, it will run trough this.. ]
 			if self.msg[1] == "311":
@@ -351,7 +350,8 @@ class pyBot():
 							flood[self.get_nick()] = 1
 						if flood[self.get_nick()] <= 3: ## If the nick has issued three commands before the timer is cleaned
 							cmd = cmd.lstrip("!") ## remove ! from the command before parsing it
-							self.parse_command( cmd )
+							Thread(target=self.parse_command, args=(cmd,)).start() ## Run the commands in own threads, 
+																					## so they won't block each other
 						else:
 							print( "Flooding!\r\n" )
 			except IndexError:
