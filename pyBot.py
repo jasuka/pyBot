@@ -227,7 +227,7 @@ class pyBot():
 			if self.msg[1] == "JOIN":
 				syscmd.modecheck(self)
 			
-			#built-in whois handler
+			#built-in whois handler to get user ident@hostname
 			if self.msg[1] == "311":
 				syscmd.getRemoteHost(self)
 
