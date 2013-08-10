@@ -1,5 +1,6 @@
 import re
 import os
+import time
 
 def automodes (self):
 	if len(self.msg) >= 5:
@@ -15,6 +16,7 @@ def addautomode (self):
 	if self.get_host() in self.config["opers"]:
 		nick = self.msg[5].strip()
 		self.send_data("WHOIS {0}".format(nick))
+		time.sleep(2)
 		identhost = self.hostident.strip()
 		modes = self.msg[6].strip()
 		chan = self.msg[2].strip()
