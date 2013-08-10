@@ -194,6 +194,7 @@ class pyBot():
 		## Send identification to the server
 		self.send_data(my_nick)
 		self.send_data(my_user)
+		self.hostident = ""
 		connected = 1
 		logger = 0
 		altnick = 1
@@ -229,7 +230,7 @@ class pyBot():
 			
 			#built-in whois handler to get user ident@hostname
 			if self.msg[1] == "311":
-				syscmd.getRemoteHost(self)
+				self.hostident = syscmd.getRemoteHost(self)
 
 			## Logger
 			if logger == 1:
