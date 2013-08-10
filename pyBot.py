@@ -124,14 +124,14 @@ class pyBot():
 			print( "Error getting host\r\n" )
 		
 	## Reload modules
-	def reload( self ):
+	def reload( self, cmd ):
 		if self.get_host() not in self.config["opers"]:
 			return
 		try:
-			if len(self.msg) == 4: ## no parameters
+			if len(cmd.strip()) == 0: ## no parameters
 				self.send_chan( "Usage: !reload <module> or !reload sys or !reload all" )
-			command = self.msg[4].rstrip("\r\n").strip()
-			if len(self.msg) == 5 and command == "all": ## Reload all user modules
+			command = cmd.rstrip("\r\n").strip()
+			if command == "all": ## Reload all user modules
 				imp.reload(modulecfg)
 				self.modulecfg = modulecfg.modulecfg
 				for mod in self.modulecfg["modules"].split(","):
@@ -141,14 +141,14 @@ class pyBot():
 					print( "Reloading system module {0}".format(mod) )
 					imp.reload(globals()[mod])
 				self.send_chan("All modules and system modules reloaded!")
-			if len(self.msg) == 5 and command == "sys": ## Reload all sys modules
+			if command == "sys": ## Reload all sys modules
 				imp.reload(modulecfg)
 				self.modulecfg = modulecfg.modulecfg
 				for mod in self.modulecfg["sysmodules"].split(","):
 					print( "Reloading system module {0}".format(mod) )
 					imp.reload(globals()[mod])
 				self.send_chan( "All system modules reloaded!" )
-			if len(self.msg) == 5 and command != "all" and command != "sys": ## Reload specified module, if it exists
+			if command != "all" and command != "sys": ## Reload specified module, if it exists
 				if command in self.modulecfg["modules"]:
 					imp.reload(modulecfg)
 					self.modulecfg = modulecfg.modulecfg
@@ -194,7 +194,6 @@ class pyBot():
 		## Send identification to the server
 		self.send_data(my_nick)
 		self.send_data(my_user)
-		## Remote host@ident requested by user
 		self.hostident = ""
 		connected = 1
 		logger = 0
@@ -229,7 +228,7 @@ class pyBot():
 			if self.msg[1] == "JOIN":
 				syscmd.modecheck(self)
 			
-			#built-in whois handler to get user ident@hostname from requested user
+			#built-in whois handler to get user ident@hostname
 			if self.msg[1] == "311":
 				self.hostident = syscmd.getRemoteHost(self)
 
@@ -294,7 +293,7 @@ class pyBot():
 				cmd = self.msg[3].lstrip(":").rstrip("\r\n")
 				if cmd[0] == "!" and len(cmd) > 1:
 					if cmd == "!reload":
-						self.reload()
+						self.reload(self.msg[4])
 					elif cmd == "!join":
 						if self.get_host() in self.config["opers"]:
 							self.join_chan(self.msg[4])
