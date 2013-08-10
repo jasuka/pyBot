@@ -95,7 +95,8 @@ class pyBot():
 	def parse_command( self, cmd ):
 		try:
 			if cmd not in self.modulecfg["sysmodules"].split(","):
-				getattr(globals()[cmd], cmd)( self )
+				command = getattr(globals()[cmd], cmd)( self )
+				Thread(target=command).start()
 			else:
 				return
 		except KeyError:
