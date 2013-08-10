@@ -122,16 +122,45 @@ class pyBot():
 			return(host[1])
 		except:
 			print( "Error getting host\r\n" )
-		
-	## Reload modules
-	def reload( self, cmd ):
+	
+	## Load a new module
+	def load(self, module = None):
 		if self.get_host() not in self.config["opers"]:
 			return
 		try:
-			if len(cmd.strip()) == 0: ## no parameters
+			mod = ""
+			if len(self.msg) == 4 and module == None:
+				self.send_chan( "Usage: !load <module>" )
+			if len(self.msg) == 5 and module == None:
+					mod = self.msg[4].strip()
+			if module != None:
+					mod = module
+			if len(mod) > 0:
+				imp.reload(modulecfg)
+				self.modulecfg = modulecfg.modulecfg
+				if mod in globals():
+					self.send_chan("Module '{0}' is already loaded!".format(mod))
+				else:
+					if mod in self.modulecfg["modules"] or mod in self.modulecfg["sysmodules"]:
+						globals()[mod] = __import__(mod)
+						self.send_chan("Loaded a new module: {0}".format(mod))
+					else:
+						self.send_chan("Unknown module: {0}".format(mod))
+			else:
+				self.send_chan( "Usage: !load <module>" )
+		except Exception as e:
+			if self.config["debug"] == "true":
+				print(e)
+					
+	## Reload modules
+	def reload( self ):
+		if self.get_host() not in self.config["opers"]:
+			return
+		try:
+			if len(self.msg) == 4: ## no parameters
 				self.send_chan( "Usage: !reload <module> or !reload sys or !reload all" )
-			command = cmd.rstrip("\r\n").strip()
-			if command == "all": ## Reload all user modules
+			command = self.msg[4].strip()
+			if len(self.msg) == 5 and command == "all": ## Reload all user modules
 				imp.reload(modulecfg)
 				self.modulecfg = modulecfg.modulecfg
 				for mod in self.modulecfg["modules"].split(","):
@@ -141,14 +170,14 @@ class pyBot():
 					print( "Reloading system module {0}".format(mod) )
 					imp.reload(globals()[mod])
 				self.send_chan("All modules and system modules reloaded!")
-			if command == "sys": ## Reload all sys modules
+			if len(self.msg) == 5 and command == "sys": ## Reload all sys modules
 				imp.reload(modulecfg)
 				self.modulecfg = modulecfg.modulecfg
 				for mod in self.modulecfg["sysmodules"].split(","):
 					print( "Reloading system module {0}".format(mod) )
 					imp.reload(globals()[mod])
 				self.send_chan( "All system modules reloaded!" )
-			if command != "all" and command != "sys": ## Reload specified module, if it exists
+			if len(self.msg) == 5 and command != "all" and command != "sys": ## Reload specified module, if it exists
 				if command in self.modulecfg["modules"]:
 					imp.reload(modulecfg)
 					self.modulecfg = modulecfg.modulecfg
@@ -156,8 +185,9 @@ class pyBot():
 					self.send_chan( "{0} module reloaded!".format(command) )
 				else:
 					self.send_chan("Unknown module: {0}".format(command))
-		except:
-			raise
+		except Exception as e:
+			if self.config["debug"] == "true":
+				print(e)
 	
 	## Restart the bot 
 	def restart ( self ):
@@ -292,8 +322,10 @@ class pyBot():
 			try:
 				cmd = self.msg[3].lstrip(":").rstrip("\r\n")
 				if cmd[0] == "!" and len(cmd) > 1:
-					if cmd == "!reload":
-						self.reload(self.msg[4])
+					if cmd == "!load":
+						self.load()
+					elif cmd == "!reload":
+						self.reload()
 					elif cmd == "!join":
 						if self.get_host() in self.config["opers"]:
 							self.join_chan(self.msg[4])
