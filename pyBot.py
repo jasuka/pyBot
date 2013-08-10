@@ -194,6 +194,7 @@ class pyBot():
 		## Send identification to the server
 		self.send_data(my_nick)
 		self.send_data(my_user)
+		## Remote host@ident requested by user
 		self.hostident = ""
 		connected = 1
 		logger = 0
@@ -228,7 +229,7 @@ class pyBot():
 			if self.msg[1] == "JOIN":
 				syscmd.modecheck(self)
 			
-			#built-in whois handler to get user ident@hostname
+			#built-in whois handler to get user ident@hostname from requested user
 			if self.msg[1] == "311":
 				self.hostident = syscmd.getRemoteHost(self)
 
