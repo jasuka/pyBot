@@ -1,2 +1,2 @@
 def version (self):
-	self.send_chan(self.config["version"] + " https://github.com/jasuka/pyBot")
+	self.send_chan(self.version + " https://github.com/jasuka/pyBot")
