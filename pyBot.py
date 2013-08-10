@@ -222,9 +222,14 @@ class pyBot():
 			if self.config["debug"] == "true":
 				#print(self.msg)
 				print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ))								
+			
 			#automodes under construction here!!!!
 			if self.msg[1] == "JOIN":
 				syscmd.modecheck(self)
+			
+			#built-in whois handler
+			if self.msg[1] == "311":
+				syscmd.getRemoteHost(self)
 
 			## Logger
 			if logger == 1:

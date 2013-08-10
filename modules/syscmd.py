@@ -47,13 +47,26 @@ def delHtml( html ):
 ## Automodes checkup on event JOIN
 def modecheck (self):
 	file = "modules/data/automodes.txt"
-	with open(file, "r", encoding="UTF-8") as modes:
-		for line in modes:
-			if re.search("\\b"+self.get_nick()+":\\b", line, flags=re.IGNORECASE):
-				spl = line.split(":")
-				#print(spl[0]+" "+spl[1])
-				if spl[1].strip() == "ao":
-					self.send_data("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),spl[0].rstrip("\r\n")))
-					print("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),spl[0].rstrip("\r\n")))
+	try:
+		with open(file, "r", encoding="UTF-8") as modes:
+			for line in modes:
+				if re.search("\\b"+self.get_nick()+":\\b", line, flags=re.IGNORECASE):
+					spl = line.split(":")
+					#print(spl[0]+" "+spl[1])
+					if spl[1].strip() == "ao":
+						self.send_data("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),spl[0].rstrip("\r\n")))
+						print("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),spl[0].rstrip("\r\n")))
+	except (OSError, IOError):	#if it happens, the database file doesn't exist, create one
+		open(file, "a").close()
+		if self.config["debug"] == "true":
+			print("Creating file for automodes '{0}'".format(file))
 
 ## End
+
+## Return remote host based on given nick
+
+def getRemoteHost (self):
+	print("{0}@{1}".format(self.msg[4],self.msg[5]))
+	self.pillu = "{0}@{1}".format(self.msg[4],self.msg[5])
+## End
+
