@@ -60,7 +60,11 @@ class pyBot():
 		except Exception as e:
 			if self.config["debug"] == "true":
 				print(e)
-	
+				
+	## Whois for getting userinfo (ident@hostname) [ RESERVED ONLY FOR AUTOMODES!!! ]
+	def whois (self, nick):
+		self.send_data("WHOIS {0}".format(nick))
+		
 	## Join channel
 	def join_chan( self, chan ):
 		self.send_data( "JOIN {0}".format(chan.strip()) )
@@ -254,13 +258,15 @@ class pyBot():
 				#print(self.msg)
 				print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ))								
 			
-			#automodes under construction here!!!!
+			## AUTOMODES BELOW!!
 			if self.msg[1] == "JOIN":
 				syscmd.modecheck(self)
-			
-			#built-in whois handler to get user ident@hostname
+			## built-in whois handler to get user ident@hostname from requested user [ IF using self.whois in any purpose, it will run trough this.. ]
 			if self.msg[1] == "311":
 				self.hostident = syscmd.getRemoteHost(self)
+			if "318" in self.msg: ##a Quick fix, gotta rethink it over if having time anytime...
+				syscmd.addautomode(self,self.modes,self.channel)
+			## End of Automodes fix ... should be fixed if any better ideas...
 
 			## Logger
 			if logger == 1:
