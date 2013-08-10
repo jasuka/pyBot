@@ -48,7 +48,8 @@ class pyBot():
 		self.loop()
 	#IRC Codes (for logging/seendb)
 	irc_codes = ["001", "002", "003", "004", "005", "042", "251", "250", "252", "254", 
-				"255", "265", "266", "311", "312", "313", "317", "318", "319", "338", "366", "375", "372", "376", "401", "433"]
+				"255", "265", "266", "311", "312", "313", "317", "318", "319",
+				"338", "366", "375", "372", "376", "401", "433", "482"]
 			
 	## Send data function
 	def send_data( self, data ):
@@ -258,7 +259,8 @@ class pyBot():
 			
 			## AUTOMODES BELOW!!
 			if self.msg[1] == "JOIN":
-				syscmd.modecheck(self)
+				if self.get_nick != self.nick: #this is like.. what?
+					syscmd.modecheck(self)
 			## built-in whois handler to get user ident@hostname from requested user [ IF using self.whois in any purpose, it will run trough this.. ]
 			if self.msg[1] == "311":
 				self.hostident = syscmd.getRemoteHost(self)
