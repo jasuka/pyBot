@@ -41,7 +41,7 @@ class pyBot():
 	def __init__( self ):
 	
 	## Bot Version
-		self.version = "pyBot version 0.5.0"
+		self.version = "pyBot version 0.5.3"
 	## Config and start the bot
 		self.config = config.config
 		self.modulecfg = modulecfg.modulecfg
@@ -258,7 +258,7 @@ class pyBot():
 			
 			## AUTOMODES BELOW!!
 			if self.msg[1] == "JOIN":
-				if self.get_nick != self.nick: #this is like.. what?
+				if self.get_nick() != self.nick: #this is like.. what?
 					syscmd.modecheck(self)
 			## built-in whois handler to get user ident@hostname from requested user [ IF using self.whois in any purpose, it will run trough this.. ]
 			if self.msg[1] == "311":
