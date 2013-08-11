@@ -65,8 +65,9 @@ def modecheck (self):
 
 ## ADD AUTOMODE
 def addautomode (self,modes,chan):
-
-	identhost = self.hostident.strip()
+	
+	identhost = self.hostident.strip() 	#this is created by getRemoteHost() down below which is later on called
+					   	#in core as a bot wide variable when server sends whoise code 311
 	file = "modules/data/automodes.txt"
 
 	if modes == "ao":
