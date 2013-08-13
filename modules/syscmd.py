@@ -79,7 +79,7 @@ def addautomode (self,modes,chan):
 						temp.write(re.sub("^{0}:.*$".format(identhost), str, line))
 					os.remove("modules/data/automodes.txt")
 					os.rename("modules/data/temp1.txt", file)
-				self.send_data("PRIVMSG {2} :Automode ({0}) added for {1} on channel {2}".format(modes,identhost,chan))
+				self.send_data("PRIVMSG {2} :Automode ({0}) changed for {1} on channel {2}".format(modes,identhost,chan))
 				return(True)
 			## If the nick doesn't exist in the file, append it in there
 			else:
