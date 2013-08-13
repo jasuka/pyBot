@@ -104,7 +104,6 @@ def addautomode (self,modes,chan):
 
 def getRemoteHost (self):
 	#print("{0}@{1}".format(self.msg[4],self.msg[5]))
-	time.sleep(0)
 	hostident = "{0}@{1}".format(self.msg[4],self.msg[5])
 	return(hostident)
 ## End
