@@ -3,6 +3,9 @@ import platform
 
 def sysinfo(self):
 
+	if "Darwin" not in platform.system():
+		self.send_chan("Sorry, only OS X supported for now")
+		return
 	try:
 		PIPE = subprocess.PIPE
 
