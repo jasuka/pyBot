@@ -41,16 +41,13 @@ def sysinfo(self):
 			cpu = cpu[1]
 			
 			## MEM // Have to use free -m....
-			#process2 = subprocess.Popen(["top -n 1 | grep 'Mem:' | awk '{print $3 \" \" $5}'"], stdout=PIPE, stderr=PIPE, shell=True)
-			#mem, stderroutput = process2.communicate()
-			#mem = mem.decode("utf-8").strip()
-			#mem = mem.split(" ")
-			#used_mem = mem[1][:-1]
-			#total_mem = mem[0][:-1]
-			#used_mem = round(int(used_mem)/1024.0)
-			#total_mem = round(int(total_mem)/1024.0)
-			total_mem = 200
-			used_mem = 100
+			process2 = subprocess.Popen(["free -m | grep Mem | awk '{print $2 \" \" $3}'"], stdout=PIPE, stderr=PIPE, shell=True)
+			mem, stderroutput = process2.communicate()
+			mem = mem.decode("utf-8").strip()
+			mem = mem.split(" ")
+			used_mem = mem[0]
+			total_mem = mem[1]
+
 			## Uptime
 			process3 = subprocess.Popen(["uptime"], stdout=PIPE, stderr=PIPE)
 			uptime, stderroutput = process3.communicate()
