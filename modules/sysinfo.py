@@ -5,10 +5,8 @@ def sysinfo(self):
 
 
 	try:
-		PIPE = subprocess.PIPE
-
 		if "Darwin" in platform.system():
-
+			PIPE = subprocess.PIPE
 			## CPU and Total RAM
 			process = subprocess.Popen(['sysctl', 'machdep.cpu.brand_string', 'hw.memsize'], stdout=PIPE, stderr=PIPE)
 			cpu, stderroutput = process.communicate()
@@ -33,19 +31,23 @@ def sysinfo(self):
 					platform.python_version(), " ".join(string[1][:-11].split()), uptime, used_mem, total_mem))			
 			
 		if "Linux" in platform.system():
-			process2 = subprocess.Popen(["top -n 1 | grep 'KiB Mem:' | awk '{print $4 " " $6}'"], stdout=PIPE, stderr=PIPE, shell=True)
-			mem, stderroutput = process2.communicate()
-			mem = mem.decode("utf-8").strip()
-			mem = mem.split(" ")
-			used_mem = int(mem[1])/1024
-			total_mem = int(mem[0])/1024
-
+			PIPE = subprocess.PIPE
+			#process2 = subprocess.Popen(["top -n 1 | grep 'Mem:' | awk '{print $4  $6}'"], stdout=PIPE, stde$
+			#mem, stderroutput = process2.communicate()
+			#mem = mem.decode("utf-8").strip()
+			#mem = mem.split(" ")
+			#print(mem)
+			#used_mem = int(mem[1])/1024
+			#total_mem = int(mem[0])/1024
+			used_mem = 100
+			total_mem = 200
 			## Uptime
 			process3 = subprocess.Popen(["uptime"], stdout=PIPE, stderr=PIPE)
 			uptime, stderroutput = process3.communicate()
 			uptime = uptime.decode("utf-8").strip()
 			temp = uptime.split(" ")
-			uptime = "{0} {1} {2}".format(temp[3], temp[4], temp[6][:-1])
+			print(temp)
+			uptime = "{0} {1} {2}".format(temp[2], temp[3], temp[5][:-1])
 
 			self.send_chan("OS: {0} <> Python: {1} <> Uptime: {2} <> Mem Usage: {3}/{4} MiB".format(platform.platform(), 
 					platform.python_version(), uptime, used_mem, total_mem))	
