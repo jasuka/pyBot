@@ -41,7 +41,7 @@ def sysinfo(self):
 			cpu = cpu[1]
 			
 			## MEM
-			process2 = subprocess.Popen(["top -n 1 | grep 'Mem:' | awk '{print $3 \" \" $5}'"], stdout=PIPE, $
+			process2 = subprocess.Popen(["top -n 1 | grep 'Mem:' | awk '{print $3 \" \" $5}'"], stdout=PIPE, stderr=PIPE, shell=True)
 			mem, stderroutput = process2.communicate()
 			mem = mem.decode("utf-8").strip()
 			mem = mem.split(" ")
