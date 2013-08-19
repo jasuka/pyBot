@@ -45,8 +45,8 @@ def sysinfo(self):
 			mem, stderroutput = process2.communicate()
 			mem = mem.decode("utf-8").strip()
 			mem = mem.split(" ")
-			used_mem = mem[0]
-			total_mem = mem[1]
+			used_mem = mem[1]
+			total_mem = mem[0]
 
 			## Uptime
 			process3 = subprocess.Popen(["uptime"], stdout=PIPE, stderr=PIPE)
