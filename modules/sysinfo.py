@@ -50,7 +50,7 @@ def sysinfo(self):
 			#used_mem = round(int(used_mem)/1024.0)
 			#total_mem = round(int(total_mem)/1024.0)
 			total_mem = 200
-			free_mem = 100
+			used_mem = 100
 			## Uptime
 			process3 = subprocess.Popen(["uptime"], stdout=PIPE, stderr=PIPE)
 			uptime, stderroutput = process3.communicate()
