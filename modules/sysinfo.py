@@ -47,8 +47,8 @@ def sysinfo(self):
 			mem = mem.split(" ")
 			used_mem = mem[1][:-1]
 			total_mem = mem[0][:-1]
-			used_mem = int(used_mem)/1024.0
-			total_mem = int(total_mem)/1024.0
+			used_mem = round(int(used_mem)/1024.0)
+			total_mem = round(int(total_mem)/1024.0)
 			
 			## Uptime
 			process3 = subprocess.Popen(["uptime"], stdout=PIPE, stderr=PIPE)
@@ -58,7 +58,7 @@ def sysinfo(self):
 			print(temp)
 			uptime = "{0} {1} {2}".format(temp[2], temp[3], temp[5][:-1])
 
-			self.send_chan("OS: {0} <> Python: {1} <> CPU: {2} <> Uptime: {3} <> Mem Usage: {4}/{5} MiB".format(platform.platform(), 
+			self.send_chan("OS: {0} <> Python: {1} <> CPU:{2} <> Uptime: {3} <> Mem Usage: {4}/{5} MiB".format(platform.platform(), 
 					platform.python_version(), cpu, uptime, used_mem, total_mem))	
 				
 	except Exception as e:
