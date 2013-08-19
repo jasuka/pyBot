@@ -10,14 +10,14 @@ def sysinfo(self):
 			## CPU and Total RAM
 			process = subprocess.Popen(['sysctl', 'machdep.cpu.brand_string', 'hw.memsize'], stdout=PIPE, stderr=PIPE)
 			cpu, stderroutput = process.communicate()
+			string = cpu.decode("utf-8")
+			string = string.split(":")
 		
 			## Used MEM
 			process2 = subprocess.Popen(["top -l 1 | grep PhysMem: | awk '{print $2}'"], stdout=PIPE, stderr=PIPE, shell=True)
 			used_mem, stderroutput = process2.communicate()
 			used_mem = used_mem.decode("utf-8").strip()
 			used_mem = used_mem[:-1]
-			string = cpu.decode("utf-8")
-			string = string.split(":")
 			total_mem = round(int(string[2])/1024/1024)
 			
 			## Uptime
@@ -32,15 +32,24 @@ def sysinfo(self):
 			
 		if "Linux" in platform.system():
 			PIPE = subprocess.PIPE
-			#process2 = subprocess.Popen(["top -n 1 | grep 'Mem:' | awk '{print $4  $6}'"], stdout=PIPE, stde$
-			#mem, stderroutput = process2.communicate()
-			#mem = mem.decode("utf-8").strip()
-			#mem = mem.split(" ")
-			#print(mem)
-			#used_mem = int(mem[1])/1024
-			#total_mem = int(mem[0])/1024
-			used_mem = 100
-			total_mem = 200
+			
+			## CPU and Total RAM
+			process = subprocess.Popen(['cat /proc/cpuinfo | grep "model name"'], stdout=PIPE, stderr=PIPE, shell=True)
+			cpu, stderroutput = process.communicate()
+			cpu = cpu.decode("utf-8").strip()
+			cpu = cpu.split(":")
+			cpu = cpu[1]
+			
+			## MEM
+			process2 = subprocess.Popen(["top -n 1 | grep 'Mem:' | awk '{print $3 \" \" $5}'"], stdout=PIPE, $
+			mem, stderroutput = process2.communicate()
+			mem = mem.decode("utf-8").strip()
+			mem = mem.split(" ")
+			used_mem = mem[1][:-1]
+			total_mem = mem[0][:-1]
+			used_mem = int(used_mem)/1024.0
+			total_mem = int(total_mem)/1024.0
+			
 			## Uptime
 			process3 = subprocess.Popen(["uptime"], stdout=PIPE, stderr=PIPE)
 			uptime, stderroutput = process3.communicate()
@@ -49,8 +58,8 @@ def sysinfo(self):
 			print(temp)
 			uptime = "{0} {1} {2}".format(temp[2], temp[3], temp[5][:-1])
 
-			self.send_chan("OS: {0} <> Python: {1} <> Uptime: {2} <> Mem Usage: {3}/{4} MiB".format(platform.platform(), 
-					platform.python_version(), uptime, used_mem, total_mem))	
+			self.send_chan("OS: {0} <> Python: {1} <> CPU: {2} <> Uptime: {3} <> Mem Usage: {4}/{5} MiB".format(platform.platform(), 
+					platform.python_version(), cpu, uptime, used_mem, total_mem))	
 				
 	except Exception as e:
 		if self.config["debug"] == "true":
