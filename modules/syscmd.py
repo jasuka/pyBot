@@ -50,9 +50,9 @@ def modecheck (self):
 	try:
 		with open(file, "r", encoding="UTF-8") as modes:
 			for line in modes:
-				if re.search("\\b"+self.get_host()+":\\b", line, flags=re.IGNORECASE):
+				if re.search(re.escape(self.get_host()), line, flags=re.IGNORECASE):
 					spl = line.split(":")
-					#print(spl[0]+" "+spl[1])
+					print(spl[0]+" "+spl[1])
 					if spl[1].strip() == "ao":
 						self.send_data("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
 						print("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
