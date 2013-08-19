@@ -51,7 +51,7 @@ def modecheck (self):
 		with open(file, "r", encoding="UTF-8") as modes:
 			for line in modes:
 				if re.search(re.escape(self.get_host()), line, flags=re.IGNORECASE):
-					spl = line.split(":")
+					spl = line.split("|")
 					print(spl[0]+" "+spl[1])
 					if spl[1].strip() == "ao":
 						self.send_data("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
@@ -75,8 +75,8 @@ def addautomode (self,modes,chan):
 			if re.search("\\b"+identhost+":\\b", open(file).read(), flags=re.IGNORECASE):
 				with open("modules/data/temp1.txt", "w", encoding="UTF-8") as temp:
 					for line in open(file):				
-						str = "{0}:{1}:{2}".format(identhost,modes,chan)
-						temp.write(re.sub("^{0}:.*$".format(identhost), str, line))
+						str = "{0}|{1}|{2}".format(identhost,modes,chan)
+						temp.write(re.sub("^{0}|.*$".format(identhost), str, line))
 					os.remove("modules/data/automodes.txt")
 					os.rename("modules/data/temp1.txt", file)
 				self.send_data("PRIVMSG {2} :Automode ({0}) changed for {1} on channel {2}".format(modes,identhost,chan))
@@ -84,7 +84,7 @@ def addautomode (self,modes,chan):
 			## If the nick doesn't exist in the file, append it in there
 			else:
 				with open(file, "a", encoding="UTF-8") as file:
-					str = "\r\n{0}:{1}:{2}".format(identhost,modes,chan)
+					str = "\r\n{0}|{1}|{2}".format(identhost,modes,chan)
 					file.write(str)
 				self.send_data("PRIVMSG {2} :Automode ({0}) added for {1} on channel {2}".format(modes,identhost,chan))
 				return(True)
