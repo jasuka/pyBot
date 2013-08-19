@@ -34,7 +34,7 @@ def sysinfo(self):
 			PIPE = subprocess.PIPE
 			
 			## CPU and Total RAM
-			process = subprocess.Popen(['cat /proc/cpuinfo | grep "model name"'], stdout=PIPE, stderr=PIPE, shell=True)
+			process = subprocess.Popen(['cat /proc/cpuinfo | grep "model name" | head -n1'], stdout=PIPE, stderr=PIPE, shell=True)
 			cpu, stderroutput = process.communicate()
 			cpu = cpu.decode("utf-8").strip()
 			cpu = cpu.split(":")
@@ -58,7 +58,7 @@ def sysinfo(self):
 			temp = uptime.split(" ")
 			uptime = "{0} {1} {2}".format(temp[2], temp[3], temp[5][:-1])
 
-			self.send_chan("OS: {0} <> Python: {1} <> CPU:{2} <> Uptime: {3} <> Mem Usage: {4}/{5} MiB".format(platform.platform(), 
+			self.send_chan("OS: {0} <> Python: {1} <> CPU: {2} <> Uptime: {3} <> Mem Usage: {4}/{5} MiB".format(platform.platform(), 
 					platform.python_version(), " ".join(cpu.split()), uptime, used_mem, total_mem))	
 				
 	except Exception as e:
