@@ -51,8 +51,8 @@ def sysinfo(self):
 			## Uptime
 			process3 = subprocess.Popen(["uptime"], stdout=PIPE, stderr=PIPE)
 			uptime, stderroutput = process3.communicate()
-			uptime = uptime.decode("utf-8").strip()
-			temp = uptime.split(" ")
+			uptime = uptime.decode("utf-8")
+			temp = " ".join(uptime.split()).split(" ")
 			uptime = "{0} {1} {2}".format(temp[2], temp[3], temp[4][:-1])
 
 			self.send_chan("I'm running on {0} with Python {1} <> CPU: {2} <> Uptime: {3} <> Mem Usage: {4}/{5} MiB".format(platform.platform(), 
