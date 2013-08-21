@@ -277,7 +277,7 @@ class pyBot():
 				active = 1
 			try:
 				if active == 1:
-					if self.msg[1] not in self.irc_codes:
+					if self.msg[1] not in self.irc_codes and "Q!TheQBot@CServe.quakenet.org" not in self.msg[0]:
 						if self.nick not in self.msg[0] and self.msg[2].strip() == self.nick:
 							self.send_pm("I'm just a bot, don't waste your time")
 			except IndexError:
