@@ -52,10 +52,13 @@ def modecheck (self):
 			for line in modes:
 				if re.search(re.escape(self.get_host()), line, flags=re.IGNORECASE):
 					spl = line.split(";")
-					print(spl[0]+" "+spl[1])
+					#print(spl[0]+" "+spl[1])
 					if spl[1].strip() == "ao":
 						self.send_data("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
 						print("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
+					elif spl[1].strip() == "av":
+						self.send_data("MODE {0} +v {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
+						print("MODE {0} +v {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
 	except (OSError, IOError):	#if it happens, the database file doesn't exist, create one
 		open(file, "a").close()
 		if self.config["debug"] == "true":
@@ -70,7 +73,7 @@ def addautomode (self,modes,chan):
 					   	#in core as a bot wide variable when server sends whoise code 311
 	file = "modules/data/automodes.txt"
 
-	if modes == "ao":
+	if modes == "ao" or modes == "av":
 		try:
 			if re.search("\\b"+identhost+";\\b", open(file).read(), flags=re.IGNORECASE):
 				with open("modules/data/temp1.txt", "w", encoding="UTF-8") as temp:
@@ -79,7 +82,7 @@ def addautomode (self,modes,chan):
 						temp.write(re.sub("^{0};.*$".format(identhost), str, line))
 					os.remove("modules/data/automodes.txt")
 					os.rename("modules/data/temp1.txt", file)
-				self.send_data("PRIVMSG {2} :Automode ({0}) changed for {1} on channel {2}".format(modes,identhost,chan))
+				self.send_data("PRIVMSG {2} :Automode changed for {1} on channel {2}. The new mode is ({0})".format(modes,identhost,chan))
 				return(True)
 			## If the nick doesn't exist in the file, append it in there
 			else:
@@ -97,7 +100,7 @@ def addautomode (self,modes,chan):
 			if self.config["debug"] == "true":
 				print(e)
 	else:
-		self.send_data("PRIVMSG {0} :Currently the only user flag is 'ao'".format(chan))
+		self.send_data("PRIVMSG {0} :Currently the only user flags are 'ao' & 'av'".format(chan))
 ## END
 
 ## Return remote host based on given nick
