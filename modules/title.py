@@ -7,7 +7,7 @@ import syscmd
 def title ( self, url ):
 	
 	## Banned extensions in the urls
-	valid = re.search( ".*\.(jpg$|jpeg$|png$|gif$|pdf$|exe$|zip$)", url )
+	valid = re.search( ".*\.(jpg$|jpeg$|png$|gif$|pdf$|exe$|zip|txt$)", url )
 	
 	if valid == None:
 		url = url.strip().rstrip(".")
