@@ -47,6 +47,7 @@ def delHtml( html ):
 ## Automodes checkup on event JOIN
 def modecheck (self):
 	file = "modules/data/automodes.txt"
+	print(self.get_host())
 	try:
 		with open(file, "r", encoding="UTF-8") as modes:
 			for line in modes:
