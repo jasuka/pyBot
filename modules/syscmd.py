@@ -47,19 +47,20 @@ def delHtml( html ):
 ## Automodes checkup on event JOIN
 def modecheck (self):
 	file = "modules/data/automodes.txt"
-	print(self.get_host())
+	line2 = ""
 	try:
 		with open(file, "r", encoding="UTF-8") as modes:
 			for line in modes:
-				if re.search(re.escape(self.get_host()), line, flags=re.IGNORECASE):
-					spl = line.split(";")
-					#print(spl[0]+" "+spl[1])
-					if spl[1].strip() == "ao":
-						self.send_data("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
-						print("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
-					elif spl[1].strip() == "av":
-						self.send_data("MODE {0} +v {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
-						print("MODE {0} +v {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
+				spl = line.split(";")
+				line2 += spl[0]+","
+			print(line2)
+			if self.get_host() in line2:
+				if spl[1].strip() == "ao":
+					self.send_data("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
+					print("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
+				elif spl[1].strip() == "av":
+					self.send_data("MODE {0} +v {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
+					print("MODE {0} +v {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
 	except (OSError, IOError):	#if it happens, the database file doesn't exist, create one
 		open(file, "a").close()
 		if self.config["debug"] == "true":
