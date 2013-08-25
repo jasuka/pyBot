@@ -52,7 +52,9 @@ def modecheck (self):
 		with open(file, "r", encoding="UTF-8") as modes:
 			for line in modes:
 				spl = line.split(";")
+				#print(spl[0])
 				line2 += spl[0]+","
+			#line2 = line2.join(",")
 			print(line2)
 			if self.get_host() in line2:
 				if spl[1].strip() == "ao":
@@ -61,6 +63,7 @@ def modecheck (self):
 				elif spl[1].strip() == "av":
 					self.send_data("MODE {0} +v {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
 					print("MODE {0} +v {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
+			#line2 = ""
 	except (OSError, IOError):	#if it happens, the database file doesn't exist, create one
 		open(file, "a").close()
 		if self.config["debug"] == "true":
