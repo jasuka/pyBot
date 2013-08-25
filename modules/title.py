@@ -9,7 +9,7 @@ def title ( self, url ):
 	## Banned extensions in the urls
 	banned = re.search( ".*\.(jpg$|jpeg$|png$|gif$|pdf$|exe$|zip$|txt$)", url )
 	
-	if banned == None:
+	if not banned:
 		url = url.strip().rstrip(".")
 		req = urllib.request.Request(url, None)
 		## Until I figure out something better...
