@@ -5,13 +5,13 @@ import syscmd
 
 ## Gets title for the urls
 def title ( self, url ):
-	
+	url = syscmd.replaceUmlauts(url)
 	## Banned extensions in the urls
 	banned = re.search( ".*\.(jpg$|jpeg$|png$|gif$|pdf$|exe$|zip$|txt$)", url )
 	
 	if not banned:
 		url = url.strip().rstrip(".")
-		req = urllib.request.Request(url, None)
+		#req = urllib.request.Request(url, None)
 		## Until I figure out something better...
 		if "t.co" in url.strip():
 			html = syscmd.getHtml( self, url, False )

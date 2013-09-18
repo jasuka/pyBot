@@ -115,3 +115,11 @@ def getRemoteHost (self):
 	hostident = "{0}@{1}".format(self.msg[4],self.msg[5])
 	return(hostident)
 ## End
+
+## Replace umlauts 
+def replaceUmlauts(text):
+	dic = {'Ä':'%C3%84', 'ä':'%C3%A4', 'Ö':'%C3%96', 'ö':'%C3%B6', 'Ü':'Ue', 'ü':'ue', 'ß':'ss'}
+	for i, j in dic.items():
+		text = text.replace(i, j)
+		print(text)
+	return text
