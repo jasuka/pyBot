@@ -118,8 +118,7 @@ def getRemoteHost (self):
 
 ## Replace umlauts 
 def replaceUmlauts(text):
-	dic = {'Ä':'%C3%84', 'ä':'%C3%A4', 'Ö':'%C3%96', 'ö':'%C3%B6', 'Ü':'Ue', 'ü':'ue', 'ß':'ss'}
+	dic = {'Ä':'%C3%84', 'ä':'%C3%A4', 'Ö':'%C3%96', 'ö':'%C3%B6', '"':'%22', '®':'%C2%AE'}
 	for i, j in dic.items():
 		text = text.replace(i, j)
-		print(text)
 	return text

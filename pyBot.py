@@ -359,7 +359,7 @@ class pyBot():
 			## Get title for the URLs
 			try:
 				if "372" not in self.msg and "332" not in self.msg:
-					urls = re.findall( 'http[s]?://(?:[a-öA-Ö]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', data )
+					urls = re.findall( 'http[s]?://(?:[a-öA-Ö]|[0-9]|[$-_@.&+"®]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', data )
 					if urls != None:
 						for url in urls:
 							## Run title as own thread so it won't block the bot
