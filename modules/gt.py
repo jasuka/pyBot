@@ -16,7 +16,7 @@ def gt(self):
 			for x in range (6, length):
 				parameters += "{0} ".format(self.msg[x])
 			parameters_url = urllib.parse.quote(parameters.strip())
-			url = "http://translate.google.com/m?hl={0}&sl={1}&q={2}".format(to, frm, parameters_url)
+			url = "http://translate.google.com/m?hl={0}&sl={1}&ie=UTF-8&q={2}".format(to, frm, parameters_url)
 			html = syscmd.getHtml(self, url, True )
 		except:
 			if self.config["debug"] == "true":
