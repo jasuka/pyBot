@@ -21,7 +21,7 @@ def seendb ( self ):
 					if nick in open(seendb).read():
 						with open(temp, "w", encoding="UTF-8") as tempdb:
 							for line in open(seendb):				
-								str = "{0}:{1}".format(nick,timestamp)
+								str = "{0}:{1}{2}".format(nick,timestamp,usertxt)
 								tempdb.write(re.sub("^{0}:.*$".format(nick), str, line))
 								tempdb.flush()
 							os.remove(seendb)
@@ -30,7 +30,7 @@ def seendb ( self ):
 					## If the nick doesn't exist in the file, append it in there
 					else:
 						with open(seendb, "a", encoding="UTF-8") as file:
-							str = "\r\n{0}:{1}".format(nick,timestamp)
+							str = "\r\n{0}:{1}{2}".format(nick,timestamp,usertxt)
 							file.write(str)
 						return(True)
 				except (OSError, IOError):	#if it happens, the database file doesn't exist, create one
