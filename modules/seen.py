@@ -21,9 +21,9 @@ def seen ( self ):
 					if self.nick != nick:
 						with open(seendb, "r", encoding="UTF-8") as db:
 							for line in db:
-								if re.search("\\b"+nick+":\\b", line, flags=re.IGNORECASE):
+								if re.search("\\b"+nick+"\\|\\:\\|\\b", line, flags=re.IGNORECASE):
 									nick_in_line = 1
-									spl = line.split(":")
+									spl = line.split("|:|")
 									name = spl[0]
 									dbtime = spl[1].rstrip("\r\n")
 									dbconvert = datetime.datetime.fromtimestamp(int(dbtime)).strftime('[%d.%m.%Y // %H:%M:%S]')
