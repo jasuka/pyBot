@@ -1,5 +1,4 @@
 import urllib
-import json
 
 def isup (self):
 
