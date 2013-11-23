@@ -9,7 +9,7 @@ def isup (self):
 			url = self.msg[4].strip()
 			if "http://" not in url:
 				url = "http://" + url
-			if urllib.request.urlopen("{}".format(url)).getcode() == 200:
+			if urllib.request.urlopen("{}".format(url), timeout = 5).getcode() == 200:
 				self.send_chan("The site {0} seems to be up!".format(url))
 			else:
 				self.send_chan("The site {0} seems to be down!".format(url))							
