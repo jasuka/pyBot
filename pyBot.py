@@ -378,7 +378,7 @@ class Flood:
 			time.sleep(20)	
 
 ## Run the bot and flood counter in own threads
-try:
+def initialize():
 	bot = Thread(target=pyBot)
 	fld = Thread(target=Flood)
 
@@ -387,7 +387,11 @@ try:
 	fld.daemon = True
 	fld.start()
 	while True: ## Keep the main thread alive
-		time.sleep(1)		
+		time.sleep(1)
+try:
+	initialize()
+except Exception:
+	initialize()	
 except KeyboardInterrupt:
 	#os._exit(1)
 	print( "Ctrl+C, Quitting!\r\n" )
