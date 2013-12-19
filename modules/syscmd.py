@@ -15,7 +15,7 @@ def getHtml( self, url, useragent):
 		html = urllib.request.urlopen(req, timeout = 20).read()
 		return(html)
 	except Exception as e:
-		self.send_chan( "~ {0} ({1})".format(e, url) )
+		self.send_chan( "~ {0}".format(e))
 ## End
 
 ## Check if the city exists in Finland
