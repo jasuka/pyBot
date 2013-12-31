@@ -276,11 +276,12 @@ class pyBot():
 			if "366" in self.msg:
 				active = 1
 			try:
-				if active == 1:
+				if active == 1 and len(self.msg) >= 3:
 					if self.msg[1] not in self.irc_codes and "Q!TheQBot@CServe.quakenet.org" not in self.msg[0]:
 						if self.nick not in self.msg[0] and self.msg[2].strip() == self.nick:
 							self.send_pm("I'm just a bot, don't waste your time")
 			except IndexError:
+				print("PM exception")
 				pass
 				
 			## PING PONG
@@ -325,47 +326,51 @@ class pyBot():
 					print( "Logging disabled\r\n" )
 						
 			try:
-				cmd = self.msg[3].lstrip(":").rstrip("\r\n")
-				if cmd[0] == "!" and len(cmd) > 1:
-					if cmd == "!load":
-						self.load()
-					elif cmd == "!reload":
-						self.reload()
-					elif cmd == "!join":
-						if self.get_host() in self.config["opers"]:
-							self.join_chan(self.msg[4])
-					elif cmd == "!part":
-						if self.get_host() in self.config["opers"]:
-							self.part_chan(self.msg[4])
-					elif cmd == "!quit":
-						if self.get_host() in self.config["opers"]:
-							self.quit()
-					elif cmd == "!restart":
-						self.restart()
-					else:
-						## Flood protection, add nick to the dictionary and raise the value by one every time he/she speaks
-						if self.get_nick() in flood:
-							flood[self.get_nick()] += 1
+				if len(self.msg) >= 4:
+					cmd = self.msg[3].lstrip(":").rstrip("\r\n")
+					if cmd[0] == "!" and len(cmd) > 1:
+						if cmd == "!load":
+							self.load()
+						elif cmd == "!reload":
+							self.reload()
+						elif cmd == "!join":
+							if self.get_host() in self.config["opers"]:
+								self.join_chan(self.msg[4])
+						elif cmd == "!part":
+							if self.get_host() in self.config["opers"]:
+								self.part_chan(self.msg[4])
+						elif cmd == "!quit":
+							if self.get_host() in self.config["opers"]:
+								self.quit()
+						elif cmd == "!restart":
+							self.restart()
 						else:
-							flood[self.get_nick()] = 1
-						if flood[self.get_nick()] <= 3: ## If the nick has issued three commands before the timer is cleaned
-							Thread(target=self.parse_command, args=(cmd.lstrip("!"),)).start() ## Run the commands in own threads, 
-																					## so they won't block each other
-						else:
-							print( "Flooding!\r\n" )
+							## Flood protection, add nick to the dictionary and raise the value by one every time he/she speaks
+							if self.get_nick() in flood:
+								flood[self.get_nick()] += 1
+							else:
+								flood[self.get_nick()] = 1
+							if flood[self.get_nick()] <= 3: ## If the nick has issued three commands before the timer is cleaned
+								Thread(target=self.parse_command, args=(cmd.lstrip("!"),)).start() ## Run the commands in own threads, 
+																						## so they won't block each other
+							else:
+								print( "Flooding!\r\n" )
 			except IndexError:
+				print("Cmd exception")
 				pass ## No need to do anything
 			
 			## Get title for the URLs
 			try:
-				if "372" not in self.msg and "332" not in self.msg and ":!isup" not in self.msg[3] and "TOPIC" not in self.msg[1]:
-					urls = re.findall( 'http[s]?://(?:[a-öA-Ö]|[0-9]|[$-_@.&+"®]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', data )
-					if urls != None:
-						for url in urls:
-							## Run title as own thread so it won't block the bot
-							Thread(target=title.title, args=(self, url)).start()
+				if len(self.msg) >= 4:
+					if "372" not in self.msg and "332" not in self.msg and ":!isup" not in self.msg[3] and "TOPIC" not in self.msg[1]:
+						urls = re.findall( 'http[s]?://(?:[a-öA-Ö]|[0-9]|[$-_@.&+"®]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', data )
+						if urls != None:
+							for url in urls:
+								## Run title as own thread so it won't block the bot
+								Thread(target=title.title, args=(self, url)).start()
 			except Exception as e:
 				if self.config["debug"] == "true":
+					print("URL Title exception")
 					print(e)
 
 ## Clear flood counter; Clears the flood dictionary every x seconds
