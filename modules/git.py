@@ -31,4 +31,4 @@ def git(self):
 	
 	except Exception as e:
 		if self.config["debug"] == "true":
-			print(e)
+			print("Error occured in git module: " +e)

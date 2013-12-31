@@ -60,4 +60,4 @@ def sysinfo(self):
 				
 	except Exception as e:
 		if self.config["debug"] == "true":
-			print(e)
+			print("Error occured in sysinfo module: "+e)

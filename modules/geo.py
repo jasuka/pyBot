@@ -17,4 +17,4 @@ def geo (self):
 							data["query"], data["isp"], data["country"], shortened)))
 		except Exception as e:
 			if self.config["debug"] == "true":
-				print(e)
+				print("Error occured in geo module: " +e)

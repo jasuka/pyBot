@@ -11,7 +11,7 @@ def ylilauta(self):
 			html = syscmd.getHtml(self, url, True )
 		except Exception as e:
 			if self.config["debug"] == "true":
-				print(e)
+				print("Error occured in ylilauta module (1): "+e)
 		try:
 			try:
 				soup = BeautifulSoup(html, "lxml")
@@ -23,4 +23,4 @@ def ylilauta(self):
 			self.send_chan(string)
 		except Exception as e:
 			if self.config["debug"] == "true":
-					print(e)
+					print("Error occured in ylilauta module (2): "+e)

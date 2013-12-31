@@ -30,7 +30,7 @@ def wiki(self):
 					self.send_chan("There were no results matching the query.")
 			except Exception as e:
 				if self.config["debug"] == "true":
-						print(e)
+						print("Error occured in wiki module: "+e)
 		else:
 			self.send_chan("Usage: !wiki <lang> <search term> - e.g. !wiki en finland")
 	else:

@@ -38,7 +38,7 @@ def logger_daemon ( self ):
 			os.mkdir(self.config["log-path"])
 		except Exception as e:
 			if self.config["debug"] == "true":
-				print(e)
+				print("Error occured in logger_daemon module: "+e)
 
 		
 	

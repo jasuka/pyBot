@@ -35,4 +35,4 @@ def youtube(self):
 				self.send_chan("No results for: {0}".format(parameters))
 		except Exception as e:
 			if self.config["debug"] == "true":
-				print(e)
+				print("Error occured in youtube module: "+e)

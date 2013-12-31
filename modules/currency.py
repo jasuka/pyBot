@@ -42,5 +42,5 @@ def currency( self ):
 			self.send_chan(trimmed)		
 		except Exception as e:
 			if self.config["debug"] == "true":
-				print(e)
+				print("Error occured in Currency module: " +e)
 		

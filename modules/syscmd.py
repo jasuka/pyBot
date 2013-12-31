@@ -30,7 +30,7 @@ def checkCity ( city ):
 			return(True)
 	except IOError as e:
 		if self.config["debug"] == "true":
-			print(e)
+			print("Error occured in syscmd/checkCity: "+e)
 ## End
 
 ## Clears html tags from a string
@@ -40,7 +40,7 @@ def delHtml( html ):
 		return(html)
 	except Exception as e:
 		if self.config["debug"] == "true":
-			print(e)
+			print("Error occured in syscmd/delHtml: "+e)
 			
 ## End
 
@@ -103,7 +103,7 @@ def addautomode (self,modes,chan):
 				print("Creating file for automodes '{0}'".format(file))
 		except Exception as e:
 			if self.config["debug"] == "true":
-				print(e)
+				print("Error occured in syscmd/addautomode: "+e)
 	else:
 		self.send_data("PRIVMSG {0} :Currently the only user flags are 'ao' & 'av'".format(chan))
 ## END

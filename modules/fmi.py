@@ -60,7 +60,7 @@ def fmi( self ):
 				self.send_chan( output )
 			except Except as e:
 				if self.config["debug"] == "true":
-					print(e)
+					print("Error occured in fmi module: "+e)
 		else:
 			self.send_chan( "City {0} doesn't exist!".format(city.title().strip()) )
 			

@@ -29,4 +29,4 @@ def title ( self, url ):
 			self.send_chan( "~ " + ' '.join(title.split()) ) ##Split words and join them with space
 		except Exception as e:
 			if self.config["debug"] == "true":
-				print(e)
+				print("Error occured in title module: "+e)

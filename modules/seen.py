@@ -13,7 +13,7 @@ def seen ( self ):
 				with open(seendb): pass
 			except Exception as e:
 				if self.config["debug"] == "true":
-					print(e)
+					print("Error occured in seen module: "+e)
 			else:
 				nick = self.msg[4].rstrip("\r\n") #getting the nick we are looking for (the second param. given; !seen nick)
 				nick_in_line = 0
