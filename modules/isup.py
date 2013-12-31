@@ -16,4 +16,4 @@ def isup (self):
 		except Exception as e:
 			self.send_chan("The site {0} seems to be down!".format(url))
 			if self.config["debug"] == "true":
-				print("Error occured in isup module: "+e)
+				print("[ERROR]-[isup] isup() stating: {0}".format(e))
