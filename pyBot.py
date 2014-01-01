@@ -254,10 +254,7 @@ class pyBot():
 			## if debug is true, print some stuff	
 			if self.config["debug"] == "true":
 				#print(self.msg)
-				try:
-					print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ))
-				except UnicodeEncodeError:
-					print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data.encode("utf-8") ))								
+				print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ))							
 			
 			## AUTOMODES BELOW!!
 			if self.msg[1] == "JOIN":
