@@ -31,4 +31,4 @@ def gt(self):
 			self.send_chan(data[0].string.strip())
 		except Exception as e:
 			if self.config["debug"] == "true":
-				print("Error occured in gt module: "+e)
+				print("[ERROR]-[gt] gt() stating: {0}".format(e))

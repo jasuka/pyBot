@@ -36,4 +36,4 @@ def google(self):
 				self.send_chan("No results for: {0}".format(parameters))
 		except Exception as e:
 			if self.config["debug"] == "true":
-				print("Error occured in google module: "+e)
+				print("[ERROR]-[google] google() stating: {0}".format(e))

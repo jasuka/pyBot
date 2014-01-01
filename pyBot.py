@@ -31,7 +31,7 @@ except (ImportError, SyntaxError) as e:
 		print(e)
 except Exception as e:
 	if config.config["debug"] == "true":
-		print("Error in core (loading modules): "+e)
+		print("[ERROR]-[Core] Load modules: {0}".format(e))
 
 ## Global variable for the flood protection
 flood = {}
@@ -41,7 +41,7 @@ class pyBot():
 	def __init__( self ):
 	
 	## Bot Version
-		self.version = "pyBot version 0.6.0"
+		self.version = "pyBot version 0.6.1"
 	## Config and start the bot
 		self.config = config.config
 		self.modulecfg = modulecfg.modulecfg
@@ -60,7 +60,7 @@ class pyBot():
 			print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ) )
 		except Exception as e:
 			if self.config["debug"] == "true":
-				print("Error in core/send_data: "+e)
+				print("[ERROR]-[Core] send_data: {0}".format(e))
 				
 	## Whois for getting userinfo (ident@hostname) [ RESERVED ONLY FOR AUTOMODES!!! ]
 	def whois (self, nick):
@@ -109,7 +109,7 @@ class pyBot():
 			self.send_chan( "Unknown command: {0}!".format( cmd ))
 		except Exception as e:
 			if self.config["debug"] == "true":
-				print("Error in core/parse_command: "+e)
+				print("[ERROR]-[Core] parse_command: {0}".format(e))
 	
 	## Get nick
 	def get_nick( self ):
@@ -152,7 +152,7 @@ class pyBot():
 				self.send_chan( "Usage: !load <module>" )
 		except Exception as e:
 			if self.config["debug"] == "true":
-				print("Error occured in core/load: "+e)
+				print("[ERROR]-[Core] load: {0}".fomat(e))
 					
 	## Reload modules
 	def reload( self ):
@@ -189,7 +189,7 @@ class pyBot():
 					self.send_chan("Unknown module: {0}".format(command))
 		except Exception as e:
 			if self.config["debug"] == "true":
-				print("Error occured in core/reload: "+e)
+				print("[ERROR]-[Core] reload: {0}".format(e))
 	
 	## Restart the bot 
 	def restart ( self ):
@@ -202,7 +202,7 @@ class pyBot():
 			os.execl(python, python, * sys.argv)
 		except Exception as e:
 			if self.config["debug"] == "true":
-				print("Error occured in core/restart: "+e)
+				print("[ERROR]-[Core] restart: {0}".format(e))
 
 	## Main loop, connect etc.
 	def loop( self ):
@@ -221,7 +221,7 @@ class pyBot():
 				self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
 				self.s.connect(( self.config["host"], self.config["port"] ))
 			if self.config["debug"] == "true":
-				print("Error occured in core/loop/ipv4/6 support: "+e)
+				print("[ERROR]-[Core] Connection: {0}".format(e))
 
 		## Send identification to the server
 		self.send_data(my_nick)

@@ -39,4 +39,4 @@ def seendb ( self ):
 						print("Creating file")
 				except Exception as e:
 					if self.config["debug"] == "true":
-						print("Error occured in seendb module: "+e)
+						print("[ERROR]-[seendb] seendb() stating: {0}".format(e))
