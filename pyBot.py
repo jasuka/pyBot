@@ -29,9 +29,10 @@ except (ImportError, SyntaxError) as e:
 	print("Couldn't load module: {0}".format(mod))
 	if config.config["debug"] == "true":
 		print(e)
+	pass
 except Exception as e:
 	if config.config["debug"] == "true":
-		print("[ERROR]-[Core] Load modules: {0}".format(e))
+		print("[ERROR]-[Core] Load modules: {0} , This error is not being logged".format(e))
 
 ## Global variable for the flood protection
 flood = {}
@@ -59,6 +60,9 @@ class pyBot():
 			self.s.sendall( data.encode("utf-8") ) 
 			print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ) )
 		except Exception as e:
+			self.errormsg = "[ERROR]-[Core] send_data: {0}".format(e)		
+			sys_error_log.sys_error_log( self ) ## LOG the error
+			
 			if self.config["debug"] == "true":
 				print("[ERROR]-[Core] send_data: {0}".format(e))
 				
@@ -108,6 +112,9 @@ class pyBot():
 		except KeyError:
 			self.send_chan( "Unknown command: {0}!".format( cmd ))
 		except Exception as e:
+			self.errormsg = "[ERROR]-[Core] parse_command: {0}".format(e)
+			sys_error_log.sys_error_log( self ) ## LOG the error
+			
 			if self.config["debug"] == "true":
 				print("[ERROR]-[Core] parse_command: {0}".format(e))
 	
@@ -151,6 +158,9 @@ class pyBot():
 			else:
 				self.send_chan( "Usage: !load <module>" )
 		except Exception as e:
+			self.errormsg = "[ERROR]-[Core] load: {0}".fomat(e)
+			sys_error_log.sys_error_log( self ) ## LOG the error
+			
 			if self.config["debug"] == "true":
 				print("[ERROR]-[Core] load: {0}".fomat(e))
 					
@@ -188,6 +198,9 @@ class pyBot():
 				else:
 					self.send_chan("Unknown module: {0}".format(command))
 		except Exception as e:
+			self.errormsg = "[ERROR]-[Core] reload: {0}".format(e)
+			sys_error_log.sys_error_log( self ) ## LOG the error
+			
 			if self.config["debug"] == "true":
 				print("[ERROR]-[Core] reload: {0}".format(e))
 	
@@ -201,11 +214,16 @@ class pyBot():
 			self.s.close()
 			os.execl(python, python, * sys.argv)
 		except Exception as e:
+			self.errormsg = "[ERROR]-[Core] restart: {0}".format(e)
+			sys_error_log.sys_error_log( self ) ## LOG the error
+			
 			if self.config["debug"] == "true":
 				print("[ERROR]-[Core] restart: {0}".format(e))
 
 	## Main loop, connect etc.
 	def loop( self ):
+		self.errormsg = "" ## Set error messages to null
+		
 		self.nick = self.config["nick"]
 		my_nick = "NICK {0}".format(self.nick)
 		my_user = "USER {0} {1} pyTsunku :{2}".format(self.config["ident"], self.config["host"], self.config["realname"])
@@ -217,6 +235,10 @@ class pyBot():
 		try:
 			self.s.connect(sa)
 		except Exception as e:
+		
+			self.errormsg = "[ERROR]-[Core] Connection: {0}".format(e)
+			sys_error_log.sys_error_log( self ) ## Log the error message in errorlog
+			
 			if e.errno == 101:
 				self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
 				self.s.connect(( self.config["host"], self.config["port"] ))
@@ -231,6 +253,7 @@ class pyBot():
 		logger = 0
 		altnick = 1
 		active = 0
+
 		global flood
 		
 		while connected == 1:
