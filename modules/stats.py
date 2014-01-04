@@ -47,6 +47,8 @@ def stats( self ):
 					else:
 						self.send_chan("I don't remember seeing '{0}' on this channel before ({1})".format(looking, chan))
 				except Exception as e:
+					self.errormsg = "[ERROR]-[stats] stats() stating: {0}".format(e)
+					sys_error_log.sys_error_log( self ) ## LOG the error
 					if self.config["debug"] == "true":
 						print("[ERROR]-[stats] stats() stating: {0}".format(e))
 					

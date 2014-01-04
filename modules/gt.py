@@ -30,5 +30,7 @@ def gt(self):
 			data = soup.findAll("div", {"class" : "t0"})
 			self.send_chan(data[0].string.strip())
 		except Exception as e:
+			self.errormsg = "[ERROR]-[gt] gt() stating: {0}".format(e)
+			sys_error_log.sys_error_log( self ) ## LOG the error
 			if self.config["debug"] == "true":
 				print("[ERROR]-[gt] gt() stating: {0}".format(e))

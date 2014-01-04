@@ -15,5 +15,7 @@ def isup (self):
 				self.send_chan("The site {0} seems to be down!".format(url))							
 		except Exception as e:
 			self.send_chan("The site {0} seems to be down!".format(url))
+			self.errormsg = "[ERROR]-[isup] isup() stating: {0}".format(e)
+			sys_error_log.sys_error_log( self ) ## LOG the error
 			if self.config["debug"] == "true":
 				print("[ERROR]-[isup] isup() stating: {0}".format(e))

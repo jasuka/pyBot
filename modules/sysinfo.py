@@ -59,5 +59,7 @@ def sysinfo(self):
 					platform.python_version(), " ".join(cpu.split()), uptime, used_mem, total_mem))	
 				
 	except Exception as e:
+		self.errormsg = "[ERROR]-[sysinfo] sysinfo() stating: {0}".format(e)
+		sys_error_log.sys_error_log( self ) ## LOG the error
 		if self.config["debug"] == "true":
 			print("[ERROR]-[sysinfo] sysinfo() stating: {0}".format(e))

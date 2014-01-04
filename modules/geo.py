@@ -16,5 +16,7 @@ def geo (self):
 			self.send_chan(("IP: {0}  ISP: {1}  COUNTRY: {2}  MAP: {3}".format(
 							data["query"], data["isp"], data["country"], shortened)))
 		except Exception as e:
+			self.errormsg = "[ERROR]-[geo] geo() stating: {0}".format(e)
+			sys_error_log.sys_error_log( self ) ## LOG the error
 			if self.config["debug"] == "true":
 				print("[ERROR]-[geo] geo() stating: {0}".format(e))

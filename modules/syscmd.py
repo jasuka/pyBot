@@ -29,6 +29,8 @@ def checkCity ( city ):
 		if city in data:
 			return(True)
 	except IOError as e:
+		self.errormsg = "[ERROR]-[syscmd] checkCity() stating: {0}".format(e)
+		sys_error_log.sys_error_log( self ) ## LOG the error
 		if self.config["debug"] == "true":
 			print("[ERROR]-[syscmd] checkCity() stating: {0}".format(e))
 ## End
@@ -39,6 +41,8 @@ def delHtml( html ):
 		html = re.sub('<[^<]+?>', '', html)
 		return(html)
 	except Exception as e:
+		self.errormsg = "[ERROR]-[syscmd] delHtml() stating: {0}".format(e)
+		sys_error_log.sys_error_log( self ) ## LOG the error
 		if self.config["debug"] == "true":
 			print("[ERROR]-[syscmd] delHtml() stating: {0}".format(e))
 			
@@ -102,6 +106,8 @@ def addautomode (self,modes,chan):
 			if self.config["debug"] == "true":
 				print("Creating file for automodes '{0}'".format(file))
 		except Exception as e:
+			self.errormsg = "[ERROR]-[syscmd] addAutomode() stating: {0}".format(e)
+			sys_error_log.sys_error_log( self ) ## LOG the error
 			if self.config["debug"] == "true":
 				print("[ERROR]-[syscmd] addAutomode() stating: {0}".format(e))
 	else:

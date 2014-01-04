@@ -38,5 +38,7 @@ def seendb ( self ):
 					if self.config["debug"] == "true":
 						print("Creating file")
 				except Exception as e:
+					self.errormsg = "[ERROR]-[seendb] seendb() stating: {0}".format(e)
+					sys_error_log.sys_error_log( self ) ## LOG the error
 					if self.config["debug"] == "true":
 						print("[ERROR]-[seendb] seendb() stating: {0}".format(e))

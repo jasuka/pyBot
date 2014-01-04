@@ -29,6 +29,8 @@ def wiki(self):
 				else:
 					self.send_chan("There were no results matching the query.")
 			except Exception as e:
+				self.errormsg = "[ERROR]-[wiki] wiki() stating: {0}".format(e)
+				sys_error_log.sys_error_log( self ) ## LOG the error
 				if self.config["debug"] == "true":
 						print("[ERROR]-[wiki] wiki() stating: {0}".format(e))
 		else:

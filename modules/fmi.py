@@ -59,6 +59,8 @@ def fmi( self ):
 				output = "{0} klo {1}: {2}".format(city.strip(), time, trimmed)
 				self.send_chan( output )
 			except Except as e:
+				self.errormsg = "[ERROR]-[fmi] fmi() stating: {0}".format(e)
+				sys_error_log.sys_error_log( self ) ## LOG the error
 				if self.config["debug"] == "true":
 					print("[ERROR]-[fmi] fmi() stating: {0}".format(e))
 		else:
@@ -106,5 +108,7 @@ def setCity ( self, city ):
 				file.write(str)
 			return(True)
 	except Exception as e:
+		self.errormsg = "[ERROR]-[fmi] setCity() stating: {0}".format(e)
+		sys_error_log.sys_error_log( self ) ## LOG the error
 		if self.config["debug"] == "true":
 			print("[ERROR]-[fmi] setCity() stating: {0}".format(e))

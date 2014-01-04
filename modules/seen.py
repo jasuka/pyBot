@@ -12,6 +12,8 @@ def seen ( self ):
 				seendb = self.config["log-path"]+"seen.db"	#making sure seen.db file exists
 				with open(seendb): pass
 			except Exception as e:
+				self.errormsg = "[ERROR]-[seen] seen() stating: {0}".format(e)
+				sys_error_log.sys_error_log( self ) ## LOG the error
 				if self.config["debug"] == "true":
 					print("[ERROR]-[seen] seen() stating: {0}".format(e))
 			else:

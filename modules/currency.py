@@ -41,6 +41,8 @@ def currency( self ):
 			trimmed = re.sub('<[^<]+?>', '', result)
 			self.send_chan(trimmed)		
 		except Exception as e:
+			self.errormsg = "[ERROR]-[Currency] stating: {0}".format(e)
+			sys_error_log.sys_error_log( self ) ## LOG the error
 			if self.config["debug"] == "true":
 				print("[ERROR]-[Currency] stating: {0}".format(e))
 		

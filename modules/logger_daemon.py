@@ -37,6 +37,8 @@ def logger_daemon ( self ):
 				print("Cannot find existing folder for logs, creating: {0}".format(self.config["log-path"]))
 			os.mkdir(self.config["log-path"])
 		except Exception as e:
+			self.errormsg = "[ERROR]-[logger_daemon] logger_daemon() stating: {0}".format(e)
+			sys_error_log.sys_error_log( self ) ## LOG the error
 			if self.config["debug"] == "true":
 				print("[ERROR]-[logger_daemon] logger_daemon() stating: {0}".format(e))
 

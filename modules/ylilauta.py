@@ -10,6 +10,8 @@ def ylilauta(self):
 		try:
 			html = syscmd.getHtml(self, url, True )
 		except Exception as e:
+			self.errormsg = "[ERROR]-[ylilauta] ylilauta()(1) stating: {0}".format(e) 
+			sys_error_log.sys_error_log( self ) ## LOG the error
 			if self.config["debug"] == "true":
 				print("[ERROR]-[ylilauta] ylilauta()(1) stating: {0}".format(e))
 		try:
@@ -22,5 +24,7 @@ def ylilauta(self):
 			string = "{0}: {1}".format(data[x].a.string, data[x].a.get('href'))
 			self.send_chan(string)
 		except Exception as e:
+			self.errormsg = "[ERROR]-[ylilauta] ylilauta()(2) stating: {0}".format(e)
+			sys_error_log.sys_error_log( self ) ## LOG the error
 			if self.config["debug"] == "true":
 					print("[ERROR]-[ylilauta] ylilauta()(2) stating: {0}".format(e))

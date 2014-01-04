@@ -28,5 +28,7 @@ def title ( self, url ):
 			title = re.sub("\n", "", title)
 			self.send_chan( "~ " + ' '.join(title.split()) ) ##Split words and join them with space
 		except Exception as e:
+			self.errormsg = "[ERROR]-[title] title() stating: {0}".format(e)
+			sys_error_log.sys_error_log( self ) ## LOG the error
 			if self.config["debug"] == "true":
 				print("[ERROR]-[title] title() stating: {0}".format(e))
