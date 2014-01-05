@@ -47,10 +47,6 @@ class pyBot():
 		self.config = config.config
 		self.modulecfg = modulecfg.modulecfg
 		self.loop()
-	#IRC Codes (for logging/seendb)
-	irc_codes = ["001", "002", "003", "004", "005", "042", "251", "250", "252", "254", 
-				"255", "265", "266", "311", "312", "313", "317", "318", "319",
-				"338", "366", "375", "372", "376", "401", "433", "482"]
 			
 	## Send data function
 	def send_data( self, data ):
@@ -222,6 +218,11 @@ class pyBot():
 
 	## Main loop, connect etc.
 	def loop( self ):
+	
+		#IRC Codes (for logging/seendb)
+		self.irc_codes = ["001", "002", "003", "004", "005", "042", "251", "250", "252", "254", 
+				"255", "265", "266", "311", "312", "313", "317", "318", "319","332",
+				"333","338","353", "366", "375", "372", "376", "401", "433", "482","JOIN"]
 		self.errormsg = "" ## Set error messages to null
 		
 		self.nick = self.config["nick"]
@@ -243,7 +244,7 @@ class pyBot():
 				self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
 				self.s.connect(( self.config["host"], self.config["port"] ))
 			if self.config["debug"] == "true":
-				print("[ERROR]-[Core] Connection: {0}".format(e))
+				print("[ERROR]-[Core] Connection: {0}".format(e))	
 
 		## Send identification to the server
 		self.send_data(my_nick)
