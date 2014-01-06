@@ -1,5 +1,7 @@
 #seendb version 1
 import re, time, os
+import sys_error_log
+
 def seendb ( self ):
 
 	if os.path.exists(self.config["log-path"]) == True: #Checking if log-path in config is valid and exists (path is generated in logger_daemon.py)
@@ -39,6 +41,6 @@ def seendb ( self ):
 						print("Creating file")
 				except Exception as e:
 					self.errormsg = "[ERROR]-[seendb] seendb() stating: {0}".format(e)
-					sys_error_log.sys_error_log( self ) ## LOG the error
+					sys_error_log.log( self ) ## LOG the error
 					if self.config["debug"] == "true":
-						print("[ERROR]-[seendb] seendb() stating: {0}".format(e))
+						print(self.errormsg)

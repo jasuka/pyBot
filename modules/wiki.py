@@ -1,6 +1,7 @@
 import urllib.parse
 import syscmd
 from bs4 import BeautifulSoup
+import sys_error_log
 
 def wiki(self):
 
@@ -30,9 +31,9 @@ def wiki(self):
 					self.send_chan("There were no results matching the query.")
 			except Exception as e:
 				self.errormsg = "[ERROR]-[wiki] wiki() stating: {0}".format(e)
-				sys_error_log.sys_error_log( self ) ## LOG the error
+				sys_error_log.log( self ) ## LOG the error
 				if self.config["debug"] == "true":
-						print("[ERROR]-[wiki] wiki() stating: {0}".format(e))
+						print(self.errormsg)
 		else:
 			self.send_chan("Usage: !wiki <lang> <search term> - e.g. !wiki en finland")
 	else:

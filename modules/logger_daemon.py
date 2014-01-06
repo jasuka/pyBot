@@ -4,6 +4,7 @@ from time import gmtime, strftime
 import time
 import os
 import re
+import sys_error_log
 
 def logger_daemon ( self ):
 
@@ -38,9 +39,9 @@ def logger_daemon ( self ):
 			os.mkdir(self.config["log-path"])
 		except Exception as e:
 			self.errormsg = "[ERROR]-[logger_daemon] logger_daemon() stating: {0}".format(e)
-			sys_error_log.sys_error_log( self ) ## LOG the error
+			sys_error_log.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
-				print("[ERROR]-[logger_daemon] logger_daemon() stating: {0}".format(e))
+				print(self.errormsg)
 
 		
 	

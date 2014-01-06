@@ -1,6 +1,7 @@
 import urllib.parse
 import syscmd
 from bs4 import BeautifulSoup
+import sys_error_log
 
 def youtube(self):
 
@@ -17,7 +18,7 @@ def youtube(self):
 			
 			url = "http://m.youtube.com/results?search_query=" + parameters_url
 			html = syscmd.getHtml(self, url, True )
-		except:
+		except: 
 			if self.config["debug"] == "true":
 				print("Someting went wrong getting the html")
 		try:
@@ -34,5 +35,7 @@ def youtube(self):
 			else:
 				self.send_chan("No results for: {0}".format(parameters))
 		except Exception as e:
+			self.errormsg = "[ERROR]-[youtube] youtube() stating: {0}".format(e)
+			sys_error_log.log ( self ) ## Log the error
 			if self.config["debug"] == "true":
-				print("[ERROR]-[youtube] youtube() stating: {0}".format(e))
+				print(self.errormsg)

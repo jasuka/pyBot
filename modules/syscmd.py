@@ -2,6 +2,8 @@ import urllib.request
 import os
 import re
 import time
+import sys_error_log
+
 ## Get HTML for given url
 def getHtml( self, url, useragent):
 	try:
@@ -30,9 +32,9 @@ def checkCity ( city ):
 			return(True)
 	except IOError as e:
 		self.errormsg = "[ERROR]-[syscmd] checkCity() stating: {0}".format(e)
-		sys_error_log.sys_error_log( self ) ## LOG the error
+		sys_error_log.log( self ) ## LOG the error
 		if self.config["debug"] == "true":
-			print("[ERROR]-[syscmd] checkCity() stating: {0}".format(e))
+			print(self.errormsg)
 ## End
 
 ## Clears html tags from a string
@@ -42,9 +44,9 @@ def delHtml( html ):
 		return(html)
 	except Exception as e:
 		self.errormsg = "[ERROR]-[syscmd] delHtml() stating: {0}".format(e)
-		sys_error_log.sys_error_log( self ) ## LOG the error
+		sys_error_log.log( self ) ## LOG the error
 		if self.config["debug"] == "true":
-			print("[ERROR]-[syscmd] delHtml() stating: {0}".format(e))
+			print(self.errormsg)
 			
 ## End
 
@@ -107,9 +109,9 @@ def addautomode (self,modes,chan):
 				print("Creating file for automodes '{0}'".format(file))
 		except Exception as e:
 			self.errormsg = "[ERROR]-[syscmd] addAutomode() stating: {0}".format(e)
-			sys_error_log.sys_error_log( self ) ## LOG the error
+			sys_error_log.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
-				print("[ERROR]-[syscmd] addAutomode() stating: {0}".format(e))
+				print(self.errormsg)
 	else:
 		self.send_data("PRIVMSG {0} :Currently the only user flags are 'ao' & 'av'".format(chan))
 ## END

@@ -1,6 +1,7 @@
 import urllib.parse
 import syscmd
 from bs4 import BeautifulSoup
+import sys_error_log
 
 def google(self):
 
@@ -36,6 +37,6 @@ def google(self):
 				self.send_chan("No results for: {0}".format(parameters))
 		except Exception as e:
 			self.errormsg = "[ERROR]-[google] google() stating: {0}".format(e)
-			sys_error_log.sys_error_log( self ) ## LOG the error
+			sys_error_log.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
-				print("[ERROR]-[google] google() stating: {0}".format(e))
+				print(self.errormsg)

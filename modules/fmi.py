@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import re
 import os
 import syscmd
+import sys_error_log
 
 def fmi( self ):
 
@@ -60,9 +61,9 @@ def fmi( self ):
 				self.send_chan( output )
 			except Except as e:
 				self.errormsg = "[ERROR]-[fmi] fmi() stating: {0}".format(e)
-				sys_error_log.sys_error_log( self ) ## LOG the error
+				sys_error_log.log( self ) ## LOG the error
 				if self.config["debug"] == "true":
-					print("[ERROR]-[fmi] fmi() stating: {0}".format(e))
+					print(self.errormsg)
 		else:
 			self.send_chan( "City {0} doesn't exist!".format(city.title().strip()) )
 			
@@ -109,6 +110,6 @@ def setCity ( self, city ):
 			return(True)
 	except Exception as e:
 		self.errormsg = "[ERROR]-[fmi] setCity() stating: {0}".format(e)
-		sys_error_log.sys_error_log( self ) ## LOG the error
+		sys_error_log.log( self ) ## LOG the error
 		if self.config["debug"] == "true":
-			print("[ERROR]-[fmi] setCity() stating: {0}".format(e))
+			print(self.errormsg)

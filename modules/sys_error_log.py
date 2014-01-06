@@ -5,7 +5,7 @@ import time
 import os
 import re
 
-def sys_error_log ( self ):
+def log ( self ):
 
 	if os.path.exists(self.config["log-path"]) == True:	#Checking if log-path in config is valid and exists
 

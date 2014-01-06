@@ -3,6 +3,7 @@ import datetime
 import dateutil.relativedelta
 from time import gmtime, strftime
 import re
+import sys_error_log
 
 def seen ( self ):
 	
@@ -13,9 +14,9 @@ def seen ( self ):
 				with open(seendb): pass
 			except Exception as e:
 				self.errormsg = "[ERROR]-[seen] seen() stating: {0}".format(e)
-				sys_error_log.sys_error_log( self ) ## LOG the error
+				sys_error_log.log( self ) ## LOG the error
 				if self.config["debug"] == "true":
-					print("[ERROR]-[seen] seen() stating: {0}".format(e))
+					print(self.errormsg)
 			else:
 				nick = self.msg[4].rstrip("\r\n") #getting the nick we are looking for (the second param. given; !seen nick)
 				nick_in_line = 0

@@ -1,5 +1,6 @@
 import subprocess
 import re
+import sys_error_log
 
 def git(self):
 
@@ -31,6 +32,6 @@ def git(self):
 	
 	except Exception as e:
 		self.errormsg = "[ERROR]-[git] git() stating: {0}".format(e)
-		sys_error_log.sys_error_log( self ) ## LOG the error
+		sys_error_log.log( self ) ## LOG the error
 		if self.config["debug"] == "true":
-			print("[ERROR]-[git] git() stating: {0}".format(e))
+			print(self.errormsg)

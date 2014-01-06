@@ -42,7 +42,7 @@ class pyBot():
 	def __init__( self ):
 	
 	## Bot Version
-		self.version = "pyBot version 0.6.2"
+		self.version = "pyBot version 0.6.3"
 	## Config and start the bot
 		self.config = config.config
 		self.modulecfg = modulecfg.modulecfg
@@ -57,7 +57,7 @@ class pyBot():
 			print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ) )
 		except Exception as e:
 			self.errormsg = "[ERROR]-[Core] send_data: {0}".format(e)		
-			sys_error_log.sys_error_log( self ) ## LOG the error
+			sys_error_log.log( self ) ## LOG the error
 			
 			if self.config["debug"] == "true":
 				print("[ERROR]-[Core] send_data: {0}".format(e))
@@ -109,7 +109,7 @@ class pyBot():
 			self.send_chan( "Unknown command: {0}!".format( cmd ))
 		except Exception as e:
 			self.errormsg = "[ERROR]-[Core] parse_command: {0}".format(e)
-			sys_error_log.sys_error_log( self ) ## LOG the error
+			sys_error_log.log( self ) ## LOG the error
 			
 			if self.config["debug"] == "true":
 				print("[ERROR]-[Core] parse_command: {0}".format(e))
@@ -155,7 +155,7 @@ class pyBot():
 				self.send_chan( "Usage: !load <module>" )
 		except Exception as e:
 			self.errormsg = "[ERROR]-[Core] load: {0}".fomat(e)
-			sys_error_log.sys_error_log( self ) ## LOG the error
+			sys_error_log.log( self ) ## LOG the error
 			
 			if self.config["debug"] == "true":
 				print("[ERROR]-[Core] load: {0}".fomat(e))
@@ -195,7 +195,7 @@ class pyBot():
 					self.send_chan("Unknown module: {0}".format(command))
 		except Exception as e:
 			self.errormsg = "[ERROR]-[Core] reload: {0}".format(e)
-			sys_error_log.sys_error_log( self ) ## LOG the error
+			sys_error_log.log( self ) ## LOG the error
 			
 			if self.config["debug"] == "true":
 				print("[ERROR]-[Core] reload: {0}".format(e))
@@ -211,7 +211,7 @@ class pyBot():
 			os.execl(python, python, * sys.argv)
 		except Exception as e:
 			self.errormsg = "[ERROR]-[Core] restart: {0}".format(e)
-			sys_error_log.sys_error_log( self ) ## LOG the error
+			sys_error_log.log( self ) ## LOG the error
 			
 			if self.config["debug"] == "true":
 				print("[ERROR]-[Core] restart: {0}".format(e))
@@ -238,7 +238,7 @@ class pyBot():
 		except Exception as e:
 		
 			self.errormsg = "[ERROR]-[Core] Connection: {0}".format(e)
-			sys_error_log.sys_error_log( self ) ## Log the error message in errorlog
+			sys_error_log.log( self ) ## Log the error message in errorlog
 			
 			if e.errno == 101:
 				self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)

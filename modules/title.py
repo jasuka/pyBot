@@ -2,6 +2,7 @@ import urllib.request
 from bs4 import BeautifulSoup
 import re
 import syscmd
+import sys_error_log
 
 ## Gets title for the urls
 def title ( self, url ):
@@ -29,6 +30,6 @@ def title ( self, url ):
 			self.send_chan( "~ " + ' '.join(title.split()) ) ##Split words and join them with space
 		except Exception as e:
 			self.errormsg = "[ERROR]-[title] title() stating: {0}".format(e)
-			sys_error_log.sys_error_log( self ) ## LOG the error
+			sys_error_log.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
-				print("[ERROR]-[title] title() stating: {0}".format(e))
+				print(self.errormsg)

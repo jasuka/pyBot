@@ -60,6 +60,6 @@ def sysinfo(self):
 				
 	except Exception as e:
 		self.errormsg = "[ERROR]-[sysinfo] sysinfo() stating: {0}".format(e)
-		sys_error_log.sys_error_log( self ) ## LOG the error
+		sys_error_log.log( self ) ## LOG the error
 		if self.config["debug"] == "true":
-			print("[ERROR]-[sysinfo] sysinfo() stating: {0}".format(e))
+			print(self.errormsg)
