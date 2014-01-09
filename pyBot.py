@@ -420,6 +420,8 @@ def initialize():
 try:
 	initialize()
 except Exception:
+	self.errormsg("[ERROR]-[Core] Connection failure, attempting to reconnect")
+	sys_error_log.log( self ) ## LOG the error
 	initialize()	
 except KeyboardInterrupt:
 	#os._exit(1)
