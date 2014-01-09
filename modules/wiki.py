@@ -19,6 +19,8 @@ def wiki(self):
 			try:
 				html = syscmd.getHtml(self, url, True )
 			except Exception as e:
+				self.errormsg = "[ERROR]-[wiki] wiki()(1) stating: {0}".format(e)
+				sys.error_log.log( self )
 				if self.config["debug"] == "true":
 					print(e)
 			try:
@@ -30,7 +32,7 @@ def wiki(self):
 				else:
 					self.send_chan("There were no results matching the query.")
 			except Exception as e:
-				self.errormsg = "[ERROR]-[wiki] wiki() stating: {0}".format(e)
+				self.errormsg = "[ERROR]-[wiki] wiki()(2) stating: {0}".format(e)
 				sys_error_log.log( self ) ## LOG the error
 				if self.config["debug"] == "true":
 						print(self.errormsg)

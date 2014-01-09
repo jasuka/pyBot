@@ -17,6 +17,8 @@ def getHtml( self, url, useragent):
 		html = urllib.request.urlopen(req, timeout = 20).read()
 		return(html)
 	except Exception as e:
+		self.errormsg = "[ERROR]-[syscmd] getHtml() stating: {0}".format(e)
+		sys_error_log.log ( self ) ## LOG the error
 		self.send_chan( "~ {0}".format(e))
 ## End
 
@@ -72,6 +74,8 @@ def modecheck (self):
 			#line2 = ""
 	except (OSError, IOError):	#if it happens, the database file doesn't exist, create one
 		open(file, "a").close()
+		self.errormsg = "[NOTICE]-[syscmd] modcheck(): Creating file for automodes '{0}'".format(file)
+		sys_error_log.log ( self )
 		if self.config["debug"] == "true":
 			print("Creating file for automodes '{0}'".format(file))
 
@@ -105,10 +109,12 @@ def addautomode (self,modes,chan):
 
 		except (OSError, IOError):	#if it happens, the database file doesn't exist, create one
 			open(file, "a").close()
+			self.errormsg "[NOTICE]-[syscmd] addautomode(): Creating firl for automodes '{0}'".format(file)
+			sys_error_log.log( self )
 			if self.config["debug"] == "true":
 				print("Creating file for automodes '{0}'".format(file))
 		except Exception as e:
-			self.errormsg = "[ERROR]-[syscmd] addAutomode() stating: {0}".format(e)
+			self.errormsg = "[ERROR]-[syscmd] addautomode() stating: {0}".format(e)
 			sys_error_log.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
 				print(self.errormsg)

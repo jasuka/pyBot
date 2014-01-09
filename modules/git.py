@@ -5,6 +5,8 @@ import sys_error_log
 def git(self):
 
 	if self.get_host() not in self.config["opers"]:
+		self.errormsg = "[NOTICE]-[git] Unauthorized git reguest from {0}".format(self.get_host())
+		sys_error_log.log( self )
 		return
 	try:
 		PIPE = subprocess.PIPE

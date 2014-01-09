@@ -37,6 +37,8 @@ def seendb ( self ):
 						return(True)
 				except (OSError, IOError):	#if it happens, the database file doesn't exist, create one
 					open(seendb, "a").close()
+					self.errormsg = "[NOTICE]-[seendb] Creating database file for seendb"
+					sys_error_log( self )
 					if self.config["debug"] == "true":
 						print("Creating file")
 				except Exception as e:

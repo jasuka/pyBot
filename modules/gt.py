@@ -20,6 +20,9 @@ def gt(self):
 			url = "http://translate.google.com/m?hl={0}&sl={1}&ie=UTF-8&q={2}".format(to, frm, parameters_url)
 			html = syscmd.getHtml(self, url, True )
 		except:
+			self.errormsg "[NOTICE]-[gt] Something went wrong getting the html"
+			sys_error_log.log( self )
+			
 			if self.config["debug"] == "true":
 				print("Someting went wrong getting the html")
 		try:

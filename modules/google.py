@@ -19,6 +19,9 @@ def google(self):
 			url = "https://www.google.fi/search?q=" + parameters_url
 			html = syscmd.getHtml(self, url, True )
 		except:
+			self.errormsg "[NOTICE]-[google] Something went wrong getting the html"
+			sys_error_log.log( self )
+			
 			if self.config["debug"] == "true":
 				print("Someting went wrong getting the html")
 		try:

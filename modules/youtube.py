@@ -19,6 +19,9 @@ def youtube(self):
 			url = "http://m.youtube.com/results?search_query=" + parameters_url
 			html = syscmd.getHtml(self, url, True )
 		except: 
+			self.errormsg = "[ERROR]-[youtube] Someting went wrong getting the html"
+			sys_error_log.log( self ) ## Log the error
+			
 			if self.config["debug"] == "true":
 				print("Someting went wrong getting the html")
 		try:
