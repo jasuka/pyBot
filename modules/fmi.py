@@ -81,7 +81,7 @@ def getCity ( self ):
 					city = line.split(":")
 					return(city[1])
 	except (OSError, IOError): ## Create an empty fmi_nicks.txt if it doesn't exist
-		self.errormsg "[NOTICE]-[fmi] Creating fmi_nicks.txt"
+		self.errormsg = "[NOTICE]-[fmi] Creating fmi_nicks.txt"
 		sys_error_log.log( self )
 		open(file, 'a').close()
 

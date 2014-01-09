@@ -25,7 +25,7 @@ def currency( self ):
 					if to.strip() in line:
 						to_ok = True
 		except FileNotFoundError:
-			self.errormsg "[NOTICE]-[currency] modules/data/currencies.txt doesn't exist, something wrong with your bot installation!"
+			self.errormsg = "[NOTICE]-[currency] modules/data/currencies.txt doesn't exist, something wrong with your bot installation!"
 			sys_error_log.log( self )
 			
 			if self.config["debug"] == "true":
