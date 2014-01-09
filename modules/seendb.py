@@ -32,7 +32,7 @@ def seendb ( self ):
 					## If the nick doesn't exist in the file, append it in there
 					else:
 						with open(seendb, "a", encoding="UTF-8") as file:
-							str = "\r\n{0}|:|{1}|:|{2}".format(nick,timestamp,usertxt[1:])
+							str = "{0}|:|{1}|:|{2}".format(nick,timestamp,usertxt[1:])
 							file.write(str)
 						return(True)
 				except (OSError, IOError):	#if it happens, the database file doesn't exist, create one
