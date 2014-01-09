@@ -109,7 +109,7 @@ def addautomode (self,modes,chan):
 
 		except (OSError, IOError):	#if it happens, the database file doesn't exist, create one
 			open(file, "a").close()
-			self.errormsg "[NOTICE]-[syscmd] addautomode(): Creating firl for automodes '{0}'".format(file)
+			self.errormsg = "[NOTICE]-[syscmd] addautomode(): Creating file for automodes '{0}'".format(file)
 			sys_error_log.log( self )
 			if self.config["debug"] == "true":
 				print("Creating file for automodes '{0}'".format(file))
