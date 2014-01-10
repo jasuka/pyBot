@@ -378,6 +378,8 @@ class pyBot():
 								Thread(target=self.parse_command, args=(cmd.lstrip("!"),)).start() ## Run the commands in own threads, 
 																						## so they won't block each other
 							else:
+								self.errormsg = "[NOTICE]-[Core] Flooding"
+								sys_error_log.log( self )
 								print( "Flooding!\r\n" )
 			except IndexError:
 				print("Cmd exception")
