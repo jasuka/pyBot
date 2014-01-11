@@ -52,7 +52,9 @@ class pyBot():
 	def send_data( self, data ):
 		try:
 			## IRC Spec allows 512 chars in a msg including the \r\n
-			data = data[:510] + "\r\n"
+			##data = data[:510] + "\r\n"
+			data = data + "\r\n"
+			##print(len(data.encode("utf-8")))
 			self.s.sendall( data.encode("utf-8") ) 
 			print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ) )
 		except Exception as e:
@@ -82,9 +84,12 @@ class pyBot():
 		
 	## Send text to channel
 	def send_chan( self, data ):
-		msg = "PRIVMSG {0} :{1}".format(self.msg[2], data.strip())
-		self.send_data( msg )
-		print( "Sending: {0}\r\n".format(msg) )
+		length = len("PRIVMSG {0} :".format(self.msg[2]).strip())
+		data = self.split_utf8(data, 310)
+		for a in data:
+			msg = "PRIVMSG {0} :{1}".format(self.msg[2], a.strip())
+			self.send_data( msg )
+			print( "Sending: {0}\r\n".format(msg) )
 		
 	## Send a PM to the user doing a command
 	def send_pm( self, data ):
@@ -215,6 +220,16 @@ class pyBot():
 			
 			if self.config["debug"] == "true":
 				print("[ERROR]-[Core] restart: {0}".format(e))
+				
+	def split_utf8(self, s, n):
+		## Split UTF-8 s into chunks of maximum length n.
+		while len(s) > n:
+			k = n
+			while (ord(s[k]) & 0xc0) == 0x80:
+				k -= 1
+			yield s[:k]
+			s = s[k:]
+		yield s
 
 	## Main loop, connect etc.
 	def loop( self ):
