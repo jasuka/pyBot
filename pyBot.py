@@ -85,9 +85,14 @@ class pyBot():
 	## Send text to channel
 	def send_chan( self, data ):
 		#length = len("PRIVMSG {0} :".format(self.msg[2]).strip())
-		data = self.split_utf8(data, 390)
-		for a in data:
-			msg = "PRIVMSG {0} :{1}".format(self.msg[2], a.strip())
+		if len(data.encode("utf-8")) > 510:
+			data = self.split_utf8(data, 390)
+			for a in data:
+				msg = "PRIVMSG {0} :{1}".format(self.msg[2], a.strip())
+				self.send_data( msg )
+				print( "Sending: {0}\r\n".format(msg) )
+		else:
+			msg = "PRIVMSG {0} :{1}".format(self.msg[2], data.strip()) 
 			self.send_data( msg )
 			print( "Sending: {0}\r\n".format(msg) )
 		
