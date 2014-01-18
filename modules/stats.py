@@ -36,7 +36,7 @@ def stats( self ):
 						
 						else:						#otherwise we will loop the list trough to search for the word
 							for y in range(0, len(line2)):		#this kind of double looping might slow down the performance..?
-								if looking == line2[y]:		#if we have a match, count it in.
+								if looking in line2[y]:		#if we have a match, count it in.
 									word_counter += 1
 					
 					if nick_counter is not 0:
@@ -44,7 +44,7 @@ def stats( self ):
 						self.send_chan("{0} has written '{1}' lines on this channel ({2}) which is {3:.1f}% of the total amount.".format(looking, nick_counter, chan, round(pct,1)))
 					elif word_counter is not 0:
 						word_counter -= 1
-						self.send_chan("{0} is mentioned on '{1}' lines on this channel ({2})".format(looking, word_counter, chan))
+						self.send_chan("{0} has been mentioned '{1}' times on this channel ({2})".format(looking, word_counter, chan))
 					else:
 						self.send_chan("I don't remember seeing '{0}' on this channel before ({1})".format(looking, chan))
 				except Exception as e:
