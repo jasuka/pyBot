@@ -7,3 +7,5 @@ BeautifulSoup 4
 Lxml or html5lib
 
 python-dateutil
+
+Stemmer (for Cobe)
