@@ -354,7 +354,7 @@ class pyBot():
 			if config.config["cobe"] == True:		
 				if active == 1 and len(self.msg) >= 4:
 					if self.msg[1] not in self.irc_codes:
-						hal = brain.Brain("./brain.db")
+						hal = brain.Brain("./cobe.brain")
 						phrase = ''
 						length = len(self.msg)
 						if self.nick not in self.msg[3]:
