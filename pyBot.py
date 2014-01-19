@@ -327,6 +327,26 @@ class pyBot():
 			except IndexError:
 				print("PM exception")
 				pass
+			
+			## Experimental support for MegaHal (needs to be improved!)
+			'''
+			if active == 1 and len(self.msg) >= 4:
+				if self.msg[1] not in self.irc_codes:
+					hal = megahal.MegaHAL()
+					phrase = ''
+					length = len(self.msg)
+					if self.nick not in self.msg[3]:
+						for x in range(3, length):
+							phrase += "{0} ".format(self.msg[x])
+					else:
+						for x in range(4, length):
+							phrase += "{0} ".format(self.msg[x])
+					hal.learn(phrase.strip())
+					#hal.train('learn.txt')
+					hal.sync()
+					if self.nick in self.msg[3]:
+						self.send_chan(hal.get_reply(phrase.strip(), self.get_nick()))
+			'''		
 				
 			## PING PONG
 			if self.msg[0] == "PING":
