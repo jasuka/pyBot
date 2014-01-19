@@ -32,7 +32,7 @@ This tokenizer ignores differences in capitalization."""
         """Capitalize the first alpha character in the reply and the
         first alpha character that follows one of [.?!] and a
         space."""
-        chars = list(u"".join(words))
+        chars = list("".join(words))
         start = True
 
         for i in xrange(len(chars)):
@@ -48,7 +48,7 @@ This tokenizer ignores differences in capitalization."""
                 if i > 2 and chars[i - 1] in ".?!" and char.isspace():
                     start = True
 
-        return u"".join(chars)
+        return "".join(chars)
 
 
 class CobeTokenizer:
@@ -101,7 +101,7 @@ tokens."""
         return tokens
 
     def join(self, words):
-        return u"".join(words)
+        return "".join(words)
 
 
 class CobeStemmer:
