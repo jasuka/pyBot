@@ -93,7 +93,7 @@ tokens."""
         tokens = self.regex.findall(phrase)
 
         # collapse runs of whitespace into a single space
-        space = u" "
+        space = " "
         for i, token in enumerate(tokens):
             if token[0] == " " and len(token) > 1:
                 tokens[i] = space
