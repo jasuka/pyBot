@@ -18,6 +18,10 @@ import config
 ## Import modules config
 import modulecfg
 ## Load modules from the modules config
+
+if config.config["cobe"] == True:
+	from cobe import brain
+
 try:
 	for mod in modulecfg.modulecfg["sysmodules"].split(","):
 		print("Loading system module {0}".format(mod))
@@ -346,7 +350,22 @@ class pyBot():
 					hal.sync()
 					if self.nick in self.msg[3]:
 						self.send_chan(hal.get_reply(phrase.strip(), self.get_nick()))
-			'''		
+			'''
+			if config.config["cobe"] == True:		
+				if active == 1 and len(self.msg) >= 4:
+					if self.msg[1] not in self.irc_codes:
+						hal = brain.Brain("./brain.db")
+						phrase = ''
+						length = len(self.msg)
+						if self.nick not in self.msg[3]:
+							for x in range(3, length):
+								phrase += "{0} ".format(self.msg[x])
+						else:
+							for x in range(4, length):
+								phrase += "{0} ".format(self.msg[x])
+						hal.learn(phrase.strip().lstrip(":"))
+						if self.nick in self.msg[3]:
+							self.send_chan(hal.reply(phrase.strip().lstrip(":"), self.get_nick()))
 				
 			## PING PONG
 			if self.msg[0] == "PING":
