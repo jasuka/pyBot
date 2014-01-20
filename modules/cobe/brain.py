@@ -351,10 +351,11 @@ with its two nodes"""
         return set(filtered)
 
     def _pick_pivot(self, pivot_ids):
+        pivot_ids = filter(None, pivot_ids)
         pivot = random.choice(tuple(pivot_ids))
 
         #if type(pivot) is types.TupleType:
-        if isinstance(type(pivot), tuple):
+        if isinstance(pivot, tuple):
             # the input word was stemmed to several things
             pivot = random.choice(pivot)
 
