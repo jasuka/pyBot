@@ -210,14 +210,18 @@ with its two nodes"""
 
         # filter out unknown words and non-words from the potential pivots
         pivot_set = self._filter_pivots(input_ids)
-
+        
         # Conflate the known ids with the stems of their words
         if self.stemmer is not None:
             self._conflate_stems(pivot_set, tokens)
 
+
+        # Workaround Japanese etc ... 
+        pivots = list(pivot_set)
+
         # If we didn't recognize any word tokens in the input, pick
         # something random from the database and babble.
-        if len(pivot_set) == 0:
+        if len(pivot_set) == 0 or pivots[0] == ():
             pivot_set = self._babble()
 
         score_cache = {}
