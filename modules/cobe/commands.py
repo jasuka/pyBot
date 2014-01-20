@@ -49,7 +49,7 @@ def progress_generator(filename):
     size_left = s.st_size
 
     fd = open(filename)
-    for line in fd.xreadlines():
+    for line in fd.readlines():
         size_left = size_left - len(line)
         progress = 100 * (1. - (float(size_left) / float(s.st_size)))
 
@@ -107,6 +107,9 @@ class LearnIrcLogCommand:
         subparser.add_argument("-o", "--only-nick", action="append",
                                dest="only_nicks",
                                help="Only learn from specified nicks")
+        subparser.add_argument("-t", "--type", action="append",
+                               dest="type",
+                               help="irssi or weechat")
         subparser.add_argument("-r", "--reply-to", action="append",
                                help="Reply (invisibly) to things said "
                                "to specified nick")
@@ -133,13 +136,19 @@ class LearnIrcLogCommand:
                     sys.stdout.flush()
 
                 count = count + 1
+                parsed = None
 
                 if (count % 1000) == 0:
                     b.graph.commit()
 
-                parsed = cls._parse_irc_message(line.strip(),
+                if "weechat" in args.type:
+                    parsed = cls._parse_weechat_message(line.strip(),
                                                 args.ignored_nicks,
                                                 args.only_nicks)
+                if "irssi" in args.type:
+                    parsed = cls._parse_irc_message(line.strip(),
+                                                args.ignored_nicks,
+                                                args.only_nicks)                    
                 if parsed is None:
                     continue
 
@@ -183,7 +192,36 @@ class LearnIrcLogCommand:
                      lambda m: m.group(1), msg)
 
         return to, msg
+        
+    @staticmethod
+    def _parse_weechat_message(msg, ignored_nicks=None, only_nicks=None):
+        # only match lines of the form "HH:MM <nick> message"
+        match = re.match("\d+-\d+-\d+\s+(.+?)[a-z]\s+(.*)", msg)
+        if not match:
+            return None
 
+        nick = match.group(1)
+        msg = match.group(2)
+
+        if ignored_nicks is not None and nick in ignored_nicks:
+            return None
+
+        if only_nicks is not None and nick not in only_nicks:
+            return None
+
+        to = None
+
+        # strip "username: " at the beginning of messages
+        match = re.search("^(\S+)[,:]\s+(\S.*)", msg)
+        if match:
+            to = match.group(1)
+            msg = match.group(2)
+
+        # strip kibot style '"asdf" --user, 06-oct-09' quotes
+        msg = re.sub("\"(.*)\" --\S+,\s+\d+-\S+-\d+",
+                     lambda m: m.group(1), msg)
+
+        return to, msg
 
 class ConsoleCommand:
     @classmethod
