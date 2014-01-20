@@ -46,7 +46,7 @@ class pyBot():
 	def __init__( self ):
 	
 	## Bot Version
-		self.version = "pyBot version 0.7"
+		self.version = "pyBot version 0.7.1"
 	## Config and start the bot
 		self.config = config.config
 		self.modulecfg = modulecfg.modulecfg
