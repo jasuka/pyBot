@@ -302,7 +302,7 @@ class pyBot():
 			## if debug is true, print some stuff	
 			if self.config["debug"] == "true":
 				#print(self.msg)
-				print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ))							
+				print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ).rstrip("\r\n"))							
 			
 			## AUTOMODES BELOW!!
 			if self.msg[1] == "JOIN":
