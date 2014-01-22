@@ -101,9 +101,9 @@ class CobeScorer(Scorer):
         # original 8 and 16) as an adjustment. Scoring is an ongoing
         # project.
 
-        if n_words > 16:
+        if n_words > 32:
             info /= math.sqrt(n_words - 1)
-        elif n_words >= 32:
+        elif n_words >= 64:
             info /= n_words
 
         return self.normalize(info)
