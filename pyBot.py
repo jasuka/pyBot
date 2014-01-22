@@ -350,7 +350,7 @@ class pyBot():
 						self.hal.learn(phrase.strip().lstrip(":"))
 						if self.nick in self.msg[3]:
 							#self.send_chan(self.hal.reply(phrase.strip().lstrip(":"), self.get_nick()))
-							print(Thread(target=self.hal.reply, args=(self, phrase.strip().lstrip(":"), self.get_nick())).start())
+							Thread(target=self.hal.reply, args=(self, phrase.strip().lstrip(":"), self.get_nick())).start()
 				
 			## PING PONG
 			if self.msg[0] == "PING":
