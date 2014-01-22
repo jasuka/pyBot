@@ -20,10 +20,12 @@ def seendb ( self ):
 					for i in range(3, len(self.msg)):
 						usertxt += "{0} ".format(self.msg[i])
 
+					usertxt = re.sub(r'\\n|\\r|\\t','', usertxt)
+					
 					if nick in open(seendb).read():
 						with open(temp, "w", encoding="UTF-8") as tempdb:
 							for line in open(seendb):				
-								str = "{0}|:|{1}|:|{2}".format(nick,timestamp,usertxt[1:])
+								str = "{0}|:|{1}|:|{2}".format(nick,timestamp,usertxt[1:].strip())
 								tempdb.write(re.sub("^{0}\\|\\:\\|.*$".format(nick), str.strip(), line))
 								tempdb.flush()
 							os.remove(seendb)
