@@ -42,7 +42,7 @@ class Brain:
             Brain.init(filename)
 
         with trace_us("Brain.connect_us"):
-            self.graph = graph = Graph(sqlite3.connect(filename, check_same_thread=False))
+            self.graph = graph = Graph(sqlite3.connect(filename))
 
         version = graph.get_info_text("version")
         if version != "2":
@@ -195,7 +195,7 @@ with its two nodes"""
         if not self._learning:
             self.graph.commit()
 
-    def reply(self, pybot, text, nick='', loop_ms=5000, max_len=160):
+    def reply(self, text, nick='', loop_ms=5000, max_len=160):
         """Reply to a string of text. If the input is not already
         Unicode, it will be decoded as utf-8."""
         #if type(text) != types.UnicodeType:
@@ -314,8 +314,7 @@ with its two nodes"""
             text = best_reply.to_text()
 
         text = "{0}: {1}".format(nick,text)
-        pybot.send_chan(text)
-        #return text
+        return text
 
     def _too_long(self, max_len, reply):
         text = reply.to_text()
@@ -419,7 +418,7 @@ tokenizer -- One of Cobe, MegaHAL (default Cobe). See documentation
             log.info("Unknown tokenizer: %s. Using CobeTokenizer", tokenizer)
             tokenizer = "Cobe"
 
-        graph = Graph(sqlite3.connect(filename, check_same_thread=False))
+        graph = Graph(sqlite3.connect(filename))
 
         with trace_us("Brain.init_time_us"):
             graph.init(order, tokenizer)
