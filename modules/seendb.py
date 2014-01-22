@@ -18,7 +18,7 @@ def seendb ( self ):
 					usertxt = ""
 
 					for i in range(3, len(self.msg)):
-						usertxt += self.msg[i]
+						usertxt += "{0} ".format(self.msg[i])
 
 					if nick in open(seendb).read():
 						with open(temp, "w", encoding="UTF-8") as tempdb:
