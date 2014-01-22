@@ -18,7 +18,7 @@ def seendb ( self ):
 					usertxt = ""
 
 					for i in range(3, len(self.msg)):
-						usertxt += self.msg[i] +" "
+						usertxt += self.msg[i]
 
 					if nick in open(seendb).read():
 						with open(temp, "w", encoding="UTF-8") as tempdb:
@@ -32,7 +32,7 @@ def seendb ( self ):
 					## If the nick doesn't exist in the file, append it in there
 					else:
 						with open(seendb, "a", encoding="UTF-8") as file:
-							str = "{0}|:|{1}|:|{2}".format(nick,timestamp,usertxt[1:]).rstrip("\r\n")
+							str = "{0}|:|{1}|:|{2}".format(nick,timestamp,usertxt[1:])
 							file.write(str)
 						return(True)
 				except (OSError, IOError):	#if it happens, the database file doesn't exist, create one
