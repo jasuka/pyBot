@@ -24,7 +24,7 @@ def seendb ( self ):
 						with open(temp, "w", encoding="UTF-8") as tempdb:
 							for line in open(seendb):				
 								str = "{0}|:|{1}|:|{2}".format(nick,timestamp,usertxt[1:])
-								tempdb.write(re.sub("^{0}\\|\\:\\|.*$".format(nick), str, line))
+								tempdb.write(re.sub("^{0}\\|\\:\\|.*$".format(nick), str.strip(), line))
 								tempdb.flush()
 							os.remove(seendb)
 							os.rename(temp, seendb)
