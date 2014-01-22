@@ -6,6 +6,7 @@ import sys_error_log
 
 ## Gets title for the urls
 def title ( self, url ):
+	print(url)
 	url = syscmd.replaceUmlauts(url)
 	## Banned extensions in the urls
 	banned = re.search( ".*\.(jpg$|jpeg$|png$|gif$|pdf$|exe$|zip$|txt$)", url )
@@ -22,9 +23,9 @@ def title ( self, url ):
 			try:
 				soup = BeautifulSoup(html, "lxml")
 			except:
-				soup = BeautifulSoup(html, "html5lib")
+				soup = BeautifulSoup(html, "html.parser")
 			#else:
-			#	soup = BeautifulSoup(html, "html.parser")
+			#	soup = BeautifulSoup(html, "html5lib") #broken!
 			title = soup.title.string
 			title = re.sub("\n", "", title)
 			self.send_chan( "~ " + ' '.join(title.split()) ) ##Split words and join them with space
