@@ -249,6 +249,9 @@ class pyBot():
 				"333","338","353", "366", "375", "372", "376", "401", "433", "482","JOIN"]
 		self.errormsg = "" ## Set error messages to null
 		
+		if self.config["cobe"] == True:
+			self.hal = brain.Brain("./cobe.brain")
+		
 		self.nick = self.config["nick"]
 		my_nick = "NICK {0}".format(self.nick)
 		my_user = "USER {0} {1} pyTsunku :{2}".format(self.config["ident"], self.config["host"], self.config["realname"])
@@ -336,7 +339,6 @@ class pyBot():
 			if config.config["cobe"] == True:		
 				if active == 1 and len(self.msg) >= 4:
 					if self.msg[1] not in self.irc_codes:
-						hal = brain.Brain("./cobe.brain")
 						phrase = ''
 						length = len(self.msg)
 						if self.nick not in self.msg[3]:
@@ -345,9 +347,9 @@ class pyBot():
 						else:
 							for x in range(4, length):
 								phrase += "{0} ".format(self.msg[x])
-						hal.learn(phrase.strip().lstrip(":"))
+						self.hal.learn(phrase.strip().lstrip(":"))
 						if self.nick in self.msg[3]:
-							self.send_chan(hal.reply(phrase.strip().lstrip(":"), self.get_nick()))
+							self.send_chan(self.hal.reply(phrase.strip().lstrip(":"), self.get_nick()))
 				
 			## PING PONG
 			if self.msg[0] == "PING":
