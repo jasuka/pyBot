@@ -51,7 +51,7 @@ class Brain:
         self.order = int(graph.get_info_text("order"))
 
         self.scorer = scoring.ScorerGroup()
-        self.scorer.add_scorer(5.0, scoring.LengthScorer())
+        self.scorer.add_scorer(2.0, scoring.LengthScorer())
 
         tokenizer_name = graph.get_info_text("tokenizer")
         if tokenizer_name == "MegaHAL":
@@ -195,7 +195,7 @@ with its two nodes"""
         if not self._learning:
             self.graph.commit()
 
-    def reply(self, text, nick='', loop_ms=5000, max_len=120):
+    def reply(self, text, nick='', loop_ms=4000, max_len=150):
         """Reply to a string of text. If the input is not already
         Unicode, it will be decoded as utf-8."""
         #if type(text) != types.UnicodeType:
@@ -402,7 +402,7 @@ with its two nodes"""
                         yield prev + n, node
 
     @staticmethod
-    def init(filename, order=3, tokenizer=None):
+    def init(filename, order=10, tokenizer=None):
         """Initialize a brain. This brain's file must not already exist.
 
 Keyword arguments:
