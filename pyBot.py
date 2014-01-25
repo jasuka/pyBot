@@ -351,7 +351,6 @@ class pyBot():
 						
 						if self.nick in self.msg[3] or self.nick in phrase:
 							phrase = phrase.replace(self.nick, "")
-							print(phrase)
 							self.send_chan(self.hal.reply(phrase.strip().lstrip(":"), self.get_nick()))
 				
 			## PING PONG
