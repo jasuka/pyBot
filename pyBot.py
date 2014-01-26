@@ -349,7 +349,7 @@ class pyBot():
 								phrase += "{0} ".format(self.msg[x])
 						self.hal.learn(phrase.strip().lstrip(":"))
 						
-						if self.nick in self.msg[3] or self.nick in phrase:
+						if self.nick.lower() in self.msg[3].lower() or self.nick in phrase:
 							phrase = phrase.replace(self.nick, "")
 							self.send_chan(self.hal.reply(phrase.strip().lstrip(":"), self.get_nick()))
 				
