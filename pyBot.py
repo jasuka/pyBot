@@ -57,7 +57,7 @@ class pyBot():
 		try:
 			## IRC Spec allows 512 chars in a msg including the \r\n
 			##data = data[:510] + "\r\n"
-			data = data#+ "\r\n"
+			data = data + "\r\n"
 			##print(len(data.encode("utf-8")))
 			self.s.sendall( data.encode("utf-8") ) 
 			print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ) )
@@ -390,9 +390,9 @@ class pyBot():
 					self.join_chan( chan )
 				if self.config["logging"] == True:
 					logger = 1
-					print( "Logging enabled\r\n" )
+					print( "Logging enabled" )
 				else:
-					print( "Logging disabled\r\n" )
+					print( "Logging disabled" )
 						
 			try:
 				if len(self.msg) >= 4:
@@ -425,7 +425,7 @@ class pyBot():
 							else:
 								self.errormsg = "[NOTICE]-[Core] Flooding ({0})".format(self.get_host())
 								sys_error_log.log( self )
-								print( "Flooding!\r\n" )
+								print( "Flooding!" )
 			except IndexError:
 				print("Cmd exception")
 				pass ## No need to do anything
