@@ -104,13 +104,13 @@ class pyBot():
 	def send_pm( self, data ):
 		msg = "PRIVMSG {0} :{1}".format(self.get_nick(), data.strip())
 		self.send_data( msg )
-		print( "Sending PM: {0}\r\n".format(msg) )
+		print( "Sending PM: {0}".format(msg) )
 		
 	## Send a NOTICE to the user doing a command
 	def send_notice( self, data ):
 		msg = "NOTICE {0} :{1}".format(self.get_nick(), data.strip())
 		self.send_data( msg )
-		print( "Sending NOTICE: {0}\r\n".format(msg) )
+		print( "Sending NOTICE: {0}".format(msg) )
 
 	## Parse commands function
 	def parse_command( self, cmd ):
@@ -134,7 +134,7 @@ class pyBot():
 			nick = re.search(":(.*)!", self.msg[0]).group(1)
 			return(nick)
 		except AttributeError:
-			print( "Not a nick\r\n" )
+			print( "Not a nick" )
 	
 	## Get user host
 	def get_host( self ):
@@ -142,7 +142,7 @@ class pyBot():
 			host = self.msg[0].split("!")
 			return(host[1])
 		except:
-			print( "Error getting host\r\n" )
+			print( "Error getting host" )
 	
 	## Load a new module
 	def load(self, module = None):
@@ -472,5 +472,5 @@ except Exception:
 	initialize()	
 except KeyboardInterrupt:
 	#os._exit(1)
-	print( "Ctrl+C, Quitting!\r\n" )
+	print( "Ctrl+C, Quitting!" )
 
