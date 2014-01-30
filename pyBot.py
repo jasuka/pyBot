@@ -337,7 +337,7 @@ class pyBot():
 			
 			## Support for Cobe (MegaHAL)
 			if config.config["cobe"] == True:		
-				if active == 1 and len(self.msg) >= 4:
+				if active == 1 and len(self.msg) >= 4 and "MODE" not in self.msg[1]:
 					if self.msg[1] not in self.irc_codes:
 						phrase = ''
 						length = len(self.msg)
