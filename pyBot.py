@@ -337,13 +337,17 @@ class pyBot():
 			
 			## Support for Cobe (MegaHAL)
 			if config.config["cobe"] == True:		
-				if active == 1 and len(self.msg) >= 4 and "MODE" not in self.msg[1]:
+				if active == 1 and len(self.msg) >= 4 and "PRIVMSG" in self.msg[1]:
 					if self.msg[1] not in self.irc_codes:
 						phrase = ''
 						length = len(self.msg)
 						if self.nick not in self.msg[3] or ":Ichigo:" not in self.msg[3]:
-							for x in range(3, length):
-								phrase += "{0} ".format(self.msg[x])
+							if self.nick in self.msg[3]:
+								for x in range(4, length):
+									phrase += "{0} ".format(self.msg[x])
+							else:
+								for x in range(3, length):
+									phrase += "{0} ".format(self.msg[x])	
 							self.hal.learn(phrase.strip().lstrip(":"))
 						
 						if self.nick.lower() in self.msg[3].lower() or self.nick in phrase:
