@@ -57,7 +57,7 @@ class pyBot():
 		try:
 			## IRC Spec allows 512 chars in a msg including the \r\n
 			##data = data[:510] + "\r\n"
-			data = data + "\r\n"
+			data = data#+ "\r\n"
 			##print(len(data.encode("utf-8")))
 			self.s.sendall( data.encode("utf-8") ) 
 			print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ) )
@@ -94,11 +94,11 @@ class pyBot():
 			for a in data:
 				msg = "PRIVMSG {0} :{1}".format(self.msg[2], a.strip())
 				self.send_data( msg )
-				print( "Sending: {0}\r\n".format(msg) )
+				print( "Sending: {0}".format(msg) )
 		else:
 			msg = "PRIVMSG {0} :{1}".format(self.msg[2], data.strip()) 
 			self.send_data( msg )
-			print( "Sending: {0}\r\n".format(msg) )
+			print( "Sending: {0}".format(msg) )
 		
 	## Send a PM to the user doing a command
 	def send_pm( self, data ):
@@ -289,7 +289,7 @@ class pyBot():
 				data = self.s.recv(512).decode( "utf-8", "ignore" )
 				if len(data) == 0:
 					connected == 0
-					print( "Connection died, reconnecting\r\n" );
+					print( "Connection died, reconnecting" );
 					time.sleep(5)
 					self.loop()
 			except Exception as e:
