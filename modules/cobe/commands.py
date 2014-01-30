@@ -166,7 +166,7 @@ class LearnIrcLogCommand:
     @staticmethod
     def _parse_irc_message(msg, ignored_nicks=None, only_nicks=None):
         # only match lines of the form "HH:MM <nick> message"
-        match = re.match("\d+:\d+\s+<(.+?)>\s+(.*)", msg)
+        match = re.match("\d+:\d+\s+<\D(.+?)>\s+(.*)", msg)
         if not match:
             return None
 
@@ -174,6 +174,7 @@ class LearnIrcLogCommand:
         msg = match.group(2)
 
         if ignored_nicks is not None and nick in ignored_nicks:
+            print("Ignored nick: " + nick)
             return None
 
         if only_nicks is not None and nick not in only_nicks:
@@ -196,14 +197,20 @@ class LearnIrcLogCommand:
     @staticmethod
     def _parse_weechat_message(msg, ignored_nicks=None, only_nicks=None):
         # only match lines of the form "HH:MM <nick> message"
-        match = re.match("\d+-\d+-\d+\s+(.+?)[a-z]\s+(.*)", msg)
+        match = re.match("(.+?)\s+(.+?)\s+\D(.+?)\s+(.*)", msg)
         if not match:
             return None
 
-        nick = match.group(1)
-        msg = match.group(2)
+        nick = match.group(3)
+        msg = match.group(4)
+        
+        if ">" in nick:
+            nick = nick.rstrip(">")
+        if "@" in nick or "+" in nick or "&" in nick:
+            nick = nick[1:]
 
         if ignored_nicks is not None and nick in ignored_nicks:
+            print("Ignored: " + nick)
             return None
 
         if only_nicks is not None and nick not in only_nicks:
@@ -212,7 +219,7 @@ class LearnIrcLogCommand:
         to = None
 
         # strip "username: " at the beginning of messages
-        match = re.search("^(\S+)[,:]\s+(\S.*)", msg)
+        match = re.search("(\S+)[,:]\s+(\S.*)", msg)
         if match:
             to = match.group(1)
             msg = match.group(2)

@@ -341,13 +341,10 @@ class pyBot():
 					if self.msg[1] not in self.irc_codes:
 						phrase = ''
 						length = len(self.msg)
-						if self.nick not in self.msg[3]:
+						if self.nick not in self.msg[3] or ":Ichigo:" not in self.msg[3]:
 							for x in range(3, length):
 								phrase += "{0} ".format(self.msg[x])
-						else:
-							for x in range(4, length):
-								phrase += "{0} ".format(self.msg[x])
-						self.hal.learn(phrase.strip().lstrip(":"))
+							self.hal.learn(phrase.strip().lstrip(":"))
 						
 						if self.nick.lower() in self.msg[3].lower() or self.nick in phrase:
 							phrase = phrase.replace(self.nick, "")
