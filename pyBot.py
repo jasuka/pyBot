@@ -60,7 +60,7 @@ class pyBot():
 			data = data + "\r\n"
 			##print(len(data.encode("utf-8")))
 			self.s.sendall( data.encode("utf-8") ) 
-			print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ) )
+			print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data.rstrip("\r\n") ) )
 		except Exception as e:
 			self.errormsg = "[ERROR]-[Core] send_data: {0}".format(e)		
 			sys_error_log.log( self ) ## LOG the error
@@ -247,7 +247,7 @@ class pyBot():
 		self.irc_codes = ["001", "002", "003", "004", "005", "042", "251", "250", "252", "254", 
 				"255", "265", "266", "311", "312", "313", "317", "318", "319","332",
 				"333","338","353", "366", "375", "372", "376", "401", "433", "482","JOIN", "MODE"]
-				
+
 		self.errormsg = "" ## Set error messages to null
 		
 		if self.config["cobe"] == True:
@@ -370,12 +370,12 @@ class pyBot():
 			try:
 				if "433" in self.msg:
 					if altnick is 0:
-						print("Alternative nick in use, switching into random nick\r\n")
+						print("Alternative nick in use, switching into random nick")
 						self.nick = "{0}{1}".format(self.config["nick"], str(random.randrange(1,10+1)))
 						my_nick = "NICK {0}".format(self.nick)
 						self.send_data(my_nick)						
 					else:
-						print("Switching to the alternative nick\r\n")
+						print("Switching to the alternative nick")
 						self.nick = self.config["altnick"]
 						my_nick = "NICK {0}".format(self.nick)
 						self.send_data(my_nick)

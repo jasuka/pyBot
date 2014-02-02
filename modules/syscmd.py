@@ -63,7 +63,7 @@ def modecheck (self):
 				#print(spl[0])
 				line2 += spl[0]+","
 			#line2 = line2.join(",")
-			print(line2)
+			#print(line2)
 			if self.get_host() in line2:
 				if spl[1].strip() == "ao":
 					self.send_data("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
