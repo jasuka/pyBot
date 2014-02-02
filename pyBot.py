@@ -310,14 +310,18 @@ class pyBot():
 					self.loop()
 			except Exception as e:
 				connected == 0
-				if "ERROR :Trying to reconnect too fast." in data: ## Sleep 15 secs if reconnecting too fast
-					time.sleep(20)
-				else:
-					time.sleep(5)
-					self.loop()
+				time.sleep(5)
+				self.loop()
 					
 			self.msg = data.split(" ") ## Slice data into list
 			
+			if "ERROR" in self.msg[0] and ":Trying" in self.msg[1]: ## Sleep 20 secs if reconnecting too fast
+				if self.config["debug"] == "true":
+					print("{0}[NOTICE] Trying to reconnect too fast, waiting for 20 second before trying again.{1}"
+						.format(self.color("blue"), self.color("end")))
+				time.sleep(20)
+				self.loop()
+
 			## if debug is true, print some stuff	
 			if self.config["debug"] == "true":
 				#print(self.msg)
