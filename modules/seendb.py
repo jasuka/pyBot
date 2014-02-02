@@ -25,7 +25,8 @@ def seendb ( self ):
 					#Create the seen.db if it doesn't exist
 					if not os.path.exists(seendb):
 						open(seendb, 'w').close()
-						
+						self.errormsg = "[NOTICE]-[seendb] Creating database file for seendb"
+						sys_error_log.log( self )
 					else:
 						if nick in open(seendb).read():
 							with open(temp, "w", encoding="UTF-8") as tempdb:
