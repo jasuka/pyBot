@@ -21,24 +21,64 @@ import config
 import modulecfg
 ## Load modules from the modules config
 
-if config.config["cobe"] == True:
-	from cobe import brain
-
+## Loading system modules
+print("\r\n####################")
+print("#  {0}System modules{1}  #".format("\033[0;31m", "\033[0m")) ## Color Red
+print("####################\r\n")
 try:
 	for mod in modulecfg.modulecfg["sysmodules"].split(","):
-		print("Loading system module {0}".format(mod))
+		print("Loading system module {0}{1}{2}".format("\033[0;34m", mod, "\033[0m")) ## Color Blue
 		globals()[mod] = __import__(mod)
-	for mod in modulecfg.modulecfg["modules"].split(","):
-		print("Loading module {0}".format(mod))
-		globals()[mod] = __import__(mod)
+
 except (ImportError, SyntaxError) as e:
-	print("Couldn't load module: {0}".format(mod))
+	print("{0}Couldn't load system module: {1}{2}".format("\033[0;31m", mod, "\033[0m")) ## Color Red
 	if config.config["debug"] == "true":
-		print(e)
-	pass
-except Exception as e:
+		print("{0}{1}{2}".format("\033[0;31m", e, "\033[0m")) ## Color Red
+	raise
+
+except Exception as e: ## Is this exception really needed here ???
 	if config.config["debug"] == "true":
 		print("[ERROR]-[Core] Load modules: {0} , This error is not being logged".format(e))
+
+print("\r\n##########################################")
+print("# {0}All system modules loaded successfully{1} #".format("\033[0;32m", "\033[0m")) ## Color Green
+print("##########################################\r\n")
+
+## Loading user modules
+print("##################")
+print("#  {0}User modules{1}  #".format("\033[0;31m", "\033[0m")) ## Color Red)
+print("##################\r\n")
+
+brokenModule = [] 	# A list of broken modules
+mLoaded = []		# A list of loaded modules
+toLoad = len(modulecfg.modulecfg["modules"].split(",")) # How many modules to load
+loadingDone = False
+
+while not loadingDone:
+	try:
+		for mod in modulecfg.modulecfg["modules"].split(","):
+			if mod not in brokenModule and mod not in mLoaded:
+				print("Loading module {0}{1}{2}".format("\033[0;34m", mod, "\033[0m")) ## Color Blue
+				globals()[mod] = __import__(mod)
+				mLoaded.append(mod)
+
+	except (ImportError, SyntaxError) as e:
+		toLoad -= 1
+		brokenModule.append(mod)
+		print("{0}Couldn't load module: {1}{2}".format("\033[0;31m", mod, "\033[0m")) ## Color Red
+		if config.config["debug"] == "true":
+			print("{0}{1}{2}".format("\033[0;31m", e, "\033[0m")) ## Color Red
+
+	except Exception as e: ## Is this exception really needed here ???
+		if config.config["debug"] == "true":
+			print("[ERROR]-[Core] Load modules: {0} , This error is not being logged".format(e))
+
+	finally:
+		if len(mLoaded) is toLoad: 
+			loadingDone = True
+			print("\r\n#################################")
+			print("# {0}Finished loading user modules{1} #".format("\033[0;32m", "\033[0m"))
+			print("#################################\r\n")
 
 ## Global variable for the flood protection
 flood = {}
