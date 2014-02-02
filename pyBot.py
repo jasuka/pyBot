@@ -51,7 +51,20 @@ class pyBot():
 		self.config = config.config
 		self.modulecfg = modulecfg.modulecfg
 		self.loop()
-			
+
+	## COLOR CODES FOR BASH
+	def color ( self, c ):
+		if c is "red":
+			return "\033[0;31m"	## RED
+		if c is "green":
+			return "\033[0;32m" ## GREEN
+		if c is "blue":
+			return "\033[0;34m" ## BLUE
+		if c is "end":
+			return "\033[0m"	## END 
+		else:
+			pass
+
 	## Send data function
 	def send_data( self, data ):
 		try:
@@ -66,7 +79,7 @@ class pyBot():
 			sys_error_log.log( self ) ## LOG the error
 			
 			if self.config["debug"] == "true":
-				print("[ERROR]-[Core] send_data: {0}".format(e))
+				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 				
 	## Whois for getting userinfo (ident@hostname) [ RESERVED ONLY FOR AUTOMODES!!! ]
 	def whois (self, nick):
@@ -126,7 +139,7 @@ class pyBot():
 			sys_error_log.log( self ) ## LOG the error
 			
 			if self.config["debug"] == "true":
-				print("[ERROR]-[Core] parse_command: {0}".format(e))
+				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 	
 	## Get nick
 	def get_nick( self ):
@@ -172,7 +185,7 @@ class pyBot():
 			sys_error_log.log( self ) ## LOG the error
 			
 			if self.config["debug"] == "true":
-				print("[ERROR]-[Core] load: {0}".fomat(e))
+				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 					
 	## Reload modules
 	def reload( self ):
@@ -212,7 +225,7 @@ class pyBot():
 			sys_error_log.log( self ) ## LOG the error
 			
 			if self.config["debug"] == "true":
-				print("[ERROR]-[Core] reload: {0}".format(e))
+				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 	
 	## Restart the bot 
 	def restart ( self ):
@@ -228,7 +241,7 @@ class pyBot():
 			sys_error_log.log( self ) ## LOG the error
 			
 			if self.config["debug"] == "true":
-				print("[ERROR]-[Core] restart: {0}".format(e))
+				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 				
 	def split_utf8(self, s, n):
 		## Split UTF-8 s into chunks of maximum length n.
@@ -272,7 +285,7 @@ class pyBot():
 				self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
 				self.s.connect(( self.config["host"], self.config["port"] ))
 			if self.config["debug"] == "true":
-				print("[ERROR]-[Core] Connection: {0}".format(e))	
+				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))	
 
 		## Send identification to the server
 		self.send_data(my_nick)
@@ -392,9 +405,9 @@ class pyBot():
 					self.join_chan( chan )
 				if self.config["logging"] == True:
 					logger = 1
-					print( "Logging enabled" )
+					print( "{0}Logging enabled{1}".format(self.color("green"), self.color("end")) )
 				else:
-					print( "Logging disabled" )
+					print( "{0}Logging disabled{1}".format(self.color("red"), self.color("end")) )
 						
 			try:
 				if len(self.msg) >= 4:
