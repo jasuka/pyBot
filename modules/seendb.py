@@ -22,27 +22,26 @@ def seendb ( self ):
 
 					usertxt = re.sub(r'\\n|\\r|\\t','', usertxt)
 					
-					if nick in open(seendb).read():
-						with open(temp, "w", encoding="UTF-8") as tempdb:
-							for line in open(seendb):				
-								str = "{0}|:|{1}|:|{2}".format(nick,timestamp,usertxt[1:].strip())
-								tempdb.write(re.sub("^{0}\\|\\:\\|.*$".format(nick), str.strip(), line))
-								tempdb.flush()
-							os.remove(seendb)
-							os.rename(temp, seendb)
-						return(True)
-					## If the nick doesn't exist in the file, append it in there
+					#Create the seen.db if it doesn't exist
+					if not os.path.exists(seendb):
+						open(seendb, 'w').close()
+						
 					else:
-						with open(seendb, "a", encoding="UTF-8") as file:
-							str = "{0}|:|{1}|:|{2}".format(nick,timestamp,usertxt[1:])
-							file.write(str)
-						return(True)
-				except (OSError, IOError):	#if it happens, the database file doesn't exist, create one
-					open(seendb, "a").close()
-					self.errormsg = "[NOTICE]-[seendb] Creating database file for seendb"
-					sys_error_log( self )
-					if self.config["debug"] == "true":
-						print("Creating file")
+						if nick in open(seendb).read():
+							with open(temp, "w", encoding="UTF-8") as tempdb:
+								for line in open(seendb):				
+									str = "{0}|:|{1}|:|{2}".format(nick,timestamp,usertxt[1:].strip())
+									tempdb.write(re.sub("^{0}\\|\\:\\|.*$".format(nick), str.strip(), line))
+									tempdb.flush()
+								os.remove(seendb)
+								os.rename(temp, seendb)
+							return(True)
+						## If the nick doesn't exist in the file, append it in there
+						else:
+							with open(seendb, "a", encoding="UTF-8") as file:
+								str = "{0}|:|{1}|:|{2}".format(nick,timestamp,usertxt[1:])
+								file.write(str)
+							return(True)
 				except Exception as e:
 					self.errormsg = "[ERROR]-[seendb] seendb() stating: {0}".format(e)
 					sys_error_log.log( self ) ## LOG the error
