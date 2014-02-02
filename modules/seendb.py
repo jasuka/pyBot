@@ -7,7 +7,7 @@ def seendb ( self ):
 	if os.path.exists(self.config["log-path"]) == True: #Checking if log-path in config is valid and exists (path is generated in logger_daemon.py)
 		
 		if len(self.msg) >= 4:	#Recording only if server sends more than 5 parameters (0,1,2,3,4,5) etc...
-			if self.msg[1] in self.irc_codes and "NOTICE" in self.msg[1]:	#do nothing if server sends any of these parameters
+			if self.msg[1] in self.irc_codes or "NOTICE" in self.msg[1]:	#do nothing if server sends any of these parameters
 				return
 			else:
 				try:
@@ -40,7 +40,7 @@ def seendb ( self ):
 						## If the nick doesn't exist in the file, append it in there
 						else:
 							with open(seendb, "a", encoding="UTF-8") as file:
-								str = "{0}|:|{1}|:|{2}".format(nick,timestamp,usertxt[1:])
+								str = "{0}|:|{1}|:|{2}\n".format(nick,timestamp,usertxt[1:].strip())
 								file.write(str)
 							return(True)
 				except Exception as e:
