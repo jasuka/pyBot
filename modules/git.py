@@ -36,4 +36,4 @@ def git(self):
 		self.errormsg = "[ERROR]-[git] git() stating: {0}".format(e)
 		sys_error_log.log( self ) ## LOG the error
 		if self.config["debug"] == "true":
-			print(self.errormsg)
+			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

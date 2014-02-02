@@ -14,7 +14,7 @@ def ylilauta(self):
 			self.errormsg = "[ERROR]-[ylilauta] ylilauta()(1) stating: {0}".format(e) 
 			sys_error_log.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
-				print(self.errormsg)
+				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		try:
 			try:
 				soup = BeautifulSoup(html, "lxml")
@@ -28,4 +28,4 @@ def ylilauta(self):
 			self.errormsg = "[ERROR]-[ylilauta] ylilauta()(2) stating: {0}".format(e)
 			sys_error_log.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
-					print(self.errormsg)
+					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

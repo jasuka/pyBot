@@ -29,7 +29,8 @@ def currency( self ):
 			sys_error_log.log( self )
 			
 			if self.config["debug"] == "true":
-				print("modules/data/currencies.txt doesn't exist, something wrong with your bot installation!")
+				print("{0}{1}{2}".format(self.color("blue"), self.errormsg, self.color("end")))
+
 		## If first value is float and currencies are valid
 		if isinstance( amount, float ) and frm_ok == True and to_ok == True:
 			frm = urllib.parse.quote(frm)
@@ -48,5 +49,5 @@ def currency( self ):
 			self.errormsg = "[ERROR]-[Currency] stating: {0}".format(e)
 			sys_error_log.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
-				print(self.errormsg)
+				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		

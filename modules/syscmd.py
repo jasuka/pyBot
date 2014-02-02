@@ -36,7 +36,7 @@ def checkCity ( city ):
 		self.errormsg = "[ERROR]-[syscmd] checkCity() stating: {0}".format(e)
 		sys_error_log.log( self ) ## LOG the error
 		if self.config["debug"] == "true":
-			print(self.errormsg)
+			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 ## End
 
 ## Clears html tags from a string
@@ -48,7 +48,7 @@ def delHtml( html ):
 		self.errormsg = "[ERROR]-[syscmd] delHtml() stating: {0}".format(e)
 		sys_error_log.log( self ) ## LOG the error
 		if self.config["debug"] == "true":
-			print(self.errormsg)
+			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 			
 ## End
 
@@ -77,7 +77,7 @@ def modecheck (self):
 		self.errormsg = "[NOTICE]-[syscmd] modcheck(): Creating file for automodes '{0}'".format(file)
 		sys_error_log.log ( self )
 		if self.config["debug"] == "true":
-			print("Creating file for automodes '{0}'".format(file))
+			print("{0}{1}{2}".format(self.color("blue"), self.errormsg, self.color("end")))
 
 ## End
 
@@ -112,12 +112,12 @@ def addautomode (self,modes,chan):
 			self.errormsg = "[NOTICE]-[syscmd] addautomode(): Creating file for automodes '{0}'".format(file)
 			sys_error_log.log( self )
 			if self.config["debug"] == "true":
-				print("Creating file for automodes '{0}'".format(file))
+				print("{0}{1}{2}".format(self.color("blue"), self.errormsg, self.color("end")))
 		except Exception as e:
 			self.errormsg = "[ERROR]-[syscmd] addautomode() stating: {0}".format(e)
 			sys_error_log.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
-				print(self.errormsg)
+				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 	else:
 		self.send_data("PRIVMSG {0} :Currently the only user flags are 'ao' & 'av'".format(chan))
 ## END

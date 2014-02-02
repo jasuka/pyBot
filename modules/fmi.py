@@ -63,7 +63,7 @@ def fmi( self ):
 				self.errormsg = "[ERROR]-[fmi] fmi() stating: {0}".format(e)
 				sys_error_log.log( self ) ## LOG the error
 				if self.config["debug"] == "true":
-					print(self.errormsg)
+					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		else:
 			self.send_chan( "City {0} doesn't exist!".format(city.title().strip()) )
 			
@@ -114,4 +114,4 @@ def setCity ( self, city ):
 		self.errormsg = "[ERROR]-[fmi] setCity() stating: {0}".format(e)
 		sys_error_log.log( self ) ## LOG the error
 		if self.config["debug"] == "true":
-			print(self.errormsg)
+			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

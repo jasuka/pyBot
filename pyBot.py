@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+
+
 ## Import needed modules
 import socket
 import re
@@ -46,7 +48,7 @@ class pyBot():
 	def __init__( self ):
 	
 	## Bot Version
-		self.version = "pyBot version 0.7.1"
+		self.version = "pyBot version 0.7.2"
 	## Config and start the bot
 		self.config = config.config
 		self.modulecfg = modulecfg.modulecfg

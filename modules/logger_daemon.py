@@ -37,13 +37,13 @@ def logger_daemon ( self ):
 			self.errormsg = "[NOTICE]-[logger_daemon] Cannot find existing folder for logs, creating: {0}".format(self.config["log-path"])
 			sys_error_log.log( self )
 			if self.config["debug"] == "true": #If the path set in config doesn't exist, create one
-				print("Cannot find existing folder for logs, creating: {0}".format(self.config["log-path"]))
+				print("{0}{1}{2}".format(self.color("blue"), self.errormsg, self.color("end")))
 			os.mkdir(self.config["log-path"])
 		except Exception as e:
 			self.errormsg = "[ERROR]-[logger_daemon] logger_daemon() stating: {0}".format(e)
 			sys_error_log.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
-				print(self.errormsg)
+				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 
 		
 	

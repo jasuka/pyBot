@@ -22,7 +22,7 @@ def wiki(self):
 				self.errormsg = "[ERROR]-[wiki] wiki()(1) stating: {0}".format(e)
 				sys.error_log.log( self )
 				if self.config["debug"] == "true":
-					print(e)
+					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 			try:
 				soup = BeautifulSoup(html)
 				if len(soup.findAll("p", {"class" : "mw-search-nonefound"})) == 0:
@@ -35,7 +35,7 @@ def wiki(self):
 				self.errormsg = "[ERROR]-[wiki] wiki()(2) stating: {0}".format(e)
 				sys_error_log.log( self ) ## LOG the error
 				if self.config["debug"] == "true":
-						print(self.errormsg)
+						print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		else:
 			self.send_chan("Usage: !wiki <lang> <search term> - e.g. !wiki en finland")
 	else:

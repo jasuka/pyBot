@@ -23,7 +23,7 @@ def google(self):
 			sys_error_log.log( self )
 			
 			if self.config["debug"] == "true":
-				print("Someting went wrong getting the html")
+				print("{0}{1}{2}".format(self.color("blue"), self.errormsg, self.color("end")))
 		try:
 			try:
 				soup = BeautifulSoup(html, "lxml")
@@ -42,4 +42,4 @@ def google(self):
 			self.errormsg = "[ERROR]-[google] google() stating: {0}".format(e)
 			sys_error_log.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
-				print(self.errormsg)
+				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

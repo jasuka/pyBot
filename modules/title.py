@@ -31,4 +31,4 @@ def title ( self, url ):
 			self.errormsg = "[ERROR]-[title] title() stating: {0} ({1})".format(e, url)
 			sys_error_log.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
-				print(self.errormsg)
+				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
