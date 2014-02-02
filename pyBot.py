@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
-
+## BASH colors used before the main class
+pRed = "\033[0;31m"
+pBlue = "\033[0;34m"
+pGreen = "\033[0;32m"
+pEnd = "\033[0m"
 
 ## Import needed modules
 import socket
@@ -19,21 +23,22 @@ sys.path.insert(0, './modules') ## Path for the modules
 import config
 ## Import modules config
 import modulecfg
-## Load modules from the modules config
 
-## Loading system modules
+## Loading system modules ##
+
 print("\r\n####################")
-print("#  {0}System modules{1}  #".format("\033[0;31m", "\033[0m")) ## Color Red
+print("#  {0}System modules{1}  #".format(pRed, pEnd))
 print("####################\r\n")
+
 try:
 	for mod in modulecfg.modulecfg["sysmodules"].split(","):
-		print("Loading system module {0}{1}{2}".format("\033[0;34m", mod, "\033[0m")) ## Color Blue
+		print("Loading system module {0}{1}{2}".format(pBlue, mod, pEnd))
 		globals()[mod] = __import__(mod)
 
 except (ImportError, SyntaxError) as e:
-	print("{0}Couldn't load system module: {1}{2}".format("\033[0;31m", mod, "\033[0m")) ## Color Red
+	print("{0}Couldn't load system module: {1}{2}".format(pRed, mod, pEnd))
 	if config.config["debug"] == "true":
-		print("{0}{1}{2}".format("\033[0;31m", e, "\033[0m")) ## Color Red
+		print("{0}{1}{2}".format(pRed, e, pEnd))
 	raise
 
 except Exception as e: ## Is this exception really needed here ???
@@ -41,12 +46,13 @@ except Exception as e: ## Is this exception really needed here ???
 		print("[ERROR]-[Core] Load modules: {0} , This error is not being logged".format(e))
 
 print("\r\n##########################################")
-print("# {0}All system modules loaded successfully{1} #".format("\033[0;32m", "\033[0m")) ## Color Green
+print("# {0}All system modules loaded successfully{1} #".format(pGreen, pEnd))
 print("##########################################\r\n")
 
-## Loading user modules
+## Loading user modules ##
+
 print("##################")
-print("#  {0}User modules{1}  #".format("\033[0;31m", "\033[0m")) ## Color Red)
+print("#  {0}User modules{1}  #".format(pRed, pEnd))
 print("##################\r\n")
 
 brokenModule = [] 	# A list of broken modules
@@ -58,16 +64,16 @@ while not loadingDone:
 	try:
 		for mod in modulecfg.modulecfg["modules"].split(","):
 			if mod not in brokenModule and mod not in mLoaded:
-				print("Loading module {0}{1}{2}".format("\033[0;34m", mod, "\033[0m")) ## Color Blue
+				print("Loading module {0}{1}{2}".format(pBlue, mod, pEnd))
 				globals()[mod] = __import__(mod)
 				mLoaded.append(mod)
 
 	except (ImportError, SyntaxError) as e:
 		toLoad -= 1
 		brokenModule.append(mod)
-		print("{0}Couldn't load module: {1}{2}".format("\033[0;31m", mod, "\033[0m")) ## Color Red
+		print("{0}Couldn't load module: {1}{2}".format(pRed, mod, pEnd))
 		if config.config["debug"] == "true":
-			print("{0}{1}{2}".format("\033[0;31m", e, "\033[0m")) ## Color Red
+			print("{0}{1}{2}".format(pRed, e, pEnd))
 
 	except Exception as e: ## Is this exception really needed here ???
 		if config.config["debug"] == "true":
@@ -77,7 +83,7 @@ while not loadingDone:
 		if len(mLoaded) is toLoad: 
 			loadingDone = True
 			print("\r\n#################################")
-			print("# {0}Finished loading user modules{1} #".format("\033[0;32m", "\033[0m"))
+			print("# {0}Finished loading user modules{1} #".format(pGreen, pEnd))
 			print("#################################\r\n")
 
 ## Global variable for the flood protection
