@@ -18,7 +18,6 @@ import os
 from threading import Thread
 
 sys.path.insert(0, './modules') ## Path for the modules
-
 ## Import Config
 import config
 ## Import modules config
@@ -312,7 +311,7 @@ class pyBot():
 		self.errormsg = "" ## Set error messages to null
 		
 		if self.config["cobe"] == True:
-			self.hal = brain.Brain("./cobe.brain")
+			self.hal = cobe.brain.Brain("./cobe.brain")
 		
 		self.nick = self.config["nick"]
 		my_nick = "NICK {0}".format(self.nick)
