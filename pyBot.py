@@ -93,7 +93,7 @@ class pyBot():
 	def __init__( self ):
 	
 	## Bot Version
-		self.version = "pyBot version 0.7.2"
+		self.version = "pyBot version 0.7.3"
 	## Config and start the bot
 		self.config = config.config
 		self.modulecfg = modulecfg.modulecfg
