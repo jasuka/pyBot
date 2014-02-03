@@ -310,7 +310,7 @@ class pyBot():
 
 		self.errormsg = "" ## Set error messages to null
 		
-		if self.config["cobe"] == True:
+		if "cobe" in sys.modules:
 			self.hal = cobe.brain.Brain("./cobe.brain")
 		
 		self.nick = self.config["nick"]
@@ -401,7 +401,7 @@ class pyBot():
 				pass
 			
 			## Support for Cobe (MegaHAL)
-			if config.config["cobe"] == True:		
+			if "cobe" in sys.modules:		
 				if active == 1 and len(self.msg) >= 4 and "PRIVMSG" in self.msg[1]:
 					if self.msg[1] not in self.irc_codes:
 						phrase = ''

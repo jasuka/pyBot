@@ -18,14 +18,11 @@ config = {		#[SERVER]			[Modify the right side only]
 
 			#[LOGGING DAEMON]
 			#Loggin			
-			"logging":			False,	#True/False, SeenDB works only if logging is set True
+			"logging":			True,	#True/False, SeenDB works only if logging is set True
 			"timeformat":			"%d.%m.%Y/%H:%M:%S", #[17.07.2013/13:31:27] do not to leave any space between date/time (at least for now)
 			"TimestampBrackets":		"[,]",
 			"log-path":			"logs/", #The root folder for logs
 			
-			## MegaHAL (Cobe)
-			"cobe":				True,
-
 			#[DEV DEBUGGING]
 			#Bot debugging true/false
 			"debug":			"true"
@@ -57,4 +54,5 @@ config = {		#[SERVER]			[Modify the right side only]
 			#%Y	Year with century as a decimal number.	 
 			#%Z	Time zone name (no characters if no time zone exists).	 
 			#%%	A literal '%' character.
+
 
