@@ -97,6 +97,21 @@ class pyBot():
 	## Config and start the bot
 		self.config = config.config
 		self.modulecfg = modulecfg.modulecfg
+
+		## Multiple server support, try until a working server found
+		self.hosts = self.config["host"].split(",")
+		self.serverIndex = 0
+
+		## Check if the host can connect to ipv6 addresses
+		## Some machines have the ipv6 support but can't connec to
+		## ipv6 addresses and getaddrinfo returns the ipv6 address for them
+		## for some reason, so we implemented a hack to test if the host machine
+		## really can connect to ipv6 addresses... Feel free to improve ;)
+		if syscmd.ipv6Connectivity():
+			self.socketType = socket.AF_UNSPEC
+		else:
+			self.socketType = socket.AF_INET
+
 		self.loop()
 
 	## COLOR CODES FOR BASH
@@ -309,39 +324,26 @@ class pyBot():
 				"333","338","353", "366", "375", "372", "376", "401", "433", "482","JOIN", "MODE", "PART"]
 
 		self.errormsg = "" ## Set error messages to null
+		self.connectionEstablished = 0
 		
 		if "cobe" in sys.modules:
 			self.hal = cobe.brain.Brain("./cobe.brain")
-		
-		## Multiple server support, try until a working server found
-		hosts = self.config["host"].split(",")
-		serverIndex = 0
-		connectionEstablished = 0
 
-		## Check if the host can connect to ipv6 addresses
-		## Some machines have the ipv6 support but can't connec to
-		## ipv6 addresses and getaddrinfo returns the ipv6 address for them
-		## for some reason, so we implemented a hack to test if the host machine
-		## really can connect to ipv6 addresses... Feel free to improve ;)
-		if syscmd.ipv6Connectivity():
-			socketType = socket.AF_UNSPEC
-		else:
-			socketType = socket.AF_INET
-
-		while connectionEstablished == 0:
-			for res in socket.getaddrinfo( hosts[serverIndex], self.config["port"], socketType, socket.SOCK_STREAM ):
+		## Try until a working server has been found
+		while self.connectionEstablished == 0:
+			for res in socket.getaddrinfo( self.hosts[self.serverIndex], self.config["port"], self.socketType, socket.SOCK_STREAM ):
 				af, socktype, proto, canonname, sa = res
 			self.s = socket.socket( af, socktype, proto )
 			try:
-				print("{0}Conneting to {1}{2}".format(pGreen, hosts[serverIndex], pEnd))
+				print("{0}Conneting to {1}{2}".format(pGreen, self.hosts[self.serverIndex], pEnd))
 				self.s.connect(sa)
-				connectionEstablished = 1
+				self.connectionEstablished = 1
 			except Exception as e:
-				connectionEstablished = 0
-				if serverIndex <= len(hosts):
-					serverIndex += 1
+				self.connectionEstablished = 0
+				if self.serverIndex <= len(self.hosts):
+					self.serverIndex += 1
 				else:
-					serverIndex = 0
+					self.serverIndex = 0
 
 				self.errormsg = "[ERROR]-[Core] Connection: {0}".format(e)
 				sys_error_log.log( self ) ## Log the error message in errorlog
@@ -351,7 +353,7 @@ class pyBot():
 
 		self.nick = self.config["nick"]
 		my_nick = "NICK {0}".format(self.nick)
-		my_user = "USER {0} {1} pyTsunku :{2}".format(self.config["ident"], hosts[serverIndex], self.config["realname"])		
+		my_user = "USER {0} {1} pyTsunku :{2}".format(self.config["ident"], self.hosts[self.serverIndex], self.config["realname"])		
 
 		## Send identification to the server
 		self.send_data(my_nick)
