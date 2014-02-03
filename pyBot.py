@@ -325,7 +325,6 @@ class pyBot():
 			socketType = socket.AF_INET
 
 		while connectionEstablished == 0:
-			## ipv4/ipv6 support
 			for res in socket.getaddrinfo( hosts[serverIndex], self.config["port"], socketType, socket.SOCK_STREAM ):
 				af, socktype, proto, canonname, sa = res
 			self.s = socket.socket( af, socktype, proto )
@@ -343,10 +342,6 @@ class pyBot():
 				self.errormsg = "[ERROR]-[Core] Connection: {0}".format(e)
 				sys_error_log.log( self ) ## Log the error message in errorlog
 				
-				#if e.errno == 101:
-				#	self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
-				#	self.s.connect(( hosts[serverIndex], self.config["port"] ))
-				#	connectionEstablished == 1
 				if self.config["debug"] == "true":
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))	
 

@@ -138,11 +138,12 @@ def replaceUmlauts(text):
 		text = text.replace(i, j)
 	return text
 
+## Can the host connect to ipv6 hosts
 def ipv6Connectivity():
 	have_ipv6 = True
 	s = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
 	try:
-		s.connect(('2a00:1450:400f:802::1000', 0))
+		s.connect(('2a00:1450:400f:802::1000', 0)) ## google.com ipv6 address
 	except:
 		have_ipv6 = False
 	return have_ipv6
