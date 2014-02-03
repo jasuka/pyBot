@@ -324,6 +324,7 @@ class pyBot():
 				af, socktype, proto, canonname, sa = res
 			self.s = socket.socket( af, socktype, proto )
 			try:
+				print("{0}Conneting to {1}{2}".format(pGreen, hosts[serverIndex], pEnd))
 				self.s.connect(sa)
 				connectionEstablished = 1
 			except Exception as e:
