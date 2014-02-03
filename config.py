@@ -1,7 +1,7 @@
 ## Config
 config = {		#[SERVER]			[Modify the right side only]
 			#server settings
-			"host":				"b0xi.eu", 
+			"host":				"usa.b0xi.eu,b0xi.eu", 
 			"port":				6667,
 		
 			#[BOT DETAILS]

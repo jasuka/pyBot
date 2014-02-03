@@ -317,22 +317,34 @@ class pyBot():
 		my_nick = "NICK {0}".format(self.nick)
 		my_user = "USER {0} {1} pyTsunku :{2}".format(self.config["ident"], self.config["host"], self.config["realname"])
 		
-		## ipv4/ipv6 support
-		for res in socket.getaddrinfo( self.config["host"], self.config["port"], socket.AF_UNSPEC, socket.SOCK_STREAM ):
-			af, socktype, proto, canonname, sa = res
-		self.s = socket.socket( af, socktype, proto )
-		try:
-			self.s.connect(sa)
-		except Exception as e:
-		
-			self.errormsg = "[ERROR]-[Core] Connection: {0}".format(e)
-			sys_error_log.log( self ) ## Log the error message in errorlog
-			
-			if e.errno == 101:
-				self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
-				self.s.connect(( self.config["host"], self.config["port"] ))
-			if self.config["debug"] == "true":
-				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))	
+		## Multiple server support, try until a working server found
+		hosts = self.config["host"].split(",")
+		serverIndex = 0
+		connectionEstablished = 0
+
+		while connectionEstablished == 0:
+			## ipv4/ipv6 support
+			for res in socket.getaddrinfo( hosts[serverIndex], self.config["port"], socket.AF_UNSPEC, socket.SOCK_STREAM ):
+				af, socktype, proto, canonname, sa = res
+			self.s = socket.socket( af, socktype, proto )
+			try:
+				self.s.connect(sa)
+				connectionEstablished = 1
+			except Exception as e:
+				connectionEstablished = 0
+				if serverIndex <= len(hosts):
+					serverIndex += 1
+				else:
+					serverIndex = 0
+
+				self.errormsg = "[ERROR]-[Core] Connection: {0}".format(e)
+				sys_error_log.log( self ) ## Log the error message in errorlog
+				
+				if e.errno == 101:
+					self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
+					self.s.connect(( hosts[serverIndex], self.config["port"] ))
+				if self.config["debug"] == "true":
+					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))	
 
 		## Send identification to the server
 		self.send_data(my_nick)
