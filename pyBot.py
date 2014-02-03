@@ -319,6 +319,10 @@ class pyBot():
 		connectionEstablished = 0
 
 		## Check if the host can connect to ipv6 addresses
+		## Some machines have the ipv6 support but can't connec to
+		## ipv6 addresses and getaddrinfo returns the ipv6 address for them
+		## for some reason, so we implemented a hack to test if the host machine
+		## really can connect to ipv6 addresses... Feel free to improve ;)
 		if syscmd.ipv6Connectivity():
 			socketType = socket.AF_UNSPEC
 		else:
