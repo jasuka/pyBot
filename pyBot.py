@@ -340,6 +340,7 @@ class pyBot():
 				if e.errno == 101:
 					self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
 					self.s.connect(( hosts[serverIndex], self.config["port"] ))
+					connectionEstablished == 1
 				if self.config["debug"] == "true":
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))	
 
