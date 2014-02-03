@@ -313,10 +313,6 @@ class pyBot():
 		if "cobe" in sys.modules:
 			self.hal = cobe.brain.Brain("./cobe.brain")
 		
-		self.nick = self.config["nick"]
-		my_nick = "NICK {0}".format(self.nick)
-		my_user = "USER {0} {1} pyTsunku :{2}".format(self.config["ident"], self.config["host"], self.config["realname"])
-		
 		## Multiple server support, try until a working server found
 		hosts = self.config["host"].split(",")
 		serverIndex = 0
@@ -345,6 +341,10 @@ class pyBot():
 					self.s.connect(( hosts[serverIndex], self.config["port"] ))
 				if self.config["debug"] == "true":
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))	
+
+		self.nick = self.config["nick"]
+		my_nick = "NICK {0}".format(self.nick)
+		my_user = "USER {0} {1} pyTsunku :{2}".format(self.config["ident"], hosts[serverIndex], self.config["realname"])		
 
 		## Send identification to the server
 		self.send_data(my_nick)
