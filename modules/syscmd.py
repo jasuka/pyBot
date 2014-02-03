@@ -3,6 +3,7 @@ import os
 import re
 import time
 import sys_error_log
+import socket
 
 ## Get HTML for given url
 def getHtml( self, url, useragent):
@@ -136,3 +137,12 @@ def replaceUmlauts(text):
 	for i, j in dic.items():
 		text = text.replace(i, j)
 	return text
+
+def ipv6Connectivity():
+	have_ipv6 = True
+	s = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
+	try:
+		s.connect(('2a00:1450:400f:802::1000', 0))
+	except:
+		have_ipv6 = False
+	return have_ipv6

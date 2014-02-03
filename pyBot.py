@@ -318,9 +318,15 @@ class pyBot():
 		serverIndex = 0
 		connectionEstablished = 0
 
+		## Check if the host can connect to ipv6 addresses
+		if syscmd.ipv6Connectivity():
+			socketType = socket.AF_UNSPEC
+		else:
+			socketType = socket.AF_INET
+
 		while connectionEstablished == 0:
 			## ipv4/ipv6 support
-			for res in socket.getaddrinfo( hosts[serverIndex], self.config["port"], socket.AF_UNSPEC, socket.SOCK_STREAM ):
+			for res in socket.getaddrinfo( hosts[serverIndex], self.config["port"], socketType, socket.SOCK_STREAM ):
 				af, socktype, proto, canonname, sa = res
 			self.s = socket.socket( af, socktype, proto )
 			try:
@@ -337,10 +343,10 @@ class pyBot():
 				self.errormsg = "[ERROR]-[Core] Connection: {0}".format(e)
 				sys_error_log.log( self ) ## Log the error message in errorlog
 				
-				if e.errno == 101:
-					self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
-					self.s.connect(( hosts[serverIndex], self.config["port"] ))
-					connectionEstablished == 1
+				#if e.errno == 101:
+				#	self.s = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
+				#	self.s.connect(( hosts[serverIndex], self.config["port"] ))
+				#	connectionEstablished == 1
 				if self.config["debug"] == "true":
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))	
 
