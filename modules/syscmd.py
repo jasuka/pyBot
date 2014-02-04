@@ -4,6 +4,7 @@ import re
 import time
 import sys_error_log
 import socket
+import sqlite3
 
 ## Get HTML for given url
 def getHtml( self, url, useragent):
@@ -27,17 +28,27 @@ def getHtml( self, url, useragent):
 def checkCity ( city ):
 
 	try:
-		city = city.title().strip()
-		with open("modules/data/cities.txt", "r", encoding="UTF-8") as file:
-			data = [x.strip() for x in file.readlines()]
+		db = sqlite3.connect("modules/data/cities.db")
 
-		if city in data:
-			return(True)
-	except IOError as e:
-		self.errormsg = "[ERROR]-[syscmd] checkCity() stating: {0}".format(e)
-		sys_error_log.log( self ) ## LOG the error
-		if self.config["debug"] == "true":
-			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+		cursor = db.cursor()
+
+		## Create cities table
+		cursor.execute("""
+				SELECT city FROM cities WHERE city=? 
+				""", (city.title().strip(),))
+		print(cursor.fetchone)
+		if cursor.fetchone():
+			return True
+		else:
+			print("moi")
+			return False
+	except Exception as e:
+		## Roll back if some error occured
+		db.rollback()
+		raise e
+	finally:
+		db.close()
+
 ## End
 
 ## Clears html tags from a string
