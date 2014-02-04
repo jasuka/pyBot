@@ -25,7 +25,7 @@ def fmi( self ):
 			self.send_chan( "Usage: !fmi <city> | !fmi set <city>" )
 			raise
 			
-		if "set" not in city and syscmd.checkCity( city ): # We don't want to look for a city named "set"
+		if "set" not in city and syscmd.checkCity( self, city ): # We don't want to look for a city named "set"
 			
 			city = city.title().strip()
 			parameter = urllib.parse.quote(city)
