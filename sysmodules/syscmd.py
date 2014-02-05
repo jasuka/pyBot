@@ -6,7 +6,7 @@ import sys_error_log
 import socket
 import sqlite3
 
-## Create cities DB, feel free to edit the list of cities
+### Create cities DB, feel free to edit the list of cities
 def createCitiesDatabase():
 	cities = """Akaa, Alahärmä, Alajärvi, Alastaro, Alastaro, Alavieska, Alavus, Anjala, Artjärvi, 
 	Asikkala, Askainen, Askola, Aura, Auttoinen, Dragsfjärd, Ekenäs, Elimäki, Eno, Enonkoski, 
