@@ -1,0 +1,48 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+BeautifulSoup	title.py	/^from bs4 import BeautifulSoup$/;"	i
+addautomode	syscmd.py	/^def addautomode (self,modes,chan):$/;"	f
+checkCity	syscmd.py	/^def checkCity ( self, city ):$/;"	f
+createCitiesDatabase	syscmd.py	/^def createCitiesDatabase():$/;"	f
+delHtml	syscmd.py	/^def delHtml( html ):$/;"	f
+getHtml	syscmd.py	/^def getHtml( self, url, useragent):$/;"	f
+getRemoteHost	syscmd.py	/^def getRemoteHost (self):$/;"	f
+gmtime	logger_daemon.py	/^from time import gmtime, strftime$/;"	i
+gmtime	sys_error_log.py	/^from time import gmtime, strftime$/;"	i
+ipv6Connectivity	syscmd.py	/^def ipv6Connectivity():$/;"	f
+log	sys_error_log.py	/^def log ( self ):$/;"	f
+logger_daemon	logger_daemon.py	/^def logger_daemon ( self ):$/;"	f
+modecheck	syscmd.py	/^def modecheck (self):$/;"	f
+os	logger_daemon.py	/^import os$/;"	i
+os	seendb.py	/^import re, time, os$/;"	i
+os	sys_error_log.py	/^import os$/;"	i
+os	syscmd.py	/^import os$/;"	i
+re	logger_daemon.py	/^import re$/;"	i
+re	seendb.py	/^import re, time, os$/;"	i
+re	sys_error_log.py	/^import re$/;"	i
+re	syscmd.py	/^import re$/;"	i
+re	title.py	/^import re$/;"	i
+replaceUmlauts	syscmd.py	/^def replaceUmlauts(text):$/;"	f
+request	syscmd.py	/^import urllib.request$/;"	i
+request	title.py	/^import urllib.request$/;"	i
+seendb	seendb.py	/^def seendb ( self ):$/;"	f
+socket	syscmd.py	/^import socket$/;"	i
+sqlite3	syscmd.py	/^import sqlite3$/;"	i
+strftime	logger_daemon.py	/^from time import gmtime, strftime$/;"	i
+strftime	sys_error_log.py	/^from time import gmtime, strftime$/;"	i
+sys_error_log	logger_daemon.py	/^import sys_error_log$/;"	i
+sys_error_log	seendb.py	/^import sys_error_log$/;"	i
+sys_error_log	syscmd.py	/^import sys_error_log$/;"	i
+sys_error_log	title.py	/^import sys_error_log$/;"	i
+syscmd	title.py	/^import syscmd$/;"	i
+time	logger_daemon.py	/^import time$/;"	i
+time	seendb.py	/^import re, time, os$/;"	i
+time	sys_error_log.py	/^import time$/;"	i
+time	syscmd.py	/^import time$/;"	i
+title	title.py	/^def title ( self, url ):$/;"	f
+urllib	syscmd.py	/^import urllib.request$/;"	i
+urllib	title.py	/^import urllib.request$/;"	i

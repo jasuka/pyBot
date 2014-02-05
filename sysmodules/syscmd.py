@@ -50,7 +50,7 @@ def createCitiesDatabase():
 	citiesList = cities.split(",")
 
 	try:
-		db = sqlite3.connect("modules/data/cities.db")
+		db = sqlite3.connect("sysmodules/data/cities.db")
 
 		cursor = db.cursor()
 
@@ -61,6 +61,10 @@ def createCitiesDatabase():
 		## Create cities table
 		cursor.execute("""
 				CREATE TABLE IF NOT EXISTS cities(id INTEGERT PRIMARY KEY, city TEXT)
+				""")
+		## Create nicks table
+		cursor.execute("""
+				CREATE TABLE IF NOT EXISTS nicks(id INTEGERT PRIMARY KEY, nick TEXT, city TEXT)
 				""")
 		## Loop through the cities and add them to the db
 		for city in citiesList:
@@ -99,7 +103,7 @@ def getHtml( self, url, useragent):
 ## Check if the city exists in Finland
 def checkCity ( self, city ):
 
-	if not os.path.exists("modules/data/cities.db"):
+	if not os.path.exists("sysmodules/data/cities.db"):
 		if self.config["debug"] == "true":
 			print("{0}[NOTICE] Cities database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
 		createCitiesDatabase()
@@ -108,7 +112,7 @@ def checkCity ( self, city ):
 
 		cursor = db.cursor()
 
-		## Create cities table
+		## Check if the city is in the db
 		cursor.execute("""
 				SELECT city FROM cities WHERE city=? 
 				""", (city.title().strip(),))
