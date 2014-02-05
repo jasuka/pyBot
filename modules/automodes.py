@@ -2,11 +2,12 @@ import re
 import os
 import syscmd
 import time
+import sqlite3
 
 def automodes (self):
 	if len(self.msg) >= 5:
 		if self.get_host() in self.config["opers"]:
-			if self.msg[4].strip() == "add":
+			if self.msg[4].strip() is "add":
 				## As for a quick fix, these are made bot wide variables
 				self.modes = self.msg[6].strip() 
 				self.channel = self.msg[2].strip()
@@ -14,16 +15,18 @@ def automodes (self):
 				nick = self.msg[5].strip()
 				self.whois(nick)
 			else:
-				with open("modules/data/automodes.txt", "r", encoding="UTF-8") as temp:
-					for line in temp:				
-						outti = line.split("@")
-						if outti[0] == self.msg[4].strip():
-							autti = outti[1].split(";")
-							self.send_chan("User {0} has currently mode +{1}".format(self.msg[4].strip(),autti[1]))
-				## THIS IS HORRIBLE :D so called purkkafixi..:D
-						
-					
-				
+				try:
+					#db = sqlite3.connect("modules/data/automodes.db")
+					#cur = db.cursor()
+					#cur.execute("""SELECT mode FROM automodes WHERE identhost = ? """,(self.get_host))
+					print(self.get_host)
+					#result = cur.fetchone()
+					#self.send_chan("User {0} has currently mode +{1}".format(self.get_host, result[0]))
+				except Exception as e:
+					raise e
+				finally:
+					#db.close()
+					print("lalal")	
 		else:
 			self.send_chan("Unauthorized command")
 	else:
