@@ -71,7 +71,7 @@ def fmi( self ):
 
 ## Return saved city for the nick
 def getCity ( self ):
-	
+
 	nick = self.get_nick()
 	try:
 		db = sqlite3.connect("modules/data/fmiCities.db")
@@ -106,7 +106,6 @@ def setCity ( self, city ):
 				SELECT id FROM nicks WHERE nick=? 
 				""", (nick.strip(),))
 		nickId = cursor.fetchone()[0]
-		print(nickId)
 		## If a nick is found, update the row
 		if nickId:
 			cursor.execute("""
