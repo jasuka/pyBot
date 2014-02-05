@@ -96,8 +96,7 @@ def createAutomodesDataBase():
 	finally:
 		db.close()
 		return True
-
-
+## END
 
 ## Get HTML for given url
 def getHtml( self, url, useragent):
@@ -108,7 +107,7 @@ def getHtml( self, url, useragent):
 			req = urllib.request.Request(url, None, headers)
 		else:
 			req = urllib.request.Request(url, None)
-			
+
 		html = urllib.request.urlopen(req, timeout = 20).read()
 		return(html)
 	except Exception as e:
@@ -156,7 +155,7 @@ def delHtml( html ):
 		sys_error_log.log() ## LOG the error
 		if self.config["debug"] == "true":
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
-			
+
 ## End
 
 ## Automodes checkup on event JOIN
@@ -228,6 +227,7 @@ def addautomode (self,modes,chan):
 	else:
 		self.send_data("PRIVMSG {0} :Currently the only user flags are 'ao' & 'av'".format(chan))
 ## END
+
 
 ## Return remote host based on given nick
 
