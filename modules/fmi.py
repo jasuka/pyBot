@@ -4,6 +4,7 @@ import re
 import os
 import syscmd
 import sys_error_log
+import sqlite3
 
 def fmi( self ):
 
@@ -70,48 +71,59 @@ def fmi( self ):
 
 ## Return saved city for the nick
 def getCity ( self ):
-
-	nick = self.get_nick()
-	file = "modules/data/fmi_nicks.txt"
 	
+	nick = self.get_nick()
 	try:
-		with open(file, "r", encoding="UTF-8") as f:
-			for line in f:
-				if re.search("\\b"+nick+":\\b", line, flags=re.IGNORECASE):
-					city = line.split(":")
-					return(city[1])
-	except (OSError, IOError): ## Create an empty fmi_nicks.txt if it doesn't exist
-		self.errormsg = "[NOTICE]-[fmi] Creating fmi_nicks.txt"
-		sys_error_log.log( self )
-		open(file, 'a').close()
+		db = sqlite3.connect("modules/data/fmiCities.db")
+
+		cursor = db.cursor()
+
+		## Check if the city is saved in the db
+		cursor.execute("""
+				SELECT city FROM nicks WHERE nick=? 
+				""", (nick.strip(),))
+		city = cursor.fetchone()[0]
+		return(city)
+	except Exception as e:
+		db.rollback()
+		raise
+	finally:
+		db.close()
 
 ## Save user city					
 def setCity ( self, city ):
 
 	nick = self.get_nick()
-	city = city.title().strip() 
-	file = "modules/data/fmi_nicks.txt"
-	
-	## If the nick is in the file, loop through it and replace the line containing the nick
-	## with the new city. We write the whole new file to temp.txt and then move it back to fmi_nicks.txt
+	city = city.title().strip()
+
 	try:
-		#f = open(file)
-		if re.search("\\b"+nick+":\\b", open(file).read(), flags=re.IGNORECASE):
-			with open("modules/data/temp.txt", "w", encoding="UTF-8") as temp:
-				for line in open(file):				
-					str = "{0}:{1}".format(nick,city)
-					temp.write(re.sub("^{0}:.*$".format(nick), str, line))
-				os.remove("modules/data/fmi_nicks.txt")
-				os.rename("modules/data/temp.txt", file)
+		db = sqlite3.connect("modules/data/fmiCities.db")
+
+		cursor = db.cursor()
+
+		## Check if nick is in the db
+		cursor.execute("""
+				SELECT id FROM nicks WHERE nick=? 
+				""", (nick.strip(),))
+		nickId = cursor.fetchone()[0]
+		print(nickId)
+		## If a nick is found, update the row
+		if nickId:
+			cursor.execute("""
+					UPDATE nicks SET city=? WHERE id=? 
+					""", (city, nickId))
+			db.commit()
 			return(True)
-		## If the nick doesn't exist in the file, append it in there
+		## If not found, insert it
 		else:
-			with open(file, "a", encoding="UTF-8") as file:
-				str = "\r\n{0}:{1}".format(nick,city)
-				file.write(str)
-			return(True)
+			cursor.execute("""
+					INSERT INTO nicks(nick, city) VALUES(?, ?)  
+					""", (nick.strip(), city))
+			db.commit()
+			return(True)			
 	except Exception as e:
-		self.errormsg = "[ERROR]-[fmi] setCity() stating: {0}".format(e)
-		sys_error_log.log( self ) ## LOG the error
-		if self.config["debug"] == "true":
-			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+		db.rollback()
+		raise
+	finally:
+		db.close()
+

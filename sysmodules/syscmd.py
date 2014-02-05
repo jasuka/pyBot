@@ -60,11 +60,11 @@ def createCitiesDatabase():
 				""")
 		## Create cities table
 		cursor.execute("""
-				CREATE TABLE IF NOT EXISTS cities(id INTEGERT PRIMARY KEY, city TEXT)
+				CREATE TABLE IF NOT EXISTS cities(id INTEGER PRIMARY KEY NOT NULL, city TEXT)
 				""")
 		## Create nicks table
 		cursor.execute("""
-				CREATE TABLE IF NOT EXISTS nicks(id INTEGERT PRIMARY KEY, nick TEXT, city TEXT)
+				CREATE TABLE IF NOT EXISTS nicks(id INTEGER PRIMARY KEY NOT NULL, nick TEXT, city TEXT)
 				""")
 		## Loop through the cities and add them to the db
 		for city in citiesList:
