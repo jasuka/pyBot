@@ -82,7 +82,10 @@ def getCity ( self ):
 		cursor.execute("""
 				SELECT city FROM nicks WHERE nick=? 
 				""", (nick.strip(),))
-		city = cursor.fetchone()[0]
+		try:
+			city = cursor.fetchone()[0]
+		except TypeError:
+			city = None
 		return(city)
 	except Exception as e:
 		db.rollback()
@@ -105,7 +108,10 @@ def setCity ( self, city ):
 		cursor.execute("""
 				SELECT id FROM nicks WHERE nick=? 
 				""", (nick.strip(),))
-		nickId = cursor.fetchone()[0]
+		try:
+			nickId = cursor.fetchone()[0]
+		except TypeError:
+			nickId = None
 		## If a nick is found, update the row
 		if nickId:
 			cursor.execute("""
