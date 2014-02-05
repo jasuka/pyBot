@@ -16,7 +16,8 @@ import imp
 import os
 from threading import Thread
 
-sys.path.insert(0, './modules') ## Path for the modules
+sys.path.insert(1, './sysmodules') ## Path for the modules
+sys.path.insert(2, './modules') ## Path for the modules
 ## Import Config
 import config
 ## Import modules config
