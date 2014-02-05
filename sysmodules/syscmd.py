@@ -82,6 +82,22 @@ def createCitiesDatabase():
 		return True
 ## END
 
+def createAutomodesDataBase():
+	try:
+		db = sqlite3.connect("modules/data/automodes.db")
+
+		cursor = db.cursor()
+		cursor.execute("""DROP TABLE IF EXISTS automodes""")
+		cursor.execute("""CREATE TABLE IF NOT EXISTS automodes(id INTEGER PRIMARY KEY NOT NULL, identhost TEXT, channel TEXT, mode TEXT)""")
+		db.commit()
+	except Exception as e:
+		db.rollback()
+		raise e
+	finally:
+		db.close()
+		return True
+## END
+
 ## Get HTML for given url
 def getHtml( self, url, useragent):
 	try:
@@ -91,7 +107,7 @@ def getHtml( self, url, useragent):
 			req = urllib.request.Request(url, None, headers)
 		else:
 			req = urllib.request.Request(url, None)
-			
+
 		html = urllib.request.urlopen(req, timeout = 20).read()
 		return(html)
 	except Exception as e:
@@ -139,35 +155,42 @@ def delHtml( html ):
 		sys_error_log.log() ## LOG the error
 		if self.config["debug"] == "true":
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
-			
+
 ## End
 
 ## Automodes checkup on event JOIN
 def modecheck (self):
-	file = "modules/data/automodes.txt"
-	line2 = ""
-	try:
-		with open(file, "r", encoding="UTF-8") as modes:
-			for line in modes:
-				spl = line.split(";")
-				#print(spl[0])
-				line2 += spl[0]+","
-			#line2 = line2.join(",")
-			#print(line2)
-			if self.get_host() in line2 and spl[2].strip() in self.msg[2].lstrip(":"):
-				if spl[1].strip() == "ao":
-					self.send_data("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
-					print("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
-				elif spl[1].strip() == "av":
-					self.send_data("MODE {0} +v {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
-					print("MODE {0} +v {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
-			#line2 = ""
-	except (OSError, IOError):	#if it happens, the database file doesn't exist, create one
-		open(file, "a").close()
-		self.errormsg = "[NOTICE]-[syscmd] modcheck(): Creating file for automodes '{0}'".format(file)
-		sys_error_log.log ( self )
+	if not os.path.exists("modules/data/automodes.db"):
 		if self.config["debug"] == "true":
-			print("{0}{1}{2}".format(self.color("blue"), self.errormsg, self.color("end")))
+			print("{0}[NOTICE] Automodes database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
+		createAutomodesDataBase()
+	try:
+		db = sqlite3.connect("modules/data/automodes.db")
+		cursor = db.cursor()
+		cursor.execute("""SELECT identhost, channel, mode FROM automodes WHERE identhost = ? """,(self.get_host(),))
+		result = cursor.fetchone()
+		
+		if result:
+			if result[2] is "av":
+				self.send_data("MODE {0} +v {1}".format(result[1], self.get_nick()))
+			else:
+				self.send_data("MODE {0} +o {1}".format(result[1], self.get_nick()))
+
+		#	if self.get_host() in line2 and spl[2].strip() in self.msg[2].lstrip(":"):
+		#		if spl[1].strip() == "ao":
+		#			self.send_data("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
+		#			print("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
+		#		elif spl[1].strip() == "av":
+		#			self.send_data("MODE {0} +v {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
+		#			print("MODE {0} +v {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
+			#line2 = ""
+	except Exception as e:	#if it happens, the database file doesn't exist, create one
+		raise e
+	#	open(file, "a").close()
+	#	self.errormsg = "[NOTICE]-[syscmd] modcheck(): Creating file for automodes '{0}'".format(file)
+	#	sys_error_log.log ( self )
+	#	if self.config["debug"] == "true":
+	#		print("{0}{1}{2}".format(self.color("blue"), self.errormsg, self.color("end")))
 
 ## End
 
@@ -175,42 +198,36 @@ def modecheck (self):
 def addautomode (self,modes,chan):
 	
 	identhost = self.hostident.strip() 	#this is created by getRemoteHost() down below which is later on called
-					   	#in core as a bot wide variable when server sends whoise code 311
-	file = "modules/data/automodes.txt"
+					   					#in core as a bot wide variable when server sends whoise code 311
 
 	if modes == "ao" or modes == "av":
+		if not os.path.exists("modules/data/automodes.db"):
+			if self.config["debug"] == "true":
+				print("{0}[NOTICE] Automodes database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
+			createAutomodesDataBase()
 		try:
-			if re.search("\\b"+identhost+";\\b", open(file).read(), flags=re.IGNORECASE):
-				with open("modules/data/temp1.txt", "w", encoding="UTF-8") as temp:
-					for line in open(file):				
-						str = "{0};{1};{2}".format(identhost,modes,chan)
-						temp.write(re.sub("^{0};.*$".format(identhost), str, line))
-					os.remove("modules/data/automodes.txt")
-					os.rename("modules/data/temp1.txt", file)
-				self.send_data("PRIVMSG {2} :Automode changed for {1} on channel {2}. The new mode is ({0})".format(modes,identhost,chan))
-				return(True)
-			## If the nick doesn't exist in the file, append it in there
-			else:
-				with open(file, "a", encoding="UTF-8") as file:
-					str = "\r\n{0};{1};{2}".format(identhost,modes,chan)
-					file.write(str)
+			db = sqlite3.connect("modules/data/automodes.db")
+			cursor = db.cursor()
+			cursor.execute("""SELECT id FROM automodes WHERE identhost = ?""", (identhost,))
+			rowId = cursor.fetchone()
+			if not rowId:
+				cursor.execute("""INSERT INTO automodes(identhost,channel,mode) VALUES(?,?,?)""", (identhost,chan,modes))
+				db.commit()
 				self.send_data("PRIVMSG {2} :Automode ({0}) added for {1} on channel {2}".format(modes,identhost,chan))
-				return(True)
-
-		except (OSError, IOError):	#if it happens, the database file doesn't exist, create one
-			open(file, "a").close()
-			self.errormsg = "[NOTICE]-[syscmd] addautomode(): Creating file for automodes '{0}'".format(file)
-			sys_error_log.log( self )
-			if self.config["debug"] == "true":
-				print("{0}{1}{2}".format(self.color("blue"), self.errormsg, self.color("end")))
+				return True
+			else:
+				cursor.execute("""UPDATE automodes SET mode = ? WHERE id = ?""", (modes, rowId))
+				db.commit()
+				self.send_data("PRIVMSG {2} :Automode changed for {1} on channel {2}. The new mode is ({0})".format(modes,identhost,chan))
+				return True
 		except Exception as e:
-			self.errormsg = "[ERROR]-[syscmd] addautomode() stating: {0}".format(e)
-			sys_error_log.log( self ) ## LOG the error
-			if self.config["debug"] == "true":
-				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+			raise e
+		finally:
+			db.close()
 	else:
 		self.send_data("PRIVMSG {0} :Currently the only user flags are 'ao' & 'av'".format(chan))
 ## END
+
 
 ## Return remote host based on given nick
 
