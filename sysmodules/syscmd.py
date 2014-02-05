@@ -50,7 +50,7 @@ def createCitiesDatabase():
 	citiesList = cities.split(",")
 
 	try:
-		db = sqlite3.connect("sysmodules/data/cities.db")
+		db = sqlite3.connect("modules/data/fmiCities.db")
 
 		cursor = db.cursor()
 
@@ -103,12 +103,12 @@ def getHtml( self, url, useragent):
 ## Check if the city exists in Finland
 def checkCity ( self, city ):
 
-	if not os.path.exists("sysmodules/data/cities.db"):
+	if not os.path.exists("modules/data/fmiCities.db"):
 		if self.config["debug"] == "true":
 			print("{0}[NOTICE] Cities database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
 		createCitiesDatabase()
 	try:
-		db = sqlite3.connect("modules/data/cities.db")
+		db = sqlite3.connect("modules/data/fmiCities.db")
 
 		cursor = db.cursor()
 
