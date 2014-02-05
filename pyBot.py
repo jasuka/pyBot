@@ -4,13 +4,12 @@
 import time
 
 from threading import Thread
-from pyBotCore import pyBot, Flood
-
+import pyBotCore
 
 ## Run the bot and flood counter in own threads
 def initialize():
-	bot = Thread(target=pyBot)
-	fld = Thread(target=Flood)
+	bot = Thread(target=pyBotCore.pyBot)
+	fld = Thread(target=pyBotCore.Flood)
 
 	bot.daemon = True
 	bot.start()
