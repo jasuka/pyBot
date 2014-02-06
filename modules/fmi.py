@@ -18,10 +18,14 @@ def fmi( self ):
 		try:
 			if len(self.msg) == 4:	## when called only with !fmi, see if the city is saved
 				city = getCity( self )
-				if city == None:
+				if not city and len(self.msg) == 5:
 					city = self.msg[4]
-			else:
+			if len(self.msg) == 5:
 				city = self.msg[4].strip() #With !fmi City
+			## If no city saved and no parameter
+			if not city:
+				self.send_chan( "Usage: !fmi <city> | !fmi set <city>" )
+				return
 		except IndexError:
 			self.send_chan( "Usage: !fmi <city> | !fmi set <city>" )
 			raise
