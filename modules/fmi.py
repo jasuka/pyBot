@@ -8,12 +8,17 @@ import sqlite3
 
 def fmi( self ):
 
+	if len(self.msg) == 5 and "set" in self.msg[4]:
+		self.send_chan( "Usage: !fmi <city> | !fmi set <city>" )
+		return
 	## For saving the city
 	if len(self.msg) == 6:
 		if "set" in self.msg:
 			city = self.msg[5]
 			setCity( self, city )
 			self.send_notice( "Your city {0} has been saved!".format(city.title().strip()))
+		else:
+			self.send_chan( "Usage: !fmi <city> | !fmi set <city>" )
 	else:
 		try:
 			if len(self.msg) == 4:	## when called only with !fmi, see if the city is saved
