@@ -76,6 +76,10 @@ def createCitiesDatabase():
 	except Exception as e:
 		## Roll back if some error occured
 		db.rollback()
+		self.errormsg = "[ERROR]-[syscmd] createCitiesDatabase() stating: {0}".format(e)
+		sys_error_log.log() ## LOG the error
+		if self.config["debug"] == "true":
+			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e
 	finally:
 		db.close()

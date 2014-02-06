@@ -89,7 +89,11 @@ def getCity ( self ):
 		return(city)
 	except Exception as e:
 		db.rollback()
-		raise
+		self.errormsg = "[ERROR]-[fmi] getCity() stating: {0}".format(e)
+		sys_error_log.log() ## LOG the error
+		if self.config["debug"] == "true":
+			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+		raise e
 	finally:
 		db.close()
 
@@ -128,7 +132,11 @@ def setCity ( self, city ):
 			return(True)			
 	except Exception as e:
 		db.rollback()
-		raise
+		self.errormsg = "[ERROR]-[fmi] setCity() stating: {0}".format(e)
+		sys_error_log.log() ## LOG the error
+		if self.config["debug"] == "true":
+			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+		raise e
 	finally:
 		db.close()
 
