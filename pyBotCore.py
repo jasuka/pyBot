@@ -116,7 +116,7 @@ class pyBot():
 		if "fmi" in mLoaded and not os.path.exists("modules/data/fmiCities.db"):
 			if self.config["debug"] == "true":
 				print("{0}[NOTICE] Cities database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
-		syscmd.createCitiesDatabase()
+			syscmd.createCitiesDatabase()
 
 		self.loop()
 
