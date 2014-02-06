@@ -169,28 +169,20 @@ def modecheck (self):
 		cursor = db.cursor()
 		cursor.execute("""SELECT identhost, channel, mode FROM automodes WHERE identhost = ? """,(self.get_host(),))
 		result = cursor.fetchone()
-		
+
 		if result:
-			if result[2] is "av":
+			if result[2] == "av" and result[1] in self.msg[2].lstrip(":"):
 				self.send_data("MODE {0} +v {1}".format(result[1], self.get_nick()))
 			else:
 				self.send_data("MODE {0} +o {1}".format(result[1], self.get_nick()))
 
-		#	if self.get_host() in line2 and spl[2].strip() in self.msg[2].lstrip(":"):
-		#		if spl[1].strip() == "ao":
-		#			self.send_data("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
-		#			print("MODE {0} +o {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
-		#		elif spl[1].strip() == "av":
-		#			self.send_data("MODE {0} +v {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
-		#			print("MODE {0} +v {1}".format(spl[2].rstrip("\r\n"),self.get_nick()))
-			#line2 = ""
-	except Exception as e:	#if it happens, the database file doesn't exist, create one
-		raise e
-	#	open(file, "a").close()
-	#	self.errormsg = "[NOTICE]-[syscmd] modcheck(): Creating file for automodes '{0}'".format(file)
-	#	sys_error_log.log ( self )
-	#	if self.config["debug"] == "true":
-	#		print("{0}{1}{2}".format(self.color("blue"), self.errormsg, self.color("end")))
+	## If it happens, the database file doesn't exist, create one
+	except Exception as e:
+			self.errormsg = "[NOTICE] Automodes database doesn't exist, creating it!"
+			sys_error_log.log( self )
+			if self.config["debug"] == "true":
+				print("{0}[NOTICE] Automodes database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
+			createAutomodesDataBase()
 
 ## End
 
@@ -202,6 +194,9 @@ def addautomode (self,modes,chan):
 
 	if modes == "ao" or modes == "av":
 		if not os.path.exists("modules/data/automodes.db"):
+			self.errormsg = "[NOTICE] Automodes database doesn't exist, creating it!"
+			sys_error_log.log( self )
+			
 			if self.config["debug"] == "true":
 				print("{0}[NOTICE] Automodes database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
 			createAutomodesDataBase()
@@ -209,7 +204,7 @@ def addautomode (self,modes,chan):
 			db = sqlite3.connect("modules/data/automodes.db")
 			cursor = db.cursor()
 			cursor.execute("""SELECT id FROM automodes WHERE identhost = ?""", (identhost,))
-			rowId = cursor.fetchone()
+			rowId = cursor.fetchone()[0]
 			if not rowId:
 				cursor.execute("""INSERT INTO automodes(identhost,channel,mode) VALUES(?,?,?)""", (identhost,chan,modes))
 				db.commit()
