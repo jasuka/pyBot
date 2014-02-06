@@ -160,10 +160,6 @@ def delHtml( html ):
 
 ## Automodes checkup on event JOIN
 def modecheck (self):
-	if not os.path.exists("modules/data/automodes.db"):
-		if self.config["debug"] == "true":
-			print("{0}[NOTICE] Automodes database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
-		createAutomodesDataBase()
 	try:
 		db = sqlite3.connect("modules/data/automodes.db")
 		cursor = db.cursor()
@@ -178,11 +174,7 @@ def modecheck (self):
 
 	## If it happens, the database file doesn't exist, create one
 	except Exception as e:
-			self.errormsg = "[NOTICE] Automodes database doesn't exist, creating it!"
-			sys_error_log.log( self )
-			if self.config["debug"] == "true":
-				print("{0}[NOTICE] Automodes database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
-			createAutomodesDataBase()
+		raise e
 
 ## End
 
@@ -193,13 +185,6 @@ def addautomode (self,modes,chan):
 					   					#in core as a bot wide variable when server sends whoise code 311
 
 	if modes == "ao" or modes == "av":
-		if not os.path.exists("modules/data/automodes.db"):
-			self.errormsg = "[NOTICE] Automodes database doesn't exist, creating it!"
-			sys_error_log.log( self )
-			
-			if self.config["debug"] == "true":
-				print("{0}[NOTICE] Automodes database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
-			createAutomodesDataBase()
 		try:
 			db = sqlite3.connect("modules/data/automodes.db")
 			cursor = db.cursor()

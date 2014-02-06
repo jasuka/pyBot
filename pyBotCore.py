@@ -118,6 +118,11 @@ class pyBot():
 				print("{0}[NOTICE] Cities database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
 			syscmd.createCitiesDatabase()
 
+		if "automodes" in mLoaded and not os.path.exists("modules/data/automodes.db"):
+			if self.config["debug"] == "true":
+				print("{0}[NOTICE] Automodes database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
+			syscmd.createAutomodesDataBase()
+
 		self.loop()
 
 	## COLOR CODES FOR BASH
