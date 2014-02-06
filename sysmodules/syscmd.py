@@ -166,8 +166,8 @@ def modecheck (self):
 		cursor.execute("""SELECT identhost, channel, mode FROM automodes WHERE identhost = ? """,(self.get_host(),))
 		result = cursor.fetchone()
 
-		if result:
-			if result[2] == "av" and result[1] in self.msg[2].lstrip(":"):
+		if result and result[1] in self.msg[2].lstrip(":"):
+			if result[2] == "av":
 				self.send_data("MODE {0} +v {1}".format(result[1], self.get_nick()))
 			else:
 				self.send_data("MODE {0} +o {1}".format(result[1], self.get_nick()))
