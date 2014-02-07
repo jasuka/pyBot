@@ -189,7 +189,10 @@ def addautomode (self,modes,chan):
 			db = sqlite3.connect("modules/data/automodes.db")
 			cursor = db.cursor()
 			cursor.execute("""SELECT id FROM automodes WHERE identhost = ?""", (identhost,))
-			rowId = cursor.fetchone()
+			try:
+				rowId = cursor.fetchone()[0]
+			except TypeError:
+				rowId = None
 			if not rowId:
 				cursor.execute("""INSERT INTO automodes(identhost,channel,mode) VALUES(?,?,?)""", (identhost,chan,modes))
 				db.commit()
