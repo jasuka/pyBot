@@ -22,11 +22,11 @@ def log ( self ):
 
 	else:
 		try:
-			if self.config["debug"] == "true": #If the path set in config doesn't exist, create one
+			if self.config["debug"] == True: #If the path set in config doesn't exist, create one
 				print("Cannot find existing folder for logs, creating: {0}".format(self.config["log-path"]))
 			os.mkdir(self.config["log-path"])
 		except Exception as e:
-			if self.config["debug"] == "true":
+			if self.config["debug"] == True:
 				print("[ERROR]-[sysErrorLog] log() stating: {0}, Plus that im a retard, and i cant log my own errors :((".format(e))
 	
 
