@@ -23,6 +23,9 @@ def git(self):
 		if "pyBot.py" in stdoutput.decode("utf-8"):
 			self.send_chan("Pull succeeded, core updated, restarting!")
 			self.restart()
+		if "pyBotCore.py" in stdoutput.decode("utf-8"):
+			self.send_chan("Pull succeeded, core updated, restarting!")
+			self.restart()
 		if "create mode" in stdoutput.decode("utf-8"):
 			mods = re.findall(r"\create mode 100644 modules/(.*.py)", stdoutput.decode("utf-8"))
 			modules = ""
