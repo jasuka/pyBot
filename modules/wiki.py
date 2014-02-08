@@ -7,7 +7,7 @@ def wiki(self):
 
 	if len(self.msg) >= 6:
 		lang = self.msg[4].strip()
-		if lang in open("modules/data/wiki_lang.txt").read():
+		if syscmd.checkLang( lang ):
 			parameters = ""
 			length = len(self.msg)
 		

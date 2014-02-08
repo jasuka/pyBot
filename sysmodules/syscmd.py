@@ -212,6 +212,67 @@ def addautomode (self,modes,chan):
 ## END
 
 
+## Check if the currency is in the correct currencies list
+
+def checkCurrency( frm, to ):
+	currenciesList = ['ED', 'AFN', 'ALL', 'AMD', 'ANG', 'AOA', 'ARS', 'ARY', 'AUD', 'AWG', 
+			'AZN', 'BAM', 'BBD', 'BDT', 'BGN', 'BHD', 'BIF', 'BMD', 'BND', 'BOB','BOP',
+			'BRC', 'BRL', 'BSD', 'BTN', 'BWP', 'BYR', 'BZD', 'CAD', 'CDF', 'CHF', 'CLF',
+			'CLP', 'CNY', 'COP', 'CRC', 'CSK', 'CUP', 'CVE', 'CYP', 'CZK','DJF', 'DKK',
+			'DOP', 'DZD', 'ECS', 'EEK', 'EGP', 'ERN', 'ETB', 'EUR', 'FJD', 'FKP', 'GBP',
+			'GEL', 'GHC', 'GIP', 'GMD', 'GNF', 'GTQ', 'GWP', 'GYD','HKD', 'HNL', 'HRK',
+			'HTG', 'HUF', 'IDR', 'ILS', 'INR', 'IQD', 'IRR', 'ISK','JMD', 'JOD', 'JPY',
+			'KES', 'KGS', 'KHR', 'KMF', 'KPW', 'KRW', 'KWD', 'KYD','KZT', 'LAK', 'LBP',
+			'LKR', 'LRD', 'LSL', 'LTL', 'LVL', 'LYD', 'MAD', 'MDL','MGA', 'MGF', 'MKD',
+			'MMK', 'MNT', 'MOP', 'MRO', 'MTL', 'MUR', 'MVR', 'MWK', 'MXN','MXP', 'MYR',
+			'MZN', 'NAD', 'NGN', 'NIO', 'NOK', 'NPR', 'NZD', 'OMR', 'PAB', 'PEN','PGK',
+			'PHP', 'PKR', 'PLN', 'PYG', 'QAR', 'ROL', 'RON', 'RSD', 'RUB', 'RWF', 'SAR',
+			'SBD', 'SCR', 'SDD', 'SEK', 'SGD', 'SHP', 'SIT', 'SKK', 'SLL', 'SOS', 'SRD',
+			'STD','SVC', 'SYP', 'SZL', 'THB', 'TJS', 'TMM', 'TND', 'TOP', 'TRL', 'TRY',
+			'TTD', 'TWD', 'TZS','UAH', 'UGX', 'USD', 'UYU', 'UZS', 'VEB', 'VND', 'VUV',
+			'WST', 'XAF', 'XBC', 'XCD', 'XFO', 'XOF', 'XPF', 'YER', 'YUM', 'ZAR', 'ZMK',
+			'ZRN', 'ZWD']
+			
+	## For some reason comparing the two variables to a list doesn't work,
+	## but splitting them to a list and comparing the cells work...
+	currencies = "{0} {1}".format(frm.strip(), to.strip()).split(" ")
+	if currencies[0] in currenciesList and currencies[1] in currenciesList:
+		return(True)
+	else:
+		return(False)
+## End
+
+## Check if a given shortened lang is correct
+def checkLang( lang ):
+	langList = ['en', 'nl', 'de', 'fr', 'sv', 'it', 'es', 'ru', 'pl', 'ja', 'vi', 'pt',
+			'zh', 'uk', 'ceb', 'war', 'ca', 'no', 'fi', 'fa', 'cs', 'hu', 'ko', 'ar',
+			'ro', 'ms', 'tr', 'id', 'kk', 'sr', 'sk', 'eo', 'da', 'lt', 'eu', 'bg', 'he',
+			'hr', 'sl', 'uz', 'vo', 'et', 'hi', 'nn', 'gl', 'simple', 'az', 'la', 'el',
+			'oc', 'sh', 'th', 'ka', 'mk', 'new', 'pms', 'tl', 'be', 'ta', 'ht', 'te', 'be-x-old',
+			'lv', 'cy', 'hy', 'bs', 'br', 'sq', 'tt', 'jv', 'mg', 'mr', 'lb', 'is', 'my', 'ml',
+			'ba', 'yo', 'an', 'lmo', 'af', 'fy', 'pnb', 'bn', 'sw', 'bpy', 'io', 'ky', 'ur', 'ne',
+			'zh-yue', 'scn', 'gu', 'nds', 'ga', 'ku', 'cv', 'ast', 'qu', 'su', 'sco', 'als', 'ia',
+			'nap', 'bug', 'bat-smg', 'kn', 'map-bms', 'wa', 'am', 'ckb', 'gd', 'hif', 'zh-min-nan',
+			'tg', 'arz', 'mzn', 'yi', 'vec', 'mn', 'sah', 'nah', 'roa-tara', 'sa', 'os', 'pam', 'si',
+			'hsb', 'bar', 'se', 'li', 'mi', 'pa', 'co', 'fo', 'ilo', 'gan', 'bo', 'glk', 'rue', 'bcl',
+			'min', 'fiu-vro', 'mrj', 'nds-nl', 'tk', 'ps', 'vls', 'xmf', 'gv', 'diq', 'or', 'kv', 'pag',
+			'zea', 'km', 'dv', 'mhr', 'nrm', 'csb', 'frr', 'rm', 'koi', 'vep', 'udm', 'lad', 'lij', 'wuu',
+			'fur', 'sc', 'zh-classical', 'ug', 'stq', 'mt', 'ay', 'pi', 'so', 'bh', 'ce', 'ksh', 'nov',
+			'hak', 'kw', 'ang', 'pcd', 'nv', 'gn', 'as', 'ext', 'frp', 'ace', 'szl', 'eml', 'gag', 'ie',
+			'ln', 'krc', 'pfl', 'xal', 'haw', 'pdc', 'rw', 'crh', 'to', 'dsb', 'kl', 'arc', 'lez', 'myv',
+			'kab', 'sn', 'bjn', 'pap', 'tpi', 'lbe', 'wo', 'mwl', 'jbo', 'mdf', 'kbd', 'cbk-zam', 'av',
+			'srn', 'ty', 'lo', 'ab', 'kg', 'tet', 'ltg', 'na', 'ig', 'bxr', 'nso', 'za', 'kaa', 'zu',
+			'chy', 'rmy', 'cu', 'tn', 'chr', 'roa-rup', 'cdo', 'bi', 'got', 'sm', 'mo', 'bm', 'iu', 'pih',
+			'pnt', 'ss', 'sd', 'ki', 'ee', 'ha', 'om', 'fj', 'ti', 'ts', 'ks', 've', 'sg', 'rn', 'st', 'cr', 
+			'dz', 'ak', 'tum', 'lg', 'ff', 'ik', 'ny', 'tw', 'ch', 'xh', 'ng', 'ii', 'cho', 'mh', 'aa', 'kj', 
+			'ho', 'mus', 'kr', 'hz']
+
+	if lang.strip() in langList:
+		return(True)
+	else:
+		return(False)
+## END
+
 ## Return remote host based on given nick
 
 def getRemoteHost (self):
