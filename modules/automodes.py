@@ -28,6 +28,7 @@ def automodes (self):
 				self.channel = self.msg[2].strip()
 				## End section of system wide variables ...
 				nick = self.msg[5].strip()
+				self.automodesWhoisEnabled = True
 				self.whois(nick)
 			else:
 				self.send_chan("Unauthorized command")
