@@ -233,10 +233,7 @@ def checkCurrency( frm, to ):
 			'WST', 'XAF', 'XBC', 'XCD', 'XFO', 'XOF', 'XPF', 'YER', 'YUM', 'ZAR', 'ZMK',
 			'ZRN', 'ZWD']
 			
-	## For some reason comparing the two variables to a list doesn't work,
-	## but splitting them to a list and comparing the cells work...
-	currencies = "{0} {1}".format(frm.strip(), to.strip()).split(" ")
-	if currencies[0] in currenciesList and currencies[1] in currenciesList:
+	if frm.strip() in currenciesList and to.strip() in currenciesList:
 		return(True)
 	else:
 		return(False)
