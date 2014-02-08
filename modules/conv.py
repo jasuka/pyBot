@@ -1,4 +1,7 @@
-import sysErrorLog
+
+import re
+import sys_error_log
+
 
 def conv ( self ):
 
@@ -10,7 +13,7 @@ def conv ( self ):
 		return
 	if len(self.msg) == 6:
 		try:
-			amount = float(self.msg[4])
+			amount = float(re.sub(",", ".", self.msg[4]))
 		except ValueError:
 			amount = 1.00
 		frm = self.msg[5].strip()
