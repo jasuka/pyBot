@@ -7,7 +7,7 @@ def conv ( self ):
 		self.send_chan("I know: km, m, cm, mm, l, ml, yd, miles, floz, gal")
 		return
 	if len(self.msg) < 6:
-		self.send_chan("Usage: !conv <amount> <from> <to> || !conv units")
+		self.send_chan("Usage: !conv <amount> <unit> || !conv units")
 		return
 	if len(self.msg) == 6:
 		try:
@@ -80,4 +80,4 @@ def conv ( self ):
 			if self.config["debug"] == "true":
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 	else:
-		self.send_chan("Usage: !conv <amount> <from> <to> || !conv units")
+		self.send_chan("Usage: !conv <amount> <unit> || !conv units")
