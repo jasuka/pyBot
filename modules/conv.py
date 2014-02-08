@@ -3,7 +3,7 @@ import sys_error_log
 def conv ( self ):
 
 	if len(self.msg) == 5 and self.msg[4].strip() == "units":
-		self.send_chan("I know: km, m, cm, mm, yd, miles, floz, gal")
+		self.send_chan("I know: km, m, cm, mm, l, ml, yd, miles, floz, gal")
 		return
 	if len(self.msg) < 6:
 		self.send_chan("Usage: !conv <amount> <from> <to> || !conv units")
@@ -59,9 +59,15 @@ def conv ( self ):
 				else:
 					result = round(result / 1000, 2)
 					output = "{0} fluid ounces is {1} liters".format(amount, result)
+			elif frm == "ml":
+				result = round(amount / 29.574, 3)
+				output = "{0} milliliters is {1} fluid ounces".format(amount, result)
 			elif frm == "gal":
 				result = round(amount * 3.7854, 4)
 				output = "{0} gallons is {1} liters".format(amount, result)
+			elif frm == "l":
+				result = round(amount / 3.7854, 4)
+				output = "{0} liters is {1} gallons".format(amount, result)
 			else:
 				output = "I don't know how to convert {0} {1}(s) :(".format(amount, frm)
 
