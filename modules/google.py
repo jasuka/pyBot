@@ -22,7 +22,7 @@ def google(self):
 			self.errormsg = "[NOTICE]-[google] Something went wrong getting the html"
 			sysErrorLog.log( self )
 			
-			if self.config["debug"] == "true":
+			if self.config["debug"] == True:
 				print("{0}{1}{2}".format(self.color("blue"), self.errormsg, self.color("end")))
 		try:
 			try:
@@ -41,5 +41,5 @@ def google(self):
 		except Exception as e:
 			self.errormsg = "[ERROR]-[google] google() stating: {0}".format(e)
 			sysErrorLog.log( self ) ## LOG the error
-			if self.config["debug"] == "true":
+			if self.config["debug"] == True:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

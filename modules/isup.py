@@ -18,5 +18,5 @@ def isup (self):
 			self.send_chan("The site {0} seems to be down!".format(url))
 			self.errormsg = "[ERROR]-[isup] isup() stating: {0}".format(e)
 			sysErrorLog.log( self ) ## LOG the error
-			if self.config["debug"] == "true":
+			if self.config["debug"] == True:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

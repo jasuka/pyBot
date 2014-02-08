@@ -25,7 +25,7 @@ config = {		#[SERVER]			[Modify the right side only]
 			
 			#[DEV DEBUGGING]
 			#Bot debugging true/false
-			"debug":			"true"
+			"debug":			True
 				
 		  }
 			#Everything is editable, but if you dont know what you're doing, dont touch anything else than bot details.

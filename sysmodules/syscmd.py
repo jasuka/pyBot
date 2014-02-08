@@ -78,7 +78,7 @@ def createCitiesDatabase():
 		db.rollback()
 		self.errormsg = "[ERROR]-[syscmd] createCitiesDatabase() stating: {0}".format(e)
 		sysErrorLog.log( self ) ## LOG the error
-		if self.config["debug"] == "true":
+		if self.config["debug"] == True:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e
 	finally:
@@ -98,7 +98,7 @@ def createAutomodesDataBase():
 		db.rollback()
 		self.errormsg = "[ERROR]-[syscmd] createAutomodesDataBase() stating: {0}".format(e)
 		sysErrorLog.log ( self )
-		if self.config["debug"] == "true":
+		if self.config["debug"] == True:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e
 	finally:
@@ -157,7 +157,7 @@ def delHtml( html ):
 	except Exception as e:
 		self.errormsg = "[ERROR]-[syscmd] delHtml() stating: {0}".format(e)
 		sysErrorLog.log() ## LOG the error
-		if self.config["debug"] == "true":
+		if self.config["debug"] == True:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 
 ## End
@@ -178,7 +178,7 @@ def modecheck (self):
 	except Exception as e:
 		self.errormsg = "[ERROR]-[syscmd] modecheck() stating: {0}".format(e)
 		sysErrorLog.log (self)
-		if self.config["debug"] == "true":
+		if self.config["debug"] == True:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e
 
@@ -212,7 +212,7 @@ def addautomode (self,modes,chan):
 		except Exception as e:
 			self.errormsg = "[ERROR]-[syscmd] addautomode() stating: {0}".format(e)
 			sysErrorLog (self)
-			if self.config["debug"] == "true":
+			if self.config["debug"] == True:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 			raise e
 		finally:

@@ -15,7 +15,7 @@ def seen ( self ):
 			except Exception as e:
 				self.errormsg = "[ERROR]-[seen] seen() stating: {0}".format(e)
 				sysErrorLog.log( self ) ## LOG the error
-				if self.config["debug"] == "true":
+				if self.config["debug"] == True:
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 			else:
 				nick = self.msg[4].rstrip("\r\n") #getting the nick we are looking for (the second param. given; !seen nick)

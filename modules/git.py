@@ -13,7 +13,7 @@ def git(self):
 		process = subprocess.Popen(['git', 'pull'], stdout=PIPE, stderr=PIPE)
 		stdoutput, stderroutput = process.communicate()
 	
-		if self.config["debug"] == "true":
+		if self.config["debug"] == True:
 			print(stdoutput.decode("utf-8"))
 			
 		if "fatal" in stdoutput.decode("utf-8"):
@@ -38,5 +38,5 @@ def git(self):
 	except Exception as e:
 		self.errormsg = "[ERROR]-[git] git() stating: {0}".format(e)
 		sysErrorLog.log( self ) ## LOG the error
-		if self.config["debug"] == "true":
+		if self.config["debug"] == True:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

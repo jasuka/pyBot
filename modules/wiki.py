@@ -21,7 +21,7 @@ def wiki(self):
 			except Exception as e:
 				self.errormsg = "[ERROR]-[wiki] wiki()(1) stating: {0}".format(e)
 				sys.error_log.log( self )
-				if self.config["debug"] == "true":
+				if self.config["debug"] == True:
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 			try:
 				soup = BeautifulSoup(html)
@@ -34,7 +34,7 @@ def wiki(self):
 			except Exception as e:
 				self.errormsg = "[ERROR]-[wiki] wiki()(2) stating: {0}".format(e)
 				sysErrorLog.log( self ) ## LOG the error
-				if self.config["debug"] == "true":
+				if self.config["debug"] == True:
 						print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		else:
 			self.send_chan("Usage: !wiki <lang> <search term> - e.g. !wiki en finland")

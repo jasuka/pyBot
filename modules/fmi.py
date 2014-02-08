@@ -72,7 +72,7 @@ def fmi( self ):
 			except Except as e:
 				self.errormsg = "[ERROR]-[fmi] fmi() stating: {0}".format(e)
 				sysErrorLog.log( self ) ## LOG the error
-				if self.config["debug"] == "true":
+				if self.config["debug"] == True:
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		else:
 			self.send_chan( "City {0} doesn't exist!".format(city.title().strip()) )
@@ -100,7 +100,7 @@ def getCity ( self ):
 		db.rollback()
 		self.errormsg = "[ERROR]-[fmi] getCity() stating: {0}".format(e)
 		sysErrorLog.log() ## LOG the error
-		if self.config["debug"] == "true":
+		if self.config["debug"] == True:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e
 	finally:
@@ -143,7 +143,7 @@ def setCity ( self, city ):
 		db.rollback()
 		self.errormsg = "[ERROR]-[fmi] setCity() stating: {0}".format(e)
 		sysErrorLog.log() ## LOG the error
-		if self.config["debug"] == "true":
+		if self.config["debug"] == True:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e
 	finally:

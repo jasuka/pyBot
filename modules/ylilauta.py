@@ -13,7 +13,7 @@ def ylilauta(self):
 		except Exception as e:
 			self.errormsg = "[ERROR]-[ylilauta] ylilauta()(1) stating: {0}".format(e) 
 			sysErrorLog.log( self ) ## LOG the error
-			if self.config["debug"] == "true":
+			if self.config["debug"] == True:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		try:
 			try:
@@ -27,5 +27,5 @@ def ylilauta(self):
 		except Exception as e:
 			self.errormsg = "[ERROR]-[ylilauta] ylilauta()(2) stating: {0}".format(e)
 			sysErrorLog.log( self ) ## LOG the error
-			if self.config["debug"] == "true":
+			if self.config["debug"] == True:
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

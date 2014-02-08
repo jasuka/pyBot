@@ -36,12 +36,12 @@ try:
 
 except (ImportError, SyntaxError) as e:
 	print("{0}Couldn't load system module: {1}{2}".format(pRed, mod, pEnd))
-	if config.config["debug"] == "true":
+	if config.config["debug"] == True:
 		print("{0}{1}{2}".format(pRed, e, pEnd))
 	raise
 
 except Exception as e: ## Is this exception really needed here ???
-	if config.config["debug"] == "true":
+	if config.config["debug"] == True:
 		print("[ERROR]-[Core] Load modules: {0} , This error is not being logged".format(e))
 
 print("\r\n##########################################")
@@ -71,7 +71,7 @@ while not doneLoading:
 		toLoad -= 1
 		brokenModule.append(mod)
 		print("{0}Couldn't load module: {1}{2}".format(pRed, mod, pEnd))
-		if config.config["debug"] == "true":
+		if config.config["debug"] == True:
 			print("{0}{1}{2}".format(pRed, e, pEnd))
 
 	except Exception as e: ## Is this exception really needed here ???
@@ -116,14 +116,14 @@ class pyBot():
 		if "fmi" in mLoaded and not os.path.exists("modules/data/fmiCities.db"):
 			self.errormsg = "[NOTICE] Cities database doesn't exist, creating it!"
 			sysErrorLog.log( self )
-			if self.config["debug"] == "true":
+			if self.config["debug"] == True:
 				print("{0}[NOTICE] Cities database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
 			syscmd.createCitiesDatabase()
 
 		if "automodes" in mLoaded and not os.path.exists("modules/data/automodes.db"):
 			self.errormsg = "[NOTICE] Automodes database doesn't exist, creating it!"
 			sysErrorLog.log ( self )
-			if self.config["debug"] == "true":
+			if self.config["debug"] == True:
 				print("{0}[NOTICE] Automodes database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
 			syscmd.createAutomodesDataBase()
 
@@ -155,7 +155,7 @@ class pyBot():
 			self.errormsg = "[ERROR]-[Core] send_data: {0}".format(e)		
 			sysErrorLog.log( self ) ## LOG the error
 			
-			if self.config["debug"] == "true":
+			if self.config["debug"] == True:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 				
 	## Whois for getting userinfo (ident@hostname) [ RESERVED ONLY FOR AUTOMODES!!! ]
@@ -215,7 +215,7 @@ class pyBot():
 			self.errormsg = "[ERROR]-[Core] parse_command: {0}".format(e)
 			sysErrorLog.log( self ) ## LOG the error
 			
-			if self.config["debug"] == "true":
+			if self.config["debug"] == True:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 	
 	## Get nick
@@ -261,7 +261,7 @@ class pyBot():
 			self.errormsg = "[ERROR]-[Core] load: {0}".fomat(e)
 			sysErrorLog.log( self ) ## LOG the error
 			
-			if self.config["debug"] == "true":
+			if self.config["debug"] == True:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 					
 	## Reload modules
@@ -301,7 +301,7 @@ class pyBot():
 			self.errormsg = "[ERROR]-[Core] reload: {0}".format(e)
 			sysErrorLog.log( self ) ## LOG the error
 			
-			if self.config["debug"] == "true":
+			if self.config["debug"] == True:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 	
 	## Restart the bot 
@@ -317,7 +317,7 @@ class pyBot():
 			self.errormsg = "[ERROR]-[Core] restart: {0}".format(e)
 			sysErrorLog.log( self ) ## LOG the error
 			
-			if self.config["debug"] == "true":
+			if self.config["debug"] == True:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 				
 	def split_utf8(self, s, n):
@@ -363,7 +363,7 @@ class pyBot():
 				self.errormsg = "[ERROR]-[Core] Connection: {0}".format(e)
 				sysErrorLog.log( self ) ## Log the error message in errorlog
 				
-				if self.config["debug"] == "true":
+				if self.config["debug"] == True:
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))	
 
 		self.nick = self.config["nick"]
@@ -397,12 +397,12 @@ class pyBot():
 			self.msg = data.split(" ") ## Slice data into list
 
 			## if debug is true, print some stuff	
-			if self.config["debug"] == "true":
+			if self.config["debug"] == True:
 				#print(self.msg)
 				print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ).rstrip("\r\n"))		
 
 			if "ERROR" in self.msg[0] and ":Trying" in self.msg[1]: ## Sleep 20 secs if reconnecting too fast
-				if self.config["debug"] == "true":
+				if self.config["debug"] == True:
 					print("{0}[NOTICE] Trying to reconnect too fast, waiting for 20 second before trying again.{1}"
 						.format(self.color("blue"), self.color("end")))
 				time.sleep(20)
@@ -550,7 +550,7 @@ class pyBot():
 								## Run title as own thread so it won't block the bot
 								Thread(target=title.title, args=(self, url)).start()
 			except Exception as e:
-				if self.config["debug"] == "true":
+				if self.config["debug"] == True:
 					print("URL Title exception")
 					print(e)
 

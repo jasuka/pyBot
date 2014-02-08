@@ -27,7 +27,7 @@ def seendb ( self ):
 						open(seendb, 'w').close()
 						self.errormsg = "[NOTICE]-[seendb] Creating database file for seendb"
 						sysErrorLog.log( self )
-						if self.config["debug"] == "true":
+						if self.config["debug"] == True:
 							print("{0}[NOTICE]-[seendb] Creating database file for seendb{1}".format(self.color("blue"), self.color("end")))
 
 					if nick in open(seendb).read():
@@ -48,5 +48,5 @@ def seendb ( self ):
 				except Exception as e:
 					self.errormsg = "[ERROR]-[seendb] seendb() stating: {0}".format(e)
 					sysErrorLog.log( self ) ## LOG the error
-					if self.config["debug"] == "true":
+					if self.config["debug"] == True:
 						print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))	

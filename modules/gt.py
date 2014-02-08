@@ -23,7 +23,7 @@ def gt(self):
 			self.errormsg = "[NOTICE]-[gt] Something went wrong getting the html"
 			sysErrorLog.log( self )
 			
-			if self.config["debug"] == "true":
+			if self.config["debug"] == True:
 				print("{0}{1}{2}".format(self.color("blue"), self.errormsg, self.color("end")))
 		try:
 			try:
@@ -36,5 +36,5 @@ def gt(self):
 		except Exception as e:
 			self.errormsg = "[ERROR]-[gt] gt() stating: {0}".format(e)
 			sysErrorLog.log( self ) ## LOG the error
-			if self.config["debug"] == "true":
+			if self.config["debug"] == True:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
