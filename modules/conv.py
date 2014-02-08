@@ -1,12 +1,5 @@
-<<<<<<< HEAD
-
 import re
 import sysErrorLog
-
-=======
-import sysErrorLog
-import re
->>>>>>> syserrorlog
 
 def conv ( self ):
 
