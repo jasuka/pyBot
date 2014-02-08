@@ -14,6 +14,7 @@ def conv ( self ):
 		output = ""
 
 		try:
+			## Length conversions
 			if frm == "mm":
 				result = round(amount * 0.03937, 5)
 				output = "{0} millimeters is {1} inches".format(amount, result)
@@ -47,6 +48,17 @@ def conv ( self ):
 					output = "{0} miles is {1} meters".format(amount, result)
 				else:
 					output = "{0} miles is {1} kilometers".format(amount, result)
+			## Volume conversions
+			elif frm == "floz":
+				result = round(amount * 29.574, 3)
+				if result < 1000:
+					output = "{0} fluid ounces is {1} milliliters".format(amount, result)
+				else:
+					result = round(result / 1000, 2)
+					output = "{0} fluid ounces is {1} liters".format(amount, result)
+			elif frm == "gal":
+				result = round(amount * 3.7854, 4)
+				output = "{0} gallons is {1} liters".format(amount, result)
 			else:
 				output = "I don't know how to convert {0} {1}(s) :(".format(amount, frm)
 
