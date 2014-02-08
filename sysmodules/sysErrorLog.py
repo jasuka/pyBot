@@ -27,7 +27,7 @@ def log ( self ):
 			os.mkdir(self.config["log-path"])
 		except Exception as e:
 			if self.config["debug"] == "true":
-				print("[ERROR]-[sys_error_log] sys_error_log() stating: {0}, Plus that im a retard, and i cant log my own errors :((".format(e))
+				print("[ERROR]-[sysErrorLog] log() stating: {0}, Plus that im a retard, and i cant log my own errors :((".format(e))
 	
 
 

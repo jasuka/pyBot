@@ -1,6 +1,6 @@
 import urllib.request
 import json
-import sys_error_log
+import sysErrorLog
 
 def geo (self):
 
@@ -18,6 +18,6 @@ def geo (self):
 							data["query"], data["isp"], data["country"], shortened)))
 		except Exception as e:
 			self.errormsg = "[ERROR]-[geo] geo() stating: {0}".format(e)
-			sys_error_log.log( self ) ## LOG the error
+			sysErrorLog.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

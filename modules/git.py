@@ -1,12 +1,12 @@
 import subprocess
 import re
-import sys_error_log
+import sysErrorLog
 
 def git(self):
 
 	if self.get_host() not in self.config["opers"]:
 		self.errormsg = "[NOTICE]-[git] Unauthorized git reguest from {0}".format(self.get_host())
-		sys_error_log.log( self )
+		sysErrorLog.log( self )
 		return
 	try:
 		PIPE = subprocess.PIPE
@@ -37,6 +37,6 @@ def git(self):
 	
 	except Exception as e:
 		self.errormsg = "[ERROR]-[git] git() stating: {0}".format(e)
-		sys_error_log.log( self ) ## LOG the error
+		sysErrorLog.log( self ) ## LOG the error
 		if self.config["debug"] == "true":
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

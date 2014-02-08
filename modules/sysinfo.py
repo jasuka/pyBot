@@ -1,5 +1,6 @@
 import subprocess
 import platform
+import sysErrorLog
 
 def sysinfo(self):
 
@@ -60,6 +61,6 @@ def sysinfo(self):
 				
 	except Exception as e:
 		self.errormsg = "[ERROR]-[sysinfo] sysinfo() stating: {0}".format(e)
-		sys_error_log.log( self ) ## LOG the error
+		sysErrorLog.log( self ) ## LOG the error
 		if self.config["debug"] == "true":
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

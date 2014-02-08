@@ -1,7 +1,7 @@
 import urllib.parse
 import syscmd
 from bs4 import BeautifulSoup
-import sys_error_log
+import sysErrorLog
 
 def google(self):
 
@@ -20,7 +20,7 @@ def google(self):
 			html = syscmd.getHtml(self, url, True )
 		except:
 			self.errormsg = "[NOTICE]-[google] Something went wrong getting the html"
-			sys_error_log.log( self )
+			sysErrorLog.log( self )
 			
 			if self.config["debug"] == "true":
 				print("{0}{1}{2}".format(self.color("blue"), self.errormsg, self.color("end")))
@@ -40,6 +40,6 @@ def google(self):
 				self.send_chan("No results for: {0}".format(parameters))
 		except Exception as e:
 			self.errormsg = "[ERROR]-[google] google() stating: {0}".format(e)
-			sys_error_log.log( self ) ## LOG the error
+			sysErrorLog.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

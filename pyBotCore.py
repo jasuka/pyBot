@@ -57,9 +57,9 @@ print("##################\r\n")
 brokenModule = [] 	# A list of broken modules
 mLoaded = []		# A list of loaded modules
 toLoad = len(modulecfg.modulecfg["modules"].split(",")) # How many modules to load
-loadingDone = False
+doneLoading = False
 
-while not loadingDone:
+while not doneLoading:
 	try:
 		for mod in modulecfg.modulecfg["modules"].split(","):
 			if mod not in brokenModule and mod not in mLoaded:
@@ -75,12 +75,12 @@ while not loadingDone:
 			print("{0}{1}{2}".format(pRed, e, pEnd))
 
 	except Exception as e: ## Is this exception really needed here ???
-		if config.config["debug"] == "true":
+		if config.config["debug"] == "trudoneLoadinge":
 			print("[ERROR]-[Core] Load modules: {0} , This error is not being logged".format(e))
 
 	finally:
 		if len(mLoaded) is toLoad: 
-			loadingDone = True
+			doneLoading = True
 			print("\r\n#################################")
 			print("# {0}Finished loading user modules{1} #".format(pGreen, pEnd))
 			print("#################################\r\n")
@@ -114,11 +114,15 @@ class pyBot():
 
 		## Initialize databases
 		if "fmi" in mLoaded and not os.path.exists("modules/data/fmiCities.db"):
+			self.errormsg = "[NOTICE] Cities database doesn't exist, creating it!"
+			sysErrorLog.log( self )
 			if self.config["debug"] == "true":
 				print("{0}[NOTICE] Cities database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
 			syscmd.createCitiesDatabase()
 
 		if "automodes" in mLoaded and not os.path.exists("modules/data/automodes.db"):
+			self.errormsg = "[NOTICE] Automodes database doesn't exist, creating it!"
+			sysErrorLog.log ( self )
 			if self.config["debug"] == "true":
 				print("{0}[NOTICE] Automodes database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
 			syscmd.createAutomodesDataBase()
@@ -149,7 +153,7 @@ class pyBot():
 			print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data.rstrip("\r\n") ) )
 		except Exception as e:
 			self.errormsg = "[ERROR]-[Core] send_data: {0}".format(e)		
-			sys_error_log.log( self ) ## LOG the error
+			sysErrorLog.log( self ) ## LOG the error
 			
 			if self.config["debug"] == "true":
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
@@ -209,7 +213,7 @@ class pyBot():
 			self.send_chan( "Unknown command: {0}!".format( cmd ))
 		except Exception as e:
 			self.errormsg = "[ERROR]-[Core] parse_command: {0}".format(e)
-			sys_error_log.log( self ) ## LOG the error
+			sysErrorLog.log( self ) ## LOG the error
 			
 			if self.config["debug"] == "true":
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
@@ -255,7 +259,7 @@ class pyBot():
 				self.send_chan( "Usage: !load <module>" )
 		except Exception as e:
 			self.errormsg = "[ERROR]-[Core] load: {0}".fomat(e)
-			sys_error_log.log( self ) ## LOG the error
+			sysErrorLog.log( self ) ## LOG the error
 			
 			if self.config["debug"] == "true":
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
@@ -295,7 +299,7 @@ class pyBot():
 					self.send_chan("Unknown module: {0}".format(command))
 		except Exception as e:
 			self.errormsg = "[ERROR]-[Core] reload: {0}".format(e)
-			sys_error_log.log( self ) ## LOG the error
+			sysErrorLog.log( self ) ## LOG the error
 			
 			if self.config["debug"] == "true":
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
@@ -311,7 +315,7 @@ class pyBot():
 			os.execl(python, python, * sys.argv)
 		except Exception as e:
 			self.errormsg = "[ERROR]-[Core] restart: {0}".format(e)
-			sys_error_log.log( self ) ## LOG the error
+			sysErrorLog.log( self ) ## LOG the error
 			
 			if self.config["debug"] == "true":
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
@@ -357,7 +361,7 @@ class pyBot():
 					self.serverIndex = 0
 
 				self.errormsg = "[ERROR]-[Core] Connection: {0}".format(e)
-				sys_error_log.log( self ) ## Log the error message in errorlog
+				sysErrorLog.log( self ) ## Log the error message in errorlog
 				
 				if self.config["debug"] == "true":
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))	
@@ -530,7 +534,7 @@ class pyBot():
 																						## so they won't block each other
 							else:
 								self.errormsg = "[NOTICE]-[Core] Flooding ({0})".format(self.get_host())
-								sys_error_log.log( self )
+								sysErrorLog.log( self )
 								print( "Flooding!" )
 			except IndexError:
 				print("Cmd exception")

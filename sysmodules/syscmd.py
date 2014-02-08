@@ -2,7 +2,7 @@ import urllib.request
 import os
 import re
 import time
-import sys_error_log
+import sysErrorLog
 import socket
 import sqlite3
 
@@ -77,7 +77,7 @@ def createCitiesDatabase():
 		## Roll back if some error occured
 		db.rollback()
 		self.errormsg = "[ERROR]-[syscmd] createCitiesDatabase() stating: {0}".format(e)
-		sys_error_log.log() ## LOG the error
+		sysErrorLog.log( self ) ## LOG the error
 		if self.config["debug"] == "true":
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e
@@ -96,6 +96,10 @@ def createAutomodesDataBase():
 		db.commit()
 	except Exception as e:
 		db.rollback()
+		self.errormsg = "[ERROR]-[syscmd] createAutomodesDataBase() stating: {0}".format(e)
+		sysErrorLog.log ( self )
+		if self.config["debug"] == "true":
+			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e
 	finally:
 		db.close()
@@ -116,7 +120,7 @@ def getHtml( self, url, useragent):
 		return(html)
 	except Exception as e:
 		self.errormsg = "[ERROR]-[syscmd] getHtml() stating: {0}".format(e)
-		sys_error_log.log ( self ) ## LOG the error
+		sysErrorLog.log ( self ) ## LOG the error
 		self.send_chan( "~ {0}".format(e))
 ## End
 
@@ -152,7 +156,7 @@ def delHtml( html ):
 		return(html)
 	except Exception as e:
 		self.errormsg = "[ERROR]-[syscmd] delHtml() stating: {0}".format(e)
-		sys_error_log.log() ## LOG the error
+		sysErrorLog.log() ## LOG the error
 		if self.config["debug"] == "true":
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 
@@ -171,9 +175,11 @@ def modecheck (self):
 				self.send_data("MODE {0} +v {1}".format(result[1], self.get_nick()))
 			else:
 				self.send_data("MODE {0} +o {1}".format(result[1], self.get_nick()))
-
-	## If it happens, the database file doesn't exist, create one
 	except Exception as e:
+		self.errormsg = "[ERROR]-[syscmd] modecheck() stating: {0}".format(e)
+		sysErrorLog.log (self)
+		if self.config["debug"] == "true":
+			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e
 
 ## End
@@ -204,6 +210,10 @@ def addautomode (self,modes,chan):
 				self.send_data("PRIVMSG {2} :Automode changed for {1} on channel {2}. The new mode is ({0})".format(modes,identhost,chan))
 				return True
 		except Exception as e:
+			self.errormsg = "[ERROR]-[syscmd] addautomode() stating: {0}".format(e)
+			sysErrorLog (self)
+			if self.config["debug"] == "true":
+				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 			raise e
 		finally:
 			db.close()

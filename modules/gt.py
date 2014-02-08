@@ -1,7 +1,7 @@
 import urllib.parse
 import syscmd
 from bs4 import BeautifulSoup
-import sys_error_log
+import sysErrorLog
 
 def gt(self):
 
@@ -21,7 +21,7 @@ def gt(self):
 			html = syscmd.getHtml(self, url, True )
 		except:
 			self.errormsg = "[NOTICE]-[gt] Something went wrong getting the html"
-			sys_error_log.log( self )
+			sysErrorLog.log( self )
 			
 			if self.config["debug"] == "true":
 				print("{0}{1}{2}".format(self.color("blue"), self.errormsg, self.color("end")))
@@ -35,6 +35,6 @@ def gt(self):
 			self.send_chan(data[0].string.strip())
 		except Exception as e:
 			self.errormsg = "[ERROR]-[gt] gt() stating: {0}".format(e)
-			sys_error_log.log( self ) ## LOG the error
+			sysErrorLog.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

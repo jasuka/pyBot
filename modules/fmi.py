@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import re
 import os
 import syscmd
-import sys_error_log
+import sysErrorLog
 import sqlite3
 
 def fmi( self ):
@@ -71,7 +71,7 @@ def fmi( self ):
 				self.send_chan( output )
 			except Except as e:
 				self.errormsg = "[ERROR]-[fmi] fmi() stating: {0}".format(e)
-				sys_error_log.log( self ) ## LOG the error
+				sysErrorLog.log( self ) ## LOG the error
 				if self.config["debug"] == "true":
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		else:
@@ -99,7 +99,7 @@ def getCity ( self ):
 	except Exception as e:
 		db.rollback()
 		self.errormsg = "[ERROR]-[fmi] getCity() stating: {0}".format(e)
-		sys_error_log.log() ## LOG the error
+		sysErrorLog.log() ## LOG the error
 		if self.config["debug"] == "true":
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e
@@ -142,7 +142,7 @@ def setCity ( self, city ):
 	except Exception as e:
 		db.rollback()
 		self.errormsg = "[ERROR]-[fmi] setCity() stating: {0}".format(e)
-		sys_error_log.log() ## LOG the error
+		sysErrorLog.log() ## LOG the error
 		if self.config["debug"] == "true":
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e

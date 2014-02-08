@@ -4,7 +4,7 @@ from time import gmtime, strftime
 import time
 import os
 import re
-import sys_error_log
+import sysErrorLog
 
 def logger_daemon ( self ):
 
@@ -35,13 +35,13 @@ def logger_daemon ( self ):
 	else:
 		try:
 			self.errormsg = "[NOTICE]-[logger_daemon] Cannot find existing folder for logs, creating: {0}".format(self.config["log-path"])
-			sys_error_log.log( self )
+			sysErrorLog.log( self )
 			if self.config["debug"] == "true": #If the path set in config doesn't exist, create one
 				print("{0}{1}{2}".format(self.color("blue"), self.errormsg, self.color("end")))
 			os.mkdir(self.config["log-path"])
 		except Exception as e:
 			self.errormsg = "[ERROR]-[logger_daemon] logger_daemon() stating: {0}".format(e)
-			sys_error_log.log( self ) ## LOG the error
+			sysErrorLog.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 

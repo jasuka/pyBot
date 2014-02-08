@@ -1,6 +1,6 @@
 #seendb version 1
 import re, time, os
-import sys_error_log
+import sysErrorLog
 
 def seendb ( self ):
 
@@ -26,7 +26,7 @@ def seendb ( self ):
 					if not os.path.exists(seendb):
 						open(seendb, 'w').close()
 						self.errormsg = "[NOTICE]-[seendb] Creating database file for seendb"
-						sys_error_log.log( self )
+						sysErrorLog.log( self )
 						if self.config["debug"] == "true":
 							print("{0}[NOTICE]-[seendb] Creating database file for seendb{1}".format(self.color("blue"), self.color("end")))
 
@@ -47,6 +47,6 @@ def seendb ( self ):
 						return(True)
 				except Exception as e:
 					self.errormsg = "[ERROR]-[seendb] seendb() stating: {0}".format(e)
-					sys_error_log.log( self ) ## LOG the error
+					sysErrorLog.log( self ) ## LOG the error
 					if self.config["debug"] == "true":
 						print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))	

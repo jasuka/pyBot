@@ -1,5 +1,5 @@
 import urllib
-import sys_error_log
+import sysErrorLog
 
 def isup (self):
 
@@ -17,6 +17,6 @@ def isup (self):
 		except Exception as e:
 			self.send_chan("The site {0} seems to be down!".format(url))
 			self.errormsg = "[ERROR]-[isup] isup() stating: {0}".format(e)
-			sys_error_log.log( self ) ## LOG the error
+			sysErrorLog.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

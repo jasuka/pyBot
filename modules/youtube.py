@@ -1,7 +1,7 @@
 import urllib.parse
 import syscmd
 from bs4 import BeautifulSoup
-import sys_error_log
+import sysErrorLog
 
 def youtube(self):
 
@@ -20,7 +20,7 @@ def youtube(self):
 			html = syscmd.getHtml(self, url, True )
 		except: 
 			self.errormsg = "[ERROR]-[youtube] Someting went wrong getting the html"
-			sys_error_log.log( self ) ## Log the error
+			sysErrorLog.log( self ) ## Log the error
 			
 			if self.config["debug"] == "true":
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
@@ -39,6 +39,6 @@ def youtube(self):
 				self.send_chan("No results for: {0}".format(parameters))
 		except Exception as e:
 			self.errormsg = "[ERROR]-[youtube] youtube() stating: {0}".format(e)
-			sys_error_log.log ( self ) ## Log the error
+			sysErrorLog.log ( self ) ## Log the error
 			if self.config["debug"] == "true":
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

@@ -2,7 +2,7 @@ import urllib.parse
 import syscmd
 import random
 from bs4 import BeautifulSoup
-import sys_error_log
+import sysErrorLog
 
 def ylilauta(self):
 
@@ -12,7 +12,7 @@ def ylilauta(self):
 			html = syscmd.getHtml(self, url, True )
 		except Exception as e:
 			self.errormsg = "[ERROR]-[ylilauta] ylilauta()(1) stating: {0}".format(e) 
-			sys_error_log.log( self ) ## LOG the error
+			sysErrorLog.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		try:
@@ -26,6 +26,6 @@ def ylilauta(self):
 			self.send_chan(' '.join(string.split()))
 		except Exception as e:
 			self.errormsg = "[ERROR]-[ylilauta] ylilauta()(2) stating: {0}".format(e)
-			sys_error_log.log( self ) ## LOG the error
+			sysErrorLog.log( self ) ## LOG the error
 			if self.config["debug"] == "true":
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

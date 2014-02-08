@@ -3,6 +3,7 @@ import os
 import syscmd
 import time
 import sqlite3
+import sysErrorLog
 
 def automodes (self):
 	if len(self.msg) >= 5:
@@ -17,6 +18,10 @@ def automodes (self):
 				else:
 					self.send_chan("Unfortunately you are not on the automodes list :(")
 			except Exception as e:
+				self.errormsg = "[ERROR]-[automodes] automodes() stating: {0}".format(e)
+				sysErrorLog.log (self)
+				if self.config["debug"] == "true":
+					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 				raise e
 			finally:
 				db.close()

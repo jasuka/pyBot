@@ -3,7 +3,7 @@ import datetime
 import dateutil.relativedelta
 from time import gmtime, strftime
 import re
-import sys_error_log
+import sysErrorLog
 
 def seen ( self ):
 	
@@ -14,7 +14,7 @@ def seen ( self ):
 				with open(seendb): pass
 			except Exception as e:
 				self.errormsg = "[ERROR]-[seen] seen() stating: {0}".format(e)
-				sys_error_log.log( self ) ## LOG the error
+				sysErrorLog.log( self ) ## LOG the error
 				if self.config["debug"] == "true":
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 			else:

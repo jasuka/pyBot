@@ -2,7 +2,7 @@ import urllib.parse
 from bs4 import BeautifulSoup
 import re
 import syscmd
-import sys_error_log
+import sysErrorLog
 
 def currency( self ):
 
@@ -30,7 +30,7 @@ def currency( self ):
 				self.send_chan(trimmed)		
 			except Exception as e:
 				self.errormsg = "[ERROR]-[Currency] stating: {0}".format(e)
-				sys_error_log.log( self ) ## LOG the error
+				sysErrorLog.log( self ) ## LOG the error
 				if self.config["debug"] == "true":
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		else:
