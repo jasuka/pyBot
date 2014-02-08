@@ -212,6 +212,36 @@ def addautomode (self,modes,chan):
 ## END
 
 
+## Check if the currency is in the correct currencies list
+
+def checkCurrency( self, frm, to ):
+	currenciesList = ['ED', 'AFN', 'ALL', 'AMD', 'ANG', 'AOA', 'ARS', 'ARY', 'AUD', 'AWG', 
+			'AZN', 'BAM', 'BBD', 'BDT', 'BGN', 'BHD', 'BIF', 'BMD', 'BND', 'BOB','BOP',
+			'BRC', 'BRL', 'BSD', 'BTN', 'BWP', 'BYR', 'BZD', 'CAD', 'CDF', 'CHF', 'CLF',
+			'CLP', 'CNY', 'COP', 'CRC', 'CSK', 'CUP', 'CVE', 'CYP', 'CZK','DJF', 'DKK',
+			'DOP', 'DZD', 'ECS', 'EEK', 'EGP', 'ERN', 'ETB', 'EUR', 'FJD', 'FKP', 'GBP',
+			'GEL', 'GHC', 'GIP', 'GMD', 'GNF', 'GTQ', 'GWP', 'GYD','HKD', 'HNL', 'HRK',
+			'HTG', 'HUF', 'IDR', 'ILS', 'INR', 'IQD', 'IRR', 'ISK','JMD', 'JOD', 'JPY',
+			'KES', 'KGS', 'KHR', 'KMF', 'KPW', 'KRW', 'KWD', 'KYD','KZT', 'LAK', 'LBP',
+			'LKR', 'LRD', 'LSL', 'LTL', 'LVL', 'LYD', 'MAD', 'MDL','MGA', 'MGF', 'MKD',
+			'MMK', 'MNT', 'MOP', 'MRO', 'MTL', 'MUR', 'MVR', 'MWK', 'MXN','MXP', 'MYR',
+			'MZN', 'NAD', 'NGN', 'NIO', 'NOK', 'NPR', 'NZD', 'OMR', 'PAB', 'PEN','PGK',
+			'PHP', 'PKR', 'PLN', 'PYG', 'QAR', 'ROL', 'RON', 'RSD', 'RUB', 'RWF', 'SAR',
+			'SBD', 'SCR', 'SDD', 'SEK', 'SGD', 'SHP', 'SIT', 'SKK', 'SLL', 'SOS', 'SRD',
+			'STD','SVC', 'SYP', 'SZL', 'THB', 'TJS', 'TMM', 'TND', 'TOP', 'TRL', 'TRY',
+			'TTD', 'TWD', 'TZS','UAH', 'UGX', 'USD', 'UYU', 'UZS', 'VEB', 'VND', 'VUV',
+			'WST', 'XAF', 'XBC', 'XCD', 'XFO', 'XOF', 'XPF', 'YER', 'YUM', 'ZAR', 'ZMK',
+			'ZRN', 'ZWD']
+			
+	## For some reason comparing the two variables to a list doesn't work,
+	## but splitting them to a list and comparing the cells work...
+	currencies = "{0} {1}".format(frm.strip(), to.strip()).split(" ")
+	if currencies[0] in currenciesList and currencies[1] in currenciesList:
+		return(True)
+	else:
+		return(False)
+## End
+
 ## Return remote host based on given nick
 
 def getRemoteHost (self):
