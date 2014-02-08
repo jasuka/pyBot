@@ -17,7 +17,7 @@ def currency( self ):
 		to = self.msg[6].upper()
 
 		## If first value is float and currencies are valid
-		if isinstance( amount, float ) and syscmd.checkCurrency( self, frm, to):
+		if isinstance( amount, float ) and syscmd.checkCurrency( frm, to):
 			frm = urllib.parse.quote(frm)
 			to = urllib.parse.quote(to)
 			url = "https://www.google.com/finance/converter?a={0}&from={1}&to={2}".format(amount, frm, to)
