@@ -1,4 +1,5 @@
 import sysErrorLog
+import re
 
 def conv ( self ):
 
