@@ -2,15 +2,18 @@ import sys_error_log
 
 def conv ( self ):
 
+	if len(self.msg) == 5 and self.msg[4].strip() == "units":
+		self.send_chan("I know: km, m, cm, mm, yd, miles, floz, gal")
+		return
 	if len(self.msg) < 6:
-		self.send_chan("Usage: !conv <amount> <from> <to>")
+		self.send_chan("Usage: !conv <amount> <from> <to> || !conv units")
+		return
 	if len(self.msg) == 6:
 		try:
 			amount = float(self.msg[4])
 		except ValueError:
 			amount = 1.00
 		frm = self.msg[5].strip()
-		#to = self.msg[6].strip()
 		output = ""
 
 		try:
@@ -70,4 +73,4 @@ def conv ( self ):
 			if self.config["debug"] == "true":
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 	else:
-		self.send_chan("Usage: !conv <amount> <from> <to>")
+		self.send_chan("Usage: !conv <amount> <from> <to> || !conv units")
