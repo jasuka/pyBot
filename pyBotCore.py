@@ -117,15 +117,22 @@ class pyBot():
 			self.errormsg = "[NOTICE] Cities database doesn't exist, creating it!"
 			sysErrorLog.log( self )
 			if self.config["debug"] == True:
-				print("{0}[NOTICE] Cities database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
+				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createCitiesDatabase()
 
 		if "automodes" in mLoaded and not os.path.exists("modules/data/automodes.db"):
 			self.errormsg = "[NOTICE] Automodes database doesn't exist, creating it!"
 			sysErrorLog.log ( self )
 			if self.config["debug"] == True:
-				print("{0}[NOTICE] Automodes database doesn't exist, creating it!{1}".format(self.color("blue"), self.color("end")))
+				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createAutomodesDataBase()
+
+		if "seendb" in self.modulecfg["sysmodules"] and not os.path.exists(self.config["log-path"]+"seen.db"):
+			self.errormsg = "[NOTICE] Seen Database doesn't exist, creating it!"
+			sysErrorLog.log ( self )
+			if self.config["debug"] == True:
+				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
+			syscmd.createSeenDataBase( self )
 
 		self.loop()
 
