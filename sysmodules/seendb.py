@@ -1,4 +1,4 @@
-#seendb version 1
+#seendb version 2
 import re, time, os
 import sysErrorLog
 import sqlite3
@@ -28,15 +28,17 @@ def seendb ( self ):
 					cur = db.cursor()
 
 					cur.execute("""SELECT id FROM seendb WHERE nick = ?""",(nick,))
-					resultId = cur.fetchone()[0]
+					try:
+						resultId = cur.fetchone()[0]
+					except TypeError:
+						resultId = None
 
-					cur.execute("""UPDATE seendb SET channel = ?,time = ?, usertxt = ? WHERE id = ?""",(chan,timestamp,usertxt,resultId))
-					db.commit()
-
-				except TypeError:
-					#if not resultId:
-					cur.execute("""INSERT INTO seendb(nick,channel,time,usertxt) VALUES(?,?,?,?)""",(nick,chan,timestamp,usertxt))
-					db.commit()
+					if resultId:
+						cur.execute("""UPDATE seendb SET channel = ?,time = ?, usertxt = ? WHERE id = ?""",(chan,timestamp,usertxt,resultId))
+						db.commit()
+					else:
+						cur.execute("""INSERT INTO seendb(nick,channel,time,usertxt) VALUES(?,?,?,?)""",(nick,chan,timestamp,usertxt))
+						db.commit()
 
 				except Exception as e:
 					self.errormsg = "[ERROR]-[seendb] seendb() stating: {0}".format(e)
