@@ -304,3 +304,23 @@ def ipv6Connectivity():
 	except:
 		have_ipv6 = False
 	return have_ipv6
+
+def createSeenDataBase():
+	try:
+		db = sqlite3.connect(self.config["log-path"]+"seen.db")
+
+		cursor = db.cursor()
+		cursor.execute("""DROP TABLE IF EXISTS seendb""")
+		cursor.execute("""CREATE TABLE IF NOT EXISTS seendb(id INTEGER PRIMARY KEY NOT NULL, nick TEXT, channel TEXT, time TEXT, usertext TEXT)""")
+		db.commit()
+	except Exception as e:
+		db.rollback()
+		self.errormsg = "[ERROR]-[syscmd] createSeenDataBase() stating: {0}".format(e)
+		sysErrorLog.log ( self )
+		if self.config["debug"] == True:
+			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+		raise e
+	finally:
+		db.close()
+		return True
+## END
