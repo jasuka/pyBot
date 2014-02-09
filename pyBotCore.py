@@ -75,7 +75,7 @@ while not doneLoading:
 			print("{0}{1}{2}".format(pRed, e, pEnd))
 
 	except Exception as e: ## Is this exception really needed here ???
-		if config.config["debug"] == "trudoneLoadinge":
+		if config.config["debug"] == True:
 			print("[ERROR]-[Core] Load modules: {0} , This error is not being logged".format(e))
 
 	finally:
