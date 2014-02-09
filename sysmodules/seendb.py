@@ -1,6 +1,7 @@
 #seendb version 1
 import re, time, os
 import sysErrorLog
+import sqlite3
 
 def seendb ( self ):
 
@@ -12,41 +13,36 @@ def seendb ( self ):
 			else:
 				try:
 					seendb = self.config["log-path"]+"seen.db"
-					temp = self.config["log-path"]+"temp.db"
 					timestamp = int(time.time())
 					nick = self.get_nick()
+					chan = self.msg[2].strip()
 					usertxt = ""
 
 					for i in range(3, len(self.msg)):
 						usertxt += "{0} ".format(self.msg[i])
 
-					usertxt = re.sub(r'\\n|\\r|\\t','', usertxt)
+					#usertxt = re.sub(r'\\n|\\r|\\t','', usertxt)
+					usertxt = usertxt[1:]
 					
-					#Create the seen.db if it doesn't exist
-					if not os.path.exists(seendb):
-						open(seendb, 'w').close()
-						self.errormsg = "[NOTICE]-[seendb] Creating database file for seendb"
-						sysErrorLog.log( self )
-						if self.config["debug"] == True:
-							print("{0}[NOTICE]-[seendb] Creating database file for seendb{1}".format(self.color("blue"), self.color("end")))
+					db = sqlite3.connect(seendb)
+					cur = db.cursor()
 
-					if nick in open(seendb).read():
-						with open(temp, "w", encoding="UTF-8") as tempdb:
-							for line in open(seendb):				
-								str = "{0}|:|{1}|:|{2}".format(nick,timestamp,usertxt[1:].strip())
-								tempdb.write(re.sub("^{0}\\|\\:\\|.*$".format(nick), str.strip(), line))
-								tempdb.flush()
-							os.remove(seendb)
-							os.rename(temp, seendb)
-						return(True)
-					## If the nick doesn't exist in the file, append it in there
-					else:
-						with open(seendb, "a", encoding="UTF-8") as file:
-							str = "{0}|:|{1}|:|{2}\n".format(nick,timestamp,usertxt[1:].strip())
-							file.write(str)
-						return(True)
+					cur.execute("""SELECT id FROM seendb WHERE nick = ?""",(nick,))
+					resultId = cur.fetchone()[0]
+
+					cur.execute("""UPDATE seendb SET channel = ?,time = ?, usertxt = ? WHERE id = ?""",(chan,timestamp,usertxt,resultId))
+					db.commit()
+
+				except TypeError:
+					#if not resultId:
+					cur.execute("""INSERT INTO seendb(nick,channel,time,usertxt) VALUES(?,?,?,?)""",(nick,chan,timestamp,usertxt))
+					db.commit()
+
 				except Exception as e:
 					self.errormsg = "[ERROR]-[seendb] seendb() stating: {0}".format(e)
 					sysErrorLog.log( self ) ## LOG the error
 					if self.config["debug"] == True:
 						print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))	
+
+				finally:
+					db.close()

@@ -305,13 +305,13 @@ def ipv6Connectivity():
 		have_ipv6 = False
 	return have_ipv6
 
-def createSeenDataBase():
+def createSeenDataBase( self ):
 	try:
 		db = sqlite3.connect(self.config["log-path"]+"seen.db")
 
 		cursor = db.cursor()
 		cursor.execute("""DROP TABLE IF EXISTS seendb""")
-		cursor.execute("""CREATE TABLE IF NOT EXISTS seendb(id INTEGER PRIMARY KEY NOT NULL, nick TEXT, channel TEXT, time TEXT, usertext TEXT)""")
+		cursor.execute("""CREATE TABLE IF NOT EXISTS seendb(id INTEGER PRIMARY KEY NOT NULL, nick TEXT, channel TEXT, time TEXT, usertxt TEXT)""")
 		db.commit()
 	except Exception as e:
 		db.rollback()
