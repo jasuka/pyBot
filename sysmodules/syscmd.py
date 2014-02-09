@@ -106,6 +106,26 @@ def createAutomodesDatabase():
 		return True
 ## END
 
+def createSeenDatabase( self ):
+	try:
+		db = sqlite3.connect(self.config["log-path"]+"seen.db")
+
+		cursor = db.cursor()
+		cursor.execute("""DROP TABLE IF EXISTS seendb""")
+		cursor.execute("""CREATE TABLE IF NOT EXISTS seendb(id INTEGER PRIMARY KEY NOT NULL, nick TEXT, channel TEXT, time TEXT, usertxt TEXT)""")
+		db.commit()
+	except Exception as e:
+		db.rollback()
+		self.errormsg = "[ERROR]-[syscmd] createSeenDataBase() stating: {0}".format(e)
+		sysErrorLog.log ( self )
+		if self.config["debug"] == True:
+			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+		raise e
+	finally:
+		db.close()
+		return True
+## END
+
 ## Get HTML for given url
 def getHtml( self, url, useragent):
 	try:
@@ -305,22 +325,12 @@ def ipv6Connectivity():
 		have_ipv6 = False
 	return have_ipv6
 
-def createSeenDatabase( self ):
-	try:
-		db = sqlite3.connect(self.config["log-path"]+"seen.db")
-
-		cursor = db.cursor()
-		cursor.execute("""DROP TABLE IF EXISTS seendb""")
-		cursor.execute("""CREATE TABLE IF NOT EXISTS seendb(id INTEGER PRIMARY KEY NOT NULL, nick TEXT, channel TEXT, time TEXT, usertxt TEXT)""")
-		db.commit()
-	except Exception as e:
-		db.rollback()
-		self.errormsg = "[ERROR]-[syscmd] createSeenDataBase() stating: {0}".format(e)
-		sysErrorLog.log ( self )
-		if self.config["debug"] == True:
-			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
-		raise e
-	finally:
-		db.close()
-		return True
-## END
+## Split UTF-8 s into chunks of maximum length n.
+def split_utf8(self, s, n):
+	while len(s) > n:
+		k = n
+		while (ord(s[k]) & 0xc0) == 0x80:
+			k -= 1
+		yield s[:k]
+		s = s[k:]
+	yield s

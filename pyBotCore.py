@@ -187,7 +187,7 @@ class pyBot():
 	def send_chan( self, data ):
 		#length = len("PRIVMSG {0} :".format(self.msg[2]).strip())
 		if len(data.encode("utf-8")) > 510:
-			data = self.split_utf8(data, 390)
+			data = syscmd.split_utf8(data, 390)
 			for a in data:
 				msg = "PRIVMSG {0} :{1}".format(self.msg[2], a.strip())
 				self.send_data( msg )
@@ -326,16 +326,6 @@ class pyBot():
 			
 			if self.config["debug"] == True:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
-				
-	def split_utf8(self, s, n):
-		## Split UTF-8 s into chunks of maximum length n.
-		while len(s) > n:
-			k = n
-			while (ord(s[k]) & 0xc0) == 0x80:
-				k -= 1
-			yield s[:k]
-			s = s[k:]
-		yield s
 
 	## Main loop, connect etc.
 	def loop( self ):
