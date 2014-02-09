@@ -24,10 +24,14 @@ def currency( self ):
 			html = syscmd.getHtml(self, url, True)
 			try:
 				soup = BeautifulSoup(html)
-				result = soup.findAll("div", {"id" : "currency_converter_result"})
-				result = "{0}".format(result[0])
-				trimmed = re.sub('<[^<]+?>', '', result)
-				self.send_chan(trimmed)		
+				result = soup.findAll("span", {"class" : "bld"})
+				## If there's a result, then send it to the chan
+				if result:
+					result = "{0}".format(result[0])
+					trimmed = re.sub('<[^<]+?>', '', result)
+					self.send_chan(trimmed)
+				else:
+					self.send_chan("Google failed to convert your request :(")		
 			except Exception as e:
 				self.errormsg = "[ERROR]-[Currency] stating: {0}".format(e)
 				sysErrorLog.log( self ) ## LOG the error
