@@ -125,14 +125,14 @@ class pyBot():
 			sysErrorLog.log ( self )
 			if self.config["debug"] == True:
 				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
-			syscmd.createAutomodesDataBase()
+			syscmd.createAutomodesDatabase()
 
 		if "seendb" in self.modulecfg["sysmodules"] and not os.path.exists(self.config["log-path"]+"seen.db"):
 			self.errormsg = "[NOTICE] Seen Database doesn't exist, creating it!"
 			sysErrorLog.log ( self )
 			if self.config["debug"] == True:
 				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
-			syscmd.createSeenDataBase( self )
+			syscmd.createSeenDatabase( self )
 
 		self.loop()
 

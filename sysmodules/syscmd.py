@@ -86,7 +86,7 @@ def createCitiesDatabase():
 		return True
 ## END
 
-def createAutomodesDataBase():
+def createAutomodesDatabase():
 	try:
 		db = sqlite3.connect("modules/data/automodes.db")
 
@@ -305,7 +305,7 @@ def ipv6Connectivity():
 		have_ipv6 = False
 	return have_ipv6
 
-def createSeenDataBase( self ):
+def createSeenDatabase( self ):
 	try:
 		db = sqlite3.connect(self.config["log-path"]+"seen.db")
 
