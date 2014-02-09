@@ -27,7 +27,7 @@ def currency( self ):
 				result = soup.findAll("span", {"class" : "bld"})
 				## If there's a result, then send it to the chan
 				if result:
-					result = "{0}".format(result[0])
+					result = "{0} {1} = {2}".format(amount, frm.upper(), result[0])
 					trimmed = re.sub('<[^<]+?>', '', result)
 					self.send_chan(trimmed)
 				else:
