@@ -185,7 +185,9 @@ class pyBot():
 		
 	## Send text to channel
 	def send_chan( self, data ):
-		#length = len("PRIVMSG {0} :".format(self.msg[2]).strip())
+		## We don't want to send empty data
+		if not data:
+			return
 		if len(data.encode("utf-8")) > 510:
 			data = syscmd.split_utf8(self, data, 390)
 			for a in data:
@@ -199,12 +201,18 @@ class pyBot():
 		
 	## Send a PM to the user doing a command
 	def send_pm( self, data ):
+		## We don't want to send empty data
+		if not data:
+			return
 		msg = "PRIVMSG {0} :{1}".format(self.get_nick(), data.strip())
 		self.send_data( msg )
 		print( "Sending PM: {0}".format(msg) )
 		
 	## Send a NOTICE to the user doing a command
 	def send_notice( self, data ):
+		## We don't want to send empty data
+		if not data:
+			return
 		msg = "NOTICE {0} :{1}".format(self.get_nick(), data.strip())
 		self.send_data( msg )
 		print( "Sending NOTICE: {0}".format(msg) )
@@ -324,7 +332,7 @@ class pyBot():
 		#IRC Codes (for logging/seendb)
 		self.irc_codes = ["001", "002", "003", "004", "005", "042", "251", "250", "252", "254", 
 				"255", "265", "266", "311", "312", "313", "317", "318", "319","332",
-				"333","338","353", "366", "375", "372", "376", "401", "433", "482","JOIN", "MODE", "PART"]
+				"333","338","353", "366", "375", "372", "376", "401", "412", "433", "482","JOIN", "MODE", "PART"]
 
 		self.errormsg = "" ## Set error messages to null
 		self.connectionEstablished = 0
