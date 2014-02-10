@@ -249,7 +249,7 @@ class pyBot():
 	def load(self, module = None):
 		if self.get_host() not in self.config["opers"]:
 			return
-		if len(self.msg) < 5 or len(self.msg) > 5:
+		if len(self.msg) != 5:
 			self.send_chan( "Usage: !load <module>" )
 			return
 		try:
@@ -505,7 +505,10 @@ class pyBot():
 					cmd = self.msg[3].lstrip(":").rstrip("\r\n")
 					if cmd[0] == "!" and len(cmd) > 1:
 						if cmd == "!load":
-							self.load( self.msg[4].strip())
+							try:
+								self.load( self.msg[4].strip())
+							except IndexError:
+								self.load( None )
 						elif cmd == "!reload":
 							self.reload()
 						elif cmd == "!join":
