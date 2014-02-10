@@ -69,6 +69,28 @@ def conv ( self ):
 			elif frm == "l":
 				result = round(amount / 3.7854, 4)
 				output = "{0} liters is {1} gallons".format(amount, result)
+			## Mass conversions
+			elif frm == "g":
+				result = round(amount * 0.0353, 4)
+				output = "{0} g is {1} ounces".format(amount, result)
+			elif frm == "oz":
+				result = round(amount * 28.35, 2)
+				if result < 1000:
+					output = "{0} ounces is {1} grams".format(amount, result)
+				else:
+					result = round(result / 1000, 2)
+					output = "{0} ounces is {1} kilograms".format(amount, result)
+			elif frm == "kg":
+				result = round(amount * 2.2046, 4)
+				output = "{0} kilograms is {1} pounds".format(amount, result)
+			elif frm == "lb":
+				result = round(amount * 0.4536, 4)
+				if result < 1:
+					result = round(result * 1000, 2)
+					output = "{0} pounds is {1} grams".format(amount, result)
+				else:
+					result = round(result, 2)
+					output = "{0} ounces is {1} kilograms".format(amount, result)
 			else:
 				output = "I don't know how to convert {0} {1}(s) :(".format(amount, frm)
 

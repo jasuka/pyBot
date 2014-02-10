@@ -522,7 +522,7 @@ class pyBot():
 							self.restart()
 						else:
 							## Flood protection, add nick to the dictionary and raise the value by one every time he/she speaks
-							if self.get_nick() in flood:
+							if self.get_host() not in self.config["opers"] and self.get_nick() in flood:
 								flood[self.get_nick()] += 1
 							else:
 								flood[self.get_nick()] = 1
