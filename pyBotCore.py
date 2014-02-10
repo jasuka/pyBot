@@ -241,29 +241,23 @@ class pyBot():
 	def load(self, module = None):
 		if self.get_host() not in self.config["opers"]:
 			return
+		if len(self.msg) < 5 or len(self.msg) > 5:
+			self.send_chan( "Usage: !load <module>" )
+			return
 		try:
-			mod = ""
-			if len(self.msg) == 5 and module == None:
-					mod = self.msg[4].strip()
-			if module != None:
-					mod = module
-			if len(mod) > 0:
-				imp.reload(modulecfg)
-				self.modulecfg = modulecfg.modulecfg
-				if mod in globals():
-					self.send_chan("Module '{0}' is already loaded!".format(mod))
-				else:
-					if mod in self.modulecfg["modules"] or mod in self.modulecfg["sysmodules"]:
-						globals()[mod] = __import__(mod)
-						self.send_chan("Loaded a new module: {0}".format(mod))
-					else:
-						self.send_chan("Unknown module: {0}".format(mod))
+			imp.reload(modulecfg)
+			self.modulecfg = modulecfg.modulecfg
+			if module in globals():
+				self.send_chan("Module '{0}' is already loaded!".format(module))
 			else:
-				self.send_chan( "Usage: !load <module>" )
+				if module in self.modulecfg["modules"] or mod in self.modulecfg["sysmodules"]:
+					globals()[module] = __import__(module)
+					self.send_chan("Loaded a new module: {0}".format(module))
+				else:
+					self.send_chan("Unknown module: {0}".format(module))
 		except Exception as e:
 			self.errormsg = "[ERROR]-[Core] load: {0}".format(e)
-			sysErrorLog.log( self ) ## LOG the error
-			
+			sysErrorLog.log( self ) ## LOG the error	
 			if self.config["debug"] == True:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 					
@@ -502,7 +496,7 @@ class pyBot():
 					cmd = self.msg[3].lstrip(":").rstrip("\r\n")
 					if cmd[0] == "!" and len(cmd) > 1:
 						if cmd == "!load":
-							self.load()
+							self.load( self.msg[4].strip())
 						elif cmd == "!reload":
 							self.reload()
 						elif cmd == "!join":
