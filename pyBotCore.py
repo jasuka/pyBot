@@ -253,6 +253,7 @@ class pyBot():
 				if module in self.modulecfg["modules"] or mod in self.modulecfg["sysmodules"]:
 					globals()[module] = __import__(module)
 					self.send_chan("Loaded a new module: {0}".format(module))
+					mLoaded.append(module)
 				else:
 					self.send_chan("Unknown module: {0}".format(module))
 		except Exception as e:
