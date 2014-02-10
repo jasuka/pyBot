@@ -220,14 +220,7 @@ class pyBot():
 		except AttributeError:
 			self.send_chan( "Unknown command: !{0}".format( cmd ))
 			return
-		#except KeyError:
-		#	self.send_chan( "Unknown command: {0}!".format( cmd ))
-		#except Exception as e:
-		#	self.errormsg = "[ERROR]-[Core] parse_command: {0}".format(e)
-		#	sysErrorLog.log( self ) ## LOG the error
-		#	
-		#	if self.config["debug"] == True:
-		#		print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+			
 	## Get nick
 	def get_nick( self ):
 		try:
