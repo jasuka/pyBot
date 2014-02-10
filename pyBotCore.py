@@ -261,7 +261,7 @@ class pyBot():
 			else:
 				self.send_chan( "Usage: !load <module>" )
 		except Exception as e:
-			self.errormsg = "[ERROR]-[Core] load: {0}".fomat(e)
+			self.errormsg = "[ERROR]-[Core] load: {0}".format(e)
 			sysErrorLog.log( self ) ## LOG the error
 			
 			if self.config["debug"] == True:
