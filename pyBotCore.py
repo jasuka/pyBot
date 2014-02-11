@@ -193,8 +193,8 @@ class pyBot():
 		if len(self.msg) >= 3:	
 			if len(data.encode("utf-8")) > 510:
 				data = syscmd.split_utf8(self, data, 390)
-				for a in data:
-					msg = "PRIVMSG {0} :{1}".format(self.msg[2], a.strip())
+				for line in data:
+					msg = "PRIVMSG {0} :{1}".format(self.msg[2], line.strip())
 					self.send_data( msg )
 					print( "Sending: {0}".format(msg) )
 			else:
@@ -209,24 +209,18 @@ class pyBot():
 		## We don't want to send empty data
 		if not data:
 			return
-		if len(self.msg) >= 3:
-			msg = "PRIVMSG {0} :{1}".format(self.get_nick(), data.strip())
-			self.send_data( msg )
-			print( "Sending PM: {0}".format(msg) )
-		else:
-			return
+		msg = "PRIVMSG {0} :{1}".format(self.get_nick(), data.strip())
+		self.send_data( msg )
+		print( "Sending PM: {0}".format(msg) )
 		
 	## Send a NOTICE to the user doing a command
 	def send_notice( self, data ):
 		## We don't want to send empty data
 		if not data:
 			return
-		if len(self.msg) >= 3:
-			msg = "NOTICE {0} :{1}".format(self.get_nick(), data.strip())
-			self.send_data( msg )
-			print( "Sending NOTICE: {0}".format(msg) )
-		else:
-			return
+		msg = "NOTICE {0} :{1}".format(self.get_nick(), data.strip())
+		self.send_data( msg )
+		print( "Sending NOTICE: {0}".format(msg) )
 
 	## Parse commands function
 	def parse_command( self, cmd ):
@@ -512,7 +506,7 @@ class pyBot():
 					print( "{0}Logging disabled{1}".format(self.color("red"), self.color("end")) )
 						
 			try:
-				if len(self.msg) >= 4:
+				if len(self.msg) >= 4 and len(self.msg[3]) > 1:
 					cmd = self.msg[3].lstrip(":").rstrip("\r\n")
 					if cmd[0] == "!" and len(cmd) > 1:
 						if cmd == "!load":
@@ -546,9 +540,11 @@ class pyBot():
 								self.errormsg = "[NOTICE]-[Core] Flooding ({0})".format(self.get_host())
 								sysErrorLog.log( self )
 								print( "Flooding!" )
-			except IndexError:
-				print("Cmd exception")
-				pass ## No need to do anything
+			except Exception as e:
+				self.errormsg = "[ERROR]-[Core-Cmd] send_data: {0}".format(e)		
+				sysErrorLog.log( self ) ## LOG the error
+				if self.config["debug"] == True:
+					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 			
 			## Get title for the URLs
 			try:
@@ -560,9 +556,10 @@ class pyBot():
 								## Run title as own thread so it won't block the bot
 								Thread(target=title.title, args=(self, url)).start()
 			except Exception as e:
+				self.errormsg = "[ERROR]-[Core-Title] send_data: {0}".format(e)		
+				sysErrorLog.log( self ) ## LOG the error
 				if self.config["debug"] == True:
-					print("URL Title exception")
-					print(e)
+					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 
 ## Clear flood counter; Clears the flood dictionary every x seconds
 class Flood:
