@@ -93,7 +93,9 @@ class pyBot():
 	def __init__( self ):
 	
 	## Bot Version
-		self.version = "pyBot version 0.7.4"
+		self.version = "pyBot version 0.7.5"
+		print("{0}[[You are running the {1}]]{2}\r\n".format(self.color("blue"),self.version,self.color("end")))
+
 	## Config and start the bot
 		self.config = config.config
 		self.modulecfg = modulecfg.modulecfg
@@ -133,7 +135,7 @@ class pyBot():
 			if self.config["debug"] == True:
 				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createSeenDatabase( self )
-
+		
 		self.loop()
 
 	## COLOR CODES FOR BASH
