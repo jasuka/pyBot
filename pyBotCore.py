@@ -190,7 +190,7 @@ class pyBot():
 		## We don't want to send empty data
 		if not data:
 			return
-		if len(self.msg) > 3:	
+		if len(self.msg) >= 3:	
 			if len(data.encode("utf-8")) > 510:
 				data = syscmd.split_utf8(self, data, 390)
 				for a in data:
@@ -209,18 +209,24 @@ class pyBot():
 		## We don't want to send empty data
 		if not data:
 			return
-		msg = "PRIVMSG {0} :{1}".format(self.get_nick(), data.strip())
-		self.send_data( msg )
-		print( "Sending PM: {0}".format(msg) )
+		if len(self.msg) >= 3:
+			msg = "PRIVMSG {0} :{1}".format(self.get_nick(), data.strip())
+			self.send_data( msg )
+			print( "Sending PM: {0}".format(msg) )
+		else:
+			return
 		
 	## Send a NOTICE to the user doing a command
 	def send_notice( self, data ):
 		## We don't want to send empty data
 		if not data:
 			return
-		msg = "NOTICE {0} :{1}".format(self.get_nick(), data.strip())
-		self.send_data( msg )
-		print( "Sending NOTICE: {0}".format(msg) )
+		if len(self.msg) >= 3:
+			msg = "NOTICE {0} :{1}".format(self.get_nick(), data.strip())
+			self.send_data( msg )
+			print( "Sending NOTICE: {0}".format(msg) )
+		else:
+			return
 
 	## Parse commands function
 	def parse_command( self, cmd ):
