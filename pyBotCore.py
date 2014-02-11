@@ -190,16 +190,19 @@ class pyBot():
 		## We don't want to send empty data
 		if not data:
 			return
-		if len(data.encode("utf-8")) > 510:
-			data = syscmd.split_utf8(self, data, 390)
-			for a in data:
-				msg = "PRIVMSG {0} :{1}".format(self.msg[2], a.strip())
+		if len(self.msg) > 3:	
+			if len(data.encode("utf-8")) > 510:
+				data = syscmd.split_utf8(self, data, 390)
+				for a in data:
+					msg = "PRIVMSG {0} :{1}".format(self.msg[2], a.strip())
+					self.send_data( msg )
+					print( "Sending: {0}".format(msg) )
+			else:
+				msg = "PRIVMSG {0} :{1}".format(self.msg[2], data.strip()) 
 				self.send_data( msg )
 				print( "Sending: {0}".format(msg) )
 		else:
-			msg = "PRIVMSG {0} :{1}".format(self.msg[2], data.strip()) 
-			self.send_data( msg )
-			print( "Sending: {0}".format(msg) )
+			return
 		
 	## Send a PM to the user doing a command
 	def send_pm( self, data ):
