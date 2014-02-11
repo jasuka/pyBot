@@ -18,16 +18,16 @@ config = {		#[SERVER]			[Modify the right side only]
 
 			#[LOGGING DAEMON]
 			#Loggin				
-			"logging":					True,	#True/False, SeenDB works only if logging is set True
+			"logging":			True,	#True/False, SeenDB works only if logging is set True
 
-			"errLoglevel":					0, 	## Loglevels: 0, 1, 2
-												## level 0 = no error logging
-												## level 1 = logs the error
-												## level 2 = logs the error with a backtrace
+			"errLoglevel":			0, 	## Loglevels: 0, 1, 2
+								## level 0 = no error logging
+								## level 1 = logs the error
+								## level 2 = logs the error with a backtrace
 
-			"timeformat":				"%d.%m.%Y/%H:%M:%S", #[17.07.2013/13:31:27] do not to leave any space between date/time (at least for now)
+			"timeformat":			"%d.%m.%Y/%H:%M:%S", #[17.07.2013/13:31:27] do not to leave any space between date/time (at least for now)
 			"TimestampBrackets":		"[,]",
-			"log-path":					"logs/", #The root folder for logs
+			"log-path":			"logs/", #The root folder for logs
 			
 			#[DEV DEBUGGING]
 			#Bot debugging true/false
