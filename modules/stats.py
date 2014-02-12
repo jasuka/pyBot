@@ -33,9 +33,11 @@ def stats( self ):
 						line_counter += 1				#counts every line in the logfile
 						if looking == logNick:				#if we are looking the nick, count it in here
 							nick_counter += 1
-						elif looking in line[x]:		#if we match a word
-							#if we have a match, count it in.
-							word_counter += 1
+						
+						else:						#otherwise we will loop the list trough to search for the word
+							for y in range(0, len(line2)):		#this kind of double looping might slow down the performance..?
+								if looking in line2[y]:		#if we have a match, count it in.
+									word_counter += 1
 					
 					if nick_counter is not 0:
 						pct = nick_counter/line_counter*100
