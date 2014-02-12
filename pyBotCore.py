@@ -477,7 +477,7 @@ class pyBot():
 			## Quakanet wants a pong reply on connect
 			if "quakenet" in self.config["host"]:
 				ping = data.split("\r\n")
-				if len(ping) >= 1:
+				if len(ping) >= 2:
 					pong = ping[1].split(" ")
 					if pong[0] == "PING":
 						self.send_data( "PONG {0}".format(pong[1].lstrip(":")) )		
