@@ -300,8 +300,7 @@ def checkLang( lang ):
 		return(False)
 ## END
 
-## Return remote host based on given nick
-
+## Return remote host based on whoised nick
 def getRemoteHost (self):
 	#print("{0}@{1}".format(self.msg[4],self.msg[5]))
 	hostident = "{0}@{1}".format(self.msg[4],self.msg[5])
