@@ -477,9 +477,10 @@ class pyBot():
 			## Quakanet wants a pong reply on connect
 			if "quakenet" in self.config["host"]:
 				ping = data.split("\r\n")
-				pong = ping[1].split(" ")
-				if pong[0] == "PING":
-					self.send_data( "PONG {0}".format(pong[1].lstrip(":")) )		
+				if len(ping) >= 1:
+					pong = ping[1].split(" ")
+					if pong[0] == "PING":
+						self.send_data( "PONG {0}".format(pong[1].lstrip(":")) )		
 						
 			## Check if nick is in use, try alternative, if still in use, generate random number to the end of the nick
 			try:
