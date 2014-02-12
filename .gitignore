@@ -1,0 +1,19 @@
+## Compiled python files
+*.pyc
+
+## Exclude Cobe brains
+cobe.*
+
+## Backups made by gedit
+
+*.*~
+
+## Exclude databases and log files
+
+*.db
+*.log
+
+## Sublime tags
+
+.tags
+.tags_sorted_by_file
