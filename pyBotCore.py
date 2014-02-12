@@ -409,8 +409,10 @@ class pyBot():
 				time.sleep(20)
 				self.loop()					
 			
+			##
 			## AUTOMODES BELOW!!
 			## Checks on JOIN event if user has an automode active
+			##
 			if self.msg[1] == "JOIN":
 				if self.get_nick() != self.nick:
 					syscmd.modecheck(self)
@@ -418,6 +420,7 @@ class pyBot():
 			##
 			## Built-in whois handler to get user ident@hostname from requested user
 			## Only records ident@hostname if it was requested by automodes module
+			## Line 311 marks the start of whois info from the server and later on 318 will end the whoise info
 			##
 			if self.msg[1] == "311" and self.automodesWhoisEnabled == True:
 				self.hostident = syscmd.getRemoteHost(self)
@@ -427,6 +430,9 @@ class pyBot():
 				if "318" in self.msg:
 					syscmd.addautomode(self,self.modes,self.channel)
 					self.automodesWhoisEnabled == False
+			##
+			## Automodes END
+			##
 
 			## Logger
 			if logger == 1:
