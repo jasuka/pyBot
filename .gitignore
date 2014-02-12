@@ -1,5 +1,6 @@
-## Compiled python files
+## Compiled python files and cache
 *.pyc
+__pycache__
 
 ## Exclude Cobe brains
 cobe.brain
