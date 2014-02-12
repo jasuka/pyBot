@@ -135,6 +135,13 @@ class pyBot():
 			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createSeenDatabase( self )
+
+		if "tell" in mLoaded and not os.path.exists("modules/data/tell.db"):
+			self.errormsg = "[NOTICE] Tell Database doesn't exist, creating it!"
+			sysErrorLog.log ( self )
+			if self.config["debug"] == True:
+				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
+			syscmd.createTellDatabase( self )
 		
 		self.loop()
 
@@ -416,6 +423,10 @@ class pyBot():
 			if len(self.msg) >= 2 and self.msg[1] == "JOIN":
 				if self.get_nick() != self.nick:
 					syscmd.modecheck(self)
+					##
+					## Including TELL module
+					##
+					tell.checkMessages(self)
 
 			##
 			## Built-in whois handler to get user ident@hostname from requested user
