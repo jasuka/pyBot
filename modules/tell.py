@@ -31,10 +31,13 @@ def tell( self ):
 			for i in range(5, len(self.msg)):
 				message += "{0} ".format(self.msg[i])
 
+			message = message.rstrip("\r\n")
+
 			db = sqlite3.connect("modules/data/tell.db")
 			cur = db.cursor()
-			cur.execute("""INSERT INTO tell (nick, channel, message) VALUES (?, ?, ?)""",(nick,channel,message.strip("\r\n")))
+			cur.execute("""INSERT INTO tell (nick, channel, message) VALUES (?, ?, ?)""",(nick,channel,message))
 			db.commit()
+			self.send_chan("Your message has been saved")
 
 		except Exception as e:
 			self.errormsg = "[ERROR]-[tell] tell() stating: {0}".format(e)
@@ -46,17 +49,17 @@ def tell( self ):
 
 def checkMessages( self ):
 
-	if self.msg[1].strip() is "JOIN":
-		print("FUCK")
-		db = sqlite3.connect("modules/data/tell.db")
-		cur = db.cursor()
-		cur.execute("""SELECT id, nick, channel, message FROM tell WHERE nick = ? AND channel = ?""",(self.get_nick(),self.msg[2][1:]))
-		results = cur.fetchall()
-		db.close()
+	db = sqlite3.connect("modules/data/tell.db")
+	cur = db.cursor()
 
-		for result in results:
-			if self.get_nick() is result[1] and self.msg[2][1:] is result[2]:
-				self.send_chan("{0} you have got a new message: {1}".format(self.get_nick(),result[3]))
+	cur.execute("""SELECT * FROM tell WHERE nick = ? AND channel = ?""",(self.get_nick(),self.msg[2][1:]))
+	results = cur.fetchall()
+	db.close()
+
+	print(self.msg[2][1:])
+	for result in results:
+		if self.get_nick() is result[1] and self.msg[2][1:] is result[2]:
+			self.send_chan("{0} you have got a new message: {1}".format(self.get_nick(),result[3]))
 
 
 
