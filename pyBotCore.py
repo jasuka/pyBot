@@ -36,12 +36,12 @@ try:
 
 except (ImportError, SyntaxError) as e:
 	print("{0}Couldn't load system module: {1}{2}".format(pRed, mod, pEnd))
-	if config.config["debug"] == True:
+	if config.config["debug"]:
 		print("{0}{1}{2}".format(pRed, e, pEnd))
 	raise
 
 except Exception as e: ## Is this exception really needed here ???
-	if config.config["debug"] == True:
+	if config.config["debug"]:
 		print("[ERROR]-[Core] Load modules: {0} , This error is not being logged".format(e))
 
 print("\r\n##########################################")
@@ -71,11 +71,11 @@ while not doneLoading:
 		toLoad -= 1
 		brokenModule.append(mod)
 		print("{0}Couldn't load module: {1}{2}".format(pRed, mod, pEnd))
-		if config.config["debug"] == True:
+		if config.config["debug"]:
 			print("{0}{1}{2}".format(pRed, e, pEnd))
 
 	except Exception as e: ## Is this exception really needed here ???
-		if config.config["debug"] == True:
+		if config.config["debug"]:
 			print("[ERROR]-[Core] Load modules: {0} , This error is not being logged".format(e))
 
 	finally:
@@ -118,21 +118,21 @@ class pyBot():
 		if "fmi" in mLoaded and not os.path.exists("modules/data/fmiCities.db"):
 			self.errormsg = "[NOTICE] Cities database doesn't exist, creating it!"
 			sysErrorLog.log( self )
-			if self.config["debug"] == True:
+			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createCitiesDatabase()
 
 		if "automodes" in mLoaded and not os.path.exists("modules/data/automodes.db"):
 			self.errormsg = "[NOTICE] Automodes database doesn't exist, creating it!"
 			sysErrorLog.log ( self )
-			if self.config["debug"] == True:
+			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createAutomodesDatabase()
 
 		if "seendb" in self.modulecfg["sysmodules"] and not os.path.exists(self.config["log-path"]+"seen.db"):
 			self.errormsg = "[NOTICE] Seen Database doesn't exist, creating it!"
 			sysErrorLog.log ( self )
-			if self.config["debug"] == True:
+			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createSeenDatabase( self )
 		
@@ -164,7 +164,7 @@ class pyBot():
 			self.errormsg = "[ERROR]-[Core] send_data: {0}".format(e)		
 			sysErrorLog.log( self ) ## LOG the error
 			
-			if self.config["debug"] == True:
+			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 				
 	## Whois for getting userinfo (ident@hostname) [ RESERVED ONLY FOR AUTOMODES!!! ]
@@ -272,7 +272,7 @@ class pyBot():
 		except Exception as e:
 			self.errormsg = "[ERROR]-[Core] load: {0}".format(e)
 			sysErrorLog.log( self ) ## LOG the error	
-			if self.config["debug"] == True:
+			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 					
 	## Reload modules
@@ -312,7 +312,7 @@ class pyBot():
 			self.errormsg = "[ERROR]-[Core] reload: {0}".format(e)
 			sysErrorLog.log( self ) ## LOG the error
 			
-			if self.config["debug"] == True:
+			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 	
 	## Restart the bot 
@@ -328,7 +328,7 @@ class pyBot():
 			self.errormsg = "[ERROR]-[Core] restart: {0}".format(e)
 			sysErrorLog.log( self ) ## LOG the error
 			
-			if self.config["debug"] == True:
+			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 
 	## Main loop, connect etc.
@@ -364,7 +364,7 @@ class pyBot():
 				self.errormsg = "[ERROR]-[Core] Connection: {0}".format(e)
 				sysErrorLog.log( self ) ## Log the error message in errorlog
 				
-				if self.config["debug"] == True:
+				if self.config["debug"]:
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))	
 
 		self.nick = self.config["nick"]
@@ -398,12 +398,12 @@ class pyBot():
 			self.msg = data.split(" ") ## Slice data into list
 
 			## if debug is true, print some stuff	
-			if self.config["debug"] == True:
+			if self.config["debug"]:
 				#print(self.msg)
 				print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ).rstrip("\r\n"))		
 
 			if "ERROR" in self.msg[0] and ":Trying" in self.msg[1]: ## Sleep 20 secs if reconnecting too fast
-				if self.config["debug"] == True:
+				if self.config["debug"]:
 					print("{0}[NOTICE] Trying to reconnect too fast, waiting for 20 second before trying again.{1}"
 						.format(self.color("blue"), self.color("end")))
 				time.sleep(20)
@@ -422,7 +422,7 @@ class pyBot():
 			## Only records ident@hostname if it was requested by automodes module
 			## Line 311 marks the start of whois info from the server and later on 318 will end the whoise info
 			##
-			if len(self.msg) >= 2 and self.msg[1] == "311" and self.automodesWhoisEnabled == True:
+			if len(self.msg) >= 2 and self.msg[1] == "311" and self.automodesWhoisEnabled:
 				self.hostident = syscmd.getRemoteHost(self)
 				##
 				## Check the end of the whoise message and create the automode for the user
@@ -506,7 +506,7 @@ class pyBot():
 				chans = self.config["chans"].split(",")
 				for chan in chans:
 					self.join_chan( chan )
-				if self.config["logging"] == True:
+				if self.config["logging"]:
 					logger = 1
 					print( "{0}Logging enabled{1}".format(self.color("green"), self.color("end")) )
 				else:
@@ -550,7 +550,7 @@ class pyBot():
 			except Exception as e:
 				self.errormsg = "[ERROR]-[Core-Cmd] send_data: {0}".format(e)		
 				sysErrorLog.log( self ) ## LOG the error
-				if self.config["debug"] == True:
+				if self.config["debug"]:
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 			
 			## Get title for the URLs
@@ -565,7 +565,7 @@ class pyBot():
 			except Exception as e:
 				self.errormsg = "[ERROR]-[Core-Title] send_data: {0}".format(e)		
 				sysErrorLog.log( self ) ## LOG the error
-				if self.config["debug"] == True:
+				if self.config["debug"]:
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 
 ## Clear flood counter; Clears the flood dictionary every x seconds

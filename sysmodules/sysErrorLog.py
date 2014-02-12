@@ -8,7 +8,7 @@ from traceback import format_exc
 
 def log ( self ):
 
-	if os.path.exists(self.config["log-path"]) == True:	#Checking if log-path in config is valid and exists
+	if os.path.exists(self.config["log-path"]):	#Checking if log-path in config is valid and exists
 
 		try:
 			brackets = self.config["TimestampBrackets"].split(",") #Looking brackets from the config file
@@ -33,11 +33,11 @@ def log ( self ):
 
 	else:
 		try:
-			if self.config["debug"] == True: #If the path set in config doesn't exist, create one
+			if self.config["debug"]: #If the path set in config doesn't exist, create one
 				print("{0}[NOTICE]-[sysErrorLog] Cannot find existing folder for logs, creating: {1}{2}".format(self.color("blue"),self.config["log-path"]),self.color("end"))
 			os.mkdir(self.config["log-path"])
 		except Exception as e:
-			if self.config["debug"] == True:
+			if self.config["debug"]:
 				print("{0}[ERROR]-[sysErrorLog] log() stating: {1}, Plus that im a retard, and i cant log my own errors :(({2}".format(self.colof("red"),e,self.color("end")))
 	
 

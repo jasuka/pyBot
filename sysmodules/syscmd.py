@@ -78,7 +78,7 @@ def createCitiesDatabase():
 		db.rollback()
 		self.errormsg = "[ERROR]-[syscmd] createCitiesDatabase() stating: {0}".format(e)
 		sysErrorLog.log( self ) ## LOG the error
-		if self.config["debug"] == True:
+		if self.config["debug"]:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e
 	finally:
@@ -98,7 +98,7 @@ def createAutomodesDatabase():
 		db.rollback()
 		self.errormsg = "[ERROR]-[syscmd] createAutomodesDataBase() stating: {0}".format(e)
 		sysErrorLog.log ( self )
-		if self.config["debug"] == True:
+		if self.config["debug"]:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e
 	finally:
@@ -118,7 +118,7 @@ def createSeenDatabase( self ):
 		db.rollback()
 		self.errormsg = "[ERROR]-[syscmd] createSeenDataBase() stating: {0}".format(e)
 		sysErrorLog.log ( self )
-		if self.config["debug"] == True:
+		if self.config["debug"]:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e
 	finally:
@@ -129,7 +129,7 @@ def createSeenDatabase( self ):
 ## Get HTML for given url
 def getHtml( self, url, useragent):
 	try:
-		if useragent == True:
+		if useragent:
 			user_agent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)"
 			headers = { 'User-Agent' : user_agent }
 			req = urllib.request.Request(url, None, headers)
@@ -177,7 +177,7 @@ def delHtml( html ):
 	except Exception as e:
 		self.errormsg = "[ERROR]-[syscmd] delHtml() stating: {0}".format(e)
 		sysErrorLog.log() ## LOG the error
-		if self.config["debug"] == True:
+		if self.config["debug"]:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 
 ## End
@@ -198,7 +198,7 @@ def modecheck (self):
 	except Exception as e:
 		self.errormsg = "[ERROR]-[syscmd] modecheck() stating: {0}".format(e)
 		sysErrorLog.log (self)
-		if self.config["debug"] == True:
+		if self.config["debug"]:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e
 
@@ -232,7 +232,7 @@ def addautomode (self,modes,chan):
 		except Exception as e:
 			self.errormsg = "[ERROR]-[syscmd] addautomode() stating: {0}".format(e)
 			sysErrorLog (self)
-			if self.config["debug"] == True:
+			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 			raise e
 		finally:

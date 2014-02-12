@@ -4,7 +4,7 @@ import readline
 import sysErrorLog
 
 def stats( self ):
-	if self.config["logging"] == True:	#Logging must be enabled from config to run this module
+	if self.config["logging"]:	#Logging must be enabled from config to run this module
 		if len(self.msg) >= 5:		#if no atributes, give the usage.
 			if self.msg[4].strip():	#prevent searching whitespaces
 
@@ -50,7 +50,7 @@ def stats( self ):
 				except Exception as e:
 					self.errormsg = "[ERROR]-[stats] stats() stating: {0}".format(e)
 					sysErrorLog.log( self ) ## LOG the error
-					if self.config["debug"] == True:
+					if self.config["debug"]:
 						print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 					
 			else:

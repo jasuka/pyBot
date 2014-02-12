@@ -8,7 +8,7 @@ import sysErrorLog
 
 def logger_daemon ( self ):
 
-	if os.path.exists(self.config["log-path"]) == True:	#Checking if log-path in config is valid and exists
+	if os.path.exists(self.config["log-path"]):	#Checking if log-path in config is valid and exists
 	
 		if len(self.msg) >= 4:
 
@@ -36,13 +36,13 @@ def logger_daemon ( self ):
 		try:
 			self.errormsg = "[NOTICE]-[logger_daemon] Cannot find existing folder for logs, creating: {0}".format(self.config["log-path"])
 			sysErrorLog.log( self )
-			if self.config["debug"] == True: #If the path set in config doesn't exist, create one
+			if self.config["debug"]: #If the path set in config doesn't exist, create one
 				print("{0}{1}{2}".format(self.color("blue"), self.errormsg, self.color("end")))
 			os.mkdir(self.config["log-path"])
 		except Exception as e:
 			self.errormsg = "[ERROR]-[logger_daemon] logger_daemon() stating: {0}".format(e)
 			sysErrorLog.log( self ) ## LOG the error
-			if self.config["debug"] == True:
+			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 
 		

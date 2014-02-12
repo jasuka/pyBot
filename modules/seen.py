@@ -9,7 +9,7 @@ import os
 
 def seen ( self ):
 	
-	if self.config["logging"] == True: 	#If logging is False, we cannot get results, so make sure it's on in order to have this on.
+	if self.config["logging"]: 	#If logging is False, we cannot get results, so make sure it's on in order to have this on.
 		if len(self.msg) >= 5:		#If given string is only !seen, it will print out the usage of the script
 			try:
 				seendb = self.config["log-path"]+"seen.db"	#making sure seen.db file exists
@@ -17,7 +17,7 @@ def seen ( self ):
 			except Exception as e:
 				self.errormsg = "[ERROR]-[seen] seen() stating: {0}".format(e)
 				sysErrorLog.log( self ) ## LOG the error
-				if self.config["debug"] == True:
+				if self.config["debug"]:
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 			else:
 				nick = self.msg[4].rstrip("\r\n") #getting the nick we are looking for (the second param. given; !seen nick)

@@ -5,7 +5,7 @@ import sqlite3
 
 def seendb ( self ):
 
-	if os.path.exists(self.config["log-path"]) == True: #Checking if log-path in config is valid and exists (path is generated in logger_daemon.py)
+	if os.path.exists(self.config["log-path"]): #Checking if log-path in config is valid and exists (path is generated in logger_daemon.py)
 		
 		if len(self.msg) >= 4:	#Recording only if server sends more than 5 parameters (0,1,2,3,4,5) etc...
 			if self.msg[1] in self.irc_codes or "NOTICE" in self.msg[1] or "MODE" in self.msg[1]:	#do nothing if server sends any of these parameters
@@ -43,7 +43,7 @@ def seendb ( self ):
 				except Exception as e:
 					self.errormsg = "[ERROR]-[seendb] seendb() stating: {0}".format(e)
 					sysErrorLog.log( self ) ## LOG the error
-					if self.config["debug"] == True:
+					if self.config["debug"]:
 						print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))	
 
 				finally:

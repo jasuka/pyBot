@@ -22,7 +22,7 @@ def youtube(self):
 			self.errormsg = "[ERROR]-[youtube] Someting went wrong getting the html"
 			sysErrorLog.log( self ) ## Log the error
 			
-			if self.config["debug"] == True:
+			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		try:
 			urls = ""
@@ -40,5 +40,5 @@ def youtube(self):
 		except Exception as e:
 			self.errormsg = "[ERROR]-[youtube] youtube() stating: {0}".format(e)
 			sysErrorLog.log ( self ) ## Log the error
-			if self.config["debug"] == True:
+			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

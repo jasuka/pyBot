@@ -30,5 +30,5 @@ def title ( self, url ):
 		except Exception as e:
 			self.errormsg = "[ERROR]-[title] title() stating: {0} ({1})".format(e, url)
 			sysErrorLog.log( self ) ## LOG the error
-			if self.config["debug"] == True:
+			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))

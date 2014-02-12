@@ -99,7 +99,7 @@ def conv ( self ):
 		except Exception as e:
 			self.errormsg = "[ERROR]-[Conv] stating: {0}".format(e)
 			sysErrorLog.log( self ) ## LOG the error
-			if self.config["debug"] == True:
+			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 	else:
 		self.send_chan("Usage: !conv <amount> <unit> || !conv units")
