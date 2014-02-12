@@ -29,7 +29,7 @@ def log ( self ):
 					logi.flush()
 
 		except Exception as e:
-			print("{0}[ERROR]-[sysErrorLog] log() stating: {1}, Plus that im a retard, and i cant log my own errors :(({2}".format(self.colof("red"),e,self.color("end")))
+			print("{0}[ERROR]-[sysErrorLog] log()(1) stating: {1}, Plus that im a retard, and i cant log my own errors :(({2}".format(self.color("red"),e,self.color("end")))
 
 	else:
 		try:
@@ -38,7 +38,7 @@ def log ( self ):
 			os.mkdir(self.config["log-path"])
 		except Exception as e:
 			if self.config["debug"] == True:
-				print("{0}[ERROR]-[sysErrorLog] log() stating: {1}, Plus that im a retard, and i cant log my own errors :(({2}".format(self.colof("red"),e,self.color("end")))
+				print("{0}[ERROR]-[sysErrorLog] log()(2) stating: {1}, Plus that im a retard, and i cant log my own errors :(({2}".format(self.color("red"),e,self.color("end")))
 	
 
 

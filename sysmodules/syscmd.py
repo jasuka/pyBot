@@ -126,6 +126,24 @@ def createSeenDatabase( self ):
 		return True
 ## END
 
+def createTellDatabase( self ):
+	try:
+		db = sqlite3.connect("modules/data/tell.db")
+		cur = db.cursor()
+		cur.execute("""DROP TABLE IF EXISTS tell""")
+		cur.execute("""CREATE TABLE IF NOT EXISTS tell(id INTEGER PRIMARY KEY NOT NULL, nick TEXT, channel TEXT, message TEXT)""")
+		db.commit()
+	except Exception as e:
+		db.rollback()
+		self.errormsg = "[ERROR]-[syscmd] createTellDatabase() stating: {0}".format(e)
+		sysErrorLog.log ( self )
+		if self.config["debug"] == True:
+			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+		raise e
+	finally:
+		db.close()
+		return True
+
 ## Get HTML for given url
 def getHtml( self, url, useragent):
 	try:

@@ -20,7 +20,7 @@ config = {		#[SERVER]			[Modify the right side only]
 			#Loggin				
 			"logging":			True,	#True/False, SeenDB works only if logging is set True
 
-			"errLoglevel":			0, 	## Loglevels: 0, 1, 2
+			"errLoglevel":			2, 	## Loglevels: 0, 1, 2
 								## level 0 = no error logging
 								## level 1 = logs the error
 								## level 2 = logs the error with a backtrace
