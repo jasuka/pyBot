@@ -8,7 +8,7 @@ def seendb ( self ):
 	if os.path.exists(self.config["log-path"]) == True: #Checking if log-path in config is valid and exists (path is generated in logger_daemon.py)
 		
 		if len(self.msg) >= 4:	#Recording only if server sends more than 5 parameters (0,1,2,3,4,5) etc...
-			if self.msg[1] in self.irc_codes or "NOTICE" in self.msg[1]:	#do nothing if server sends any of these parameters
+			if self.msg[1] in self.irc_codes or "NOTICE" in self.msg[1] or "MODE" in self.msg[1]:	#do nothing if server sends any of these parameters
 				return
 			else:
 				try:
