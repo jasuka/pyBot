@@ -4,7 +4,7 @@ import os
 import sysErrorLog
 
 """
-TELL DB STRUCTURE IS AS FOLLOWS: (id INTEGER PRIMARY KEY NOT NULL, nick TEXT, channel TEXT, message TEXT)
+TELL DB STRUCTURE IS AS FOLLOWS: (id INTEGER PRIMARY KEY NOT NULL, nick TEXT, who TEXT, channel TEXT, message TEXT)
 """
 
 def tell( self ):
@@ -35,7 +35,7 @@ def tell( self ):
 
 			db = sqlite3.connect("modules/data/tell.db")
 			cur = db.cursor()
-			cur.execute("""INSERT INTO tell (nick, channel, message) VALUES (?, ?, ?)""",(nick,channel,message))
+			cur.execute("""INSERT INTO tell (nick, who, channel, message) VALUES (?, ?, ?, ?)""",(nick,self.get_nick(),channel,message))
 			db.commit()
 			self.send_chan("Your message has been saved")
 
@@ -61,8 +61,8 @@ def checkMessages( self ):
 		results = cur.fetchall()
 		
 		for row in results:
-			if nick in row[1] and chan in row[2]:
-				self.send_chan("{0} you have got a new message: {1}".format(nick, row[3]))
+			if nick in row[1] and chan in row[3]:
+				self.send_chan("{0}, {1} has sent you a message: {2}".format(nick, row[2] ,row[4]))
 				cur.execute("""DELETE FROM tell WHERE id=?""",(row[0],))
 			db.commit()	
 

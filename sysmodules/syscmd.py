@@ -131,7 +131,7 @@ def createTellDatabase( self ):
 		db = sqlite3.connect("modules/data/tell.db")
 		cur = db.cursor()
 		cur.execute("""DROP TABLE IF EXISTS tell""")
-		cur.execute("""CREATE TABLE IF NOT EXISTS tell(id INTEGER PRIMARY KEY NOT NULL, nick TEXT, channel TEXT, message TEXT)""")
+		cur.execute("""CREATE TABLE IF NOT EXISTS tell(id INTEGER PRIMARY KEY NOT NULL, nick TEXT, who TEXT, channel TEXT, message TEXT)""")
 		db.commit()
 	except Exception as e:
 		db.rollback()
