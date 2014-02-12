@@ -45,6 +45,8 @@ def seen ( self ):
 								output += " {0} year(s)".format(diff.years)
 							if diff.months:
 								output += " {0} months(s)".format(diff.months)
+							if diff.weeks:
+								output += " {0} months(s)".format(diff.weeks)
 							if diff.days:
 								output += " {0} day(s)".format(diff.days)
 							if diff.hours:
