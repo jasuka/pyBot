@@ -7,7 +7,7 @@ cobe.brain
 cobe.brain-journal
 
 ## Backups made by gedit
-
+*.orig
 *.*~
 
 ## Exclude databases and log files

@@ -48,20 +48,31 @@ def tell( self ):
 			db.close()
 
 def checkMessages( self ):
+	if not os.path.exists("modules/data/tell.db"):
+		## ERRORII TÄHÄ !!
+		return
+	try:
+		nick = self.get_nick()
+		chan = self.msg[2][1:]
 
-	db = sqlite3.connect("modules/data/tell.db")
-	cur = db.cursor()
+		db = sqlite3.connect("modules/data/tell.db")
+		cur = db.cursor()
 
-	cur.execute("""SELECT * FROM tell WHERE nick = ? AND channel = ?""",(self.get_nick(),self.msg[2][1:]))
-	results = cur.fetchall()
-	db.close()
+		cur.execute("""SELECT * FROM tell WHERE nick = ? AND channel = ?""",(nick,chan))
+		print(cur.fetchall())
+		
+		#print(results)
+		for result in cur.fetchall():
+			if self.get_nick() is result[1] and self.msg[2][1:] is result[2]:
+				self.send_chan("{0} you have got a new message: {1}".format(self.get_nick(),result[3]))
 
-	print(self.msg[2][1:])
-	for result in results:
-		if self.get_nick() is result[1] and self.msg[2][1:] is result[2]:
-			self.send_chan("{0} you have got a new message: {1}".format(self.get_nick(),result[3]))
-
-
+	except Exception as e:
+		self.errormsg = "[ERROR]-[tell] checkMessages() stating: {0}".format(e)
+		sysErrorLog.log ( self )
+		if self.config["debug"] == True:
+			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+	finally:
+		db.close()	
 
 
 
