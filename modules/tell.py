@@ -29,7 +29,7 @@ def tell( self ):
 
 			message = ""
 			for i in range(5, len(self.msg)):
-				message += "{0} ".format(self.msg[i])
+				message += "{0} ".format(self.msg[i].strip())
 
 			message = message.rstrip("\r\n")
 
@@ -53,18 +53,18 @@ def checkMessages( self ):
 		return
 	try:
 		nick = self.get_nick()
-		chan = self.msg[2][1:]
-
+		chan = self.msg[2].lstrip(":").strip()
 		db = sqlite3.connect("modules/data/tell.db")
 		cur = db.cursor()
 
 		cur.execute("""SELECT * FROM tell WHERE nick = ? AND channel = ?""",(nick,chan))
-		print(cur.fetchall())
+		results = cur.fetchall()
 		
-		#print(results)
-		for result in cur.fetchall():
-			if self.get_nick() is result[1] and self.msg[2][1:] is result[2]:
-				self.send_chan("{0} you have got a new message: {1}".format(self.get_nick(),result[3]))
+		for row in results:
+			if nick in row[1] and chan in row[2]:
+				self.send_chan("{0} you have got a new message: {1}".format(nick, row[3]))
+				cur.execute("""DELETE FROM tell WHERE id=?""",(row[0],))
+			db.commit()	
 
 	except Exception as e:
 		self.errormsg = "[ERROR]-[tell] checkMessages() stating: {0}".format(e)

@@ -201,11 +201,11 @@ class pyBot():
 			if len(data.encode("utf-8")) > 510:
 				data = syscmd.split_utf8(self, data, 390)
 				for line in data:
-					msg = "PRIVMSG {0} :{1}".format(self.msg[2], line.strip())
+					msg = "PRIVMSG {0} :{1}".format(self.msg[2].strip().lstrip(":"), line.strip())
 					self.send_data( msg )
 					print( "Sending: {0}".format(msg) )
 			else:
-				msg = "PRIVMSG {0} :{1}".format(self.msg[2], data.strip()) 
+				msg = "PRIVMSG {0} :{1}".format(self.msg[2].strip().lstrip(":"), data.strip()) 
 				self.send_data( msg )
 				print( "Sending: {0}".format(msg) )
 		else:
@@ -449,7 +449,7 @@ class pyBot():
 			if logger == 1:
 				logger_daemon.logger_daemon( self )
 				seendb.seendb( self ) #Seendb runs if logging is enabled
-			
+
 			## If someone sends PM to the bot, respond!
 			if "366" in self.msg:
 				active = 1
