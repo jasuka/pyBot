@@ -1,3 +1,5 @@
+<h1>IRC Bot written in Python.</h2>
+
 pyBot Requirements:
 
 Python 3.x
