@@ -426,7 +426,8 @@ class pyBot():
 					##
 					## Including TELL module
 					##
-					tell.checkMessages(self)
+					if "tell" in mLoaded:
+						tell.checkMessages(self)
 
 			##
 			## Built-in whois handler to get user ident@hostname from requested user

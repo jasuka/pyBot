@@ -35,9 +35,15 @@ def tell( self ):
 
 			db = sqlite3.connect("modules/data/tell.db")
 			cur = db.cursor()
-			cur.execute("""INSERT INTO tell (nick, who, channel, message) VALUES (?, ?, ?, ?)""",(nick,self.get_nick(),channel,message))
-			db.commit()
-			self.send_chan("Your message has been saved")
+			cur.execute("""SELECT COUNT(who) AS count FROM tell WHERE who = ?""",(self.get_nick(),))
+			checkCount = cur.fetchone()[0]
+			
+			if checkCount > 1:
+				self.send_chan("{0} Message count is limited in to 2 messages per user".format(self.get_nick()))
+			else:
+				cur.execute("""INSERT INTO tell (nick, who, channel, message) VALUES (?, ?, ?, ?)""",(nick,self.get_nick(),channel,message))
+				db.commit()
+				self.send_chan("Your message has been saved")
 
 		except Exception as e:
 			self.errormsg = "[ERROR]-[tell] tell() stating: {0}".format(e)
