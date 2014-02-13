@@ -29,6 +29,13 @@ config = {		#[SERVER]			[Modify the right side only]
 			"TimestampBrackets":		"[,]",
 			"log-path":			"logs/", #The root folder for logs
 			
+			#[MODULES]
+			#Settings for modules if any needed
+
+			#Tell module
+			"tellCount":		2,	## How many messages user can leave in total
+			"userInbox":		5,	## How many messages can fit into the user inbox
+
 			#[DEV DEBUGGING]
 			#Bot debugging true/false
 			"debug":			True

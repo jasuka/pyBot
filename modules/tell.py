@@ -20,6 +20,8 @@ def tell( self ):
 		try:
 			## Get needed data from the stream
 			nick = self.msg[4].strip()
+			tellCount = self.config["tellCount"]-1
+			userInbox = self.config["userInbox"]-1
 
 			if self.msg[2][0] is "#":
 				channel = self.msg[2]
@@ -37,9 +39,14 @@ def tell( self ):
 			cur = db.cursor()
 			cur.execute("""SELECT COUNT(who) AS count FROM tell WHERE who = ?""",(self.get_nick(),))
 			checkCount = cur.fetchone()[0]
-			
-			if checkCount > 1:
-				self.send_chan("{0}, Message count is limited in to 2 messages per user".format(self.get_nick()))
+
+			cur.execute("""SELECT COUNT(nick) AS count FROM tell WHERE nick = ?""",(nick,))
+			checkInbox = cur.fetchone()[0]
+
+			if checkCount > tellCount:
+				self.send_chan("{0}, The message count is limited in to {1} messages per user".format(self.get_nick(), tellCount+1))
+			elif checkInbox > userInbox:
+				self.send_chan("{0}, {1}'s message inbox is full :(".format(self.get_nick(), nick))
 			else:
 				cur.execute("""INSERT INTO tell (nick, who, channel, message) VALUES (?, ?, ?, ?)""",(nick,self.get_nick(),channel,message))
 				db.commit()
@@ -65,12 +72,14 @@ def checkMessages( self ):
 
 		cur.execute("""SELECT * FROM tell WHERE nick = ? AND channel = ?""",(nick,chan))
 		results = cur.fetchall()
-		
+		msgToUser = "{0}, ".format(nick)
+
 		for row in results:
 			if nick in row[1] and chan in row[3]:
-				self.send_chan("{0}, {1} has sent you a message: {2}".format(nick, row[2] ,row[4]))
+				msgToUser += "[{0} has sent you a message: {1}] ".format(row[2] ,row[4])
 				cur.execute("""DELETE FROM tell WHERE id=?""",(row[0],))
 			db.commit()	
+		self.send_chan(msgToUser)
 
 	except Exception as e:
 		self.errormsg = "[ERROR]-[tell] checkMessages() stating: {0}".format(e)
