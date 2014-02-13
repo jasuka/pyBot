@@ -23,7 +23,7 @@ def tell( self ):
 			tellCount = self.config["tellCount"]-1
 			userInbox = self.config["userInbox"]-1
 
-			if self.msg[2][0] is "#":
+			if self.msg[2][0] == "#":
 				channel = self.msg[2]
 			else:
 				## ERRORI
