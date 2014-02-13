@@ -1,19 +1,18 @@
-<h2>An IRC Bot Written in Python</h2>
+#An IRC Bot Written in Python
 
 pyBot Requirements:
 
-Python 3.x
+* **Python 3.x**
 
-BeautifulSoup 4
+* **BeautifulSoup 4**
 
-Lxml or html5lib
+* **Lxml or html5lib**
 
-python-dateutil
+* **python-dateutil**
 
-pystemmer (for Cobe)
+* **pystemmer (for Cobe)**
 
-In a case where you dont have the system administrators rights you may use easy install for these plugins
+* In a case where you dont have the system administrators rights you may use easy install for these plugins
 for example: 
-easy_install3 --user pystemmer
-easy_install3 --user python-dateutil
-etc.. etc..
+* `easy_install3 --user pystemmer`
+* `easy_install3 --user python-dateutil`
