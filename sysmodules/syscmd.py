@@ -361,12 +361,16 @@ def replaceUmlauts( text ):
 	return text
 
 ## Can the host connect to ipv6 hosts
-def ipv6Connectivity():
+def ipv6Connectivity( self ):
 	have_ipv6 = True
 	s = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
 	try:
-		s.connect(('2a00:1450:400f:802::1000', 0)) ## google.com ipv6 address
-	except:
+		s.connect(('2a00:1450:400f:802::1000', 13337)) ## google.com ipv6 address
+	except Exception as e:
+		self.errormsg = "[ERROR]-[ipv6Connectivity] stating: {0}".format(e)
+		sysErrorLog.log ( self )
+		if self.config["debug"]:
+			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))		
 		have_ipv6 = False
 	return have_ipv6
 
