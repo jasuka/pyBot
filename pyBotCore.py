@@ -321,6 +321,16 @@ class pyBot():
 			
 			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+
+	## List available commands on the bot
+	def cmd( self ):
+		commands = ""
+		for cmd in mLoaded:
+			if cmd == "cobe":
+				pass
+			else:
+				commands += "!{0} ".format(cmd)
+		self.send_chan("Available commands: {0}".format(commands))
 	
 	## Restart the bot 
 	def restart ( self ):
@@ -537,6 +547,8 @@ class pyBot():
 								self.load( self.msg[4].strip())
 							except IndexError:
 								self.load( None )
+						elif cmd == "!cmd":
+							self.cmd()
 						elif cmd == "!reload":
 							self.reload()
 						elif cmd == "!join":
