@@ -16,6 +16,7 @@ def tell( self ):
 		## Gotta check if the file realy exists
 		if not os.path.exists("modules/data/tell.db"):
 			## ERRORII TÄHÄ !!
+			self.send_chan("Failed to check if the db exists :(")
 			return
 		try:
 			## Get needed data from the stream
