@@ -26,6 +26,10 @@ def tell( self ):
 			tellCount = self.config["tellCount"]-1
 			userInbox = self.config["userInbox"]-1
 
+			if self.get_nick() == nick:
+				self.send_chan("This doesn't seem right now, does it?")
+				return
+				
 			if self.msg[2][0] == "#":
 				channel = self.msg[2]
 			else:
