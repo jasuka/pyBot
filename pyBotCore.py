@@ -139,7 +139,7 @@ class pyBot():
 		if "tell" in mLoaded and not os.path.exists("modules/data/tell.db"):
 			self.errormsg = "[NOTICE] Tell Database doesn't exist, creating it!"
 			sysErrorLog.log ( self )
-			if self.config["debug"] == True:
+			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createTellDatabase( self )
 		

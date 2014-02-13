@@ -137,7 +137,7 @@ def createTellDatabase( self ):
 		db.rollback()
 		self.errormsg = "[ERROR]-[syscmd] createTellDatabase() stating: {0}".format(e)
 		sysErrorLog.log ( self )
-		if self.config["debug"] == True:
+		if self.config["debug"]:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e
 	finally:

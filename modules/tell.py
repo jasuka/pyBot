@@ -57,7 +57,7 @@ def tell( self ):
 		except Exception as e:
 			self.errormsg = "[ERROR]-[tell] tell() stating: {0}".format(e)
 			sysErrorLog.log ( self )
-			if self.config["debug"] == True:
+			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 
 
@@ -89,7 +89,7 @@ def checkMessages( self ):
 	except Exception as e:
 		self.errormsg = "[ERROR]-[tell] checkMessages() stating: {0}".format(e)
 		sysErrorLog.log ( self )
-		if self.config["debug"] == True:
+		if self.config["debug"]:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 
 
