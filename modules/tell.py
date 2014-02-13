@@ -2,6 +2,7 @@
 import sqlite3
 import os
 import sysErrorLog
+import syscmd
 
 """
 TELL DB STRUCTURE IS AS FOLLOWS: (id INTEGER PRIMARY KEY NOT NULL, nick TEXT, channel TEXT, message TEXT)
@@ -33,11 +34,15 @@ def tell( self ):
 
 			message = message.rstrip("\r\n")
 
-			db = sqlite3.connect("modules/data/tell.db")
-			cur = db.cursor()
-			cur.execute("""INSERT INTO tell (nick, channel, message) VALUES (?, ?, ?)""",(nick,channel,message))
-			db.commit()
-			self.send_chan("Your message has been saved")
+			if syscmd.userVisitedChannel( self, nick ):
+				db = sqlite3.connect("modules/data/tell.db")
+				cur = db.cursor()
+				cur.execute("""INSERT INTO tell (nick, channel, message) VALUES (?, ?, ?)""",(nick,channel,message))
+				db.commit()
+				self.send_chan("Your message has been saved")
+			else:
+				self.send_chan("I cannot tell something to someone who doesn't exists :(")
+				return
 
 		except Exception as e:
 			self.errormsg = "[ERROR]-[tell] tell() stating: {0}".format(e)
