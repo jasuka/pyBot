@@ -1,4 +1,4 @@
-<h2>IRC Bot written in Python.</h2>
+<h2>IRC Bot written in Python</h2>
 
 pyBot Requirements:
 
