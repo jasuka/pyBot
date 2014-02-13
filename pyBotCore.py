@@ -452,7 +452,7 @@ class pyBot():
 				seendb.seendb( self ) #Seendb runs if logging is enabled
 
 			## Check if user has a message in tell inbox
-			if "tell" in mLoaded and len(self.msg) >= 4 and self.msg[1].strip() == "PRIVMSG":
+			if "tell" in mLoaded and len(self.msg) >= 4 and self.msg[1].strip() == "PRIVMSG" and self.msg[3].strip() != ":!tell":
 				tell.checkMessages(self)
 
 			## If someone sends PM to the bot, respond!
