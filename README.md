@@ -18,14 +18,14 @@
 --
 
 * **Unpack the source code to the destination of your choice**
-  * Modify the `config.py` file to meet your needs
-  * Run the bot with command `./pyBot.py` or `python3 pyBot.py`
+   * Modify the `config.py` file to meet your needs
+   * Run the bot with command `./pyBot.py` or `python3 pyBot.py`
   
 **Something about modules**
 --
 
 * Some of the modules (the most of them) are designed to meet our own needs (as we use the bot as well), so in some cases the language might be in finnish. `modules/fmi.py` as in this particular case.
-* Cobe plugin is written in `python 2.x` by Peter Teichman (https://github.com/pteichman/cobe), but we have modified it to run smoothly also on `python 3.x`
+* Cobe plugin is written in `python 2.x` by [Peter Teichman] (https://github.com/pteichman/cobe), but we have modified it to run smoothly also on `python 3.x`
 
 **About the pyBot project**
 --
