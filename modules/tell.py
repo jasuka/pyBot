@@ -39,7 +39,7 @@ def tell( self ):
 			checkCount = cur.fetchone()[0]
 			
 			if checkCount > 1:
-				self.send_chan("{0} Message count is limited in to 2 messages per user".format(self.get_nick()))
+				self.send_chan("{0}, Message count is limited in to 2 messages per user".format(self.get_nick()))
 			else:
 				cur.execute("""INSERT INTO tell (nick, who, channel, message) VALUES (?, ?, ?, ?)""",(nick,self.get_nick(),channel,message))
 				db.commit()
