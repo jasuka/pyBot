@@ -1,5 +1,7 @@
 #seendb version 2
-import re, time, os
+import re
+import time
+import os
 import sysErrorLog
 import sqlite3
 
