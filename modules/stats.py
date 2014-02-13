@@ -1,6 +1,9 @@
 
 ##Simple stats version 2
-import readline
+try:
+	import readline
+except ImportError:
+	import pyreadline as readline ## This is for windows
 import sysErrorLog
 
 def stats( self ):
