@@ -29,6 +29,6 @@
 
 **About the pyBot project**
 --
-* **The entire project is made running on the linux and OS X, so no experience how would it work on windows? If you are interested in testing and fixig the code, contribute us :)**
+* **All the development is done on Linux and OS X. We don't officially support Windows, but the bot should run just fine :)**
 * **Feel free to dig in the code, use the bot, write your own modules as you desire or get in touch with us if you want to contribute to this project**
 * **Now as im writing this, we are about to launch `pyBot version 1.0` and planning to continue the development further forward. Our goal is to improve our skills related to python and over all coding :)**
