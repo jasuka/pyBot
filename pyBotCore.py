@@ -93,7 +93,7 @@ class pyBot():
 	def __init__( self ):
 	
 	## Bot Version
-		self.version = "pyBot version 0.7.5"
+		self.version = "pyBot version 1.0-RC1"
 		print("{0}[[You are running the {1}]]{2}\r\n".format(self.color("blue"),self.version,self.color("end")))
 
 	## Config and start the bot
