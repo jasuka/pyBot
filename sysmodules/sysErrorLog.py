@@ -33,7 +33,6 @@ def log ( self ):
 					logi.flush()
 
 		except Exception as e:
-			print(format_exc())
 			print("{0}[ERROR]-[sysErrorLog] log()(1) stating: {1}, Plus that im a retard, and i cant log my own errors :(({2}".format(self.color("red"),e,self.color("end")))
 
 	else:
