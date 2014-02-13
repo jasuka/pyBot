@@ -15,25 +15,35 @@ def git(self):
 	
 		if self.config["debug"]:
 			print(stdoutput.decode("utf-8"))
+			print(stderroutput.decode("utf-8"))
 			
 		if "fatal" in stdoutput.decode("utf-8"):
 			self.send_chan("Git pull failed!")
+			return
 		if "Already up-to-date." in stdoutput.decode("utf-8"):
 			self.send_chan("Already up-to-date!")
+			return
+		if "overwritten by merge" in stderroutput.decode("utf-8"):
+			self.send_chan("There was a conflict during merge! Please solve manually!")
+			return
 		if "pyBot.py" in stdoutput.decode("utf-8"):
 			self.send_chan("Pull succeeded, core updated, restarting!")
 			self.restart()
+			return
 		if "pyBotCore.py" in stdoutput.decode("utf-8"):
 			self.send_chan("Pull succeeded, core updated, restarting!")
 			self.restart()
+			return
 		if "create mode" in stdoutput.decode("utf-8"):
 			mods = re.findall(r"\create mode 100644 modules/(.*.py)", stdoutput.decode("utf-8"))
 			modules = ""
 			for x in mods:
 				modules += "{0} ".format(x[:-3])
-				self.load(x[:-3])	
-		if "pyBot.py" not in stdoutput.decode("utf-8") and "create mode" not in stdoutput.decode("utf-8"):
+				self.load(x[:-3])
+			return
+		else:
 			self.send_chan("Pull succeeded, remember to reload the modules!")
+			return
 	
 	except Exception as e:
 		self.errormsg = "[ERROR]-[git] git() stating: {0}".format(e)
