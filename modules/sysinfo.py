@@ -26,7 +26,7 @@ def sysinfo(self):
 			process3 = subprocess.Popen(["uptime"], stdout=PIPE, stderr=PIPE)
 			uptime, stderroutput = process3.communicate()
 			uptime = uptime.decode("utf-8").strip()
-			uptime = re.search("(a-z)?( )\d(.*?),(.*?),", uptime).group(0).rstrip(",").strip()
+			uptime = re.search("( )\d(.*?),(.*?),", uptime).group(0).rstrip(",").strip()
 			self.send_chan("I'm running on OS X {0} {1} with Python {2} <> CPU: {3} <> Uptime: {4} <> Mem Usage: {5}/{6} MiB".format(platform.mac_ver()[0], platform.platform(), 
 							platform.python_version()," ".join(string[1][:-11].split()), uptime, used_mem, total_mem))		
 			
@@ -52,7 +52,9 @@ def sysinfo(self):
 			process3 = subprocess.Popen(["uptime"], stdout=PIPE, stderr=PIPE)
 			uptime, stderroutput = process3.communicate()
 			uptime = uptime.decode("utf-8")
-			uptime = re.search("(a-z)?( )\d(.*?),(.*?),", uptime).group(0).rstrip(",").strip()
+			print(uptime)
+			uptime = re.search("( )\d(.*?),(.*?),", uptime).group(0).rstrip(",").strip()
+
 			self.send_chan("I'm running on {0} with Python {1} <> CPU: {2} <> Uptime: {3} <> Mem Usage: {4}/{5} MiB".format(platform.platform(), 
 					platform.python_version(), " ".join(cpu.split()), uptime, used_mem, total_mem))	
 				
