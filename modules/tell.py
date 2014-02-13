@@ -51,7 +51,8 @@ def tell( self ):
 				cur.execute("""INSERT INTO tell (nick, who, channel, message) VALUES (?, ?, ?, ?)""",(nick,self.get_nick(),channel,message))
 				db.commit()
 				self.send_chan("Your message has been saved")
-		db.close()
+				
+			db.close()
 				
 		except Exception as e:
 			self.errormsg = "[ERROR]-[tell] tell() stating: {0}".format(e)
