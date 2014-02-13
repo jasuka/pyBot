@@ -318,6 +318,34 @@ def checkLang( lang ):
 		return(False)
 ## END
 
+## Check if username exists in seen database and returns true
+def userVisitedChannel( self, nick ):
+
+	if not os.path.exists(self.config["log-path"]+"seen.db"):
+		self.send_chan("Logging is not enabled and seendb is not running, check your config!!!")
+		return
+	else:
+		try:
+			db = sqlite3.connect(self.config["log-path"]+"seen.db")
+			cur = db.cursor()
+			cur.execute("""SELECT nick FROM seendb WHERE nick = ? GROUP BY nick""",(nick,))
+			
+			try:
+				result = cur.fetchone()[0]
+				return(True)
+			except TypeError:
+				return(False)
+
+			db.close()
+
+		except Exception as e:
+			self.errormsg = "[ERROR]-[syscmd] userVisitedChannel() stating: {0}".format(e)
+			sysErrorLog.log ( self )
+			if self.config["debug"]:
+				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+			raise e 
+##END
+
 ## Return remote host based on whoised nick
 def getRemoteHost ( self ):
 	#print("{0}@{1}".format(self.msg[4],self.msg[5]))
