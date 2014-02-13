@@ -72,14 +72,17 @@ def checkMessages( self ):
 
 		cur.execute("""SELECT * FROM tell WHERE nick = ? AND channel = ?""",(nick,chan))
 		results = cur.fetchall()
-		msgToUser = "{0}, ".format(nick)
 
-		for row in results:
-			if nick in row[1] and chan in row[3]:
-				msgToUser += "[{0} has sent you a message: {1}] ".format(row[2] ,row[4])
-				cur.execute("""DELETE FROM tell WHERE id=?""",(row[0],))
-			db.commit()	
-		self.send_chan(msgToUser)
+		if results:
+			msgToUser = "{0}, ".format(nick)
+			for row in results:
+				if nick in row[1] and chan in row[3]:
+					msgToUser += "[{0} has sent you a message: {1}] ".format(row[2] ,row[4])
+					cur.execute("""DELETE FROM tell WHERE id=?""",(row[0],))
+				db.commit()	
+			self.send_chan(msgToUser)
+		else:
+			return
 
 	except Exception as e:
 		self.errormsg = "[ERROR]-[tell] checkMessages() stating: {0}".format(e)
