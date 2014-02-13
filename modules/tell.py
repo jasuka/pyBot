@@ -2,6 +2,7 @@
 import sqlite3
 import os
 import sysErrorLog
+import syscmd
 
 """
 TELL DB STRUCTURE IS AS FOLLOWS: (id INTEGER PRIMARY KEY NOT NULL, nick TEXT, who TEXT, channel TEXT, message TEXT)
@@ -18,6 +19,7 @@ def tell( self ):
 			self.errormsg = "{0}[ERROR]-[tell] tell()(1): No database file found!{1}".format(self.color("red"),self.color("end"))
 			sysErrorLog.log ( self )
 			return
+
 		try:
 			## Get needed data from the stream
 			nick = self.msg[4].strip()
@@ -36,24 +38,31 @@ def tell( self ):
 
 			message = message.rstrip("\r\n")
 
-			db = sqlite3.connect("modules/data/tell.db")
-			cur = db.cursor()
-			cur.execute("""SELECT COUNT(who) AS count FROM tell WHERE who = ?""",(self.get_nick(),))
-			checkCount = cur.fetchone()[0]
+			if syscmd.userVisitedChannel( self, nick ):
 
-			cur.execute("""SELECT COUNT(nick) AS count FROM tell WHERE nick = ?""",(nick,))
-			checkInbox = cur.fetchone()[0]
+				db = sqlite3.connect("modules/data/tell.db")
+				cur = db.cursor()
 
-			if checkCount > tellCount:
-				self.send_chan("{0}, The message count is limited in to {1} messages per user".format(self.get_nick(), tellCount+1))
-			elif checkInbox > userInbox:
-				self.send_chan("{0}, {1}'s message inbox is full :(".format(self.get_nick(), nick))
+				cur.execute("""SELECT COUNT(who) AS count FROM tell WHERE who = ?""",(self.get_nick(),))
+				checkCount = cur.fetchone()[0]
+
+				cur.execute("""SELECT COUNT(nick) AS count FROM tell WHERE nick = ?""",(nick,))
+				checkInbox = cur.fetchone()[0]
+
+				if checkCount > tellCount:
+					self.send_chan("{0}, The message count is limited in to {1} messages per user".format(self.get_nick(), tellCount+1))
+
+				elif checkInbox > userInbox:
+					self.send_chan("{0}, {1}'s message inbox is full :(".format(self.get_nick(), nick))
+
+				else:
+					cur.execute("""INSERT INTO tell (nick, who, channel, message) VALUES (?, ?, ?, ?)""",(nick,self.get_nick(),channel,message))
+					db.commit()
+					self.send_chan("Your message has been saved")
+
+				db.close()
 			else:
-				cur.execute("""INSERT INTO tell (nick, who, channel, message) VALUES (?, ?, ?, ?)""",(nick,self.get_nick(),channel,message))
-				db.commit()
-				self.send_chan("Your message has been saved")
-				
-			db.close()
+				self.send_chan("I cannot tell something to someone who doesn't exists :(")
 				
 		except Exception as e:
 			self.errormsg = "[ERROR]-[tell] tell() stating: {0}".format(e)
