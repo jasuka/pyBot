@@ -7,7 +7,7 @@ import socket
 import sqlite3
 
 ### Create cities DB, feel free to edit the list of cities
-def createCitiesDatabase():
+def createCitiesDatabase( self ):
 	cities = """Akaa, Alahärmä, Alajärvi, Alastaro, Alastaro, Alavieska, Alavus, Anjala, Artjärvi, 
 	Asikkala, Askainen, Askola, Aura, Auttoinen, Dragsfjärd, Ekenäs, Elimäki, Eno, Enonkoski, 
 	Enontekiö, Espoo, Eura, Eurajoki, Evijärvi, Forssa, Haapajärvi, Haapavesi, Hailuoto, Halikko, 
@@ -86,7 +86,7 @@ def createCitiesDatabase():
 		return True
 ## END
 
-def createAutomodesDatabase():
+def createAutomodesDatabase( self ):
 	try:
 		db = sqlite3.connect("modules/data/automodes.db")
 
@@ -201,7 +201,7 @@ def delHtml( html ):
 ## End
 
 ## Automodes checkup on event JOIN
-def modecheck (self):
+def modecheck ( self ):
 	try:
 		db = sqlite3.connect("modules/data/automodes.db")
 		cursor = db.cursor()
@@ -223,7 +223,7 @@ def modecheck (self):
 ## End
 
 ## ADD AUTOMODE
-def addautomode (self,modes,chan):
+def addautomode ( self, modes, chan ):
 	
 	identhost = self.hostident.strip() 	#this is created by getRemoteHost() down below which is later on called
 					   					#in core as a bot wide variable when server sends whoise code 311
@@ -319,14 +319,14 @@ def checkLang( lang ):
 ## END
 
 ## Return remote host based on whoised nick
-def getRemoteHost (self):
+def getRemoteHost ( self ):
 	#print("{0}@{1}".format(self.msg[4],self.msg[5]))
 	hostident = "{0}@{1}".format(self.msg[4],self.msg[5])
 	return(hostident)
 ## End
 
 ## Replace umlauts 
-def replaceUmlauts(text):
+def replaceUmlauts( text ):
 	dic = {'Ä':'%C3%84', 'ä':'%C3%A4', 'Ö':'%C3%96', 'ö':'%C3%B6', '"':'%22', '®':'%C2%AE'}
 	for i, j in dic.items():
 		text = text.replace(i, j)
@@ -343,7 +343,7 @@ def ipv6Connectivity():
 	return have_ipv6
 
 ## Split UTF-8 s into chunks of maximum length n.
-def split_utf8(self, s, n):
+def split_utf8( self, s, n ):
 	while len(s) > n:
 		k = n
 		while (ord(s[k]) & 0xc0) == 0x80:

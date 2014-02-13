@@ -37,7 +37,7 @@ def automodes (self):
 				self.whois(nick)
 			else:
 				self.errormsg = "[NOTICE]-[automodes] Unauthorized command from {0}".format(self.get_host())
-				sysErrorLog.log (self)
+				sysErrorLog.log ( self )
 				self.send_chan("Unauthorized command")
 	else:
 		self.send_chan("Usage: !automodes set <nick> <flag> ## To add a mode av or ao to the user")

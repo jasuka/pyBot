@@ -15,7 +15,8 @@ def tell( self ):
 	else:
 		## Gotta check if the file realy exists
 		if not os.path.exists("modules/data/tell.db"):
-			## ERRORII TÄHÄ !!
+			self.errormsg = "{0}[ERROR]-[tell] tell()(1): No database file found!{1}".format(self.color("red"),self.color("end"))
+			sysErrorLog.log ( self )
 			return
 		try:
 			## Get needed data from the stream
@@ -26,7 +27,7 @@ def tell( self ):
 			if self.msg[2][0] == "#":
 				channel = self.msg[2]
 			else:
-				## ERRORI
+				#Not valid channel, do nothing..
 				return
 
 			message = ""

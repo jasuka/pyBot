@@ -79,7 +79,7 @@ while not doneLoading:
 			print("[ERROR]-[Core] Load modules: {0} , This error is not being logged".format(e))
 
 	finally:
-		if len(mLoaded) is toLoad: 
+		if len(mLoaded) == toLoad: 
 			doneLoading = True
 			print("\r\n#################################")
 			print("# {0}Finished loading user modules{1} #".format(pGreen, pEnd))
@@ -120,14 +120,14 @@ class pyBot():
 			sysErrorLog.log( self )
 			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
-			syscmd.createCitiesDatabase()
+			syscmd.createCitiesDatabase( self )
 
 		if "automodes" in mLoaded and not os.path.exists("modules/data/automodes.db"):
 			self.errormsg = "[NOTICE] Automodes database doesn't exist, creating it!"
 			sysErrorLog.log ( self )
 			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
-			syscmd.createAutomodesDatabase()
+			syscmd.createAutomodesDatabase( self )
 
 		if "seendb" in self.modulecfg["sysmodules"] and not os.path.exists(self.config["log-path"]+"seen.db"):
 			self.errormsg = "[NOTICE] Seen Database doesn't exist, creating it!"
@@ -147,13 +147,13 @@ class pyBot():
 
 	## COLOR CODES FOR BASH
 	def color ( self, c ):
-		if c is "red":
+		if c == "red":
 			return "\033[0;31m"	## RED
-		if c is "green":
+		if c == "green":
 			return "\033[0;32m" ## GREEN
-		if c is "blue":
+		if c == "blue":
 			return "\033[0;34m" ## BLUE
-		if c is "end":
+		if c == "end":
 			return "\033[0m"	## END 
 		else:
 			pass
@@ -501,7 +501,7 @@ class pyBot():
 			## Check if nick is in use, try alternative, if still in use, generate random number to the end of the nick
 			try:
 				if "433" in self.msg:
-					if altnick is 0:
+					if not altnick: # if altnick == 0
 						print("Alternative nick in use, switching into random nick")
 						self.nick = "{0}{1}".format(self.config["nick"], str(random.randrange(1,10+1)))
 						my_nick = "NICK {0}".format(self.nick)
