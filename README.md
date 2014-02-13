@@ -15,4 +15,3 @@ for example:
 easy_install3 --user pystemmer
 easy_install3 --user python-dateutil
 etc.. etc..
-.
