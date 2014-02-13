@@ -366,6 +366,7 @@ def ipv6Connectivity( self ):
 	s = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
 	try:
 		s.connect(('2a00:1450:400f:802::1000', 80)) ## Tries to establish an ipv6 connection to google.com in port 80
+		s.close()
 	except Exception as e:
 		self.errormsg = "[ERROR]-[ipv6Connectivity] stating: {0}".format(e)
 		sysErrorLog.log ( self )
