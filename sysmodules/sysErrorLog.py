@@ -24,7 +24,7 @@ def log ( self ):
 					try:
 						traceback = format_exc()
 					except AttributeError:
-						traceback = None
+						traceback = "Backtrace not available"
 					logline = "{0}{1}{2} {3}.\r\n{4}\r\n".format( ## 0-2 timestamp, 3 error message
 									brackets[0], strftime(self.config["timeformat"]), brackets[1], self.errormsg, traceback)	
 													
