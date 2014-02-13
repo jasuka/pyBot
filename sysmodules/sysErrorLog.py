@@ -21,14 +21,19 @@ def log ( self ):
 									brackets[0], strftime(self.config["timeformat"]), brackets[1], self.errormsg)
 
 				elif self.config["errLoglevel"] == 2: ## error with a backtrace
+					try:
+						traceback = format_exc()
+					except AttributeError:
+						traceback = None
 					logline = "{0}{1}{2} {3}.\r\n{4}\r\n".format( ## 0-2 timestamp, 3 error message
-									brackets[0], strftime(self.config["timeformat"]), brackets[1], self.errormsg, format_exc())	
+									brackets[0], strftime(self.config["timeformat"]), brackets[1], self.errormsg, traceback)	
 													
 				with open(log, "a") as logi: #Opening the log and appending the latest result
 					logi.write(logline)
 					logi.flush()
 
 		except Exception as e:
+			print(format_exc())
 			print("{0}[ERROR]-[sysErrorLog] log()(1) stating: {1}, Plus that im a retard, and i cant log my own errors :(({2}".format(self.color("red"),e,self.color("end")))
 
 	else:
