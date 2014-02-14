@@ -54,13 +54,15 @@ def tell( self ):
 				checkInbox = cur.fetchone()[0]
 
 				if checkCount > tellCount:
-					self.send_chan("{0}, The message count is limited in to {1} messages per user".format(self.get_nick(), tellCount+1))
+					self.send_chan("{0}, The message count is limited in to {1} messages per user"
+						.format(self.get_nick(), tellCount+1))
 
 				elif checkInbox > userInbox:
 					self.send_chan("{0}, {1}'s message inbox is full :(".format(self.get_nick(), nick))
 
 				else:
-					cur.execute("""INSERT INTO tell (nick, who, channel, message) VALUES (?, ?, ?, ?)""",(nick,self.get_nick(),channel,message))
+					cur.execute("""INSERT INTO tell (nick, who, channel, message) VALUES (?, ?, ?, ?)""",
+						(nick,self.get_nick(),channel,message))
 					db.commit()
 					self.send_chan("Your message has been saved")
 

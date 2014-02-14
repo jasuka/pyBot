@@ -7,25 +7,31 @@ import re
 import sysErrorLog
 
 def logger_daemon ( self ):
-
-	if os.path.exists(self.config["log-path"]):	#Checking if log-path in config is valid and exists
+	#Checking if log-path in config is valid and exists
+	if os.path.exists(self.config["log-path"]):
 	
 		if len(self.msg) >= 4:
 
-			if self.msg[1] in self.irc_codes:		#No logging if matching code received from the server
+			#No logging if matching code received from the server
+			if self.msg[1] in self.irc_codes:
 				return
 			else:
-				brackets = self.config["TimestampBrackets"].split(",") #Looking brackets from the config file
+
+				#Looking brackets from the config file
+				brackets = self.config["TimestampBrackets"].split(",") 
 				usertxt = ""
 				chan = self.msg[2]
 
-				for i in range(3, len(self.msg)):	#Creating the string of text starting from the user output in console
+				#Creating the string of text starting from the user output in console
+				for i in range(3, len(self.msg)):	
 					usertxt += self.msg[i]+" "
 
 				if chan[0] == "#":
 					log = self.config["log-path"]+chan+".log"
-					logline = "{0}{1}{2} {3} @ {4} >> {5}".format( #1-3 timestamp with brackets, 3 nick, 4 channel, 5 the message
-						brackets[0], strftime(self.config["timeformat"]), brackets[1], self.get_nick(), chan, usertxt.rstrip(" ")[1:])
+					#1-3 timestamp with brackets, 3 nick, 4 channel, 5 the message
+					logline = "{0}{1}{2} {3} @ {4} >> {5}".format(
+						brackets[0], strftime(self.config["timeformat"]), brackets[1],
+							self.get_nick(), chan, usertxt.rstrip(" ")[1:])
 
 					with open(log, "a") as log: #Opening the log and appending the latest result
 						log.write(logline)

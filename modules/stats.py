@@ -44,12 +44,15 @@ def stats( self ):
 					
 					if nick_counter is not 0:
 						pct = nick_counter/line_counter*100
-						self.send_chan("{0} has written '{1}' lines on this channel ({2}) which is {3:.1f}% of the total amount.".format(looking, nick_counter, chan, round(pct,1)))
+						self.send_chan("{0} has written '{1}' lines on this channel ({2}) which is {3:.1f}% of the total amount."
+							.format(looking, nick_counter, chan, round(pct,1)))
 					elif word_counter is not 0:
 						word_counter -= 1
-						self.send_chan("{0} has been mentioned '{1}' times on this channel ({2})".format(looking, word_counter, chan))
+						self.send_chan("{0} has been mentioned '{1}' times on this channel ({2})"
+							.format(looking, word_counter, chan))
 					else:
-						self.send_chan("I don't remember seeing '{0}' on this channel before ({1})".format(looking, chan))
+						self.send_chan("I don't remember seeing '{0}' on this channel before ({1})"
+							.format(looking, chan))
 				except Exception as e:
 					self.errormsg = "[ERROR]-[stats] stats() stating: {0}".format(e)
 					sysErrorLog.log( self ) ## LOG the error

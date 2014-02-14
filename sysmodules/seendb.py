@@ -6,11 +6,14 @@ import sysErrorLog
 import sqlite3
 
 def seendb ( self ):
+	#Checking if log-path in config is valid and exists (path is generated in logger_daemon.py)
+	if os.path.exists(self.config["log-path"]):
 
-	if os.path.exists(self.config["log-path"]): #Checking if log-path in config is valid and exists (path is generated in logger_daemon.py)
-		
-		if len(self.msg) >= 4:	#Recording only if server sends more than 5 parameters (0,1,2,3,4,5) etc...
-			if self.msg[1] in self.irc_codes or "NOTICE" in self.msg[1] or "MODE" in self.msg[1]:	#do nothing if server sends any of these parameters
+		#Recording only if server sends more than 5 parameters (0,1,2,3,4,5) etc...
+		if len(self.msg) >= 4:
+
+			#do nothing if server sends any of these parameters
+			if self.msg[1] in self.irc_codes or "NOTICE" in self.msg[1] or "MODE" in self.msg[1]:
 				return
 			else:
 				try:
@@ -36,10 +39,12 @@ def seendb ( self ):
 						resultId = None
 
 					if resultId:
-						cur.execute("""UPDATE seendb SET channel = ?,time = ?, usertxt = ? WHERE id = ?""",(chan,timestamp,usertxt,resultId))
+						cur.execute("""UPDATE seendb SET channel = ?,time = ?, usertxt = ? WHERE id = ?""",
+							(chan,timestamp,usertxt,resultId))
 						db.commit()
 					else:
-						cur.execute("""INSERT INTO seendb(nick,channel,time,usertxt) VALUES(?,?,?,?)""",(nick,chan,timestamp,usertxt))
+						cur.execute("""INSERT INTO seendb(nick,channel,time,usertxt) VALUES(?,?,?,?)""",
+							(nick,chan,timestamp,usertxt))
 						db.commit()
 
 				except Exception as e:

@@ -94,7 +94,8 @@ class pyBot():
 	
 	## Bot Version
 		self.version = "pyBot version 1.0-RC1"
-		print("{0}[[You are running the {1}]]{2}\r\n".format(self.color("blue"),self.version,self.color("end")))
+		print("{0}[[You are running the {1}]]{2}\r\n"
+			.format(self.color("blue"),self.version,self.color("end")))
 
 	## Config and start the bot
 		self.config = config.config
@@ -119,28 +120,32 @@ class pyBot():
 			self.errormsg = "[NOTICE] Cities database doesn't exist, creating it!"
 			sysErrorLog.log( self )
 			if self.config["debug"]:
-				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
+				print("{0}{1}{2}"
+					.format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createCitiesDatabase( self )
 
 		if "automodes" in mLoaded and not os.path.exists("modules/data/automodes.db"):
 			self.errormsg = "[NOTICE] Automodes database doesn't exist, creating it!"
 			sysErrorLog.log ( self )
 			if self.config["debug"]:
-				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
+				print("{0}{1}{2}"
+					.format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createAutomodesDatabase( self )
 
 		if "seendb" in self.modulecfg["sysmodules"] and not os.path.exists(self.config["log-path"]+"seen.db"):
 			self.errormsg = "[NOTICE] Seen Database doesn't exist, creating it!"
 			sysErrorLog.log ( self )
 			if self.config["debug"]:
-				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
+				print("{0}{1}{2}"
+					.format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createSeenDatabase( self )
 
 		if "tell" in mLoaded and not os.path.exists("modules/data/tell.db"):
 			self.errormsg = "[NOTICE] Tell Database doesn't exist, creating it!"
 			sysErrorLog.log ( self )
 			if self.config["debug"]:
-				print("{0}{1}{2}".format(self.color("blue"),self.errormsg,self.color("end")))
+				print("{0}{1}{2}"
+					.format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createTellDatabase( self )
 		
 		self.loop()
@@ -166,13 +171,15 @@ class pyBot():
 			data = data + "\r\n"
 			##print(len(data.encode("utf-8")))
 			self.s.sendall( data.encode("utf-8") ) 
-			print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data.rstrip("\r\n") ) )
+			print("[{0}] {1}"
+				.format( time.strftime("%d.%m.%Y/%H:%M:%S"), data.rstrip("\r\n") ) )
 		except Exception as e:
 			self.errormsg = "[ERROR]-[Core] send_data: {0}".format(e)		
 			sysErrorLog.log( self ) ## LOG the error
 			
 			if self.config["debug"]:
-				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+				print("{0}{1}{2}"
+					.format(self.color("red"), self.errormsg, self.color("end")))
 				
 	## Whois for getting userinfo (ident@hostname) [ RESERVED ONLY FOR AUTOMODES!!! ]
 	def whois (self, nick):
@@ -201,11 +208,13 @@ class pyBot():
 			if len(data.encode("utf-8")) > 510:
 				data = syscmd.split_utf8(self, data, 390)
 				for line in data:
-					msg = "PRIVMSG {0} :{1}".format(self.msg[2].strip().lstrip(":"), line.strip())
+					msg = "PRIVMSG {0} :{1}".format(
+						self.msg[2].strip().lstrip(":"), line.strip())
 					self.send_data( msg )
 					print( "Sending: {0}".format(msg) )
 			else:
-				msg = "PRIVMSG {0} :{1}".format(self.msg[2].strip().lstrip(":"), data.strip()) 
+				msg = "PRIVMSG {0} :{1}".format(
+					self.msg[2].strip().lstrip(":"), data.strip()) 
 				self.send_data( msg )
 				print( "Sending: {0}".format(msg) )
 		else:
@@ -346,7 +355,8 @@ class pyBot():
 			sysErrorLog.log( self ) ## LOG the error
 			
 			if self.config["debug"]:
-				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+				print("{0}{1}{2}"
+					.format(self.color("red"), self.errormsg, self.color("end")))
 
 	## Main loop, connect etc.
 	def loop( self ):
@@ -364,11 +374,15 @@ class pyBot():
 
 		## Try until a working server has been found
 		while self.connectionEstablished == 0:
-			for res in socket.getaddrinfo( self.hosts[self.serverIndex], self.config["port"], self.socketType, socket.SOCK_STREAM ):
+			for res in socket.getaddrinfo(
+				self.hosts[self.serverIndex], self.config["port"],
+				self.socketType, socket.SOCK_STREAM ):
+
 				af, socktype, proto, canonname, sa = res
 			self.s = socket.socket( af, socktype, proto )
 			try:
-				print("{0}Conneting to {1}{2}".format(pGreen, self.hosts[self.serverIndex], pEnd))
+				print("{0}Conneting to {1}{2}"
+					.format(pGreen, self.hosts[self.serverIndex], pEnd))
 				self.s.connect(sa)
 				self.connectionEstablished = 1
 			except Exception as e:
@@ -382,11 +396,13 @@ class pyBot():
 				sysErrorLog.log( self ) ## Log the error message in errorlog
 				
 				if self.config["debug"]:
-					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))	
+					print("{0}{1}{2}"
+						.format(self.color("red"), self.errormsg, self.color("end")))	
 
 		self.nick = self.config["nick"]
 		my_nick = "NICK {0}".format(self.nick)
-		my_user = "USER {0} {1} pyTsunku :{2}".format(self.config["ident"], self.hosts[self.serverIndex], self.config["realname"])		
+		my_user = "USER {0} {1} pyTsunku :{2}".format(
+			self.config["ident"], self.hosts[self.serverIndex], self.config["realname"])		
 
 		## Send identification to the server
 		self.send_data(my_nick)
@@ -417,7 +433,8 @@ class pyBot():
 			## if debug is true, print some stuff	
 			if self.config["debug"]:
 				#print(self.msg)
-				print("[{0}] {1}".format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ).rstrip("\r\n"))		
+				print("[{0}] {1}"
+					.format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ).rstrip("\r\n"))		
 
 			if "ERROR" in self.msg[0] and ":Trying" in self.msg[1]: ## Sleep 20 secs if reconnecting too fast
 				if self.config["debug"]:

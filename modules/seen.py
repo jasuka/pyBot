@@ -54,7 +54,8 @@ def seen ( self ):
 							if diff.seconds:
 								output += " {0} seconds".format(diff.seconds)
 
-							self.send_chan("{0} spoke last time: {1} which is exactly {2} ago. Stating: {3}".format(name, dbconvert, output, result[3]))
+							self.send_chan("{0} spoke last time: {1} which is exactly {2} ago. Stating: {3}"
+								.format(name, dbconvert, output, result[3]))
 							
 						else:
 							self.send_chan("I have never logged {0} while being on any channel".format(nick))
