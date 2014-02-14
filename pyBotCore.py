@@ -434,7 +434,9 @@ class pyBot():
 			if self.config["debug"]:
 				#print(self.msg)
 				print("[{0}] {1}"
-					.format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ).rstrip("\r\n"))		
+					.format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ).rstrip("\r\n"))
+			else:
+				userOutput.show( self )	
 
 			if "ERROR" in self.msg[0] and ":Trying" in self.msg[1]: ## Sleep 20 secs if reconnecting too fast
 				if self.config["debug"]:
