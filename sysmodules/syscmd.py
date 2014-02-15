@@ -162,6 +162,8 @@ def getHtml( self, url, useragent):
 		return(html)
 	except urllib.error.URLError:
 		self.send_chan("~ Couldn't resolve host")
+		self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Couldn't resolve hsot {0}".format(url)
+		sysErrorLog.log ( self ) ## LOG the error
 		return(None)
 	except Exception as e:
 		self.errormsg = "[ERROR]-[syscmd] getHtml() stating: {0}".format(e)
