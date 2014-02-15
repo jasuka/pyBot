@@ -25,9 +25,13 @@ def title ( self, url ):
 					soup = BeautifulSoup(html, "html.parser")
 				#else:
 				#	soup = BeautifulSoup(html, "html5lib") #broken!!
-				title = soup.title.string
-				title = re.sub("\n", "", title)
-				self.send_chan( "~ " + ' '.join(title.split()) ) ##Split words and join them with space
+				## We only want to parse the title if it has been found
+				if soup.title:
+					title = soup.title.string
+					title = re.sub("\n", "", title)
+					self.send_chan( "~ " + ' '.join(title.split()) ) ##Split words and join them with space
+				else:
+					self.send_chan( "~ Untitled" )
 			except Exception as e:
 				self.errormsg = "[ERROR]-[title] title() stating: {0} ({1})".format(e, url)
 				sysErrorLog.log( self ) ## LOG the error
