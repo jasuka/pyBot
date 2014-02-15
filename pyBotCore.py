@@ -266,7 +266,8 @@ class pyBot():
 			nick = re.search(":(.*)!", self.msg[0]).group(1)
 			return(nick)
 		except AttributeError:
-			print( "Not a nick" )
+			if self.config["debug"]:
+				print( "Not a nick" )
 	
 	## Get user host
 	def get_host( self ):
@@ -274,7 +275,8 @@ class pyBot():
 			host = self.msg[0].split("!")
 			return(host[1])
 		except:
-			print( "Error getting host" )
+			if self.config["debug"]:
+				print( "Error getting host" )
 	
 	## Load a new module
 	def load(self, module = None):
@@ -423,6 +425,10 @@ class pyBot():
 		altnick = 1
 		active = 0
 
+		## Nicklist for userOutput view
+		self.listNames = False
+		self.nickList = []
+
 		global flood
 		
 		while connected == 1:
@@ -447,19 +453,31 @@ class pyBot():
 					.format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ).rstrip("\r\n"))
 			else:
 				userOutput.show( self )	
+				##
+				##  On every join we want to check namelist to get nick prefixes
+				##
+				if len(self.msg) >= 2:
+					if self.msg[1] == "MODE":			
+						self.listNames = True
+						self.send_data("NAMES {0}".format(self.msg[2]))
+
+					if self.msg[1] == "JOIN":
+						self.listNames = True
+						self.send_data("NAMES {0}".format(self.msg[2][1:]))
 
 			if "ERROR" in self.msg[0] and ":Trying" in self.msg[1]: ## Sleep 20 secs if reconnecting too fast
 				if self.config["debug"]:
 					print("{0}[NOTICE] Trying to reconnect too fast, waiting for 20 second before trying again.{1}"
 						.format(self.color("blue"), self.color("end")))
 				time.sleep(20)
-				self.loop()					
-			
+				self.loop()		
+
 			##
 			## AUTOMODES BELOW!!
 			## Checks on JOIN event if user has an automode active
 			##
 			if len(self.msg) >= 2 and self.msg[1] == "JOIN":
+
 				if self.get_nick() != self.nick:
 					syscmd.modecheck(self)
 					##
