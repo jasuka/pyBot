@@ -170,9 +170,11 @@ class pyBot():
 			##data = data[:510] + "\r\n"
 			data = data + "\r\n"
 			##print(len(data.encode("utf-8")))
-			self.s.sendall( data.encode("utf-8") ) 
-			print("[{0}] {1}"
-				.format( time.strftime("%d.%m.%Y/%H:%M:%S"), data.rstrip("\r\n") ) )
+			self.s.sendall( data.encode("utf-8") )
+
+			if self.config["debug"]:
+				print("[{0}] {1}"
+					.format( time.strftime("%d.%m.%Y/%H:%M:%S"), data.rstrip("\r\n") ) )
 		except Exception as e:
 			self.errormsg = "[ERROR]-[Core] send_data: {0}".format(e)		
 			sysErrorLog.log( self ) ## LOG the error
@@ -211,12 +213,16 @@ class pyBot():
 					msg = "PRIVMSG {0} :{1}".format(
 						self.msg[2].strip().lstrip(":"), line.strip())
 					self.send_data( msg )
-					print( "Sending: {0}".format(msg) )
+
+					if self.config["debug"]:
+						print( "Sending: {0}".format(msg) )
 			else:
 				msg = "PRIVMSG {0} :{1}".format(
 					self.msg[2].strip().lstrip(":"), data.strip()) 
 				self.send_data( msg )
-				print( "Sending: {0}".format(msg) )
+
+				if self.config["debug"]:
+					print( "Sending: {0}".format(msg) )
 		else:
 			return
 		
@@ -227,7 +233,9 @@ class pyBot():
 			return
 		msg = "PRIVMSG {0} :{1}".format(self.get_nick(), data.strip())
 		self.send_data( msg )
-		print( "Sending PM: {0}".format(msg) )
+
+		if self.config["debug"]:
+			print( "Sending PM: {0}".format(msg) )
 		
 	## Send a NOTICE to the user doing a command
 	def send_notice( self, data ):
@@ -236,7 +244,9 @@ class pyBot():
 			return
 		msg = "NOTICE {0} :{1}".format(self.get_nick(), data.strip())
 		self.send_data( msg )
-		print( "Sending NOTICE: {0}".format(msg) )
+
+		if self.config["debug"]:
+			print( "Sending NOTICE: {0}".format(msg) )
 
 	## Parse commands function
 	def parse_command( self, cmd ):
