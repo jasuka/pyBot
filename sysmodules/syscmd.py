@@ -160,10 +160,14 @@ def getHtml( self, url, useragent):
 
 		html = urllib.request.urlopen(req, timeout = 20).read()
 		return(html)
+	except urllib.error.URLError:
+		self.send_chan("~ Couldn't resolve host")
+		return(None)
 	except Exception as e:
 		self.errormsg = "[ERROR]-[syscmd] getHtml() stating: {0}".format(e)
 		sysErrorLog.log ( self ) ## LOG the error
 		self.send_chan( "~ {0}".format(e))
+		return(None)
 ## End
 
 ## Check if the city exists in Finland
