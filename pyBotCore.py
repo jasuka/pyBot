@@ -23,67 +23,68 @@ import config
 ## Import modules config
 import modulecfg
 
-## Loading system modules ##
+class Modules:
 
-print("\r\n####################")
-print("#  {0}System modules{1}  #".format(pRed, pEnd))
-print("####################\r\n")
+	brokenModule = [] 	# A list of broken modules
+	mLoaded = []		# A list of loaded modules
+	toLoad = len(modulecfg.modulecfg["modules"].split(",")) # How many modules to load
+	doneLoading = False
 
-try:
-	for mod in modulecfg.modulecfg["sysmodules"].split(","):
-		print("Loading system module {0}{1}{2}".format(pBlue, mod, pEnd))
-		globals()[mod] = __import__(mod)
+	## Loading system modules ##
+	print("\r\n####################")
+	print("#  {0}System modules{1}  #".format(pRed, pEnd))
+	print("####################\r\n")
 
-except (ImportError, SyntaxError) as e:
-	print("{0}Couldn't load system module: {1}{2}".format(pRed, mod, pEnd))
-	if config.config["debug"]:
-		print("{0}{1}{2}".format(pRed, e, pEnd))
-	raise
-
-except Exception as e: ## Is this exception really needed here ???
-	if config.config["debug"]:
-		print("[ERROR]-[Core] Load modules: {0} , This error is not being logged".format(e))
-
-print("\r\n##########################################")
-print("# {0}All system modules loaded successfully{1} #".format(pGreen, pEnd))
-print("##########################################\r\n")
-
-## Loading user modules ##
-
-print("##################")
-print("#  {0}User modules{1}  #".format(pRed, pEnd))
-print("##################\r\n")
-
-brokenModule = [] 	# A list of broken modules
-mLoaded = []		# A list of loaded modules
-toLoad = len(modulecfg.modulecfg["modules"].split(",")) # How many modules to load
-doneLoading = False
-
-while not doneLoading:
 	try:
-		for mod in modulecfg.modulecfg["modules"].split(","):
-			if mod not in brokenModule and mod not in mLoaded:
-				print("Loading module {0}{1}{2}".format(pBlue, mod, pEnd))
-				globals()[mod] = __import__(mod)
-				mLoaded.append(mod)
+		for mod in modulecfg.modulecfg["sysmodules"].split(","):
+			print("Loading system module {0}{1}{2}".format(pBlue, mod, pEnd))
+			globals()[mod] = __import__(mod)
 
 	except (ImportError, SyntaxError) as e:
-		toLoad -= 1
-		brokenModule.append(mod)
-		print("{0}Couldn't load module: {1}{2}".format(pRed, mod, pEnd))
+		print("{0}Couldn't load system module: {1}{2}".format(pRed, mod, pEnd))
 		if config.config["debug"]:
 			print("{0}{1}{2}".format(pRed, e, pEnd))
+		raise
 
 	except Exception as e: ## Is this exception really needed here ???
 		if config.config["debug"]:
 			print("[ERROR]-[Core] Load modules: {0} , This error is not being logged".format(e))
 
-	finally:
-		if len(mLoaded) == toLoad: 
-			doneLoading = True
-			print("\r\n#################################")
-			print("# {0}Finished loading user modules{1} #".format(pGreen, pEnd))
-			print("#################################\r\n")
+	print("\r\n##########################################")
+	print("# {0}All system modules loaded successfully{1} #".format(pGreen, pEnd))
+	print("##########################################\r\n")
+
+	## Loading user modules ##
+
+	print("##################")
+	print("#  {0}User modules{1}  #".format(pRed, pEnd))
+	print("##################\r\n")
+
+	while not doneLoading:
+		try:
+			for mod in modulecfg.modulecfg["modules"].split(","):
+				if mod not in brokenModule and mod not in mLoaded:
+					print("Loading module {0}{1}{2}".format(pBlue, mod, pEnd))
+					globals()[mod] = __import__(mod)
+					mLoaded.append(mod)
+
+		except (ImportError, SyntaxError) as e:
+			toLoad -= 1
+			brokenModule.append(mod)
+			print("{0}Couldn't load module: {1}{2}".format(pRed, mod, pEnd))
+			if config.config["debug"]:
+				print("{0}{1}{2}".format(pRed, e, pEnd))
+
+		except Exception as e: ## Is this exception really needed here ???
+			if config.config["debug"]:
+				print("[ERROR]-[Core] Load modules: {0} , This error is not being logged".format(e))
+
+		finally:
+			if len(mLoaded) == toLoad: 
+				doneLoading = True
+				print("\r\n#################################")
+				print("# {0}Finished loading user modules{1} #".format(pGreen, pEnd))
+				print("#################################\r\n")
 
 ## Clear flood counter; Clears the flood dictionary every x seconds
 class Flood:
@@ -96,7 +97,6 @@ class Flood:
 ## Class pyBot
 class pyBot:
 	def __init__( self ):
-	
 	## Bot Version
 		self.version = "pyBot version 1.0.5"
 		print("{0}[[You are running the {1}]]{2}\r\n"
@@ -121,7 +121,7 @@ class pyBot:
 			self.socketType = socket.AF_INET
 
 		## Initialize databases
-		if "fmi" in mLoaded and not os.path.exists("modules/data/fmiCities.db"):
+		if "fmi" in Modules.mLoaded and not os.path.exists("modules/data/fmiCities.db"):
 			self.errormsg = "[NOTICE] Cities database doesn't exist, creating it!"
 			sysErrorLog.log( self )
 			if self.config["debug"]:
@@ -129,7 +129,7 @@ class pyBot:
 					.format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createCitiesDatabase( self )
 
-		if "automodes" in mLoaded and not os.path.exists("modules/data/automodes.db"):
+		if "automodes" in Modules.mLoaded and not os.path.exists("modules/data/automodes.db"):
 			self.errormsg = "[NOTICE] Automodes database doesn't exist, creating it!"
 			sysErrorLog.log ( self )
 			if self.config["debug"]:
@@ -145,7 +145,7 @@ class pyBot:
 					.format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createSeenDatabase( self )
 
-		if "tell" in mLoaded and not os.path.exists("modules/data/tell.db"):
+		if "tell" in Modules.mLoaded and not os.path.exists("modules/data/tell.db"):
 			self.errormsg = "[NOTICE] Tell Database doesn't exist, creating it!"
 			sysErrorLog.log ( self )
 			if self.config["debug"]:
@@ -256,7 +256,7 @@ class pyBot:
 	## Parse commands function
 	def parse_command( self, cmd ):
 		try:
-			if cmd not in self.modulecfg["sysmodules"].split(",") and cmd in mLoaded:
+			if cmd not in self.modulecfg["sysmodules"].split(",") and cmd in Modules.mLoaded:
 				getattr(globals()[cmd], cmd)( self )
 			else:
 				self.send_chan( "Unknown command: !{0}".format( cmd ))
@@ -299,7 +299,7 @@ class pyBot:
 				if module in self.modulecfg["modules"] or mod in self.modulecfg["sysmodules"]:
 					globals()[module] = __import__(module)
 					self.send_chan("Loaded a new module: {0}".format(module))
-					mLoaded.append(module)
+					Modules.mLoaded.append(module)
 				else:
 					self.send_chan("Unknown module: {0}".format(module))
 		except Exception as e:
@@ -351,7 +351,7 @@ class pyBot:
 	## List available commands on the bot
 	def cmd( self ):
 		commands = ""
-		for cmd in mLoaded:
+		for cmd in Modules.mLoaded:
 			if cmd == "cobe":
 				pass
 			else:
@@ -488,7 +488,7 @@ class pyBot:
 					##
 					## Including TELL module
 					##
-					if "tell" in mLoaded:
+					if "tell" in Modules.mLoaded:
 						tell.checkMessages(self)
 
 			##
@@ -514,7 +514,7 @@ class pyBot:
 				seendb.seendb( self ) #Seendb runs if logging is enabled
 
 			## Check if user has a message in tell inbox
-			if "tell" in mLoaded and len(self.msg) >= 4 and self.msg[1].strip() == "PRIVMSG" and self.msg[3][1:].strip() != "!tell":
+			if "tell" in Modules.mLoaded and len(self.msg) >= 4 and self.msg[1].strip() == "PRIVMSG" and self.msg[3][1:].strip() != "!tell":
 				tell.checkMessages(self)
 
 			## If someone sends PM to the bot, respond!
