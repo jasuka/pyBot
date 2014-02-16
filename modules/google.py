@@ -76,11 +76,6 @@ def gnext(self):
 		title = "{0}".format(dataCache[dataIndex].a)
 		title = syscmd.delHtml(title)
 		string = "{0}: {1}".format(title, dataCache[dataIndex].a.get('href'))
-		if len(dataCache) > 0:
-			self.send_chan(string)
-			dataIndex += 1
-			return(True)
-	else:
-		return(False)
-
-
+		self.send_chan(string)
+		dataIndex += 1
+		return(True)

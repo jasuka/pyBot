@@ -72,9 +72,7 @@ def ynext(self):
 	if len(self.msg) == 5 and dataCache and dataIndex <= len(dataCache):
 		string = "{1}: http://youtube.com/watch?v={0} | ".format(
 				dataCache[dataIndex].get('href')[-11:], dataCache[dataIndex].get('title'))
-		if len(dataCache) > 0:
-			self.send_chan(string)
-			dataIndex += 1
-			return(True)
-	else:
-		return(False)
+		self.send_chan(string)
+		dataIndex += 1
+		return(True)
+
