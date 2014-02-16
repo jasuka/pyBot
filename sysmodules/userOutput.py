@@ -1,5 +1,15 @@
 ## userOutput versio 1
 
+"""
+Known issues:
+
+*	If user has got +v while got +o and gets deopped, 
+ 	it doesnt remember the previous mode and sets zero prefix
+
+*	Names list is not channel specific yet :(	
+
+"""
+
 import time
 import sysErrorLog
 
@@ -7,6 +17,7 @@ def show( self ):
 	
 	timeStamp = "{0}".format(time.strftime("%H:%M"))
 	prefix = []
+	currentPrefix = ""
 	
 	## NICK LISTING
 	if "353" in self.msg and self.listNames:
@@ -20,14 +31,77 @@ def show( self ):
 			else:
 				self.nickList.append(self.msg[i].strip(":"))
 	
-	#print(self.nickList)
+	#print(self.msg)
 
 	try:
-		prefix = [i for i in self.nickList if self.get_nick() in i]
-		prefix = prefix[0]
+		if self.msg[1] == "MODE":
+			user = self.msg[4].rstrip("\r\n")
+
+			if self.msg[3] == "+o":
+
+				findUser = "+{0}".format(user)
+
+				if user in self.nickList:
+					index = self.nickList.index(user)
+					self.nickList[index] = "@{0}".format(user)
+				elif findUser in self.nickList:
+					index = self.nickList.index(findUser)
+					self.nickList[index] = "@{0}".format(user)
+
+			elif self.msg[3] == "-o":
+
+				findUser = "@{0}".format(user)
+
+				if findUser in self.nickList:
+					index = self.nickList.index(findUser)
+					self.nickList[index] = user
+
+			elif self.msg[3] == "+v":
+
+				findUser = "@{0}".format(user)
+
+				if user in self.nickList:
+					index = self.nickList.index(user)
+					self.nickList[index] = "+{0}".format(user)
+				elif findUser in self.nickList:
+					index = self.nickList.index(findUser)
+					self.nickList[index] = "+{0}".format(user)
+
+			elif self.msg[3] == "-v":
+
+				findUser = "+{0}".format(user)
+
+				if findUser in self.nickList:
+					index = self.nickList.index(findUser)
+					self.nickList[index] = user
+
+		elif self.msg[1] == "NICK":
+			newNick = self.msg[2][1:].rstrip("\r\n")
+			oldNick = self.get_nick()
+
+			if oldNick in self.nickList:
+				index = self.nickList.index(oldNick)
+				self.nickList[index] = newNick
+				
+			elif "+"+oldNick  in self.nickList:
+				index = self.nickList.index("+"+oldNick)
+				self.nickList[index] = "+"+newNick	
+
+			elif "@"+oldNick in self.nickList:
+				index = self.nickList.index("@"+oldNick)
+				self.nickList[index] = "@"+newNick
+
+		elif self.msg[1] == "JOIN":
+			self.nickList.append(self.get_nick())
+
 	except Exception as e:
 		#errorlgger here
 		pass
+
+	finally:
+
+		prefix = [i for i in self.nickList if self.get_nick() in i]
+		prefixedNick = prefix[0]
 
 
 	try:
@@ -60,7 +134,7 @@ def show( self ):
 			text = text[1:]
 
 			print("{0} [{1}] <{2}> {3}".format(
-				timeStamp,chan, prefix, text))
+				timeStamp,chan, prefixedNick, text))
 			
 	except IndexError:
 		#error logger ?

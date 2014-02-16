@@ -457,17 +457,12 @@ class pyBot:
 					.format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ).rstrip("\r\n"))
 			else:
 				userOutput.show( self )	
-				##
 				##  On every join we want to check namelist to get nick prefixes
-				##
 				if len(self.msg) >= 2:
-					if self.msg[1] == "MODE":			
-						self.listNames = True
-						self.send_data("NAMES {0}".format(self.msg[2]))
-
-					if self.msg[1] == "JOIN":
+					if self.msg[1] == "JOIN" and self.get_nick() in self.msg:
 						self.listNames = True
 						self.send_data("NAMES {0}".format(self.msg[2][1:]))
+						print("[CREATING NAMES LIST]")
 
 			if "ERROR" in self.msg[0] and ":Trying" in self.msg[1]: ## Sleep 20 secs if reconnecting too fast
 				if self.config["debug"]:
