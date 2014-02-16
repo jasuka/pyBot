@@ -3,13 +3,12 @@ import syscmd
 from bs4 import BeautifulSoup
 import sysErrorLog
 
-## Global variables for caching the search result
-## and for the next functionality
-dataCache = []
-dataIndex = 0
+## Cache class for caching the results
+class Cache:
+	dataCache = []
+	dataIndex = 0
 
 def google(self):
-
 	if len(self.msg) == 4:
 		self.send_chan("Usage: !google <search term>")
 	if len(self.msg) == 5 and self.msg[4].strip() == "next":
@@ -23,12 +22,8 @@ def google(self):
 ## Performs the google search
 def googleSearch(self):
 	try:
-		## Global variables for caching the result
-		## and for the next functionality
-		global dataCache
-		global dataIndex
-		dataCache = []
-		dataIndex = 0
+		Cache.dataCache = []
+		Cache.dataIndex = 0
 		parameters = ""
 		length = len(self.msg)
 		
@@ -39,7 +34,7 @@ def googleSearch(self):
 		url = "https://www.google.fi/search?q=" + parameters_url
 		html = syscmd.getHtml(self, url, True )
 	except:
-		self.errormsg = "[NOTICE]-[google] Something went wrong getting the html"
+		self.errormsg = "[NOTICE]-[google] googleSearch()(1) Something went wrong getting the html"
 		sysErrorLog.log( self )
 		
 		if self.config["debug"]:
@@ -50,32 +45,30 @@ def googleSearch(self):
 		except:
 			soup = BeautifulSoup(html, "html5lib")
 		## Get the first
-		dataCache = soup.findAll("h3", {"class" : "r"})
-		if len(dataCache) > 0:
-			title = "{0}".format(dataCache[dataIndex].a)
+		Cache.dataCache = soup.findAll("h3", {"class" : "r"})
+		if len(Cache.dataCache
+) > 0:
+			title = "{0}".format(Cache.dataCache
+	[Cache.dataIndex].a)
 			title = syscmd.delHtml(title)
-			string = "{0}: {1}".format(title, dataCache[dataIndex].a.get('href'))
+			string = "{0}: {1}".format(title, Cache.dataCache
+	[Cache.dataIndex].a.get('href'))
 			self.send_chan(string)
-			dataIndex += 1
+			Cache.dataIndex += 1
 		else:
 			self.send_chan("No results for: {0}".format(parameters))
 	except Exception as e:
-		self.errormsg = "[ERROR]-[google] google() stating: {0}".format(e)
+		self.errormsg = "[ERROR]-[google] googleSearch()(2) stating: {0}".format(e)
 		sysErrorLog.log( self ) ## LOG the error
 		if self.config["debug"]:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 
 ## Gets the next result from the cache
 def gnext(self):
-	## Global variables for getting
-	## the data from cache when issuing
-	## !google next
-	global dataCache
-	global dataIndex
-	if len(self.msg) == 5 and dataCache and dataIndex <= len(dataCache):
-		title = "{0}".format(dataCache[dataIndex].a)
+	if len(self.msg) == 5 and Cache.dataCache and Cache.dataIndex <= len(Cache.dataCache):
+		title = "{0}".format(Cache.dataCache[Cache.dataIndex].a)
 		title = syscmd.delHtml(title)
-		string = "{0}: {1}".format(title, dataCache[dataIndex].a.get('href'))
+		string = "{0}: {1}".format(title, Cache.dataCache[Cache.dataIndex].a.get('href'))
 		self.send_chan(string)
-		dataIndex += 1
+		Cache.dataIndex += 1
 		return(True)
