@@ -1,10 +1,3 @@
-
-## BASH colors used before the main class
-pRed = "\033[0;31m"
-pBlue = "\033[0;34m"
-pGreen = "\033[0;32m"
-pEnd = "\033[0m"
-
 ## Import needed modules
 import socket
 import re
@@ -22,6 +15,12 @@ sys.path.insert(2, './modules') ## Path for the modules
 import config
 ## Import modules config
 import modulecfg
+
+## BASH colors used before the main class
+pRed = "\033[0;31m"
+pBlue = "\033[0;34m"
+pGreen = "\033[0;32m"
+pEnd = "\033[0m"
 
 class Modules:
 
