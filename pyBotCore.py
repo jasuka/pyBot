@@ -85,11 +85,16 @@ while not doneLoading:
 			print("# {0}Finished loading user modules{1} #".format(pGreen, pEnd))
 			print("#################################\r\n")
 
-## Global variable for the flood protection
-flood = {}
-
+## Clear flood counter; Clears the flood dictionary every x seconds
+class Flood:
+	flood = {}
+	def __init__( self ):
+		while True:
+			flood = {}
+			time.sleep(20)
 ## Class pyBot
-class pyBot():
+
+class pyBot:
 	def __init__( self ):
 	
 	## Bot Version
@@ -611,13 +616,12 @@ class pyBot():
 							self.restart()
 						else:
 							## Flood protection, add nick to the dictionary and raise the value by one every time he/she speaks
-							if self.get_host() not in self.config["opers"] and self.get_nick() in flood:
-								flood[self.get_nick()] += 1
+							if self.get_host() not in self.config["opers"] and self.get_nick() in Flood.flood:
+								Flood.flood[self.get_nick()] += 1
 							else:
-								flood[self.get_nick()] = 1
-							if flood[self.get_nick()] <= 3: ## If the nick has issued three commands before the timer is cleaned
-								Thread(target=self.parse_command, args=(cmd.lstrip("!"),)).start() ## Run the commands in own threads, 
-																						## so they won't block each other
+								Flood.flood[self.get_nick()] = 1
+							if Flood.flood[self.get_nick()] <= 3: ## If the nick has issued three commands before the timer is cleaned
+								Thread(target=self.parse_command, args=(cmd.lstrip("!"),)).start() ## Run the commands in own threads, 																						## so they won't block each other
 							else:
 								self.errormsg = "[NOTICE]-[Core] Flooding ({0})".format(self.get_host())
 								sysErrorLog.log( self )
@@ -642,14 +646,3 @@ class pyBot():
 				sysErrorLog.log( self ) ## LOG the error
 				if self.config["debug"]:
 					print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
-
-## Clear flood counter; Clears the flood dictionary every x seconds
-class Flood:
-	def __init__( self ):
-		global flood
-		while True:
-			#print(flood)
-			flood = {}
-			time.sleep(20)	
-
-
