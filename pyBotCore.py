@@ -92,8 +92,8 @@ class Flood:
 		while True:
 			flood = {}
 			time.sleep(20)
+			
 ## Class pyBot
-
 class pyBot:
 	def __init__( self ):
 	
