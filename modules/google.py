@@ -3,6 +3,8 @@ import syscmd
 from bs4 import BeautifulSoup
 import sysErrorLog
 
+## Global variables for caching the search result
+## and for the next functionality
 dataCache = []
 dataIndex = 0
 
@@ -18,8 +20,11 @@ def google(self):
 	else:
 		googleSearch(self)
 
+## Performs the google search
 def googleSearch(self):
 	try:
+		## Global variables for caching the result
+		## and for the next functionality
 		global dataCache
 		global dataIndex
 		dataCache = []
@@ -46,10 +51,10 @@ def googleSearch(self):
 			soup = BeautifulSoup(html, "html5lib")
 		## Get the first
 		dataCache = soup.findAll("h3", {"class" : "r"})
-		title = "{0}".format(dataCache[dataIndex].a)
-		title = syscmd.delHtml(title)
-		string = "{0}: {1}".format(title, dataCache[dataIndex].a.get('href'))
 		if len(dataCache) > 0:
+			title = "{0}".format(dataCache[dataIndex].a)
+			title = syscmd.delHtml(title)
+			string = "{0}: {1}".format(title, dataCache[dataIndex].a.get('href'))
 			self.send_chan(string)
 			dataIndex += 1
 		else:
@@ -60,7 +65,11 @@ def googleSearch(self):
 		if self.config["debug"]:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 
+## Gets the next result from the cache
 def gnext(self):
+	## Global variables for getting
+	## the data from cache when issuing
+	## !google next
 	global dataCache
 	global dataIndex
 	if len(self.msg) == 5 and dataCache and dataIndex <= len(dataCache):
