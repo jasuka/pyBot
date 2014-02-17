@@ -8,6 +8,8 @@ Known issues:
 
 *	Names list is not channel specific yet :(	
 
+*	The bot cannot "see" itself, so bot given modes arent included
+
 """
 
 import time
@@ -19,7 +21,7 @@ def show( self ):
 	prefix = []
 	currentPrefix = ""
 	
-	## NICK LISTING
+	## Parse the list from NAMES command
 	if "353" in self.msg and self.listNames:
 		#Format the nick list
 		del self.nickList[0:len(self.nickList)]
@@ -94,14 +96,14 @@ def show( self ):
 		elif self.msg[1] == "JOIN":
 			self.nickList.append(self.get_nick())
 
+		prefix = [i for i in self.nickList if self.get_nick() in i]
+		prefixedNick = prefix[0]
+
 	except Exception as e:
 		#errorlgger here
 		pass
 
-	finally:
 
-		prefix = [i for i in self.nickList if self.get_nick() in i]
-		prefixedNick = prefix[0]
 
 
 	try:
