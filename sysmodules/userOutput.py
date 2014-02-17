@@ -12,8 +12,6 @@ Known issues:
 
 * 	Error handling and logging is still absent
 
-*	'list out of range' on PART, QUIT doesn't clear the nicklist
-
 *	If someone parts the channel, it cannot get the nick prefix straight...
 	We are using there self.get_nick() to have just any nick in place
 
@@ -48,7 +46,10 @@ def nicklList ( self ):
 			return(nickList)
 
 def getNickFromNicklist( self ):	
-	
+	##
+	## Do we really need to import nicks from nickList into preprefixing
+	## just feels like it's not needed...
+	##
 	if self.activeOnchan:
 		try:
 			try:
@@ -56,17 +57,11 @@ def getNickFromNicklist( self ):
 					for i in self.nickList:
 						self.prePrefix.append(i)
 						self.donePrefixing = True
-				else:
-					del self.prefix[0:len(self.prefix)]
-					for i in self.prefix:
-						self.prePrefix.append(i)
-
 			except Exception as e:
 				print(e)
 			
 			if self.msg[1] == "MODE":
 				user = self.msg[4].rstrip("\r\n")
-				#print(self.msg) ##  DEBUG
 
 				if self.msg[3] == "+o":
 
@@ -137,7 +132,20 @@ def getNickFromNicklist( self ):
 			
 				elif "+"+self.get_nick() in self.prePrefix:
 					index = self.prePrefix.index("+"+self.get_nick())
-					del self.prePrefix[index]			
+					del self.prePrefix[index]
+
+			elif self.msg[1] == "QUIT":
+				if self.get_nick()	in self.prePrefix:
+					index = self.prePrefix.index(self.get_nick())
+					del self.prePrefix[index]
+
+				elif "@"+self.get_nick() in self.prePrefix:
+					index = self.prePrefix.index("@"+self.get_nick())
+					del self.prePrefix[index]
+			
+				elif "+"+self.get_nick() in self.prePrefix:
+					index = self.prePrefix.index("+"+self.get_nick())
+					del self.prePrefix[index]	
 
 			self.prefix = [i for i in self.prePrefix if self.get_nick() in i]
 			try:
