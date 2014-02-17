@@ -10,135 +10,189 @@ Known issues:
 
 *	The bot cannot "see" itself, so bot given modes arent included
 
+* 	Error handling and logging is still absent
+
+*   'list out of range' on PART, QUIT doesn't clear the nicklist
+
 """
 
 import time
 import sysErrorLog
 
-def show( self ):
-	
-	timeStamp = "{0}".format(time.strftime("%H:%M"))
-	prefix = []
-	currentPrefix = ""
-	
+def nicklList ( self ):
+	print("[CREATING NAMES LIST]")
+	nickList = []
+	#print(self.msg)
 	## Parse the list from NAMES command
 	if "353" in self.msg and self.listNames:
-		#Format the nick list
-		del self.nickList[0:len(self.nickList)]
-		for i in range(5, len(self.msg)):
-			if "\r\n" in self.msg[i]:
-				lastNick = self.msg[i].split("\r\n")
-				self.nickList.append(lastNick[0])
-				return
-			else:
-				self.nickList.append(self.msg[i].strip(":"))
+
+		#Format the nick list and create new list
+		#del nickList[0:len(nickList)]
+		try:
+			index = self.msg.index("353")
+			for i in range(index+4, len(self.msg)):
+				if "\r\n" in self.msg[i]:
+					lastNick = self.msg[i].split("\r\n")
+					nickList.append(lastNick[0])
+					#print(lastNick[0])
+					return
+				else:
+					#print(self.msg[i].strip(":"))
+					nickList.append(self.msg[i].strip(":"))
+		except Exception as e:
+			print(e)
+		finally:
+			return(nickList)
+
+def getNickFromNicklist( self ):	
 	
-	#print(self.msg)
+	if self.activeOnchan:
+		try:
+			try:
+				if not self.donePrefixing:
+					for i in self.nickList:
+						self.prePrefix.append(i)
+						self.donePrefixing = True
+				else:
+					del self.prefix[0:len(self.prefix)]
+					for i in self.prefix:
+						self.prePrefix.append(i)
 
-	try:
-		if self.msg[1] == "MODE":
-			user = self.msg[4].rstrip("\r\n")
+			except Exception as e:
+				print(e)
+			
+			if self.msg[1] == "MODE":
+				user = self.msg[4].rstrip("\r\n")
+				#print(self.msg) ##  DEBUG
 
-			if self.msg[3] == "+o":
+				if self.msg[3] == "+o":
 
-				findUser = "+{0}".format(user)
+					findUser = "{0}".format(user)
 
-				if user in self.nickList:
-					index = self.nickList.index(user)
-					self.nickList[index] = "@{0}".format(user)
-				elif findUser in self.nickList:
-					index = self.nickList.index(findUser)
-					self.nickList[index] = "@{0}".format(user)
+					if user in self.prePrefix:
+						index = self.prePrefix.index(user)
+						self.prePrefix[index] = "@{0}".format(user)
 
-			elif self.msg[3] == "-o":
+					elif findUser in self.prePrefix:
+						index = self.prePrefix.index(findUser)
+						self.prePrefix[index] = "@{0}".format(user)
 
-				findUser = "@{0}".format(user)
+				elif self.msg[3] == "-o":
 
-				if findUser in self.nickList:
-					index = self.nickList.index(findUser)
-					self.nickList[index] = user
+					findUser = "@{0}".format(user)
 
-			elif self.msg[3] == "+v":
+					if findUser in self.prePrefix:
+						index = self.prePrefix.index(findUser)
+						self.prePrefix[index] = user
 
-				findUser = "@{0}".format(user)
+				elif self.msg[3] == "+v":
 
-				if user in self.nickList:
-					index = self.nickList.index(user)
-					self.nickList[index] = "+{0}".format(user)
-				elif findUser in self.nickList:
-					index = self.nickList.index(findUser)
-					self.nickList[index] = "+{0}".format(user)
+					findUser = "@{0}".format(user)
 
-			elif self.msg[3] == "-v":
+					if user in self.prePrefix:
+						index = self.prePrefix.index(user)
+						self.prePrefix[index] = "+{0}".format(user)
+					elif findUser in self.prePrefix:
+						index = self.prePrefix.index(findUser)
+						self.prePrefix[index] = "+{0}".format(user)
 
-				findUser = "+{0}".format(user)
+				elif self.msg[3] == "-v":
 
-				if findUser in self.nickList:
-					index = self.nickList.index(findUser)
-					self.nickList[index] = user
+					findUser = "+{0}".format(user)
 
-		elif self.msg[1] == "NICK":
-			newNick = self.msg[2][1:].rstrip("\r\n")
-			oldNick = self.get_nick()
+					if findUser in self.prePrefix:
+						index = self.prePrefix.index(findUser)
+						self.prePrefix[index] = user
 
-			if oldNick in self.nickList:
-				index = self.nickList.index(oldNick)
-				self.nickList[index] = newNick
+			elif self.msg[1] == "NICK":
+				newNick = self.msg[2][1:].rstrip("\r\n")
+				oldNick = self.get_nick()
+
+				if oldNick in self.prePrefix:
+					index = self.prePrefix.index(oldNick)
+					self.prePrefix[index] = newNick
+					
+				elif "+"+oldNick  in self.prePrefix:
+					index = self.prePrefix.index("+"+oldNick)
+					self.prePrefix[index] = "+"+newNick	
+
+				elif "@"+oldNick in self.prePrefix:
+					index = self.prePrefix.index("@"+oldNick)
+					self.prePrefix[index] = "@"+newNick
+
+			elif self.msg[1] == "JOIN":
+				self.prePrefix.append(self.get_nick())
+
+			elif self.msg[1] == "PART":
+				if self.get_nick()	in self.prePrefix:
+					index = self.prePrefix.index(self.get_nick())
+					del self.prePrefix[index]
+
+				elif "@"+self.get_nick() in self.prePrefix:
+					index = self.prePrefix.index("@"+self.get_nick())
+					del self.prePrefix[index]
+			
+				elif "+"+self.get_nick() in self.prePrefix:
+					index = self.prePrefix.index("+"+self.get_nick())
+					del self.prePrefix[index]			
+
+			self.prefix = [i for i in self.prePrefix if self.get_nick() in i]
+			prefixedNick = self.prefix[0]
+			return(prefixedNick)
+
+		except Exception as e:
+			print(e)	
+
+
+
+def show( self, nick ):
+	timeStamp = "{0}".format(time.strftime("%H:%M"))
+
+	if self.activeOnchan:
+		try:
+			
+			## Checking if MODE is present
+			if self.msg[1] == "MODE":
+				modeFound = True
+			else:
+				modeFound = False
+
+			## Checking if the channel is present
+			if self.msg[2][0] == "#":
+				chanVerified = True
+				bot = False
+			elif self.msg[1][0] == "#":
+				chanVerified = True
+				bot = True
+			else:
+				chanVerified = False
+
+			if chanVerified:
+				chan = self.msg[2].rstrip("\r\n")
+
+			if modeFound and chanVerified:
+				print("{0} [{1}] MODE ({2} {3}) by {4}".format(
+					timeStamp, chan, self.msg[3], self.msg[4].rstrip("\r\n"), self.get_nick()))
+
+			if chanVerified and not modeFound:
+				rawText = []
+				if not bot:
+					for i in range(3, len(self.msg)):
+						rawText.append(self.msg[i].rstrip("\r\n"))
+				else:
+					for i in range(2, len(self.msg)):
+						rawText.append(self.msg[i].rstrip("\r\n"))
+
+				text = ""
+				for x in range(0, len(rawText)):
+					text += "%s " % (rawText[x])
 				
-			elif "+"+oldNick  in self.nickList:
-				index = self.nickList.index("+"+oldNick)
-				self.nickList[index] = "+"+newNick	
+				text = text[1:]
 
-			elif "@"+oldNick in self.nickList:
-				index = self.nickList.index("@"+oldNick)
-				self.nickList[index] = "@"+newNick
-
-		elif self.msg[1] == "JOIN":
-			self.nickList.append(self.get_nick())
-
-		prefix = [i for i in self.nickList if self.get_nick() in i]
-		prefixedNick = prefix[0]
-
-	except Exception as e:
-		#errorlgger here
-		pass
-
-
-
-
-	try:
-		## Checking if MODE is present
-		if self.msg[1] == "MODE":
-			modeFound = True
-		else:
-			modeFound = False
-
-		## Checking if the channel is present
-		if self.msg[2][0] == "#":
-			chanVerified = True
-			chan = self.msg[2].rstrip("\r\n")
-		else:
-			chanVerified = False
-
-		if modeFound and chanVerified:
-			print("{0} [{1}] MODE ({2} {3}) by {4}".format(
-				timeStamp, chan, self.msg[3], self.msg[4].rstrip("\r\n"), self.get_nick()))
-
-		if chanVerified and not modeFound:
-			rawText = []
-			for i in range(3, len(self.msg)):
-				rawText.append(self.msg[i].rstrip("\r\n"))
-
-			text = ""
-			for x in range(0, len(rawText)):
-				text += "%s " % (rawText[x])
-			
-			text = text[1:]
-
-			print("{0} [{1}] <{2}> {3}".format(
-				timeStamp,chan, prefixedNick, text))
-			
-	except IndexError:
-		#error logger ?
-		pass
+				print("{0} [{1}] <{2}> {3}".format(
+					timeStamp,chan, nick, text))
+				
+		except IndexError:
+			#error logger ?
+			pass
 

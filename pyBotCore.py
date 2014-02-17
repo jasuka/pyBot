@@ -432,6 +432,10 @@ class pyBot:
 		## Nicklist for userOutput view
 		self.listNames = False
 		self.nickList = []
+		self.activeOnchan = False
+		self.donePrefixing = False
+		self.prefix = []
+		self.prePrefix = []
 
 		global flood
 		
@@ -456,13 +460,14 @@ class pyBot:
 				print("[{0}] {1}"
 					.format( time.strftime("%d.%m.%Y/%H:%M:%S"), data ).rstrip("\r\n"))
 			else:
-				userOutput.show( self )	
+
+				userOutput.show(self, userOutput.getNickFromNicklist(self))
 				##  On every join we want to check namelist to get nick prefixes
 				if len(self.msg) >= 2:
 					if self.msg[1] == "JOIN" and self.get_nick() in self.msg:
 						self.listNames = True
-						self.send_data("NAMES {0}".format(self.msg[2][1:]))
-						print("[CREATING NAMES LIST]")
+						self.activeOnchan = True
+						self.nickList = userOutput.nicklList( self )
 
 			if "ERROR" in self.msg[0] and ":Trying" in self.msg[1]: ## Sleep 20 secs if reconnecting too fast
 				if self.config["debug"]:
