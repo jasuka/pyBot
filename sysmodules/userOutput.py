@@ -12,7 +12,10 @@ Known issues:
 
 * 	Error handling and logging is still absent
 
-*   'list out of range' on PART, QUIT doesn't clear the nicklist
+*	'list out of range' on PART, QUIT doesn't clear the nicklist
+
+*	'in <string>' requires string as left operand, not NoneType <- this occures 
+	when someone is PARTing from the channel
 
 """
 
