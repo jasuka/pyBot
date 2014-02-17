@@ -26,7 +26,7 @@ def automodes (self):
 			finally:
 				db.close()
 
-		if self.msg[4].strip() == "set":
+		elif len(self.msg) >6 and self.msg[4].strip() == "set":
 			if self.get_host() in self.config["opers"]:
 				## As for a quick fix, these are made bot wide variables
 				self.modes = self.msg[6].strip() 
@@ -39,6 +39,8 @@ def automodes (self):
 				self.errormsg = "[NOTICE]-[automodes] Unauthorized command from {0}".format(self.get_host())
 				sysErrorLog.log ( self )
 				self.send_chan("Unauthorized command")
+		else:
+			pass
 	else:
 		self.send_chan("Usage: !automodes set <nick> <flag> ## To add a mode av or ao to the user")
 		self.send_chan("Usage: !automodes me ## To see modes the user has")
