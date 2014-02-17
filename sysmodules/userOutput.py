@@ -8,14 +8,14 @@ Known issues:
 
 *	Names list is not channel specific yet :(	
 
-*	The bot cannot "see" itself, so bot given modes arent included
+*	The bot cannot "see" itself, so bot given modes arent included to prefix
 
 * 	Error handling and logging is still absent
 
 *	'list out of range' on PART, QUIT doesn't clear the nicklist
 
-*	'in <string>' requires string as left operand, not NoneType <- this occures 
-	when someone is PARTing from the channel
+*	If someone parts the channel, it cannot get the nick prefix straight...
+	We are using there self.get_nick() to have just any nick in place
 
 """
 
@@ -140,11 +140,17 @@ def getNickFromNicklist( self ):
 					del self.prePrefix[index]			
 
 			self.prefix = [i for i in self.prePrefix if self.get_nick() in i]
-			prefixedNick = self.prefix[0]
-			return(prefixedNick)
+			try:
+				prefixedNick = self.prefix[0]
+				#return(prefixedNick)
+			except Exception as e:
+				prefixedNick = self.get_nick()
 
+			return(prefixedNick)
 		except Exception as e:
-			print(e)	
+			## PASS this exception
+			## otherwise 'in <string>' requires string as left operand, not NoneType
+			pass	
 
 
 
