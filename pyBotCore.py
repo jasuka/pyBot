@@ -59,31 +59,35 @@ class Modules:
 	print("#  {0}User modules{1}  #".format(pRed, pEnd))
 	print("##################\r\n")
 
-	while not doneLoading:
-		try:
-			for mod in modulecfg.modulecfg["modules"].split(","):
-				if mod not in brokenModule and mod not in mLoaded:
-					print("Loading module {0}{1}{2}".format(pBlue, mod, pEnd))
-					globals()[mod] = __import__(mod)
-					mLoaded.append(mod)
+	## No modules enabled
+	if not modulecfg.modulecfg["modules"]:
+		print("{0}You haven't enabled any modules!\n{1}".format(pBlue, pEnd))
+	else:
+		while not doneLoading:
+			try:
+				for mod in modulecfg.modulecfg["modules"].split(","):
+					if mod not in brokenModule and mod not in mLoaded:
+						print("Loading module {0}{1}{2}".format(pBlue, mod, pEnd))
+						globals()[mod] = __import__(mod)
+						mLoaded.append(mod)
 
-		except (ImportError, SyntaxError) as e:
-			toLoad -= 1
-			brokenModule.append(mod)
-			print("{0}Couldn't load module: {1}{2}".format(pRed, mod, pEnd))
-			if config.config["debug"]:
-				print("{0}{1}{2}".format(pRed, e, pEnd))
+			except (ImportError, SyntaxError) as e:
+				toLoad -= 1
+				brokenModule.append(mod)
+				print("{0}Couldn't load module: {1}{2}".format(pRed, mod, pEnd))
+				if config.config["debug"]:
+					print("{0}{1}{2}".format(pRed, e, pEnd))
 
-		except Exception as e: ## Is this exception really needed here ???
-			if config.config["debug"]:
-				print("[ERROR]-[Core] Load modules: {0} , This error is not being logged".format(e))
+			except Exception as e: ## Is this exception really needed here ???
+				if config.config["debug"]:
+					print("[ERROR]-[Core] Load modules: {0} , This error is not being logged".format(e))
 
-		finally:
-			if len(mLoaded) == toLoad: 
-				doneLoading = True
-				print("\r\n#################################")
-				print("# {0}Finished loading user modules{1} #".format(pGreen, pEnd))
-				print("#################################\r\n")
+			finally:
+				if len(mLoaded) == toLoad: 
+					doneLoading = True
+					print("\r\n#################################")
+					print("# {0}Finished loading user modules{1} #".format(pGreen, pEnd))
+					print("#################################\r\n")
 
 ## Clear flood counter; Clears the flood dictionary every x seconds
 class Flood:
@@ -349,6 +353,9 @@ class pyBot:
 
 	## List available commands on the bot
 	def cmd( self ):
+		if not Modules.mLoaded:
+			self.send_chan("I don't know any commands :(")
+			return
 		commands = ""
 		for cmd in Modules.mLoaded:
 			if cmd == "cobe":
