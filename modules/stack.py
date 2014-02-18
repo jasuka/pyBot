@@ -20,7 +20,7 @@ def stack(self):
 	else:
 		stackSearch(self)
 
-## Performs the google search
+## Performs the stackoverflow search
 def stackSearch(self):
 	try:
 		Cache.dataCache = []
@@ -44,7 +44,6 @@ def stackSearch(self):
 			soup = BeautifulSoup(html, "lxml")
 		except:
 			soup = BeautifulSoup(html, "html5lib")
-		## Get the first
 		Cache.dataCache = soup.findAll("div", {"class" : "result-link"})
 		if len(Cache.dataCache) > 0:
 			title = "{0}".format(Cache.dataCache[Cache.dataIndex].a)

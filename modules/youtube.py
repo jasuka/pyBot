@@ -46,7 +46,6 @@ def youtubeSearch(self):
 			soup = BeautifulSoup(html, "lxml")
 		except:
 			soup = BeautifulSoup(html, "html5lib")
-		## Get all results
 		Cache.dataCache = soup.findAll("a", {"class" : "yt-uix-tile-link"})
 		if len(Cache.dataCache) > 0:
 			string = "{1}: http://youtube.com/watch?v={0} | ".format(

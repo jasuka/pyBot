@@ -44,7 +44,6 @@ def googleSearch(self):
 			soup = BeautifulSoup(html, "lxml")
 		except:
 			soup = BeautifulSoup(html, "html5lib")
-		## Get the first
 		Cache.dataCache = soup.findAll("h3", {"class" : "r"})
 		if len(Cache.dataCache) > 0:
 			title = "{0}".format(Cache.dataCache[Cache.dataIndex].a)
