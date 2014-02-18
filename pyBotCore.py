@@ -430,11 +430,14 @@ class pyBot:
 		## Send identification to the server
 		self.send_data(my_nick)
 		self.send_data(my_user)
-		self.hostident = ""
 		connected = 1
 		logger = 0
 		altnick = 1
 		active = 0
+
+		## Automode set
+		self.hostident = ""
+		self.noWhois = False
 
 		## Nicklist for userOutput view
 		self.listNames = False
@@ -501,15 +504,28 @@ class pyBot:
 			## Built-in whois handler to get user ident@hostname from requested user
 			## Only records ident@hostname if it was requested by automodes module
 			## Line 311 marks the start of whois info from the server and later on 318 will end the whoise info
+			## If no such user it will return 401
 			##
-			if len(self.msg) >= 2 and self.msg[1] == "311" and self.automodesWhoisEnabled:
+			if len(self.msg) >= 2 and self.msg[1] == "401" and self.automodesWhoisEnabled:
+				self.noWhois = True
 				self.hostident = syscmd.getRemoteHost(self)
 				##
 				## Check the end of the whoise message and create the automode for the user
 				##
 				if "318" in self.msg:
-					syscmd.addautomode(self,self.modes,self.channel)
 					self.automodesWhoisEnabled == False
+					syscmd.addautomode(self,self.modes,self.channel)
+
+			elif len(self.msg) >= 2 and self.msg[1] == "311" and self.automodesWhoisEnabled:
+				self.noWhois = False
+				self.hostident = syscmd.getRemoteHost(self)
+				##
+				## Check the end of the whoise message and create the automode for the user
+				##
+				if "318" in self.msg:
+					self.automodesWhoisEnabled == False
+					syscmd.addautomode(self,self.modes,self.channel)
+					
 			##
 			## Automodes END
 			##

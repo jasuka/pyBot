@@ -28,7 +28,7 @@ def automodes (self):
 
 		elif len(self.msg) > 5 and self.msg[4].strip() == "reset":
 			if self.get_host() in self.config["opers"]:
-				self.modes = ""
+				self.modes = "reset"
 				self.channel = self.msg[2].strip()
 				nick = self.msg[5].strip()
 				self.automodesWhoisEnabled = True
@@ -55,6 +55,7 @@ def automodes (self):
 			pass
 	else:
 		self.send_chan("Usage: !automodes set <nick> <flag> ## To add a mode av or ao to the user")
+		self.send_chan("Usage: !automodes reset <nick> ## To remove user from database")
 		self.send_chan("Usage: !automodes me ## To see modes the user has")
 
 

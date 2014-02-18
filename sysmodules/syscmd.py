@@ -235,7 +235,7 @@ def modecheck ( self ):
 ## ADD AUTOMODE
 def addautomode ( self, modes, chan ):
 	
-	identhost = self.hostident.strip() 	#this is created by getRemoteHost() down below which is later on called
+	identhost = self.hostident		 	#this is created by getRemoteHost() down below which is later on called
 					   					#in core as a bot wide variable when server sends whoise code 311
 
 	if modes == "ao" or modes == "av":
@@ -266,29 +266,38 @@ def addautomode ( self, modes, chan ):
 		finally:
 			db.close()
 
-	elif modes == "":
-		try:
-			db = sqlite3.connect("modules/data/automodes.db")
-			cur = db.cursor()
-			cur.execute("""SELECT id FROM automodes WHERE identhost = ? AND channel = ?""", (identhost,chan))
-			try:
-				rowId = cur.fetchone()[0]
-			except TypeError:
-				rowId = None
-			if rowId:
-				cur.execute("""DELETE FROM automodes WHERE id = ?""", (rowId,))
-				db.commit()
-				self.send_data("PRIVMSG {0} :Automode removed from user ({1}) on channel {0}".format(chan,identhost))
+	elif modes == "reset":
+		try: 
+			if identhost:
+				db = sqlite3.connect("modules/data/automodes.db")
+				cur = db.cursor()
+				cur.execute("""SELECT id FROM automodes WHERE identhost = ? AND channel = ?""", (identhost,chan))
+
+				try:
+					rowId = cur.fetchone()[0]
+				except TypeError:
+					rowId = False
+
+				if rowId:
+					cur.execute("""DELETE FROM automodes WHERE id = ?""", (rowId,))
+					db.commit()
+					self.send_data("PRIVMSG {0} :Automode removed from user ({1}) on channel {0}".format(chan,identhost))
+				else:
+					self.send_data("PRIVMSG {0} :There is no such user ({1}) on channel {0} in my database".format(chan, identhost))
+
+				db.close()
+			
 			else:
-				self.send_data("PRIVMSG {0} :There is no such user ({1}) on channel {0} in my database".format(chan,identhost))
+				self.send_data("PRIVMSG {0} :There is no such user on channel {0} in my database".format(chan))
+
 		except Exception as e:
 			self.errormsg = "[ERROR]-[syscmd] addautomode()(1) stating: {0}".format(e)
 			sysErrorLog (self)
 			if self.config["debug"]:
 				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 			raise e
-		finally:
-			db.close()
+
+			
 
 	else:
 		self.send_data("PRIVMSG {0} :Currently the only user flags are 'ao' & 'av'".format(chan))
@@ -383,8 +392,11 @@ def userVisitedChannel( self, nick ):
 ## Return remote host based on whoised nick
 def getRemoteHost ( self ):
 	#print("{0}@{1}".format(self.msg[4],self.msg[5]))
-	hostident = "{0}@{1}".format(self.msg[4],self.msg[5])
-	return(hostident)
+	if self.noWhois:
+		return(False)
+	else:
+		hostident = "{0}@{1}".format(self.msg[4],self.msg[5])
+		return(hostident.strip())
 ## End
 
 ## Replace umlauts 
