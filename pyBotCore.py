@@ -123,6 +123,30 @@ class pyBot:
 		else:
 			self.socketType = socket.AF_INET
 
+		#IRC Codes (for logging/seendb)
+		self.irc_codes = ["001", "002", "003", "004", "005", "042", "221", "251", "250", "252", "254",
+				"255", "265", "266", "311", "312", "313", "317", "318", "319","332",
+				"333","338","353", "366", "375", "372", "376", "401", "412", "433", "482","JOIN", "MODE", "PART"]
+
+		self.errormsg = "" ## Set error messages to null
+
+		## Automode set
+		self.hostident = ""
+		self.noWhois = False
+		self.automodesWhoisEnabled = False
+
+		## Nicklist for userOutput view
+		self.listNames = False
+		self.nickList = []
+		self.activeOnchan = False
+		self.donePrefixing = False
+		self.prefix = []
+		self.prePrefix = []
+
+		## Initialize the brain, if we have cobe enabled
+		if "cobe" in sys.modules:
+			self.hal = cobe.brain.Brain("./cobe.brain")
+
 		## Initialize databases
 		if "fmi" in Modules.mLoaded and not os.path.exists("modules/data/fmiCities.db"):
 			self.errormsg = "[NOTICE] Cities database doesn't exist, creating it!"
@@ -353,10 +377,10 @@ class pyBot:
 
 	## List available commands on the bot
 	def cmd( self ):
+		commands = ""
 		if not Modules.mLoaded:
 			self.send_chan("I don't know any commands :(")
 			return
-		commands = ""
 		for cmd in Modules.mLoaded:
 			if cmd == "cobe":
 				pass
@@ -384,19 +408,14 @@ class pyBot:
 	## Main loop, connect etc.
 	def loop( self ):
 	
-		#IRC Codes (for logging/seendb)
-		self.irc_codes = ["001", "002", "003", "004", "005", "042", "221", "251", "250", "252", "254",
-				"255", "265", "266", "311", "312", "313", "317", "318", "319","332",
-				"333","338","353", "366", "375", "372", "376", "401", "412", "433", "482","JOIN", "MODE", "PART"]
-
-		self.errormsg = "" ## Set error messages to null
-		self.connectionEstablished = 0
-		
-		if "cobe" in sys.modules:
-			self.hal = cobe.brain.Brain("./cobe.brain")
+		connectionEstablished = False
+		connected = True
+		logger = 0
+		altnick = 1
+		active = 0
 
 		## Try until a working server has been found
-		while self.connectionEstablished == 0:
+		while not connectionEstablished:
 			for res in socket.getaddrinfo(
 				self.hosts[self.serverIndex], self.config["port"],
 				self.socketType, socket.SOCK_STREAM ):
@@ -407,9 +426,9 @@ class pyBot:
 				print("{0}Conneting to {1}{2}"
 					.format(pGreen, self.hosts[self.serverIndex], pEnd))
 				self.s.connect(sa)
-				self.connectionEstablished = 1
+				connectionEstablished = True
 			except Exception as e:
-				self.connectionEstablished = 0
+				connectionEstablished = False
 				if self.serverIndex <= len(self.hosts):
 					self.serverIndex += 1
 				else:
@@ -430,36 +449,17 @@ class pyBot:
 		## Send identification to the server
 		self.send_data(my_nick)
 		self.send_data(my_user)
-		connected = 1
-		logger = 0
-		altnick = 1
-		active = 0
 
-		## Automode set
-		self.hostident = ""
-		self.noWhois = False
-		self.automodesWhoisEnabled = False
-
-		## Nicklist for userOutput view
-		self.listNames = False
-		self.nickList = []
-		self.activeOnchan = False
-		self.donePrefixing = False
-		self.prefix = []
-		self.prePrefix = []
-
-		global flood
-		
-		while connected == 1:
+		while connected:
 			try:
 				data = self.s.recv(512).decode( "utf-8", "ignore" )
 				if len(data) == 0:
-					connected == 0
+					connected == False
 					print( "Connection died, reconnecting" );
 					time.sleep(5)
 					self.loop()
 			except Exception as e:
-				connected == 0
+				connected == False
 				time.sleep(5)
 				self.loop()
 					
