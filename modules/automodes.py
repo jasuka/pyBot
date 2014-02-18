@@ -26,7 +26,19 @@ def automodes (self):
 			finally:
 				db.close()
 
-		elif len(self.msg) >6 and self.msg[4].strip() == "set":
+		elif len(self.msg) > 5 and self.msg[4].strip() == "reset":
+			if self.get_host() in self.config["opers"]:
+				self.modes = ""
+				self.channel = self.msg[2].strip()
+				nick = self.msg[5].strip()
+				self.automodesWhoisEnabled = True
+				self.whois(nick)
+			else:
+				self.errormsg = "[NOTICE]-[automodes] Unauthorized command from {0} at reset".format(self.get_host())
+				sysErrorLog.log ( self )
+				self.send_chan("Unauthorized command")
+
+		elif len(self.msg) > 6 and self.msg[4].strip() == "set":
 			if self.get_host() in self.config["opers"]:
 				## As for a quick fix, these are made bot wide variables
 				self.modes = self.msg[6].strip() 
@@ -36,7 +48,7 @@ def automodes (self):
 				self.automodesWhoisEnabled = True
 				self.whois(nick)
 			else:
-				self.errormsg = "[NOTICE]-[automodes] Unauthorized command from {0}".format(self.get_host())
+				self.errormsg = "[NOTICE]-[automodes] Unauthorized command from {0} at set".format(self.get_host())
 				sysErrorLog.log ( self )
 				self.send_chan("Unauthorized command")
 		else:

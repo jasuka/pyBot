@@ -242,7 +242,7 @@ def addautomode ( self, modes, chan ):
 		try:
 			db = sqlite3.connect("modules/data/automodes.db")
 			cursor = db.cursor()
-			cursor.execute("""SELECT id FROM automodes WHERE identhost = ?""", (identhost,))
+			cursor.execute("""SELECT id FROM automodes WHERE identhost = ?, channel = ?""", (identhost, chan))
 			try:
 				rowId = cursor.fetchone()[0]
 			except TypeError:
@@ -255,7 +255,7 @@ def addautomode ( self, modes, chan ):
 			else:
 				cursor.execute("""UPDATE automodes SET mode = ? WHERE id = ?""", (modes, rowId))
 				db.commit()
-				self.send_data("PRIVMSG {2} :Automode changed for {1} on channel {2}. The new mode is ({0})".format(modes,identhost,chan))
+				self.send_data("PRIVMSG {2} :Automode changed for ({1}) on channel {2}. The new mode is ({0})".format(modes,identhost,chan))
 				return True
 		except Exception as e:
 			self.errormsg = "[ERROR]-[syscmd] addautomode() stating: {0}".format(e)
@@ -265,10 +265,34 @@ def addautomode ( self, modes, chan ):
 			raise e
 		finally:
 			db.close()
+			
+	elif modes = "":
+		try:
+			db = sqlite3.connect("modules/data/atuomodes.db")
+			cur = db.connect()
+			cursor.execute("""SELECT id FROM automodes WHERE identhost = ?, channel = ?""", (identhost,chan))
+			try:
+				rowId = cursor.fetchone()[0]
+			except TypeError:
+				rowId = None
+			if rowId:
+				cur.execute("""DELETE FROM automodes WHERE id = ?""", (rowId,))
+				db.commit()
+				self.send_data("PRIVMSG {0} :Automode removed from user ({1}) on channel {0}".format(chan,identhost))
+			else:
+				self.send_data("PRIVMSG {0} :There is no such user ({1}) on channel {0} in my database".format(chan,identhost))
+		except Exception as e:
+			self.errormsg = "[ERROR]-[syscmd] addautomode()(1) stating: {0}".format(e)
+			sysErrorLog (self)
+			if self.config["debug"]:
+				print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+			raise e
+		finally:
+			db.close()
+
 	else:
 		self.send_data("PRIVMSG {0} :Currently the only user flags are 'ao' & 'av'".format(chan))
 ## END
-
 
 ## Check if the currency is in the correct currencies list
 
