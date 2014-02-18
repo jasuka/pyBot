@@ -25,7 +25,6 @@ def fap(self):
 			x = random.randrange(0,len(data))
 			string = "{0}: http://www.porn.com{1}".format(data[x].get('title'), data[x].get('href'))
 			self.send_chan(' '.join(string.split()))
-			print(' '.join(string.split()))
 		except Exception as e:
 			print(e)
 			self.errormsg = "[ERROR]-[fap] fap()(2) stating: {0}".format(e)
