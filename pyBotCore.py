@@ -438,6 +438,7 @@ class pyBot:
 		## Automode set
 		self.hostident = ""
 		self.noWhois = False
+		self.automodesWhoisEnabled = False
 
 		## Nicklist for userOutput view
 		self.listNames = False
