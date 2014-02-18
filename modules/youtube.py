@@ -30,9 +30,9 @@ def youtubeSearch(self):
 
 		for x in range (4, length):
 			parameters += "{0} ".format(self.msg[x])
-		parameters_url = urllib.parse.quote(parameters)
+		parameters_url = urllib.parse.quote(parameters.strip())
 		
-		url = "http://m.youtube.com/results?search_query=" + parameters_url
+		url = "http://m.youtube.com/results?search_query={0}".format(parameters_url)
 		html = syscmd.getHtml(self, url, True )
 	except: 
 		self.errormsg = "[ERROR]-[youtube] youtubeSearch()(1) Someting went wrong getting the html"

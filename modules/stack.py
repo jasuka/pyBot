@@ -30,8 +30,7 @@ def stackSearch(self):
 		
 		for x in range (4, length):
 			parameters += "{0} ".format(self.msg[x])
-		parameters_url = urllib.parse.quote(parameters)
-		
+		parameters_url = urllib.parse.quote(parameters.strip())
 		url = "http://stackoverflow.com/search?q=" + parameters_url
 		html = syscmd.getHtml(self, url, True )
 	except:

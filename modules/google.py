@@ -29,9 +29,9 @@ def googleSearch(self):
 		
 		for x in range (4, length):
 			parameters += "{0} ".format(self.msg[x])
-		parameters_url = urllib.parse.quote(parameters)
+		parameters_url = urllib.parse.quote(parameters.strip())
 		
-		url = "https://www.google.fi/search?q=" + parameters_url
+		url = "https://www.google.fi/search?q={0}".format(parameters_url)
 		html = syscmd.getHtml(self, url, True )
 	except:
 		self.errormsg = "[NOTICE]-[google] googleSearch()(1) Something went wrong getting the html"

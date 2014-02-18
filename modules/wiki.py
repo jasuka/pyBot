@@ -35,8 +35,7 @@ def wikiSearch(self):
 
 	for x in range (5, length):
 		parameters += "{0} ".format(self.msg[x])
-		
-	parameters_url = urllib.parse.quote(parameters)
+	parameters_url = urllib.parse.quote(parameters.strip())
 	url = "http://{0}.m.wikipedia.org/w/index.php?search={1}&fulltext=Search".format(Cache.lang,parameters_url)
 	try:
 		html = syscmd.getHtml(self, url, True )
