@@ -10,8 +10,8 @@ class Cache:
 
 def google(self):
 	if len(self.msg) == 4:
-		self.send_chan("Usage: !google <search term>")
-	if len(self.msg) == 5 and self.msg[4].strip() == "next":
+		self.send_chan("Usage: !google <search term> || next for the next result")
+	elif len(self.msg) == 5 and self.msg[4].strip() == "next":
 		if gnext(self):
 			return
 		else:
@@ -47,11 +47,9 @@ def googleSearch(self):
 		## Get the first
 		Cache.dataCache = soup.findAll("h3", {"class" : "r"})
 		if len(Cache.dataCache) > 0:
-			title = "{0}".format(Cache.dataCache
-	[Cache.dataIndex].a)
+			title = "{0}".format(Cache.dataCache[Cache.dataIndex].a)
 			title = syscmd.delHtml(title)
-			string = "{0}: {1}".format(title, Cache.dataCache
-	[Cache.dataIndex].a.get('href'))
+			string = "{0}: {1}".format(title, Cache.dataCache[Cache.dataIndex].a.get('href'))
 			self.send_chan(string)
 			Cache.dataIndex += 1
 		else:

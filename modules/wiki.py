@@ -11,12 +11,12 @@ class Cache:
 
 def wiki(self):
 	if len(self.msg) < 5:
-		self.send_chan("Usage: !wiki <lang> <search term> - e.g. !wiki en finland")
+		self.send_chan("Usage: !wiki <lang> <search term> - e.g. !wiki en finland || !wiki next for the next result")
 	elif len(self.msg) == 5 and self.msg[4].strip() == "next":
 		if wnext(self):
 			return
 		else:
-			self.send_chan("Usage: !wiki <lang> <search term> - e.g. !wiki en finland")
+			self.send_chan("Usage: !wiki <lang> <search term> - e.g. !wiki en finland || !wiki next for the next result")
 	elif len(self.msg) >= 6:
 		Cache.lang = self.msg[4].strip()
 		if syscmd.checkLang( Cache.lang ):
@@ -24,7 +24,7 @@ def wiki(self):
 		else:
 			self.send_chan("Invalid Cache.language code!")
 	else:
-		self.send_chan("Usage: !wiki <lang> <search term> - e.g. !wiki en finland")
+		self.send_chan("Usage: !wiki <lang> <search term> - e.g. !wiki en finland || !wiki next for the next result")
 
 ## Perform the wikipedia search
 def wikiSearch(self):

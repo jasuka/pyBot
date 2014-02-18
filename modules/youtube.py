@@ -10,8 +10,8 @@ class Cache:
 
 def youtube(self):
 	if len(self.msg) == 4:
-		self.send_chan("Usage: !youtube <search term>")
-	if len(self.msg) == 5 and self.msg[4].strip() == "next":
+		self.send_chan("Usage: !youtube <search term> || !youtube next for the next result")
+	elif len(self.msg) == 5 and self.msg[4].strip() == "next":
 		if ynext(self):
 			return
 		else:
