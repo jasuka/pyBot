@@ -242,7 +242,7 @@ def addautomode ( self, modes, chan ):
 		try:
 			db = sqlite3.connect("modules/data/automodes.db")
 			cursor = db.cursor()
-			cursor.execute("""SELECT id FROM automodes WHERE identhost = ?, channel = ?""", (identhost, chan))
+			cursor.execute("""SELECT id FROM automodes WHERE identhost = ? AND channel = ?""", (identhost, chan))
 			try:
 				rowId = cursor.fetchone()[0]
 			except TypeError:
@@ -265,14 +265,14 @@ def addautomode ( self, modes, chan ):
 			raise e
 		finally:
 			db.close()
-			
-	elif modes = "":
+
+	elif modes == "":
 		try:
-			db = sqlite3.connect("modules/data/atuomodes.db")
-			cur = db.connect()
-			cursor.execute("""SELECT id FROM automodes WHERE identhost = ?, channel = ?""", (identhost,chan))
+			db = sqlite3.connect("modules/data/automodes.db")
+			cur = db.cursor()
+			cur.execute("""SELECT id FROM automodes WHERE identhost = ? AND channel = ?""", (identhost,chan))
 			try:
-				rowId = cursor.fetchone()[0]
+				rowId = cur.fetchone()[0]
 			except TypeError:
 				rowId = None
 			if rowId:
