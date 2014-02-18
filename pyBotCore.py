@@ -8,6 +8,7 @@ import importlib
 import imp
 import os
 from threading import Thread
+import pdb
 
 sys.path.insert(1, './sysmodules') ## Path for the modules
 sys.path.insert(2, './modules') ## Path for the modules
@@ -407,7 +408,6 @@ class pyBot:
 
 	## Main loop, connect etc.
 	def loop( self ):
-	
 		connectionEstablished = False
 		connected = True
 		logger = 0
@@ -569,7 +569,7 @@ class pyBot:
 						
 						if self.nick.lower() in self.msg[3].lower() or self.nick in phrase:
 							phrase = phrase.replace(self.nick, "")
-							self.send_chan(self.hal.reply(phrase.strip().lstrip(":"), self.get_nick()))
+							Thread(target=self.hal.reply, args=(phrase.strip().lstrip(":"), self.get_nick(), self),).start()
 				
 			## PING PONG
 			if self.msg[0] == "PING":
