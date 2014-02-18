@@ -32,5 +32,11 @@ An IRC Bot Written in Python
 ###**About the pyBot project**###
 
 > * **All the development is done on Linux and OS X. We don't officially support Windows, but the bot should run just fine :)**
+>
 * **Feel free to dig in the code, use the bot, write your own modules as you desire or get in touch with us if you want to contribute to this project**
+>
 * **Now as im writing this, we are about to launch `pyBot version 1.0` and planning to continue the development further forward. Our goal is to improve our skills related to python and over all coding :)**
+>
+* **We have been working on with this while keeping in our minds that someday this would have a multi chan support. Some of the features are _KINDA_ supporting it, but in the long run it is still far far away from it.**
+>
+* **So for now the preferred way of using it, _`would be on a single channel`_. Some of the features interracts with each other causing confusion within the bot. But we are looking into that.**
