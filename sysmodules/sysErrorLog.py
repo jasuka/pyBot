@@ -6,7 +6,7 @@ import os
 import re
 from traceback import format_exc
 
-def log ( self ):
+def log ( self, backtrace = True):
 
 	#Checking if log-path in config is valid and exists
 	if os.path.exists(self.config["log-path"]):
@@ -27,14 +27,20 @@ def log ( self ):
 
 				## error with a backtrace			
 				elif self.config["errLoglevel"] == 2: 
-					try:
-						traceback = format_exc()
-					except AttributeError:
-						traceback = "Backtrace not available"
-					## 0-2 timestamp, 3 error message
-					logline = "{0}{1}{2} {3}.\r\n{4}\r\n".format(
-						brackets[0], strftime(self.config["timeformat"]),
-							brackets[1], self.errormsg, traceback)
+					if backtrace = True:
+						try:
+							traceback = format_exc()
+						except AttributeError:
+							traceback = "Backtrace not available"
+						## 0-2 timestamp, 3 error message
+						logline = "{0}{1}{2} {3}.\r\n{4}\r\n".format(
+							brackets[0], strftime(self.config["timeformat"]),
+								brackets[1], self.errormsg, traceback)
+					else:
+						logline = "{0}{1}{2} {3}.".format(
+							brackets[0], strftime(self.config["timeformat"]),
+								brackets[1], self.errormsg)
+
 
 				#Opening the log and appending the latest result									
 				with open(log, "a") as logi: 
