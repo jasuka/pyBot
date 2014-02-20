@@ -160,9 +160,13 @@ def getHtml( self, url, useragent):
 
 		html = urllib.request.urlopen(req, timeout = 20).read()
 		return(html)
-	except urllib.error.URLError:
-		self.send_chan("~ Couldn't resolve host")
-		self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Couldn't resolve hsot {0}".format(url)
+	except urllib.error.URLError as e:
+		if e.reason == "Forbidden":
+			self.send_chan("~ Forbidden")
+			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Forbidden {0}".format(url)
+		else:
+			self.send_chan("~ Couldn't resolve host")
+			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Couldn't resolve host {0}".format(url)
 		sysErrorLog.log ( self ) ## LOG the error
 		return(None)
 	except Exception as e:

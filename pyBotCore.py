@@ -644,7 +644,8 @@ class pyBot:
 							else:
 								Flood.flood[self.get_nick()] = 1
 							if Flood.flood[self.get_nick()] <= 3: ## If the nick has issued three commands before the timer is cleaned
-								Thread(target=self.parse_command, args=(cmd.lstrip("!"),)).start() ## Run the commands in own threads, 																						## so they won't block each other
+								## Run the commands in own threads, so they won't block each other
+								Thread(target=self.parse_command, args=(cmd.lstrip("!"),)).start()
 							else:
 								self.errormsg = "[NOTICE]-[Core] Flooding ({0})".format(self.get_host())
 								sysErrorLog.log( self )
