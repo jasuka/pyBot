@@ -27,7 +27,7 @@ def log ( self, backtrace = True):
 
 				## error with a backtrace			
 				elif self.config["errLoglevel"] == 2: 
-					if backtrace = True:
+					if backtrace == True:
 						try:
 							traceback = format_exc()
 						except AttributeError:
