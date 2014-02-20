@@ -1,5 +1,6 @@
 import urllib.parse
 from bs4 import BeautifulSoup
+from decimal import Decimal
 import re
 import syscmd
 import sysErrorLog
@@ -10,14 +11,14 @@ def currency( self ):
 		self.send_chan("Usage: !currency <amount> <from> <to>")
 	if len(self.msg) == 7:
 		try:
-			amount = float(self.msg[4])
-		except ValueError:
-			amount = 1.00
+			amount = Decimal(re.sub(",", ".", self.msg[4])).quantize(Decimal("0.00"))
+		except Exception as e:
+			amount = Decimal(1.00)
 		frm = self.msg[5].upper()
 		to = self.msg[6].upper()
 
 		## If first value is float and currencies are valid
-		if isinstance( amount, float ) and syscmd.checkCurrency( frm, to):
+		if isinstance( amount, Decimal ) and syscmd.checkCurrency( frm, to):
 			frm = urllib.parse.quote(frm)
 			to = urllib.parse.quote(to)
 			url = "https://www.google.com/finance/converter?a={0}&from={1}&to={2}".format(amount, frm, to)
