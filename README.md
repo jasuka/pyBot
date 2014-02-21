@@ -19,8 +19,9 @@ An IRC Bot Written in Python
 
 > * **Unpack the source code to the destination of your choice**
   1. Modify the `config.py` file to meet your needs
-  2. Run the bot with command `./pyBot.py` or `python3 pyBot.py`
- 
+  2. Run the bot with command `./pyBotDaemon.sh` on unix based system (cygwin on windows)
+     + Or run `python3 pyBot.py`
+     
 -- 
 ###**Something about modules**###
 
