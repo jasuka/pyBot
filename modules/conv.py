@@ -4,7 +4,7 @@ import sysErrorLog
 def conv ( self ):
 
 	if len(self.msg) == 5 and self.msg[4].strip() == "units":
-		self.send_chan("I know: km, m, cm, mm, l, ml, yd, miles, floz, gal")
+		self.send_chan("I know: km, m, cm, mm, l, ml, ft, yd, miles, floz, gal")
 		return
 	if len(self.msg) < 6:
 		self.send_chan("Usage: !conv <amount> <unit> || !conv units")
@@ -52,6 +52,13 @@ def conv ( self ):
 					output = "{0} miles is {1} meters".format(amount, result)
 				else:
 					output = "{0} miles is {1} kilometers".format(amount, result)
+			elif frm == "ft":
+				result = round(amount * 30.48, 2)
+				if result > 100:
+					result = result*1000
+					output = "{0} feet is {1} meters".format(amount, result)
+				else:
+					output = "{0} feet is {1} centimeters".format(amount, result)
 			## Volume conversions
 			elif frm == "floz":
 				result = round(amount * 29.574, 3)
