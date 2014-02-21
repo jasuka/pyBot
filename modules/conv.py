@@ -55,7 +55,7 @@ def conv ( self ):
 			elif frm == "ft":
 				result = round(amount * 30.48, 2)
 				if result > 100:
-					result = result / 100
+					result = round(result / 100, 2)
 					output = "{0} feet is {1} meters".format(amount, result)
 				else:
 					output = "{0} feet is {1} centimeters".format(amount, result)
