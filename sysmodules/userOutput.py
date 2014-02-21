@@ -1,5 +1,6 @@
-## userOutput versio 1
+## userOutput versio Alpha 1
 ## Implemented for version 1.1 of pybot
+
 
 """
 Known issues:
@@ -58,8 +59,8 @@ def getNickFromNicklist( self ):
 						self.prePrefix.append(i)
 						self.donePrefixing = True
 			except Exception as e:
-				## We dont bother to user if self.config["debug"] is on or not..
-				## obviously it's OFF at this poinst
+				## We dont bother to show errors to user if self.config["debug"] is False
+				## obviously it's False at this poinst
 				self.errormsg = "[ERROR]-[userOutput] getNickFromNicklist() stating: {0}".format(e)
 				sysErrorLog.log ( self )
 
@@ -232,8 +233,8 @@ def show( self, nick ):
 					timeStamp,chan, nick, text))
 				
 		except Exception as e:
-			## We dont bother to user if self.config["debug"] is on or not..
-			## obviously it's OFF at this poinst
+			## We dont bother to show errors to user if self.config["debug"] is False
+			## obviously it's False at this poinst
 			self.errormsg = "[ERROR]-[userOutput] show() stating: {0}".format(e)
 			sysErrorLog.log ( self )
 			pass
