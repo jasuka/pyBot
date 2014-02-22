@@ -455,7 +455,6 @@ class pyBot:
 		while connected:
 			try:
 				data = self.s.recv(512).decode( "utf-8", "ignore" )
-				print(data)
 				if len(data) == 0:
 					connected == False
 					print( "Connection died, reconnecting" );
