@@ -1,4 +1,5 @@
 import urllib.request
+import http.cookiejar
 from bs4 import BeautifulSoup
 import os
 import re
@@ -173,19 +174,24 @@ def createCommitsDatabase( self ):
 ## Get HTML for given url
 def getHtml( self, url, useragent):
 	try:
+		cookies = http.cookiejar.CookieJar()
+		opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookies))
 		if useragent:
 			user_agent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)"
 			headers = { 'User-Agent' : user_agent }
 			req = urllib.request.Request(url, None, headers)
 		else:
 			req = urllib.request.Request(url, None)
-
-		html = urllib.request.urlopen(req, timeout = 25).read()
+		html = opener.open(req)
 		return(html)
 	except urllib.error.URLError as e:
+		print(e.reason)
 		if e.reason == "Forbidden":
 			self.send_chan("~ Forbidden")
 			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Forbidden {0}".format(url)
+		if "infinite loop" in e.reason:
+			self.send_chan("~ The site is causing an infinite redirect loop")
+			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Forbidden {0}".format(url)			
 		else:
 			self.send_chan("~ Couldn't resolve host")
 			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Couldn't resolve host {0}".format(url)
