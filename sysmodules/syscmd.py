@@ -231,12 +231,14 @@ def fileLatestCommit( self, rev ):
 			rowId = None
 
 		if rowId:
-			cur.excecute("""UPDATE commits SET rev = (?) WHERE id = rowId""",(rev,))
+			cur.execute("""UPDATE commits SET rev = (?) WHERE id = rowId""",(rev,))
 			db.commit()
+			print("update")
 			return True
 		else:
 			cur.execute("""INSERT INTO commits(rev) VALUES(?)""",(rev,))
 			db.commit()
+			print("new row")
 			return True
 
 	except Exception as e:
@@ -256,11 +258,13 @@ def readRevisionNumber( self ):
 		db = sqlite3.connect("sysmodules/data/commits.db")
 		cur = db.cursor()
 
-		cur.execute("""SELECT rev FROM commits WHERE id = 1""")
+		cur.execute("""SELECT rev FROM commits""")
+
 		try:
 			result = cur.fetchone()[0]
-		except TypeError:
-			result = "Couldn't read revision number"
+		except TypeError as e:
+			result = "Unknown build version"
+
 		return(result)
 
 	except Exception as e:
