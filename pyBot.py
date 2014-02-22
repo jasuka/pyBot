@@ -15,6 +15,7 @@ def initialize():
 	bot.start()
 	fld.daemon = True
 	fld.start()
+	
 	while True: ## Keep the main thread alive
 		time.sleep(1)
 try:

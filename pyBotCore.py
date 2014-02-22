@@ -422,6 +422,7 @@ class pyBot:
 
 				af, socktype, proto, canonname, sa = res
 			self.s = socket.socket( af, socktype, proto )
+			self.s.settimeout(360) ## Timeout if no data in 360 seconds from the socket
 			try:
 				print("{0}Conneting to {1}{2}"
 					.format(pGreen, self.hosts[self.serverIndex], pEnd))
@@ -429,7 +430,7 @@ class pyBot:
 				connectionEstablished = True
 			except Exception as e:
 				connectionEstablished = False
-				if self.serverIndex <= len(self.hosts):
+				if self.serverIndex < len(self.hosts)-1:
 					self.serverIndex += 1
 				else:
 					self.serverIndex = 0
@@ -439,7 +440,8 @@ class pyBot:
 				
 				if self.config["debug"]:
 					print("{0}{1}{2}"
-						.format(self.color("red"), self.errormsg, self.color("end")))	
+						.format(self.color("red"), self.errormsg, self.color("end")))
+				time.sleep(20)	
 
 		self.nick = self.config["nick"]
 		my_nick = "NICK {0}".format(self.nick)
@@ -453,6 +455,7 @@ class pyBot:
 		while connected:
 			try:
 				data = self.s.recv(512).decode( "utf-8", "ignore" )
+				print(data)
 				if len(data) == 0:
 					connected == False
 					print( "Connection died, reconnecting" );
