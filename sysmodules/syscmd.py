@@ -148,6 +148,27 @@ def createTellDatabase( self ):
 	finally:
 		db.close()
 		return True
+## End
+
+## Create Database for commits
+def createCommitsDatabase( self ):
+	try:
+		db = sqlite3.connect("sysmodules/data/commits.db")
+		cur = db.cursor()
+		cur.execute("""DROP TABLE IF EXISTS commits""")
+		cur.execute("""CREATE TABLE IF NOT EXISTS commits(id INTEGER PRIMARY KEY NOT NULL, rev INTEGER)""")
+		db.commit()
+	except Exception as e:
+		db.rollback()
+		self.errormsg = "[ERROR]-[syscmd] createCommitsDatabase() stating: {0}".format(e)
+		sysErrorLog.log ( self )
+		if self.config["debug"]:
+			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+		raise e
+	finally:
+		db.close()
+		return True
+## End
 
 ## Get HTML for given url
 def getHtml( self, url, useragent):
@@ -177,6 +198,7 @@ def getHtml( self, url, useragent):
 		return(None)
 ## End
 
+## Get commits count from github
 def getCommits( self ):
 	url = "https://github.com/jasuka/pyBot"
 	html = getHtml(self, url, True)
@@ -193,6 +215,62 @@ def getCommits( self ):
 		self.errormsg = "[ERROR]-[syscm] getCommits() stating: {0}".format(e)
 		sysErrorLog.log ( self.errormsg )
 		pass
+## End
+
+## File up the commits
+def fileLatestCommit( self, rev ):
+	rowId = ""
+	try:
+		db = sqlite3.connect("sysmodules/data/commits.db")
+		cur = db.cursor()
+		cur.execute("""SELECT id FROM commits WHERE id = 1""")
+
+		try:
+			rowId = cur.fetchone()[0]
+		except TypeError:
+			rowId = None
+
+		if rowId:
+			cur.excecute("""UPDATE commits SET rev = (?) WHERE id = rowId""",(rev,))
+			db.commit()
+			return True
+		else:
+			cur.execute("""INSERT INTO commits(rev) VALUES(?)""",(rev,))
+			db.commit()
+			return True
+
+	except Exception as e:
+		self.errormsg = "[ERROR]-[syscmd] fileLatestCommit() stating: {0}".format(e)
+		sysErrorLog (self)
+		if self.config["debug"]:
+			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+		raise e
+	finally:
+		db.close()
+## End
+
+## Read latest commit from the database
+def readRevisionNumber( self ):
+	result = ""
+	try:
+		db = sqlite3.connect("sysmodules/data/commits.db")
+		cur = db.cursor()
+
+		cur.execute("""SELECT rev FROM commits WHERE id = 1""")
+		try:
+			result = cur.fetchone()[0]
+		except TypeError:
+			result = "Couldn't read revision number"
+		return(result)
+
+	except Exception as e:
+		self.errormsg = "[ERROR]-[syscmd] readRevisionNumber() stating: {0}".format(e)
+		sysErrorLog (self)
+		if self.config["debug"]:
+			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+		raise e
+	finally:
+		db.close()
 
 ## Check if the city exists in Finland
 def checkCity ( self, city ):

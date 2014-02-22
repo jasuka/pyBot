@@ -1,6 +1,7 @@
 import subprocess
 import re
 import sysErrorLog
+import syscmd
 
 def git(self):
 
@@ -43,3 +44,6 @@ def git(self):
 		sysErrorLog.log( self ) ## LOG the error
 		if self.config["debug"]:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
+
+	finally:
+		syscmd.fileLatestCommit(self,syscmd.getCommits(self))
