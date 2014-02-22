@@ -180,28 +180,19 @@ def getHtml( self, url, useragent):
 def getCommits( self ):
 	url = "https://github.com/jasuka/pyBot"
 	html = getHtml(self, url, True)
-	lst = []
-	string = ""
+	result = ""
 	try:
 		soup = BeautifulSoup(html)
 		span = soup.findAll("span", {"class" : "num"} )
-		
-		for x in span[0]:
-			lst.append(x)
-		
-		for y in lst[2]:
-			string += "{0}".format(y)
 
-		result = string.strip()
-
-		return(result)
+		result = "{0}".format(span[0])
+		result = delHtml(result)
+		
+		return(result.strip())
 	except Exception as e:
 		self.errormsg = "[ERROR]-[syscm] getCommits() stating: {0}".format(e)
 		sysErrorLog.log ( self.errormsg )
 		pass
-
-
-
 
 ## Check if the city exists in Finland
 def checkCity ( self, city ):
