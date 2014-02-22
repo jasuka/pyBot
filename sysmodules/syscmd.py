@@ -180,7 +180,7 @@ def getHtml( self, url, useragent):
 		else:
 			req = urllib.request.Request(url, None)
 
-		html = urllib.request.urlopen(req, timeout = 20).read()
+		html = urllib.request.urlopen(req, timeout = 25).read()
 		return(html)
 	except urllib.error.URLError as e:
 		if e.reason == "Forbidden":
