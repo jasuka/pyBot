@@ -185,7 +185,6 @@ def getHtml( self, url, useragent):
 		html = opener.open(req)
 		return(html)
 	except urllib.error.URLError as e:
-		print(e.reason)
 		if e.reason == "Forbidden":
 			self.send_chan("~ Forbidden")
 			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Forbidden {0}".format(url)
