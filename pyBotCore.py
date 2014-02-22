@@ -101,10 +101,6 @@ class Flood:
 ## Class pyBot
 class pyBot:
 	def __init__( self ):
-	## Bot Version
-		self.version = "pyBot version 1.0.5 (revision: {0})".format(syscmd.getCommits(self))
-		print("{0}[[You are running the {1}]]{2}\r\n"
-			.format(self.color("blue"),self.version,self.color("end")))
 
 	## Config and start the bot
 		self.config = config.config
@@ -180,6 +176,19 @@ class pyBot:
 				print("{0}{1}{2}"
 					.format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createTellDatabase( self )
+
+		if not os.path.exists("sysmodules/data/commits.db"):
+			self.errormsg = "[NOTICE] Commits database doesn't exist, creating it!"
+			sysErrorLog.log ( self )
+			if self.config["debug"]:
+				print("{0}{1}{2}"
+					.format(self.color("blue"),self.errormsg,self.color("end")))
+			syscmd.createCommitsDatabase( self )
+
+	## Bot Version
+		self.version = "pyBot version 1.1 Beta (revision: {0})".format(syscmd.readRevisionNumber(self))
+		print("{0}[[You are running the {1}]]{2}\r\n"
+			.format(self.color("blue"),self.version,self.color("end")))
 		
 		self.loop()
 
