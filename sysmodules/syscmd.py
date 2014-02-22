@@ -228,18 +228,18 @@ def fileLatestCommit( self, rev ):
 		try:
 			rowId = cur.fetchone()[0]
 		except TypeError:
-			rowId = None
+			rowId = ""
 
 		if rowId:
 			cur.execute("""UPDATE commits SET rev = (?) WHERE id = rowId""",(rev,))
 			db.commit()
-			print("update")
 			return True
 		else:
 			cur.execute("""INSERT INTO commits(rev) VALUES(?)""",(rev,))
 			db.commit()
-			print("new row")
 			return True
+
+		db.close()
 
 	except Exception as e:
 		self.errormsg = "[ERROR]-[syscmd] fileLatestCommit() stating: {0}".format(e)
@@ -247,8 +247,6 @@ def fileLatestCommit( self, rev ):
 		if self.config["debug"]:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e
-	finally:
-		db.close()
 ## End
 
 ## Read latest commit from the database
@@ -258,14 +256,13 @@ def readRevisionNumber( self ):
 		db = sqlite3.connect("sysmodules/data/commits.db")
 		cur = db.cursor()
 
-		cur.execute("""SELECT rev FROM commits""")
-
 		try:
-			result = cur.fetchone()[0]
-		except TypeError as e:
-			result = "Unknown build version"
+			result = cur.execute("""SELECT rev FROM commits WHERE id = 1""").fetchone()[0]
+		except TypeError:
+			result = "Unknown build"
 
 		return(result)
+		db.close()
 
 	except Exception as e:
 		self.errormsg = "[ERROR]-[syscmd] readRevisionNumber() stating: {0}".format(e)
@@ -273,8 +270,6 @@ def readRevisionNumber( self ):
 		if self.config["debug"]:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
 		raise e
-	finally:
-		db.close()
 
 ## Check if the city exists in Finland
 def checkCity ( self, city ):
