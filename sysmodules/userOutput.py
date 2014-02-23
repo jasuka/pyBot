@@ -16,6 +16,9 @@ Known issues:
 *	If someone parts the channel, it cannot get the nick prefix straight...
 	We are using there self.get_nick() to have just any nick in place
 
+*	Sometimes with a heavy traffic on channel or with some lag, lines get messed up
+	and the out put is RAW or partial
+
 """
 
 import time
