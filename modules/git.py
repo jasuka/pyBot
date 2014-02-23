@@ -22,13 +22,16 @@ def git(self):
 			self.send_chan("Git pull failed!")
 		elif "Already up-to-date." in stdoutput.decode("utf-8"):
 			self.send_chan("Already up-to-date!")
+			syscmd.fileLatestCommit(self,syscmd.getCommits(self))
 		elif "overwritten by merge" in stderroutput.decode("utf-8"):
 			self.send_chan("There was a conflict during merge! Please solve manually!")
 		elif "pyBot.py" in stdoutput.decode("utf-8"):
 			self.send_chan("Pull succeeded, core updated, restarting!")
+			syscmd.fileLatestCommit(self,syscmd.getCommits(self))
 			self.restart()
 		elif "pyBotCore.py" in stdoutput.decode("utf-8"):
 			self.send_chan("Pull succeeded, core updated, restarting!")
+			syscmd.fileLatestCommit(self,syscmd.getCommits(self))
 			self.restart()
 		elif "create mode" in stdoutput.decode("utf-8"):
 			mods = re.findall(r"\create mode 100644 modules/(.*.py)", stdoutput.decode("utf-8"))
@@ -36,14 +39,13 @@ def git(self):
 			for x in mods:
 				modules += "{0} ".format(x[:-3])
 				self.load(x[:-3])
+				syscmd.fileLatestCommit(self,syscmd.getCommits(self))
 		else:
 			self.send_chan("Pull succeeded, remember to reload the modules!")
+			syscmd.fileLatestCommit(self,syscmd.getCommits(self))
 	
 	except Exception as e:
 		self.errormsg = "[ERROR]-[git] git() stating: {0}".format(e)
 		sysErrorLog.log( self ) ## LOG the error
 		if self.config["debug"]:
 			print("{0}{1}{2}".format(self.color("red"), self.errormsg, self.color("end")))
-
-	finally:
-		syscmd.fileLatestCommit(self,syscmd.getCommits(self))
