@@ -22,7 +22,7 @@ def ylilauta(self):
 				soup = BeautifulSoup(html, "html5lib")
 			data = soup.findAll("span", {"class" : "postsubject"})
 			x = random.randrange(0,len(data))
-			string = "{0}: {1}".format(data[x].a.string, data[x].a.get('href'))
+			string = "{0}: http:{1}".format(data[x].a.string, data[x].a.get('href'))
 			self.send_chan(' '.join(string.split()))
 		except Exception as e:
 			self.errormsg = "[ERROR]-[ylilauta] ylilauta()(2) stating: {0}".format(e)
