@@ -186,7 +186,7 @@ class pyBot:
 			syscmd.createCommitsDatabase( self )
 
 		## Bot Version
-		self.version = "pyBot version 1.1 Beta"
+		self.version = "pyBot version 1.1"
 		print("{0}[[You are running the {1} (Build: {2})]]{3}\r\n"
 			.format(self.color("blue"),self.version,
 				syscmd.readRevisionNumber(self),self.color("end")))
