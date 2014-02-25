@@ -4,7 +4,7 @@ import sysErrorLog
 def conv ( self ):
 
 	if len(self.msg) == 5 and self.msg[4].strip() == "units":
-		self.send_chan("I know: km, m, cm, mm, l, ml, ft, yd, miles, floz, gal, c, f, k")
+		self.send_chan("I know: km, m, cm, mm, l, ml, ft, yd, miles, floz, gal, kg, g, lb, oz, c, f, k")
 		return
 	if len(self.msg) < 6:
 		self.send_chan("Usage: !conv <amount> <unit> || !conv units")
@@ -97,7 +97,7 @@ def conv ( self ):
 					output = "{0} pounds is {1} grams".format(amount, result)
 				else:
 					result = round(result, 2)
-					output = "{0} ounces is {1} kilograms".format(amount, result)
+					output = "{0} pounds is {1} kilograms".format(amount, result)
 			## Temperature conversions
 			elif frm == "c":
 				fahrenheit = round(amount * 1.8 + 32, 2)
