@@ -22,6 +22,8 @@ pRed = "\033[0;31m"
 pBlue = "\033[0;34m"
 pGreen = "\033[0;32m"
 pEnd = "\033[0m"
+## Global flood dictionary
+flood = {}
 
 class Modules:
 
@@ -92,8 +94,8 @@ class Modules:
 
 ## Clear flood counter; Clears the flood dictionary every x seconds
 class Flood:
-	flood = {}
 	def __init__( self ):
+		global flood
 		while True:
 			flood = {}
 			time.sleep(20)
@@ -651,11 +653,12 @@ class pyBot:
 							self.restart()
 						else:
 							## Flood protection, add nick to the dictionary and raise the value by one every time he/she speaks
-							if self.get_host() not in self.config["opers"] and self.get_nick() in Flood.flood:
-								Flood.flood[self.get_nick()] += 1
+							if self.get_nick() in flood:
+								flood[self.get_nick()] += 1
 							else:
-								Flood.flood[self.get_nick()] = 1
-							if Flood.flood[self.get_nick()] <= 3: ## If the nick has issued three commands before the timer is cleaned
+								flood[self.get_nick()] = 1
+							print(flood)
+							if flood[self.get_nick()] <= 3: ## If the nick has issued three commands before the timer is cleaned
 								## Run the commands in own threads, so they won't block each other
 								Thread(target=self.parse_command, args=(cmd.lstrip("!"),)).start()
 							else:
