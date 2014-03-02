@@ -657,7 +657,6 @@ class pyBot:
 								flood[self.get_nick()] += 1
 							else:
 								flood[self.get_nick()] = 1
-							print(flood)
 							if flood[self.get_nick()] <= 3: ## If the nick has issued three commands before the timer is cleaned
 								## Run the commands in own threads, so they won't block each other
 								Thread(target=self.parse_command, args=(cmd.lstrip("!"),)).start()
