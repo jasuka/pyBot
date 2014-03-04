@@ -64,3 +64,39 @@ def log ( self, backtrace = True):
 	
 
 
+def activity ( self ):
+
+	#Checking if log-path in config is valid and exists
+	if os.path.exists(self.config["log-path"]):
+
+		try:
+			#Looking brackets from the config file
+			brackets = self.config["TimestampBrackets"].split(",") 
+
+			log = self.config["log-path"]+"activity.log"
+
+			logline = "{0}{1}{2} {3}\r\n".format(
+				brackets[0], strftime(self.config["timeformat"]),
+					brackets[1], self.activitymsg)
+
+			#Opening the log and appending the latest result									
+			with open(log, "a") as logi: 
+				logi.write(logline)
+				logi.flush()
+
+		except Exception as e:
+			print("{0}[ERROR]-[sysErrorLog] activity()(1) stating: {1}, Plus that im a retard, and i cant log my own errors :(({2}"
+				.format(self.color("red"),e,self.color("end")))
+
+	else:
+		try:
+			if self.config["debug"]: #If the path set in config doesn't exist, create one
+				print("{0}[NOTICE]-[sysErrorLog] Cannot find existing folder for logs, creating: {1}{2}"
+					.format(self.color("blue"),self.config["log-path"]),self.color("end"))
+			os.mkdir(self.config["log-path"])
+		except Exception as e:
+			if self.config["debug"]:
+				print("{0}[ERROR]-[sysErrorLog] activity()(2) stating: {1}, Plus that im a retard, and i cant log my own errors :(({2}"
+					.format(self.color("red"),e,self.color("end")))
+	
+

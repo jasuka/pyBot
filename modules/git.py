@@ -22,15 +22,21 @@ def git(self):
 			self.send_chan("Git pull failed!")
 		elif "Already up-to-date." in stdoutput.decode("utf-8"):
 			self.send_chan("Already up-to-date!")
+			self.activitymsg = "git: Already up-to-date!"
+			sysErrorLog.activity ( self )
 			syscmd.fileLatestCommit(self,syscmd.getCommits(self))
 		elif "overwritten by merge" in stderroutput.decode("utf-8"):
 			self.send_chan("There was a conflict during merge! Please solve manually!")
 		elif "pyBot.py" in stdoutput.decode("utf-8"):
 			self.send_chan("Pull succeeded, core updated, restarting!")
+			self.activitymsg = "git: Pull succeeded, core updated!"
+			sysErrorLog.activity ( self )
 			syscmd.fileLatestCommit(self,syscmd.getCommits(self))
 			self.restart()
 		elif "pyBotCore.py" in stdoutput.decode("utf-8"):
 			self.send_chan("Pull succeeded, core updated, restarting!")
+			self.activitymsg = "git: Pull succeeded, core updated!"
+			sysErrorLog.activity ( self )
 			syscmd.fileLatestCommit(self,syscmd.getCommits(self))
 			self.restart()
 		elif "create mode" in stdoutput.decode("utf-8"):
@@ -42,6 +48,8 @@ def git(self):
 				syscmd.fileLatestCommit(self,syscmd.getCommits(self))
 		else:
 			self.send_chan("Pull succeeded, remember to reload the modules!")
+			self.activitymsg = "git: Pull succeeded!"
+			sysErrorLog.activity ( self )
 			syscmd.fileLatestCommit(self,syscmd.getCommits(self))
 	
 	except Exception as e:

@@ -127,7 +127,8 @@ class pyBot:
 				"255", "265", "266", "311", "312", "313", "317", "318", "319","332",
 				"333","338","353", "366", "375", "372", "376", "401", "412", "433", "482","JOIN", "MODE", "PART"]
 
-		self.errormsg = "" ## Set error messages to null
+		self.errormsg = "" ## Establish error messages
+		self.activitymsg = "" ## Establish activity messages
 
 		## Automode set
 		self.hostident = ""
@@ -142,9 +143,16 @@ class pyBot:
 		self.prefix = []
 		self.prePrefix = []
 
+		## Logging Activity
+		self.activitymsg = "==> BOT STARTING! <=="
+		sysErrorLog.activity ( self )
+
 		## Initialize the brain, if we have cobe enabled
 		if "cobe" in sys.modules:
 			self.hal = cobe.brain.Brain("./cobe.brain")
+			## Logging activity
+			self.activitymsg = "Cobe enabled!"
+			sysErrorLog.activity ( self )
 
 		## Initialize databases
 		if "fmi" in Modules.mLoaded and not os.path.exists("modules/data/fmiCities.db"):
@@ -154,6 +162,9 @@ class pyBot:
 				print("{0}{1}{2}"
 					.format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createCitiesDatabase( self )
+			## Logging activity
+			self.activitymsg = "Cities Database doesn't exist, creating it!"
+			sysErrorLog.activity ( self )
 
 		if "automodes" in Modules.mLoaded and not os.path.exists("modules/data/automodes.db"):
 			self.errormsg = "[NOTICE] Automodes database doesn't exist, creating it!"
@@ -162,6 +173,9 @@ class pyBot:
 				print("{0}{1}{2}"
 					.format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createAutomodesDatabase( self )
+			## Logging activity
+			self.activitymsg = "Automodes Database doesn't exist, creating it!"
+			sysErrorLog.activity ( self )
 
 		if "seendb" in self.modulecfg["sysmodules"] and not os.path.exists(self.config["log-path"]+"seen.db"):
 			self.errormsg = "[NOTICE] Seen Database doesn't exist, creating it!"
@@ -170,6 +184,9 @@ class pyBot:
 				print("{0}{1}{2}"
 					.format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createSeenDatabase( self )
+			## Logging activity
+			self.activitymsg = "Seen Database doesn't exist, creating it!"
+			sysErrorLog.activity ( self )
 
 		if "tell" in Modules.mLoaded and not os.path.exists("modules/data/tell.db"):
 			self.errormsg = "[NOTICE] Tell Database doesn't exist, creating it!"
@@ -178,6 +195,9 @@ class pyBot:
 				print("{0}{1}{2}"
 					.format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createTellDatabase( self )
+			## Logging activity
+			self.activitymsg = "Tell Database doesn't exist, creating it!"
+			sysErrorLog.activity ( self )
 
 		if not os.path.exists("sysmodules/data/commits.db"):
 			self.errormsg = "[NOTICE] Commits database doesn't exist, creating it!"
@@ -186,9 +206,12 @@ class pyBot:
 				print("{0}{1}{2}"
 					.format(self.color("blue"),self.errormsg,self.color("end")))
 			syscmd.createCommitsDatabase( self )
+			## Logging activity
+			self.activitymsg = "Commits database doesn't exist, creating it!"
+			sysErrorLog.activity ( self )
 
 		## Bot Version
-		self.version = "pyBot version 1.1"
+		self.version = "pyBot version 1.2 Beta"
 		print("{0}[[You are running the {1} (Build: {2})]]{3}\r\n"
 			.format(self.color("blue"),self.version,
 				syscmd.readRevisionNumber(self),self.color("end")))
@@ -234,14 +257,23 @@ class pyBot:
 		
 	## Join channel
 	def join_chan( self, chan ):
+		## Logging activity
+		self.activitymsg = "Joining channel: {0}".format(chan)
+		sysErrorLog.activity ( self )
 		self.send_data( "JOIN {0}".format(chan.strip()) )
 
 	## Leave channel
 	def part_chan( self, chan ):
+		## Logging activity
+		self.activitymsg = "Parting channel: {0}".format(chan)
+		sysErrorLog.activity ( self )
 		self.send_data( "PART {0} :See ya!".format(chan.strip()) )
 		
 	## Quit
 	def quit( self ):
+		## Logging activity
+		self.activitymsg = "==> Quit command issued! Bot Quiting <=="
+		sysErrorLog.activity ( self )
 		self.send_data( "QUIT :Bye Bye!" )
 		self.s.close()
 		os._exit(1)
@@ -340,6 +372,9 @@ class pyBot:
 					globals()[module] = __import__(module)
 					self.send_chan("Loaded a new module: {0}".format(module))
 					Modules.mLoaded.append(module)
+					## Logging activity
+					self.activitymsg = "Loaded a new module: {0}".format(module)
+					sysErrorLog.acticity ( self )
 				else:
 					self.send_chan("Unknown module: {0}".format(module))
 		except Exception as e:
@@ -381,6 +416,9 @@ class pyBot:
 					self.send_chan( "{0} module reloaded!".format(command) )
 				else:
 					self.send_chan("Unknown module: {0}".format(command))
+			## Logging bot activity	
+			self.activitymsg = "Modules reloaded!"
+			sysErrorLog.activity (self)
 		except Exception as e:
 			self.errormsg = "[ERROR]-[Core] reload: {0}".format(e)
 			sysErrorLog.log( self ) ## LOG the error
@@ -407,6 +445,9 @@ class pyBot:
 			return
 		try:
 			python = sys.executable
+			## Logging bot activity
+			self.activitymsg = "==> Bot restarting <=="
+			sysErrorLog.activity ( self )
 			self.send_data( "QUIT :Restarting!" )
 			self.s.close()
 			os.execl(python, python, * sys.argv)
@@ -604,13 +645,19 @@ class pyBot:
 						print("Alternative nick in use, switching into random nick")
 						self.nick = "{0}{1}".format(self.config["nick"], str(random.randrange(1,10+1)))
 						my_nick = "NICK {0}".format(self.nick)
-						self.send_data(my_nick)						
+						self.send_data(my_nick)	
+						## Logging Acticity
+						self.activitymsg = "Alternative nick in use, switching into random nick"
+						sysErrorLog.acticity ( self )					
 					else:
 						print("Switching to the alternative nick")
 						self.nick = self.config["altnick"]
 						my_nick = "NICK {0}".format(self.nick)
 						self.send_data(my_nick)
 						altnick = 0 #if unable to set altnick, set altnick false and try random nick
+						## Logging activity
+						self.activitymsg = "Switchin to the alternative nick"
+						sysErrorLog.activity( self )
 						
 
 			except IndexError:
@@ -624,8 +671,14 @@ class pyBot:
 				if self.config["logging"]:
 					logger = 1
 					print( "{0}Logging enabled{1}".format(self.color("green"), self.color("end")) )
+					## Logging activity
+					self.activitymsg = "Core: Logging enabled"
+					sysErrorLog.activity (self)
 				else:
 					print( "{0}Logging disabled{1}".format(self.color("red"), self.color("end")) )
+					## Logging activity
+					self.activitymsg = "Core: Logging disabled"
+					sysErrorLog.activity (self)
 						
 			try:
 				if len(self.msg) >= 4 and len(self.msg[3]) > 1:
