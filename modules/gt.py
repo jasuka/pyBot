@@ -32,7 +32,10 @@ def gt(self):
 				soup = BeautifulSoup(html, "html5lib")
 			## Get the translation
 			data = soup.findAll("div", {"class" : "t0"})
-			self.send_chan(data[0].string.strip())
+			if data:
+				self.send_chan(data[0].string.strip())
+			else:
+				self.send_chan("Translation error occured (probably an incorrect language code specified)")
 		except Exception as e:
 			self.errormsg = "[ERROR]-[gt] gt() stating: {0}".format(e)
 			sysErrorLog.log( self ) ## LOG the error
