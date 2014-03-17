@@ -29,7 +29,9 @@ def gt(self):
 			try:
 				soup = BeautifulSoup(html, "lxml")
 			except:
-				soup = BeautifulSoup(html, "html5lib")
+				soup = BeautifulSoup(html, "html.parser")
+			#else:
+			#	soup = BeautifulSoup(html, "html5lib") Umlauts Broken!
 			## Get the translation
 			data = soup.findAll("div", {"class" : "t0"})
 			if data:
