@@ -192,6 +192,7 @@ def getHtml( self, url, useragent):
 			self.send_chan("~ The site is causing an infinite redirect loop")
 			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: site is causing an infinite redirect loop {0}".format(url)
 		if "Bad Request" in e.reason:
+			self.send_chan("~ Bad Request")
 			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Bad Request {0}".format(url)				
 		else:
 			self.send_chan("~ Couldn't resolve host")
