@@ -14,7 +14,7 @@ config = {		#[SERVER]			[Modify the right side only]
 
 			#[OPERS]
 			#Bot operators
-			"opers":			"hrna@oper.aquanet.fi,jaska@127.0.0.1",
+			"opers":			"hrna@oper.aquanet.fi,jaska@localhost",
 
 			#[LOGGING DAEMON]
 			#Loggin				
