@@ -188,12 +188,12 @@ def getHtml( self, url, useragent):
 		if e.reason == "Forbidden":
 			self.send_chan("~ Forbidden")
 			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Forbidden {0}".format(url)
-		if "infinite loop" in e.reason:
+		elif "infinite loop" in e.reason:
 			self.send_chan("~ The site is causing an infinite redirect loop")
 			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: site is causing an infinite redirect loop {0}".format(url)
-		if "Bad Request" in e.reason:
+		elif "Bad Request" in e.reason:
 			self.send_chan("~ Bad Request")
-			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Bad Request {0}".format(url)				
+			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Bad Request {0}".format(url)
 		else:
 			self.send_chan("~ Couldn't resolve host")
 			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Couldn't resolve host {0}".format(url)
