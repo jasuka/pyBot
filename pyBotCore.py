@@ -374,7 +374,7 @@ class pyBot:
 					Modules.mLoaded.append(module)
 					## Logging activity
 					self.activitymsg = "Loaded a new module: {0}".format(module)
-					sysErrorLog.acticity ( self )
+					sysErrorLog.activity ( self )
 				else:
 					self.send_chan("Unknown module: {0}".format(module))
 		except Exception as e:
@@ -648,7 +648,7 @@ class pyBot:
 						self.send_data(my_nick)	
 						## Logging Acticity
 						self.activitymsg = "Alternative nick in use, switching into random nick"
-						sysErrorLog.acticity ( self )					
+						sysErrorLog.activity ( self )					
 					else:
 						print("Switching to the alternative nick")
 						self.nick = self.config["altnick"]
