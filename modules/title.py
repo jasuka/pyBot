@@ -8,7 +8,7 @@ import sysErrorLog
 def title ( self, url ):
 	url = syscmd.replaceUmlauts(url)
 	## Banned extensions in the urls
-	banned = re.search( ".*\.(jpg$|jpeg$|png$|gif$|pdf$|exe$|zip$|tar$|tar.gz$|tar.bz2$|txt$|xml$)", url )
+	banned = re.search( ".*\.(jpg$|jpeg$|png$|gif$|pdf$|exe$|zip$|tar$|tar.gz$|tar.bz2$|iso$|txt$|xml$)", url )
 	
 	if not banned:
 		url = url.strip().rstrip(".")
