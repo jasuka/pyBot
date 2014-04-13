@@ -24,6 +24,7 @@ pGreen = "\033[0;32m"
 pEnd = "\033[0m"
 ## Global flood dictionary
 flood = {}
+learnQueue = []
 
 class Modules:
 
@@ -99,7 +100,18 @@ class Flood:
 		while True:
 			flood = {}
 			time.sleep(20)
-			
+
+## For learning the phrases every 5 minutes
+class CobeLearn:
+	def __init__( self ):
+		global learnQueue
+		self.hal = cobe.brain.Brain("./cobe.brain")
+		while True:
+			for a in learnQueue:
+				self.hal.learn(a)
+			learnQueue = []
+			time.sleep(300) ## Learn every 5 minutes
+ 
 ## Class pyBot
 class pyBot:
 	def __init__( self ):
@@ -149,6 +161,7 @@ class pyBot:
 
 		## Initialize the brain, if we have cobe enabled
 		if "cobe" in sys.modules:
+			global learnQueue
 			self.hal = cobe.brain.Brain("./cobe.brain")
 			## Logging activity
 			self.activitymsg = "Cobe enabled!"
@@ -620,7 +633,8 @@ class pyBot:
 							else:
 								for x in range(3, length):
 									phrase += "{0} ".format(self.msg[x])	
-							self.hal.learn(phrase.strip().lstrip(":"))
+							#self.hal.learn(phrase.strip().lstrip(":"))
+							learnQueue.append(phrase.strip().lstrip(":")) ## Add the phrase to learn queue
 						
 						if self.nick.lower() in self.msg[3].lower() or self.nick in phrase:
 							phrase = phrase.replace(self.nick, "")

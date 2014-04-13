@@ -10,11 +10,14 @@ import pyBotCore
 def initialize():
 	bot = Thread(target=pyBotCore.pyBot)
 	fld = Thread(target=pyBotCore.Flood)
+	cobelearn = Thread(target=pyBotCore.CobeLearn)
 
 	bot.daemon = True
 	bot.start()
 	fld.daemon = True
 	fld.start()
+	cobelearn.daemon = True
+	cobelearn.start()
 	
 	while True: ## Keep the main thread alive
 		time.sleep(1)
