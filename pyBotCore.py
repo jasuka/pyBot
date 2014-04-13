@@ -105,10 +105,10 @@ class Flood:
 class CobeLearn:
 	def __init__( self ):
 		global learnQueue
-		self.hal = cobe.brain.Brain("./cobe.brain")
+		self.cobe = cobe.brain.Brain("./cobe.brain")
 		while True:
 			for a in learnQueue:
-				self.hal.learn(a)
+				self.cobe.learn(a)
 			learnQueue = []
 			time.sleep(300) ## Learn every 5 minutes
  
@@ -161,7 +161,6 @@ class pyBot:
 
 		## Initialize the brain, if we have cobe enabled
 		if "cobe" in sys.modules:
-			global learnQueue
 			self.hal = cobe.brain.Brain("./cobe.brain")
 			## Logging activity
 			self.activitymsg = "Cobe enabled!"
