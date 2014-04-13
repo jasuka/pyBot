@@ -194,9 +194,9 @@ def getHtml( self, url, useragent):
 		elif "Bad Request" in e.reason:
 			self.send_chan("~ Bad Request")
 			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Bad Request {0}".format(url)
-		else:
-			self.send_chan("~ Couldn't resolve host")
-			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Couldn't resolve host {0}".format(url)
+		#else:
+		#	self.send_chan("~ Couldn't resolve host")
+		#	self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Couldn't resolve host {0}".format(url)
 		sysErrorLog.log ( self, False ) ## LOG the error
 		return(None)
 	except Exception as e:
