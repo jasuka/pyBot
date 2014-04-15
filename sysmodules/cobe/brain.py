@@ -195,7 +195,7 @@ with its two nodes"""
         if not self._learning:
             self.graph.commit()
 
-    def reply(self, text, nick='', pyBot=None, loop_ms=20000, max_len=150):
+    def reply(self, text, nick='', pyBot=None, loop_ms=1500, max_len=180):
         """Reply to a string of text. If the input is not already
         Unicode, it will be decoded as utf-8."""
         #if type(text) != types.UnicodeType:
