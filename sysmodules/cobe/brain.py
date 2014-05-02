@@ -51,7 +51,7 @@ class Brain:
         self.order = int(graph.get_info_text("order"))
 
         self.scorer = scoring.ScorerGroup()
-        self.scorer.add_scorer(3.0, scoring.LengthScorer())
+        self.scorer.add_scorer(8.0, scoring.LengthScorer())
 
         tokenizer_name = graph.get_info_text("tokenizer")
         if tokenizer_name == "MegaHAL":
@@ -403,7 +403,7 @@ with its two nodes"""
                         yield prev + n, node
 
     @staticmethod
-    def init(filename, order=10, tokenizer=None):
+    def init(filename, order=3, tokenizer=None):
         """Initialize a brain. This brain's file must not already exist.
 
 Keyword arguments:
