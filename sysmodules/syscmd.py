@@ -174,46 +174,33 @@ def createCommitsDatabase( self ):
 
 ## Get HTML for given url
 def getHtml( self, url, useragent):
-	## First we check the content-type from headers, if it's not text/html
-	## we won't get the html (avoids downloading big files)
 	try:
-		req = urllib.request.Request(url, None)
-		req.get_method = lambda : 'HEAD'
-		response = urllib.request.urlopen(req)
-		if "text/html" not in response.headers['content-type']:
-			return
+		cookies = http.cookiejar.CookieJar()
+		opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookies))
+		if useragent:
+			user_agent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)"
+			headers = { 'User-Agent' : user_agent }
+			req = urllib.request.Request(url, None, headers)
 		else:
-			try:
-				cookies = http.cookiejar.CookieJar()
-				opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookies))
-				if useragent:
-					user_agent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)"
-					headers = { 'User-Agent' : user_agent }
-					req = urllib.request.Request(url, None, headers)
-				else:
-					req = urllib.request.Request(url, None)
-				html = opener.open(req)
-				return(html)
-			except urllib.error.URLError as e:
-				if e.reason == "Forbidden":
-					self.send_chan("~ Forbidden")
-					self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Forbidden {0}".format(url)
-				elif "infinite loop" in e.reason:
-					self.send_chan("~ The site is causing an infinite redirect loop")
-					self.errormsg = "[ERROR]-[syscmd] getHtml() stating: site is causing an infinite redirect loop {0}".format(url)
-				elif "Bad Request" in e.reason:
-					self.send_chan("~ Bad Request")
-					self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Bad Request {0}".format(url)
-				#else:
-				#	self.send_chan("~ Couldn't resolve host")
-				#	self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Couldn't resolve host {0}".format(url)
-				sysErrorLog.log ( self, False ) ## LOG the error
-				return(None)
-			except Exception as e:
-				self.errormsg = "[ERROR]-[syscmd] getHtml() stating: {0}".format(e)
-				sysErrorLog.log ( self ) ## LOG the error
+			req = urllib.request.Request(url, None)
+		html = opener.open(req)
+		return(html)
+	except urllib.error.URLError as e:
+		if e.reason == "Forbidden":
+			self.send_chan("~ Forbidden")
+			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Forbidden {0}".format(url)
+		elif "infinite loop" in e.reason:
+			self.send_chan("~ The site is causing an infinite redirect loop")
+			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: site is causing an infinite redirect loop {0}".format(url)
+		elif "Bad Request" in e.reason:
+			self.send_chan("~ Bad Request")
+			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Bad Request {0}".format(url)
+		#else:
+		#	self.send_chan("~ Couldn't resolve host")
+		#	self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Couldn't resolve host {0}".format(url)
+		sysErrorLog.log ( self, False ) ## LOG the error
+		return(None)
 	except Exception as e:
-		print(e)
 		self.errormsg = "[ERROR]-[syscmd] getHtml() stating: {0}".format(e)
 		sysErrorLog.log ( self ) ## LOG the error
 		self.send_chan( "~ {0}".format(e))
