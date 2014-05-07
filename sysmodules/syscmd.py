@@ -212,12 +212,12 @@ def getHtml( self, url, useragent):
 			except Exception as e:
 				self.errormsg = "[ERROR]-[syscmd] getHtml() stating: {0}".format(e)
 				sysErrorLog.log ( self ) ## LOG the error
-				self.send_chan( "~ {0}".format(e))
-				return(None)
 	except Exception as e:
 		print(e)
 		self.errormsg = "[ERROR]-[syscmd] getHtml() stating: {0}".format(e)
 		sysErrorLog.log ( self ) ## LOG the error
+		self.send_chan( "~ {0}".format(e))
+		return(None)
 ## End
 
 ## Get commits count from github
