@@ -7,7 +7,7 @@ import sysErrorLog
 ## Gets title for the urls
 def title ( self, url ):
 
-	if "localhost" in url:
+	if re.match("(?:[Hh]?[Tt]?[Tt]?[Pp])?(?:[sS]?)://(localhost|127.0.0.1)", url):
 		self.send_chan("Hah, nice try :)")
 		return
 
