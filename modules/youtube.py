@@ -48,7 +48,7 @@ def youtubeSearch(self):
 			soup = BeautifulSoup(html, "html5lib")
 		Cache.dataCache = soup.findAll("a", {"class" : "yt-uix-tile-link"})
 		if len(Cache.dataCache) > 0:
-			string = "{1}: http://youtube.com/watch?v={0} | ".format(
+			string = "{1}: http://youtube.com/watch?v={0}".format(
 					Cache.dataCache[Cache.dataIndex].get('href')[-11:], Cache.dataCache[Cache.dataIndex].get('title'))
 			self.send_chan(string)
 			Cache.dataIndex += 1
