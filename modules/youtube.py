@@ -63,7 +63,7 @@ def youtubeSearch(self):
 ## Get the next result from the cache
 def ynext(self):
 	if len(self.msg) == 5 and Cache.dataCache and Cache.dataIndex <= len(Cache.dataCache):
-		string = "{1}: http://youtube.com/watch?v={0} | ".format(
+		string = "{1}: http://youtube.com/watch?v={0}".format(
 				Cache.dataCache[Cache.dataIndex].get('href')[-11:], Cache.dataCache[Cache.dataIndex].get('title'))
 		self.send_chan(string)
 		Cache.dataIndex += 1
