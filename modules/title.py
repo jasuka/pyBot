@@ -8,7 +8,6 @@ import sysErrorLog
 def title ( self, url ):
 
 	if re.match("(?:[Hh]?[Tt]?[Tt]?[Pp])?(?:[sS]?)://(localhost|127.0.0.1)", url):
-		self.send_chan("Hah, nice try :)")
 		return
 
 	if checkContentType(self, url):	
@@ -47,7 +46,9 @@ def checkContentType(self, url):
 	## We check the content-type from headers, if it's not text/html
 	## we won't get the html (avoids downloading big files)
 	try:
-		req = urllib.request.Request(url, None)
+		user_agent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)"
+		headers = { 'User-Agent' : user_agent }
+		req = urllib.request.Request(url, None, headers)
 		req.get_method = lambda : 'HEAD'
 		response = urllib.request.urlopen(req)
 		if "text/html" not in response.headers['content-type']:
