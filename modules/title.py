@@ -7,7 +7,7 @@ import sysErrorLog
 ## Gets title for the urls
 def title ( self, url ):
 
-	if re.match("(?:[Hh]?[Tt]?[Tt]?[Pp])?(?:[sS]?)://(localhost|127.0.0.1)", url):
+	if re.match("(?:[Hh]?[Tt]?[Tt]?[Pp])?(?:[sS]?)://(localhost|127.0.0.1|0.0.0.0)", url):
 		return
 
 	if checkContentType(self, url):	
