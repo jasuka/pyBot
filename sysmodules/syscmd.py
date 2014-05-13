@@ -185,7 +185,6 @@ def getHtml( self, url, useragent, title = False):
 			req = urllib.request.Request(url, None)
 		## We check that the url is text/html, else we return None, without fetching the data
 		if title:
-			print("Ollaan täällä")
 			response = urllib.request.urlopen(req)
 			if "text/html" not in response.info()['content-type']:
 				return None
