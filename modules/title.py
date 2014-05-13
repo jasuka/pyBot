@@ -56,7 +56,7 @@ def checkContentType(self, url):
 		else:
 			return True
 	except urllib.error.URLError as e:
-		if e.reason == "Method Not Allowed":
+		if e.reason == "Method Not Allowed" or e.reason == "Bad Request":
 			req.get_method = lambda : 'GET'
 			response = urllib.request.urlopen(req)
 			if "text/html" not in response.headers['content-type']:
