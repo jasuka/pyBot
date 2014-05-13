@@ -183,8 +183,14 @@ def getHtml( self, url, useragent):
 			req = urllib.request.Request(url, None, headers)
 		else:
 			req = urllib.request.Request(url, None)
-		html = opener.open(req)
-		return(html)
+		## We check that the url is text/html, else we return None, without fetching the data
+		response = urllib.request.urlopen(req)
+		if "text/html" not in response.info()['content-type']:
+			self.send_chan("mitä paskalinkkie nää yrität tunkee")
+			return None
+		else:
+			html = opener.open(req)
+			return(html)
 	except urllib.error.URLError as e:
 		if e.reason == "Forbidden":
 			self.send_chan("~ Forbidden")
