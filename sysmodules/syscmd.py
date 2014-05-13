@@ -173,7 +173,7 @@ def createCommitsDatabase( self ):
 ## End
 
 ## Get HTML for given url
-def getHtml( self, url, useragent):
+def getHtml( self, url, useragent, title = False):
 	try:
 		cookies = http.cookiejar.CookieJar()
 		opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookies))
@@ -184,13 +184,17 @@ def getHtml( self, url, useragent):
 		else:
 			req = urllib.request.Request(url, None)
 		## We check that the url is text/html, else we return None, without fetching the data
-		response = urllib.request.urlopen(req)
-		if "text/html" not in response.info()['content-type']:
-			self.send_chan("mitä paskalinkkie nää yrität tunkee")
-			return None
+		if title:
+			print("Ollaan täällä")
+			response = urllib.request.urlopen(req)
+			if "text/html" not in response.info()['content-type']:
+				return None
+			else:
+				html = opener.open(req)
+				return(html)
 		else:
 			html = opener.open(req)
-			return(html)
+			return(html)	
 	except urllib.error.URLError as e:
 		if e.reason == "Forbidden":
 			self.send_chan("~ Forbidden")

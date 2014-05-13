@@ -14,11 +14,10 @@ def title ( self, url ):
 	url = url.strip().rstrip(".")
 	## Until I figure out something better...
 	if "t.co" in url.strip():
-		html = syscmd.getHtml( self, url, False )
+		html = syscmd.getHtml( self, url, False, True )
 	else:
-		html = syscmd.getHtml( self, url, True )
+		html = syscmd.getHtml( self, url, True, True )
 	if html:
-		print("Ollaan täälä!")
 		try:
 			try:
 				soup = BeautifulSoup(html, "lxml")
