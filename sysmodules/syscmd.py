@@ -186,11 +186,11 @@ def getHtml( self, url, useragent, title = False):
 		## We check that the url is text/html, else we return None, without fetching the data
 		if title:
 			response = urllib.request.urlopen(req)
-			if "text/html" not in response.info()['content-type']:
-				return None
-			else:
+			if "text/html" in response.info()['content-type']:
 				html = opener.open(req)
 				return(html)
+			else:
+				return(None)
 		else:
 			html = opener.open(req)
 			return(html)	
