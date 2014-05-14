@@ -489,8 +489,8 @@ class pyBot:
 				self.s = socket.socket( af, socktype, proto )
 				self.s.settimeout(360) ## Timeout if no data in 360 seconds from the socket
 			except Exception as e:
-				if "Name or service not known" in e.reason:
-					print("{0}Could not resolve the host{2}".format(pRed, pEnd))
+				if "Name or service not known" in str(e):
+					print("{0}Could not resolve the host{1}".format(pRed, pEnd))
 
 				self.errormsg = "[ERROR]-[Core] Connection: {0}".format(e)
 				sysErrorLog.log( self ) ## Log the error message in errorlog
@@ -498,7 +498,7 @@ class pyBot:
 				if self.config["debug"]:
 					print("{0}{1}{2}"
 						.format(self.color("red"), self.errormsg, self.color("end")))
-					
+
 				time.sleep(20)
 				self.loop()
 			try:
