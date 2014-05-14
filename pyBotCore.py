@@ -481,13 +481,18 @@ class pyBot:
 
 		## Try until a working server has been found
 		while not connectionEstablished:
-			for res in socket.getaddrinfo(
-				self.hosts[self.serverIndex], self.config["port"],
-				self.socketType, socket.SOCK_STREAM ):
-
-				af, socktype, proto, canonname, sa = res
-			self.s = socket.socket( af, socktype, proto )
-			self.s.settimeout(360) ## Timeout if no data in 360 seconds from the socket
+			try:
+				for res in socket.getaddrinfo(
+					self.hosts[self.serverIndex], self.config["port"],
+					self.socketType, socket.SOCK_STREAM ):
+					af, socktype, proto, canonname, sa = res
+				self.s = socket.socket( af, socktype, proto )
+				self.s.settimeout(360) ## Timeout if no data in 360 seconds from the socket
+			except Exception as e:
+				self.errormsg = "[ERROR]-[Core] Connection: {0}".format(e)
+				sysErrorLog.log( self ) ## Log the error message in errorlog
+				time.sleep(20)
+				self.loop()
 			try:
 				print("{0}Conneting to {1}{2}"
 					.format(pGreen, self.hosts[self.serverIndex], pEnd))
