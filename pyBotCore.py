@@ -101,7 +101,7 @@ class Flood:
 			flood = {}
 			time.sleep(20)
 
-## For learning the phrases every 30 minutes
+## For learning the phrases every 10 minutes
 class CobeLearn:
 	def __init__( self ):
 		global learnQueue
@@ -110,7 +110,7 @@ class CobeLearn:
 			for a in learnQueue:
 				self.cobe.learn(a)
 			learnQueue = []
-			time.sleep(1800) ## Learn every 30 minutes
+			time.sleep(600) ## Learn every 10 minutes
  
 ## Class pyBot
 class pyBot:

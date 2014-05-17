@@ -16,11 +16,11 @@ def sysinfo(self):
 			string = string.split(":")
 		
 			## Used MEM
-			process2 = subprocess.Popen(["top -l 1 | grep PhysMem: | awk '{print $2}'"], stdout=PIPE, stderr=PIPE, shell=True)
-			used_mem, stderroutput = process2.communicate()
-			used_mem = used_mem.decode("utf-8").strip()
-			used_mem = used_mem[:-1]
 			total_mem = round(int(string[2])/1024/1024)
+			process2 = subprocess.Popen(["top -l 1 | grep PhysMem: | awk '{print $6}'"], stdout=PIPE, stderr=PIPE, shell=True)
+			free_mem, stderroutput = process2.communicate()
+			free_mem = free_mem.decode("utf-8").strip()
+			free_mem = total_mem - int(free_mem[:-1])
 			
 			## Uptime
 			process3 = subprocess.Popen(["uptime"], stdout=PIPE, stderr=PIPE)
@@ -30,7 +30,7 @@ def sysinfo(self):
 			
 			self.send_chan("I'm running on OS X {0} {1} with Python {2} <> CPU: {3} <> Uptime: {4} <> Mem Usage: {5}/{6} MiB"
 				.format(platform.mac_ver()[0], platform.platform(), 
-					platform.python_version()," ".join(string[1][:-11].split()), uptime, used_mem, total_mem))		
+					platform.python_version()," ".join(string[1][:-11].split()), uptime, free_mem, total_mem))		
 		elif "Linux" in platform.system():
 			PIPE = subprocess.PIPE
 			
