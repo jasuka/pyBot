@@ -313,7 +313,7 @@ with its two nodes"""
         with trace_us("Brain.reply_words_lookup_us"):
             text = best_reply.to_text()
 
-        text = "{0}: {1}".format(nick,text)
+        text = "{0}: {1}".format(nick,text.capitalize())
         pyBot.send_chan(text)
         #return text
 
