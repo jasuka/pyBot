@@ -13,7 +13,7 @@ def title ( self, url ):
 	url = syscmd.replaceUmlauts(url)
 	url = url.strip().rstrip(".")
 	## Until I figure out something better...
-	if "t.co" in url.strip():
+	if "http://t.co" in url.strip():
 		html = syscmd.getHtml( self, url, False, True )
 	else:
 		html = syscmd.getHtml( self, url, True, True )

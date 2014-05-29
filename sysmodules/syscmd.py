@@ -178,8 +178,7 @@ def getHtml( self, url, useragent, title = False):
 		cookies = http.cookiejar.CookieJar()
 		opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookies))
 		if useragent:
-			user_agent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)"
-			headers = { 'User-Agent' : user_agent }
+			headers = { 'User-Agent' : 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)' }
 			req = urllib.request.Request(url, None, headers)
 		else:
 			req = urllib.request.Request(url, None)
@@ -195,6 +194,7 @@ def getHtml( self, url, useragent, title = False):
 			html = opener.open(req)
 			return(html)	
 	except urllib.error.URLError as e:
+		print(e.read()) # or "print error.read()"
 		if e.reason == "Forbidden":
 			self.send_chan("~ Forbidden")
 			self.errormsg = "[ERROR]-[syscmd] getHtml() stating: Forbidden {0}".format(url)
