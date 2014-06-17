@@ -54,7 +54,7 @@ def fmi( self ):
 				soup = BeautifulSoup(html)
 				text = ""
 				if "Varasivu" in soup.title.string:
-					self.send_chan("~ Ilmatieteenlaitoksen sivustolla ongelmia - http://vara.fmi.fi/")
+					self.send_chan("~ Ilmatieteen laitoksen sivustolla on ongelmia - http://vara.fmi.fi/")
 				else:
 					## When the weather was updated
 					time = soup.find_all("span", class_="time-stamp")
