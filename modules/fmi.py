@@ -65,7 +65,7 @@ def fmi( self ):
 				## Loop the reusts into a string
 				for index, element in enumerate(string):
 					if index == 1:
-						text += "Tuntuu {0} - ".format(feels)
+						text += "Tuntuu kuin {0} - ".format(feels)
 					text += "{0} - ".format(element)
 	   
 				## Remove the Html tags
