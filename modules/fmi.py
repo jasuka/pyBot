@@ -58,13 +58,18 @@ def fmi( self ):
 				time = time[0].string.split(" ")
 				time = time[1][:-7]
 
-				str = soup.findAll("span", {"class" : "parameter-name-value"})
+				string = soup.findAll("span", {"class" : "parameter-name-value"})
+				feels = soup.findAll("div", {"class" : "apparent-temperature-cold"})
+				feels = "{0}{1}".format(feels[0].span.string, "C")
 	   
 				## Loop the reusts into a string
-				for a in str:
-					text += "{0} - ".format(a)
+				for index, element in enumerate(string):
+					if index == 1:
+						text += "Tuntuu {0} - ".format(feels)
+					text += "{0} - ".format(element)
 	   
-				## Remove the Html tags	
+				## Remove the Html tags
+				text = text[:-2]	
 				trimmed = syscmd.delHtml(text)
 
 				output = "{0} klo {1}: {2}".format(city.strip(), time, trimmed)
