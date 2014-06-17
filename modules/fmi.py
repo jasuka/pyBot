@@ -63,7 +63,11 @@ def fmi( self ):
 
 					string = soup.findAll("span", {"class" : "parameter-name-value"})
 					feels = soup.findAll("div", {"class" : "apparent-temperature-cold"})
-					feels = "{0}{1}".format(feels[0].span.string, "C")
+					## If FMI happens to return the feel temperatures..
+					if feels:
+					 feels = "{0}{1}".format(feels[0].span.string, "C")
+					else:
+						feels = "0°C"
 
 					## Loop the reusts into a string
 					for index, element in enumerate(string):
