@@ -61,11 +61,14 @@ def fmi( self ):
 				string = soup.findAll("span", {"class" : "parameter-name-value"})
 				feels = soup.findAll("div", {"class" : "apparent-temperature-cold"})
 				feels = "{0}{1}".format(feels[0].span.string, "C")
-	   
+
 				## Loop the reusts into a string
 				for index, element in enumerate(string):
 					if index == 1:
-						text += "Tuntuu kuin {0} - ".format(feels[:1] + " " + feels[1:])
+						if len(feels) == 3:
+							text += "Tuntuu kuin {0} - ".format(feels[:1] + " " + feels[1:])
+						else:
+							text += "Tuntuu kuin {0} - ".format(feels[:2] + " " + feels[2:])
 					text += "{0} - ".format(element)
 	   
 				## Remove the Html tags
