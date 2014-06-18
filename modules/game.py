@@ -8,11 +8,11 @@ def game( self ):
 
 	gameObjects = [0,1,2,3,4]
 	shuffle(gameObjects)
-	spinnerOne = gameObjects[randint(0,9)]
+	spinnerOne = gameObjects[randint(0,4)]
 	shuffle(gameObjects)
-	spinnerTwo = gameObjects[randint(0,9)]
+	spinnerTwo = gameObjects[randint(0,4)]
 	shuffle(gameObjects)
-	spinnerThree = gameObjects[randint(0,9)]
+	spinnerThree = gameObjects[randint(0,4)]
 	
 	if (Cache.winningPool == 0):
 		self.send_chan("Kassasi on tyhjä, et voi pelata :(")
