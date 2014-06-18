@@ -63,6 +63,9 @@ def fmi( self ):
 
 					string = soup.findAll("span", {"class" : "parameter-name-value"})
 					feels = soup.findAll("div", {"class" : "apparent-temperature-indifferent"})
+					rain = soup.findAll("div", {"class" : "pop-lt-30"})
+					rainAmount = soup.findAll("tr", {"class" : "meteogram-hourly-precipitation-values"})
+					
 					## If FMI happens to return the feel temperatures..
 					if feels:
 					 feels = "{0}{1}".format(feels[0].span.string, "C")
@@ -76,6 +79,9 @@ def fmi( self ):
 								text += "Tuntuu kuin {0} - ".format(feels[:1] + " " + feels[1:])
 							else:
 								text += "Tuntuu kuin {0} - ".format(feels[:2] + " " + feels[2:])
+						if index == 2:
+							text += "Sateen todennäköisyys {0} ({1} mm) - ".format(rain[0].span.string, rainAmount[0].td.span.strong.string)
+
 						text += "{0} - ".format(element)
 		   
 					## Remove the Html tags
