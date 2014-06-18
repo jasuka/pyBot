@@ -14,7 +14,7 @@ def sysinfo(self):
 			cpu, stderroutput = process.communicate()
 			string = cpu.decode("utf-8")
 			string = string.split(":")
-		
+
 			## Used MEM
 			total_mem = round(int(string[2])/1024/1024)
 			process2 = subprocess.Popen(["top -l 1 | grep PhysMem: | awk '{print $6}'"], stdout=PIPE, stderr=PIPE, shell=True)
@@ -26,11 +26,18 @@ def sysinfo(self):
 			process3 = subprocess.Popen(["uptime"], stdout=PIPE, stderr=PIPE)
 			uptime, stderroutput = process3.communicate()
 			uptime = uptime.decode("utf-8").strip()
-			uptime = re.search("( )\d(.*?),(.*?),", uptime).group(0).rstrip(",").strip()
-			
-			self.send_chan("I'm running on OS X {0} {1} with Python {2} <> CPU: {3} <> Uptime: {4} <> Mem Usage: {5}/{6} MiB"
+			uptime = re.search("( )\d(.*?),(.*?),", uptime).group(1).rstrip(",").strip()
+
+			## GPU
+			process4 = subprocess.Popen(['system_profiler', 'SPDisplaysDataType'], stdout=PIPE, stderr=PIPE)
+			gpu, stderroutput = process4.communicate()
+			gpu = gpu.decode("utf-8").strip()
+			vram = re.search("VRAM \(Total\):+(.*)", gpu).group(1).strip()
+			gpu = re.search("Chipset Model:+(.*)", gpu).group(1).strip()
+						
+			self.send_chan("I'm running on OS X {0} {1} with Python {2} <> CPU: {3} <> GPU: {4} {5} <> Uptime: {6} <> Mem Usage: {7}/{8} MiB"
 				.format(platform.mac_ver()[0], platform.platform(), 
-					platform.python_version()," ".join(string[1][:-11].split()), uptime, free_mem, total_mem))		
+					platform.python_version()," ".join(string[1][:-11].split()), gpu, vram, uptime, free_mem, total_mem))		
 		elif "Linux" in platform.system():
 			PIPE = subprocess.PIPE
 			
