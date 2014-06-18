@@ -62,7 +62,7 @@ def fmi( self ):
 					time = time[1][:-7]
 
 					string = soup.findAll("span", {"class" : "parameter-name-value"})
-					feels = soup.findAll("div", {"class" : "apparent-temperature-cold"})
+					feels = soup.findAll("div", {"class" : "apparent-temperature-indifferent"})
 					## If FMI happens to return the feel temperatures..
 					if feels:
 					 feels = "{0}{1}".format(feels[0].span.string, "C")
