@@ -28,5 +28,3 @@ def game( self ):
 		else:
 			Cache.winningPool -= 1
 			self.send_chan("[{0}] [{1}] [{2}], Ei voittoa :( Kassassa on {3} dogecoinia jäljellä".format(spinnerOne,spinnerTwo,spinnerThree,Cache.winningPool))
-
-	print(Cache.winningPool)
