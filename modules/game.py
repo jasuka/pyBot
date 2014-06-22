@@ -1,35 +1,45 @@
 import sysErrorLog
-from random import shuffle
 from random import randint
-class Cache:
-	winningPool = 10
 
-def game( self ):
+class slotGame(object):
 
-	gameObjects = [0,1,2,3,4]
-	shuffle(gameObjects) 
-	spinnerOne = gameObjects[randint(0,4)]
-	shuffle(gameObjects)
-	spinnerTwo = gameObjects[randint(0,4)]
-	shuffle(gameObjects)
-	spinnerThree = gameObjects[randint(0,4)]
-	
-	if (Cache.winningPool == 0):
-		self.send_chan("Kassasi on tyhjä, et voi pelata :(")
-	else:
-		if (((spinnerOne + 1) == spinnerTwo) and (spinnerTwo + 1) == spinnerThree):
-			Cache.winningPool += 5
-			self.send_chan("[{0}] [{1}] [{2}], Kolmen suora, kassassa on on nyt {3} dogecoinia".format(spinnerOne,spinnerTwo,spinnerThree,Cache.winningPool))
+	class cache(object):
+		winningPool = 10
 
-		elif ((spinnerOne == spinnerTwo) and (spinnerOne == spinnerThree)):
-			Cache.winningPool += 3
-			self.send_chan("[{0}] [{1}] [{2}], Kolme samaa, kassassa on on nyt {3} dogecoinia".format(spinnerOne,spinnerTwo,spinnerThree,Cache.winningPool))
+	def spinWheels(self):
+		self.wheelOne = randint(1,13)
+		self.wheelTwo = randint(1,13)
+		self.wheelThree = randint(1,13)
 
-		elif ((spinnerOne == spinnerTwo) or (spinnerTwo == spinnerThree) or (spinnerOne == spinnerThree)):
-			Cache.winningPool += 2
-			self.send_chan("[{0}] [{1}] [{2}], Kaksi samaa, kassassa on nyt {3} dogecoinia".format(spinnerOne,spinnerTwo,spinnerThree,Cache.winningPool))
-		
+	def roundResults(self):
+		if (gameCache.winningPool > 0):
+			if (((self.wheelOne + 1) == self.wheelTwo) and (self.wheelTwo + 1) == self.wheelThree):
+				gameCache.winningPool += 5
+				roundResult = "[{0}] [{1}] [{2}], Kolmen suora, kassassa on on nyt {3} dogecoinia".format(self.wheelOne, self.wheelTwo, self.wheelThree, gameCache.winningPool)
+				return(roundResult)
+			elif ((self.wheelOne == self.wheelTwo) and (self.wheelOne == self.wheelThree)):
+				gameCache.winningPool += 3
+				roundResult = "[{0}] [{1}] [{2}], Kolme samaa, kassassa on on nyt {3} dogecoinia".format(self.wheelOne, self.wheelTwo, self.wheelThree, gameCache.winningPool)
+				return(roundResult)
+			elif ((self.wheelOne == self.wheelTwo) or (self.wheelTwo == self.wheelThree) or (self.wheelOne == self.wheelThree)):
+				gameCache.winningPool += 2
+				roundResult = "[{0}] [{1}] [{2}], Kaksi samaa, kassassa on nyt {3} dogecoinia".format(self.wheelOne, self.wheelTwo, self.wheelThree, gameCache.winningPool)
+				return(roundResult)
+			else:
+				gameCache.winningPool -= 1
+				roundResult = "[{0}] [{1}] [{2}], Ei voittoa :( Kassassa on {3} dogecoinia jäljellä".format(self.wheelOne, self.wheelTwo, self.wheelThree, gameCache.winningPool)
+				return(roundResult)
+
 		else:
-			Cache.winningPool -= 1
-			self.send_chan("[{0}] [{1}] [{2}], Ei voittoa :( Kassassa on {3} dogecoinia jäljellä".format(spinnerOne,spinnerTwo,spinnerThree,Cache.winningPool))
+			roundResult = "Kassasi on tyhjä, et voi pelata :("
+			return(roundResult)
+
+	
+
+def game(self):
+	slots.spinWheels()
+	self.send_chan(slots.roundResults())
+
+slots = slotGame()
+gameCache = slots.cache()
 
