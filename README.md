@@ -61,7 +61,7 @@ An IRC Bot Written in Python
     * **_`!ylilauta`_** random post from ylilauta
     * **_`!youtube <search term>`_**
       * **_`!youtube next`_** for the next result
-
+    * **_`!game`_** to play a slotmachine game
 --
 ###**About the pyBot project**###
 
