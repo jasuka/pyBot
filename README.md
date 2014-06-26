@@ -9,11 +9,7 @@ An IRC Bot Written in Python
 >  * **pystemmer (for Cobe)**
 
 > _**Debian based distros:**_
-   * `apt-get install python3`
-   * `apt-get install python3-dateutil`
-   * `apt-get install python3-stemmer`
-   * `apt-get install python3-lxml`
-   * `apt-get install python3-bs4`
+   * `apt-get install python3 python3-dateutil python3-stemmer python3-lxml python3-bs4`
 
 > _**In a case where you dont have the system administrators 
   rights you may use easy install for these plugins
