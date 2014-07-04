@@ -15,10 +15,8 @@ def git(self):
 		stdoutput, stderroutput = process.communicate()
 	
 		if self.config["debug"]:
-			output = stdoutput.decode("utf-8")
-			output += stderroutput.decode("utf-8")
-			print(output)
-			self.send_pm(output)
+			print(stdoutput.decode("utf-8"))
+			print(stderroutput.decode("utf-8"))
 			
 		if "fatal" in stdoutput.decode("utf-8"):
 			self.send_chan("Git pull failed!")
