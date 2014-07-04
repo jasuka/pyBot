@@ -110,7 +110,7 @@ def getCity ( self ):
 		## Check if the city is saved in the db
 		cursor.execute("""
 				SELECT city FROM nicks WHERE nick=? 
-				""", (nick.strip(),))
+				COLLATE NOCASE """, (nick.strip(),))
 		try:
 			city = cursor.fetchone()[0]
 		except TypeError:
