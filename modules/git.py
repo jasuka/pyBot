@@ -16,7 +16,7 @@ def git(self):
 	
 		if self.config["debug"]:
 			output = stdoutput.decode("utf-8")
-			output += (stderroutput.decode("utf-8"))
+			output += stderroutput.decode("utf-8")
 			print(output)
 			self.send_pm(output)
 			
