@@ -49,7 +49,7 @@ def youtubeSearch(self):
 		Cache.dataCache = soup.findAll("a", {"class" : "yt-uix-tile-link"})
 		if len(Cache.dataCache) > 0:
 			string = "{1}: http://youtube.com/watch?v={0}".format(
-					Cache.dataCache[Cache.dataIndex].get('href')[-11:], Cache.dataCache[Cache.dataIndex].get('title'))
+					Cache.dataCache[Cache.dataIndex].get('href')[-11:], Cache.dataCache[Cache.dataIndex].string)
 			self.send_chan(string)
 			Cache.dataIndex += 1
 		else:
@@ -64,7 +64,7 @@ def youtubeSearch(self):
 def ynext(self):
 	if len(self.msg) == 5 and Cache.dataCache and Cache.dataIndex <= len(Cache.dataCache):
 		string = "{1}: http://youtube.com/watch?v={0}".format(
-				Cache.dataCache[Cache.dataIndex].get('href')[-11:], Cache.dataCache[Cache.dataIndex].get('title'))
+				Cache.dataCache[Cache.dataIndex].get('href')[-11:], Cache.dataCache[Cache.dataIndex].string)
 		self.send_chan(string)
 		Cache.dataIndex += 1
 		return(True)
