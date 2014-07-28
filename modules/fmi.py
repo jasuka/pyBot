@@ -74,7 +74,7 @@ def fmi( self ):
 
 					## Loop the reusts into a string
 					for index, element in enumerate(string):
-						if index == 1:
+						if index == 1 and rainAmount and feels:
 							if len(feels) == 3:
 								text += "Tuntuu kuin {0} - ".format(feels[:1] + " " + feels[1:])
 							else:
@@ -89,7 +89,7 @@ def fmi( self ):
 
 					output = "{0} klo {1}: {2}".format(city.strip(), time, trimmed)
 					self.send_chan( output )
-			except Except as e:
+			except Exception as e:
 				self.errormsg = "[ERROR]-[fmi] fmi() stating: {0}".format(e)
 				sysErrorLog.log( self ) ## LOG the error
 				if self.config["debug"]:
