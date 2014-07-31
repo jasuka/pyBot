@@ -63,7 +63,7 @@ def fmi( self ):
 
 					string = soup.findAll("span", {"class" : "parameter-name-value"})
 					feels = soup.findAll("div", {"class" : "apparent-temperature-indifferent"})
-					rain = soup.findAll("div", {"class" : "pop-lt-30"})
+					rain = soup.findAll("div", {"class" : "pop-ge-70"})
 					rainAmount = soup.findAll("tr", {"class" : "meteogram-hourly-precipitation-values"})
 
 					## If FMI happens to return the feel temperatures..
