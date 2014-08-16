@@ -58,8 +58,9 @@ def fmi( self ):
 				else:
 					## When the weather was updated
 					time = soup.find_all("span", class_="time-stamp")
-					time = time[0].string.split(" ")
-					time = time[1][:-7]
+					if time:
+						time = time[0].string.split(" ")
+						time = time[1][:-7]
 
 					string = soup.findAll("span", {"class" : "parameter-name-value"})
 					feels = soup.findAll("div", {"class" : "apparent-temperature-indifferent"})
@@ -86,9 +87,11 @@ def fmi( self ):
 					## Remove the Html tags
 					text = text[:-2]	
 					trimmed = syscmd.delHtml(text)
-
-					output = "{0} klo {1}: {2}".format(city.strip(), time, trimmed)
-					self.send_chan( output )
+					if trimmed:
+						output = "{0} klo {1}: {2}".format(city.strip(), time, trimmed)
+						self.send_chan( output )
+					else:
+						self.send_chan("An error occured getting the weather data")
 			except Exception as e:
 				self.errormsg = "[ERROR]-[fmi] fmi() stating: {0}".format(e)
 				sysErrorLog.log( self ) ## LOG the error
