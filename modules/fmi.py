@@ -85,9 +85,9 @@ def fmi( self ):
 						text += "{0} - ".format(element)
 		   
 					## Remove the Html tags
-					text = text[:-2]	
-					trimmed = syscmd.delHtml(text)
-					if trimmed:
+					text = text[:-2]
+					if text:	
+						trimmed = syscmd.delHtml(text)
 						output = "{0} klo {1}: {2}".format(city.strip(), time, trimmed)
 						self.send_chan( output )
 					else:
