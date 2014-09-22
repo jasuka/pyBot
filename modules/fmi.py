@@ -76,9 +76,6 @@ def fmi( self ):
 					## Loop the reusts into a string
 					for index, element in enumerate(string):
 						if index == 1 and rainAmount and feels and rain:
-							#if len(feels) == 3:
-							#	text += "Tuntuu kuin {0} - ".format(feels[:1] + " " + feels[1:])
-							#else:
 							text += "{0}{1} - ".format(feels[4:-1].capitalize(),"C")
 							text += "Sateen todennäköisyys {0} ({1} mm) - ".format(rain[0].td.div.span.string, rainAmount[0].td.span.strong.string)
 
