@@ -63,23 +63,23 @@ def fmi( self ):
 						time = time[1][:-7]
 
 					string = soup.findAll("span", {"class" : "parameter-name-value"})
-					feels = soup.findAll("div", {"class" : "apparent-temperature-indifferent"})
+					feels = soup.findAll("div", {"class" : "apparent-temperature-cold"})
 					rain = soup.findAll("tr", {"class" : "meteogram-probabilities-of-precipitation"})
 					rainAmount = soup.findAll("tr", {"class" : "meteogram-hourly-precipitation-values"})
 
 					## If FMI happens to return the feel temperatures..
 					if feels:
-					 feels = "{0}{1}".format(feels[0].span.string, "C")
+					 feels = "{0}".format(feels[0].get('title'))
 					else:
 						feels = "0°C"
 
 					## Loop the reusts into a string
 					for index, element in enumerate(string):
 						if index == 1 and rainAmount and feels and rain:
-							if len(feels) == 3:
-								text += "Tuntuu kuin {0} - ".format(feels[:1] + " " + feels[1:])
-							else:
-								text += "Tuntuu kuin {0} - ".format(feels[:2] + " " + feels[2:])
+							#if len(feels) == 3:
+							#	text += "Tuntuu kuin {0} - ".format(feels[:1] + " " + feels[1:])
+							#else:
+							text += "{0}{1} - ".format(feels[4:-1].capitalize(),"C")
 							text += "Sateen todennäköisyys {0} ({1} mm) - ".format(rain[0].td.div.span.string, rainAmount[0].td.span.strong.string)
 
 						text += "{0} - ".format(element)
