@@ -689,8 +689,8 @@ class pyBot:
 			except IndexError:
 				pass
 			
-			## If MOTD ended, everything is OK, so join the chans		
-			if "376" in self.msg:
+			## If MOTD ended or if MOTD is missing, everything is OK, so join the chans		
+			if "376" in self.msg or "422" in self.msg:
 				chans = self.config["chans"].split(",")
 				for chan in chans:
 					self.join_chan( chan )
