@@ -66,6 +66,7 @@ def fmi( self ):
 					feels = soup.findAll("div", {"class" : "apparent-temperature-cold"})
 					rain = soup.findAll("tr", {"class" : "meteogram-probabilities-of-precipitation"})
 					rainAmount = soup.findAll("tr", {"class" : "meteogram-hourly-precipitation-values"})
+					warnings = soup.findAll("span", {"class" : "advisory-type"})
 
 					## If FMI happens to return the feel temperatures..
 					if feels:
@@ -80,9 +81,13 @@ def fmi( self ):
 							text += "Sateen todennäköisyys {0} ({1} mm) - ".format(rain[0].td.div.span.string, rainAmount[0].td.span.strong.string)
 
 						text += "{0} - ".format(element)
-		   
-					## Remove the Html tags
 					text = text[:-2]
+
+					## See if there's warnings
+					if warnings:
+						text += " - Varoitus: {0}".format(warnings[0].string)
+
+					## Remove the Html tags
 					if text:	
 						trimmed = syscmd.delHtml(text)
 						output = "{0} klo {1}: {2}".format(city.strip(), time, trimmed)
