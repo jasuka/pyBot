@@ -85,7 +85,7 @@ def fmi( self ):
 
 					## See if there's warnings
 					if warnings:
-						text += " - Varoitus: {0}".format(warnings[0].string)
+						text += "- Varoitus: {0}".format(warnings[0].string)
 
 					## Remove the Html tags
 					if text:	
