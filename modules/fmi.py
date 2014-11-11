@@ -63,11 +63,11 @@ def fmi( self ):
 						time = time[1][:-7]
 
 					string = soup.findAll("span", {"class" : "parameter-name-value"})
-					feels = soup.findAll("div", {"class" : "apparent-temperature-cold"})
+					feels = soup.findAll("div", {"class" : "apparent-temperature-indifferent"})
 					rain = soup.findAll("tr", {"class" : "meteogram-probabilities-of-precipitation"})
 					rainAmount = soup.findAll("tr", {"class" : "meteogram-hourly-precipitation-values"})
 					warnings = soup.findAll("span", {"class" : "advisory-type"})
-
+					
 					## If FMI happens to return the feel temperatures..
 					if feels:
 					 feels = "{0}".format(feels[0].get('title'))
