@@ -20,7 +20,7 @@ def ylilauta(self):
 				soup = BeautifulSoup(html, "lxml")
 			except:
 				soup = BeautifulSoup(html, "html5lib")
-			data = soup.findAll("span", {"class" : "postsubject"})
+			data = soup.findAll("div", {"class" : "postsubject"})
 			x = random.randrange(0,len(data))
 			string = "{0}: http:{1}".format(data[x].a.string, data[x].a.get('href'))
 			self.send_chan(' '.join(string.split()))
