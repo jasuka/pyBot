@@ -109,7 +109,7 @@ class CobeLearn:
 		hal = cobe.brain.Brain("./cobe.brain")
 		while True:
 			for a in learnQueue:
-				cobe.learn(a)
+				hal.learn(a)
 			learnQueue = []
 			time.sleep(600) ## Learn every 10 minutes
  
