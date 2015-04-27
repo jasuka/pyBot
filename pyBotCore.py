@@ -105,12 +105,13 @@ class Flood:
 class CobeLearn:
 	def __init__( self ):
 		global learnQueue
-		self.cobe = cobe.brain.Brain("./cobe.brain")
+		global cobe
+		cobe = cobe.brain.Brain("./cobe.brain")
 		while True:
 			for a in learnQueue:
-				self.cobe.learn(a)
+				cobe.learn(a)
 			learnQueue = []
-			time.sleep(600) ## Learn every 10 minutes
+			time.sleep(1) ## Learn every 10 minutes
  
 ## Class pyBot
 class pyBot:
@@ -160,11 +161,11 @@ class pyBot:
 		sysErrorLog.activity ( self )
 
 		## Initialize the brain, if we have cobe enabled
-		if "cobe" in sys.modules:
-			self.hal = cobe.brain.Brain("./cobe.brain")
+		#if "cobe" in sys.modules:
+			#self.hal = cobe.brain.Brain("./cobe.brain")
 			## Logging activity
-			self.activitymsg = "Cobe enabled!"
-			sysErrorLog.activity ( self )
+		#	self.activitymsg = "Cobe enabled!"
+		#	sysErrorLog.activity ( self )
 
 		## Initialize databases
 		if "fmi" in Modules.mLoaded and not os.path.exists("modules/data/fmiCities.db"):
@@ -650,7 +651,7 @@ class pyBot:
 						
 						if self.nick.lower() in self.msg[3].lower() or self.nick in phrase:
 							phrase = phrase.replace(self.nick, "")
-							Thread(target=self.hal.reply, args=(phrase.strip().lstrip(":"), self.get_nick(), self),).start()
+							Thread(target=cobe.reply, args=(phrase.strip().lstrip(":"), self.get_nick(), self),).start()
 				
 			## PING PONG
 			if self.msg[0] == "PING":

@@ -403,7 +403,7 @@ with its two nodes"""
                         yield prev + n, node
 
     @staticmethod
-    def init(filename, order=3, tokenizer=None):
+    def init(filename, order=3, tokenizer="Cobe"):
         """Initialize a brain. This brain's file must not already exist.
 
 Keyword arguments:
