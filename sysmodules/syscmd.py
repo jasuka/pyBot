@@ -329,9 +329,10 @@ def delHtml( html ):
 ## Automodes checkup on event JOIN
 def modecheck ( self ):
 	try:
+		chan = self.msg[2].lstrip(":")
 		db = sqlite3.connect("modules/data/automodes.db")
 		cursor = db.cursor()
-		cursor.execute("""SELECT identhost, channel, mode FROM automodes WHERE identhost = ? """,(self.get_host(),))
+		cursor.execute("""SELECT identhost, channel, mode FROM automodes WHERE identhost = ? AND channel = ? """,(self.get_host(),chan.strip(),))
 		result = cursor.fetchone()
 
 		if result and result[1] in self.msg[2].lstrip(":"):
