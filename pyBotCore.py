@@ -105,8 +105,8 @@ class Flood:
 class CobeLearn:
 	def __init__( self ):
 		global learnQueue
-		global cobe
-		cobe = cobe.brain.Brain("./cobe.brain")
+		global hal
+		hal = cobe.brain.Brain("./cobe.brain")
 		while True:
 			for a in learnQueue:
 				cobe.learn(a)
@@ -651,7 +651,7 @@ class pyBot:
 						
 						if self.nick.lower() in self.msg[3].lower() or self.nick in phrase:
 							phrase = phrase.replace(self.nick, "")
-							Thread(target=cobe.reply, args=(phrase.strip().lstrip(":"), self.get_nick(), self),).start()
+							Thread(target=hal.reply, args=(phrase.strip().lstrip(":"), self.get_nick(), self),).start()
 				
 			## PING PONG
 			if self.msg[0] == "PING":
