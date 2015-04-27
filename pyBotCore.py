@@ -111,7 +111,7 @@ class CobeLearn:
 			for a in learnQueue:
 				cobe.learn(a)
 			learnQueue = []
-			time.sleep(1) ## Learn every 10 minutes
+			time.sleep(600) ## Learn every 10 minutes
  
 ## Class pyBot
 class pyBot:
