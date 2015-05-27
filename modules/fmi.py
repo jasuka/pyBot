@@ -57,17 +57,22 @@ def fmi( self ):
 					self.send_chan("~ Ilmatieteen laitoksen sivustolla on ongelmia - http://vara.fmi.fi/")
 				else:
 					## When the weather was updated
-					time = soup.find_all("span", class_="time-stamp")
+					time = soup.findAll("table", class_="observation-text")
+					time = time[0].findAll("span", class_="time-stamp")
 					if time:
 						time = time[0].string.split(" ")
 						time = time[1][:-7]
 
 					string = soup.findAll("span", {"class" : "parameter-name-value"})
 					feels = soup.findAll("tr", {"class" : "meteogram-apparent-temperatures"})
-					rain = soup.findAll("tr", {"class" : "meteogram-probabilities-of-precipitation"})
+					rain = soup.findAll("div", {"class" : "probability-of-precipitation"})
 					rainAmount = soup.findAll("tr", {"class" : "meteogram-hourly-precipitation-values"})
 					warnings = soup.findAll("span", {"class" : "advisory-type"})
 
+					if rainAmount:
+						rainAmount = rainAmount[0].td.span.get('title')
+						rainAmount = rainAmount[27:]
+						
 					## If FMI happens to return the feel temperatures..
 					if feels:
 					 feels = "{0}".format(feels[0].td.div.get('title'))
@@ -78,7 +83,7 @@ def fmi( self ):
 					for index, element in enumerate(string):
 						if index == 1 and rainAmount and feels and rain:
 							text += "{0}{1} - ".format(feels[4:-1].capitalize(),"C")
-							text += "Sateen todennäköisyys {0} ({1} mm) - ".format(rain[0].td.div.span.string, rainAmount[0].td.span.strong.string)
+							text += "Sateen todennäköisyys {0} ({1}) - ".format(rain[0].span.string, rainAmount)
 
 						text += "{0} - ".format(element)
 					text = text[:-2]
