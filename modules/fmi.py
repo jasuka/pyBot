@@ -5,6 +5,7 @@ import os
 import syscmd
 import sysErrorLog
 import sqlite3
+from selenium import webdriver
 
 def fmi( self ):
 
@@ -48,22 +49,24 @@ def fmi( self ):
 			if city == "Kilpisjärvi":
 				url = "http://ilmatieteenlaitos.fi/saa/enonteki%C3%B6/" + parameter
 	
-			html = syscmd.getHtml(self, url, True )
+			#html = syscmd.getHtml(self, url, True )
+			driver = webdriver.PhantomJS()
+			driver.get(url)
+			html = driver.page_source
  
 			try:
-				soup = BeautifulSoup(html)
+				soup = BeautifulSoup(html, "lxml")
 				text = ""
 				if "Varasivu" in soup.title.string:
 					self.send_chan("~ Ilmatieteen laitoksen sivustolla on ongelmia - http://vara.fmi.fi/")
 				else:
 					## When the weather was updated
-					time = soup.findAll("table", class_="observation-text")
-					time = time[0].findAll("span", class_="time-stamp")
+					time = soup.findAll("h3", {"class" : "latest-observations-title"})
 					if time:
-						time = time[0].string.split(" ")
-						time = time[1][:-7]
+						time = time[0].string[-5:]
 
-					string = soup.findAll("span", {"class" : "parameter-name-value"})
+					names = soup.findAll("span", {"class" : "parameter-name"})
+					string = soup.findAll("span", {"class" : "parameter-value"})
 					feels = soup.findAll("tr", {"class" : "meteogram-apparent-temperatures"})
 					rain = soup.findAll("div", {"class" : "probability-of-precipitation"})
 					rainAmount = soup.findAll("tr", {"class" : "meteogram-hourly-precipitation-values"})
@@ -82,15 +85,15 @@ def fmi( self ):
 					## Loop the reusts into a string
 					for index, element in enumerate(string):
 						if index == 1 and rainAmount and feels and rain:
-							text += "{0}{1} - ".format(feels[4:-1].capitalize(),"C")
-							text += "Sateen todennäköisyys {0} ({1}) - ".format(rain[0].span.string, rainAmount)
+							text += " - {0}{1}".format(feels[4:-1].capitalize(),"C")
+							text += " - Sateen todennäköisyys {0} ({1})".format(rain[0].span.string, rainAmount)
 
-						text += "{0} - ".format(element)
-					text = text[:-2]
+						text += " - {0} {1}".format(names[index], element)
+					text = text[3:-7] #Strip leading crap and some </spa from the end
 
 					## See if there's warnings
 					if warnings:
-						text += "- Varoitus: {0}".format(warnings[0].string)
+						text += " - Varoitus: {0}".format(warnings[0].string)
 
 					## Remove the Html tags
 					if text:	
