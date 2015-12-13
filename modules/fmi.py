@@ -48,6 +48,8 @@ def fmi( self ):
 				url = "http://ilmatieteenlaitos.fi/saa/" + parameter + "?&station=100971"
 			if city == "Kilpisjärvi":
 				url = "http://ilmatieteenlaitos.fi/saa/enonteki%C3%B6/" + parameter
+			if city == "Kuusamo":
+				url = "http://ilmatieteenlaitos.fi/saa/" + parameter + "?&station=101886"
 	
 			#html = syscmd.getHtml(self, url, True )
 			driver = webdriver.PhantomJS()
