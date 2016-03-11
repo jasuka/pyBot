@@ -63,7 +63,7 @@ def fmi( self ):
 					self.send_chan("~ Ilmatieteen laitoksen sivustolla on ongelmia - http://vara.fmi.fi/")
 				else:
 					## When the weather was updated
-					time = soup.findAll("h3", {"class" : "latest-observations-title"})
+					time = soup.findAll("h2", {"id" : "latest-observations"})
 					if time:
 						time = time[0].string[-5:]
 
