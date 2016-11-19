@@ -7,10 +7,10 @@ An IRC Bot Written in Python
 >  * **Lxml or html5lib**
 >  * **python-dateutil**
 >  * **pystemmer (for Cobe)**
->  * **python-selenium and phantomjs (for fmi.py)**
+>  * **python3-selenium and phantomjs (for fmi.py)**
 
 > _**Debian based distros:**_
-   * `apt-get install python3 python3-dateutil python3-stemmer python3-lxml python3-bs4 python-selenium`
+   * `apt-get install python3 python3-dateutil python3-stemmer python3-lxml python3-bs4 python3-selenium`
 
 > _**In a case where you dont have the system administrators 
   rights you may use easy install for these plugins
