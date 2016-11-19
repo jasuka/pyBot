@@ -10,7 +10,7 @@ An IRC Bot Written in Python
 >  * **python-selenium and phantomjs (for fmi.py)**
 
 > _**Debian based distros:**_
-   * `apt-get install python3 python3-dateutil python3-stemmer python3-lxml python3-bs4`
+   * `apt-get install python3 python3-dateutil python3-stemmer python3-lxml python3-bs4 python-selenium`
 
 > _**In a case where you dont have the system administrators 
   rights you may use easy install for these plugins
