@@ -478,7 +478,7 @@ class Graph:
             # bulk learning.
             c.execute("PRAGMA journal_mode=truncate")
             c.execute("PRAGMA temp_store=memory")
-            c.execute("PRAGMA synchronous=OFF")
+            #c.execute("PRAGMA synchronous=OFF")
 
     def cursor(self):
         return self._conn.cursor()
@@ -878,3 +878,4 @@ CREATE TRIGGER IF NOT EXISTS edges_update_trigger AFTER UPDATE ON edges
 CREATE TRIGGER IF NOT EXISTS edges_delete_trigger AFTER DELETE ON edges
     BEGIN UPDATE nodes SET count = count - old.count
         WHERE nodes.id = OLD.next_node; END;""")
+
